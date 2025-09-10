@@ -1,4 +1,4 @@
-# Java lessons and tasks 2025-2025
+# Java lessons and tasks 2025-2026
 
 Group: All Groups
 Name: A.Lukashin
