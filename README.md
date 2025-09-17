@@ -1,8 +1,7 @@
 # Java lessons and tasks 2025-2026
-# Meleshchenko Sofia 30101
 
-Group: All Groups
-Name: A.Lukashin
+Group: 30101
+Name: S.Meleshchenko
 
 ## Git task
 
