@@ -13,3 +13,33 @@ Name: A.Lukashin
 
 
 Do not touch main branch. Do not touch main branch. I will never push anything to main. I swear!
+
+
+## Term 1
+
+### 1. Java: Matrix multiplication
+
+### 2. Scala: misc
+
+### 3. Scala: Functional Set
+
+### 4. Java: Word Frequency Counter
+
+### 5. Java: Sentiment Analysis with CoreNLP
+
+### 6. Java: K-Nearest Neighbors (KNN) Classifier
+
+### 7. Java: Parallel matrix multiplication
+
+### 8. Java: Image Classification with DeepLearning4j (DL4J)
+
+
+## Term 2
+
+### 1. Java: Parallel merge sort on files
+
+### 2. Java: JSON parser
+
+### 3. Java: HTTPServer
+
+### 4. Java: Spring + Telegram Bot
