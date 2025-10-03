@@ -1,0 +1,10 @@
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: /home/perajush/Рабочий стол/Programming/Java/j25-26/tasks/term-1/2/Main.scala:94:10 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m94 |[0m          [33mreturn[0m [31mfalse[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m          ^^^^^^^^^^^^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mNon local returns are no longer supported; use `boundary` and `boundary.break` in `scala.util` instead[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: /home/perajush/Рабочий стол/Programming/Java/j25-26/tasks/term-1/2/Main.scala:106:40 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m106 |[0m            [33mif[0m (solve(queens, row + [31m1[0m)) [33mreturn[0m [31mtrue[0m [34m// Рекурсивно ставим следующую[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m    |[0m                                        ^^^^^^^^^^^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m    |[0mNon local returns are no longer supported; use `boundary` and `boundary.break` in `scala.util` instead[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere was 1 deprecation warning; re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m
