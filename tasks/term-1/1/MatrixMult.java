@@ -1,6 +1,7 @@
 public class MatrixMult {
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix){
         try{
+			long time = System.currentTimeMillis();
             if(firstMatrix[0].length != secondMatrix.length) throw new Error();
             int len1 = firstMatrix.length;
             int len2 = secondMatrix[0].length;
@@ -18,7 +19,8 @@ public class MatrixMult {
     		    }
     		    res[i] = line;
     		}
-    		
+
+			System.out.println("time: " + (System.currentTimeMillis() - time));
     		return res;
         }
         catch(Exception e){System.err.println("Uncorrect matrixes for multiplication.");}
