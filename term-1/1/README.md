@@ -18,7 +18,12 @@ $$\mathbf{C}_{i, j} = \sum_{k=1}^{K} \mathbf{A}_{i, k} \cdot \mathbf{B}_{k, j}$$
 
 Оптимизированный способ заключается в разбиении матриц A, B и C на блоки, размером BLOCK_SIZE * BLOCK_SIZE, который основывается на размере кэша процессора или выбирается оптимальное значение методом подбора. В данной реализации выбран BLOCK_SIZE = 64. Сам алгоритм также имеет сложность $O(n^3)$, но скорость выполнения увеличивается благодаря разбиению матриц на блоки и уменьшению количество кэш-промахов.
 
-$$\mathbf{C} = \begin{pmatrix} C_{11} & C_{12} \\ C_{21} & C_{22} \end{pmatrix}, \quad \mathbf{A} = \begin{pmatrix} A_{11} & A_{12} \\ A_{21} & A_{22} \end{pmatrix}, \quad \mathbf{B} = \begin{pmatrix} B_{11} & B_{12} \\ B_{21} & B_{22} \end{pmatrix}$$
+$$
+\mathbf{C} = \begin{pmatrix} C_{11}, C_{12} \\ C_{21}, C_{22} \end{pmatrix}, \quad
+\mathbf{A} = \begin{pmatrix} A_{11}, A_{12} \\ A_{21}, A_{22} \end{pmatrix}, \quad
+\mathbf{B} = \begin{pmatrix} B_{11}, B_{12} \\ B_{21}, B_{22} \end{pmatrix}
+$$
+
 
 $$\mathbf{C}_{I, J} = \sum_{K} \mathbf{A}_{I, K} \cdot \mathbf{B}_{K, J}$$
 
