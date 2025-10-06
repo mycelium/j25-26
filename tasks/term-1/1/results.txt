@@ -1,0 +1,116 @@
+Tests for 100x100 matrix:
+Execution time for iteration 1 for simple method: 12 ms
+Execution time for iteration 1 for effective method: 9 ms
+Execution time for iteration 2 for simple method: 12 ms
+Execution time for iteration 2 for effective method: 9 ms
+Execution time for iteration 3 for simple method: 9 ms
+Execution time for iteration 3 for effective method: 7 ms
+Execution time for iteration 4 for simple method: 3 ms
+Execution time for iteration 4 for effective method: 6 ms
+Execution time for iteration 5 for simple method: 4 ms
+Execution time for iteration 5 for effective method: 1 ms
+Execution time for iteration 6 for simple method: 3 ms
+Execution time for iteration 6 for effective method: 1 ms
+Execution time for iteration 7 for simple method: 3 ms
+Execution time for iteration 7 for effective method: 1 ms
+Execution time for iteration 8 for simple method: 3 ms
+Execution time for iteration 8 for effective method: 1 ms
+Execution time for iteration 9 for simple method: 2 ms
+Execution time for iteration 9 for effective method: 1 ms
+Execution time for iteration 10 for simple method: 3 ms
+Execution time for iteration 10 for effective method: 1 ms
+---- TEST RESULTS FOR 100x100 MATRIX ----
+Total execution time for simple method: 54 ms
+Total execution time for effective method: 37 ms
+Average execution time for simple method: 5 ms
+Average execution time for effective method: 3 ms
+
+
+
+
+Tests for 500x500 matrix:
+Execution time for iteration 1 for simple method: 604 ms
+Execution time for iteration 1 for effective method: 70 ms
+Execution time for iteration 2 for simple method: 455 ms
+Execution time for iteration 2 for effective method: 51 ms
+Execution time for iteration 3 for simple method: 418 ms
+Execution time for iteration 3 for effective method: 39 ms
+Execution time for iteration 4 for simple method: 418 ms
+Execution time for iteration 4 for effective method: 48 ms
+Execution time for iteration 5 for simple method: 315 ms
+Execution time for iteration 5 for effective method: 40 ms
+Execution time for iteration 6 for simple method: 371 ms
+Execution time for iteration 6 for effective method: 41 ms
+Execution time for iteration 7 for simple method: 327 ms
+Execution time for iteration 7 for effective method: 66 ms
+Execution time for iteration 8 for simple method: 301 ms
+Execution time for iteration 8 for effective method: 37 ms
+Execution time for iteration 9 for simple method: 277 ms
+Execution time for iteration 9 for effective method: 38 ms
+Execution time for iteration 10 for simple method: 275 ms
+Execution time for iteration 10 for effective method: 48 ms
+---- TEST RESULTS FOR 500x500 MATRIX ----
+Total execution time for simple method: 3761 ms
+Total execution time for effective method: 478 ms
+Average execution time for simple method: 376 ms
+Average execution time for effective method: 47 ms
+
+
+
+
+Tests for 1000x1000 matrix:
+Execution time for iteration 1 for simple method: 8130 ms
+Execution time for iteration 1 for effective method: 633 ms
+Execution time for iteration 2 for simple method: 7697 ms
+Execution time for iteration 2 for effective method: 546 ms
+Execution time for iteration 3 for simple method: 10443 ms
+Execution time for iteration 3 for effective method: 575 ms
+Execution time for iteration 4 for simple method: 8698 ms
+Execution time for iteration 4 for effective method: 558 ms
+Execution time for iteration 5 for simple method: 9523 ms
+Execution time for iteration 5 for effective method: 549 ms
+Execution time for iteration 6 for simple method: 9612 ms
+Execution time for iteration 6 for effective method: 933 ms
+Execution time for iteration 7 for simple method: 8692 ms
+Execution time for iteration 7 for effective method: 535 ms
+Execution time for iteration 8 for simple method: 8794 ms
+Execution time for iteration 8 for effective method: 821 ms
+Execution time for iteration 9 for simple method: 8885 ms
+Execution time for iteration 9 for effective method: 1084 ms
+Execution time for iteration 10 for simple method: 8845 ms
+Execution time for iteration 10 for effective method: 870 ms
+---- TEST RESULTS FOR 1000x1000 MATRIX ----
+Total execution time for simple method: 89319 ms
+Total execution time for effective method: 7104 ms
+Average execution time for simple method: 8931 ms
+Average execution time for effective method: 710 ms
+
+
+
+
+Tests for 2000x2000 matrix:
+Execution time for iteration 1 for simple method: 123826 ms
+Execution time for iteration 1 for effective method: 5710 ms
+Execution time for iteration 2 for simple method: 101437 ms
+Execution time for iteration 2 for effective method: 5867 ms
+Execution time for iteration 3 for simple method: 99299 ms
+Execution time for iteration 3 for effective method: 5353 ms
+Execution time for iteration 4 for simple method: 98801 ms
+Execution time for iteration 4 for effective method: 5527 ms
+Execution time for iteration 5 for simple method: 98645 ms
+Execution time for iteration 5 for effective method: 5370 ms
+Execution time for iteration 6 for simple method: 98496 ms
+Execution time for iteration 6 for effective method: 5386 ms
+Execution time for iteration 7 for simple method: 98641 ms
+Execution time for iteration 7 for effective method: 5543 ms
+Execution time for iteration 8 for simple method: 104467 ms
+Execution time for iteration 8 for effective method: 6351 ms
+Execution time for iteration 9 for simple method: 76348 ms
+Execution time for iteration 9 for effective method: 7992 ms
+Execution time for iteration 10 for simple method: 125855 ms
+Execution time for iteration 10 for effective method: 7671 ms
+---- TEST RESULTS FOR 2000x2000 MATRIX ----
+Total execution time for simple method: 1025815 ms
+Total execution time for effective method: 60770 ms
+Average execution time for simple method: 102581 ms
+Average execution time for effective method: 6077 ms
