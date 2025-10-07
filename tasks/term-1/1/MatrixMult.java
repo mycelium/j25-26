@@ -8,8 +8,7 @@ public class MatrixMult {
 
 		if(numRowSecond != numColsFirst){
 			 throw new IllegalArgumentException(
-                "Несовместимые размеры матриц: " + numRowsFirst + "x" + numColsFirst + " и " + 
-                numRowSecond + "x" + numColsSecond
+                "Incorrect matrix sizes" 
             );
 		}
         double[][] result = new double[numRowsFirst][numColsSecond];
@@ -59,7 +58,7 @@ public static void testSmallMatrix(){
 
     double[][] C = multiply(A, B);
 
-	System.out.println("Result for testSmallMatrix:");
+	System.out.println("Result for testSmallMatrix: ");
 	printMatrix(C);
        
 }
@@ -83,7 +82,7 @@ public static void testLargeMatrix(){
             
             
 			long totalTime=0;
-			for (int i = 0; i < 10; i++){
+			for (int i = 0; i < 15; i++){
             long startTime = System.currentTimeMillis();
             double[][] result = multiply(matrixA, matrixB);
             
@@ -91,7 +90,8 @@ public static void testLargeMatrix(){
             long duration = endTime - startTime;
             totalTime+=duration;
             }
-		    System.out.println("Average execution time : " + (totalTime / 10) + " ms");
+			System.out.println("Result for testLargeMatrix: ");
+		    System.out.println("Average execution time for matrix sizes "+(rowsA)+"x" +(colsA)+ " and "+ (colsA)+"x" +(colsB)+": " + (totalTime / 15) + " ms");
 		}
 
 }
