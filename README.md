@@ -1,45 +1,59 @@
-# Java lessons and tasks 2025-2026
+Лабораторная работа 1: Оптимизация умножения матриц
 
-Group: 5130201/30001
-Name: Gordienko Julia
+Описание проекта:
+В работе реализован оптимизированный алгоритм умножения матриц с изменением порядка циклов для улучшения производительности. Проведено тестирование корректности работы алгоритма и измерение времени выполнения для матриц большой размерности.
 
-## Git task
+Оптимизация:
+Проблема обычного подхода
+В обычном алгоритме умножения матриц с порядком циклов i → j → k возникает проблема доступа к памяти и вычисление перемножения больших матриц становится медленным:
 
-1. Write your github login into the google spreadsheet
-2. Accept invitation to project
-3. Create your own branch: <[30101, 30102]_Surname-Name>
-4. Change README.md (Group and name)
-5. Push your changes into **your** branch
-
-
-Do not touch main branch. Do not touch main branch. I will never push anything to main. I swear!
-
-
-## [Term 1](https://github.com/mycelium/j25-26/tree/main/tasks/term-1#hsai-25-26-java-course---1)
-
-### 1. Java: Matrix multiplication
-
-### 2. Scala: misc
-
-### 3. Scala: Functional Set
-
-### 4. Java: Word Frequency Counter
-
-### 5. Java: Sentiment Analysis with CoreNLP
-
-### 6. Java: K-Nearest Neighbors (KNN) Classifier
-
-### 7. Java: Parallel matrix multiplication
-
-### 8. Java: Image Classification with DeepLearning4j (DL4J)
+// Обычный подход (медленный)
+for (int i = 0; i < rowsA; i++) {
+    for (int j = 0; j < colsB; j++) {
+        for (int k = 0; k < colsA; k++) {
+            result[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
+        }
+    }
+}
 
 
-## Term 2
+При таком порядке при изменении индекса k происходит скачкообразный доступ к элементам secondMatrix[k][j], что приводит к частым промахам кэша процессора.
 
-### 1. Java: Parallel merge sort on files
+ Суть оптимизации:
+Применен оптимизированный порядок циклов i → k → j с кэшированием значений:
 
-### 2. Java: JSON parser
+// Оптимизированный подход (быстрый)
+for (int i = 0; i < rowsA; i++) {
+    for (int k = 0; k < colsA; k++) {
+        double temp = firstMatrix[i][k]; // Кэширование
+        for (int j = 0; j < colsB; j++) {
+            result[i][j] += temp * secondMatrix[k][j];
+        }
+    }
+}
 
-### 3. Java: HTTPServer
 
-### 4. Java: Spring + Telegram Bot
+При этом методе будет последовательный доступ к элементам secondMatrix[k][j] в самом внутреннем цикле, кэширование значения firstMatrix[i][k]  для многократного использования, улучшенную локальность данных.
+
+Полученные результаты:
+
+Проверка корректности:
+Умножение работает корректно.
+
+Алгоритм корректно вычисляет:
+Элемент [0][0]: 1×7 + 2×9 + 3×11 = 58
+Элемент [0][1]: 1×8 + 2×10 + 3×12 = 64  
+Элемент [1][0]: 4×7 + 5×9 + 6×11 = 139
+ Элемент [1][1]: 4×8 + 5×10 + 6×12 = 154
+
+Производительность:
+Время для матриц 1000x1000: 1523,33 мс
+Это демонстрирует высокую производительность для матриц большой размерности, учитывая что операция требует 2 миллиарда операций умножения-сложения.
+
+Выводы
+
+1. Алгоритм правильно выполняет умножение матриц, подтверждено тестами.
+2. Оптимизированная версия показывает высокую скорость работы для больших матриц.
+3.  Алгоритм эффективно работает с матрицами большой размерности.
+
+
