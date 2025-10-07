@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Main
 {
     private static boolean isValidMatrix(double[][] matrix)
@@ -381,71 +383,154 @@ public class Main
         double[][] multiply(double[][] matrix1, double[][] matrix2, int blockSize);
     }
 
-    // Method for measuring the execution time of an algorithm and checking the execution result
-    private static void measureAndCompare(String algorithmName,
-                                          MatrixMultiplication multiplication,
-                                          double[][] matrix1,
-                                          double[][] matrix2,
-                                          double[][] classicResult)
+    // Method for measuring the average execution time
+    private static Map<String, Double> measureAverageTime(int matrixSize,
+                                                          int iterations,
+                                                          int blockSize)
     {
-        long startTime = System.currentTimeMillis();
-        double[][] result = multiplication.multiply(matrix1, matrix2);
-        long endTime = System.currentTimeMillis();
+        // Map to store the total time for each algorithm
+        Map<String, Long> totalTime = new HashMap<>();
 
-        System.out.println(algorithmName + " time: " + (endTime - startTime) + " ms");
-        System.out.println("Results are " + (areMatricesEqual(classicResult, result) ? "equal" : "not equal"));
+        // List of algorithms for testing
+        List<AlgorithmTest> algorithms = Arrays.asList(
+                new AlgorithmTest("Classic", (a, b) -> multiply(a, b)),
+                new AlgorithmTest("Optimized", (a, b) -> multiplyOptimized(a, b)),
+                new AlgorithmTest("With transpose", (a, b) -> multiplyWithTranspose(a, b)),
+                new AlgorithmTest("Unrolled", (a, b) -> multiplyUnrolled(a, b)),
+                new AlgorithmTest("Blocked", (a, b) -> multiplyBlocked(a, b, blockSize)),
+                new AlgorithmTest("Combined", (a, b) -> multiplyCombined(a, b, blockSize))
+        );
+
+        // Initializing the total time for each algorithm
+        for (AlgorithmTest alg : algorithms)
+        {
+            totalTime.put(alg.name, 0L);
+        }
+
+        // Checking correctness at the last iteration
+        double[][] referenceResult = null;
+        boolean correctnessChecked = false;
+
+        System.out.println("Starting performance measurement for " + iterations +
+                " iterations with matrix size " + matrixSize + "x" + matrixSize);
+        System.out.println("Block size: " + blockSize);
+        System.out.println("=" .repeat(60));
+
+        for (int iter = 0; iter < iterations; iter++)
+        {
+            // Generating new random matrices for each iteration
+            double[][] matrix1 = generateRandomMatrix(matrixSize, matrixSize);
+            double[][] matrix2 = generateRandomMatrix(matrixSize, matrixSize);
+
+            for (AlgorithmTest alg : algorithms)
+            {
+                long startTime = System.currentTimeMillis();
+                double[][] result = alg.algorithm.multiply(matrix1, matrix2);
+                long endTime = System.currentTimeMillis();
+
+                long duration = endTime - startTime;
+                totalTime.put(alg.name, totalTime.get(alg.name) + duration);
+
+                // Compare the result of the algorithms with the classical calculation
+                if (iter == iterations - 1 && !correctnessChecked)
+                {
+                    if (alg.name.equals("Classic"))
+                    {
+                        referenceResult = result;
+                    }
+                    else
+                    {
+                        boolean isEqual = areMatricesEqual(referenceResult, result);
+                        System.out.println("Correctness check for " + alg.name + ": " +
+                                (isEqual ? "PASSED" : "FAILED"));
+                    }
+                }
+            }
+
+            // Displaying progress every 10 iterations
+            if ((iter + 1) % 10 == 0)
+            {
+                System.out.println("Completed " + (iter + 1) + "/" + iterations + " iterations");
+            }
+        }
+
+        // Calculating the average time for each algorithm
+        Map<String, Double> averageTime = new LinkedHashMap<>();
+        for (AlgorithmTest alg : algorithms)
+        {
+            double avg = totalTime.get(alg.name) / (double) iterations;
+            averageTime.put(alg.name, avg);
+        }
+
+        return averageTime;
     }
 
-    // Overloaded method for algorithms with the blockSize parameter
-    private static void measureAndCompare(String algorithmName,
-                                          MatrixMultiplicationWithBlock multiplication,
-                                          double[][] matrix1,
-                                          double[][] matrix2,
-                                          int blockSize,
-                                          double[][] classicResult)
+    // Class for storing information about an algorithm
+    private static class AlgorithmTest
     {
-        long startTime = System.currentTimeMillis();
-        double[][] result = multiplication.multiply(matrix1, matrix2, blockSize);
-        long endTime = System.currentTimeMillis();
+        String name;
+        MatrixMultiplication algorithm;
 
-        System.out.println(algorithmName + " time: " + (endTime - startTime) + " ms");
-        System.out.println("Results are " + (areMatricesEqual(classicResult, result) ? "equal" : "not equal"));
+        AlgorithmTest(String name, MatrixMultiplication algorithm)
+        {
+            this.name = name;
+            this.algorithm = algorithm;
+        }
+    }
+
+    // Method for generating a random matrix
+    private static double[][] generateRandomMatrix(int rows, int cols)
+    {
+        double[][] matrix = new double[rows][cols];
+        Random random = new Random();
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                matrix[i][j] = 1.0 + (50.0 - 1.0) * random.nextDouble();
+            }
+        }
+        return matrix;
+    }
+
+    // Method for displaying results sorted by execution time
+    private static void printResults(Map<String, Double> results)
+    {
+        System.out.println("\n" + "=" .repeat(60));
+        System.out.println("AVERAGE EXECUTION TIME RESULTS");
+        System.out.println("=" .repeat(60));
+
+        // Sort algorithms by execution time (from fastest to slowest)
+        results.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(entry -> {
+                    System.out.printf("%-15s: %.2f ms%n", entry.getKey(), entry.getValue());
+                });
+
+        // Finding the fastest algorithm
+        String fastest = results.entrySet().stream()
+                .min(Map.Entry.comparingByValue())
+                .get()
+                .getKey();
+
+        System.out.println("\nFastest algorithm: " + fastest);
     }
 
     public static void main(String[] args)
     {
-        int size = 1000;
-        double[][] matrix1 = new double[size][size];
-        double[][] matrix2 = new double[size][size];
-
-        // Filling matrices with random numbers
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                matrix1[i][j] = 1.0 + (50.0 - 1.0) * Math.random();
-                matrix2[i][j] = 1.0 + (50.0 - 1.0) * Math.random();
-            }
-        }
+        int matrixSize = 1000;
+        int iterations = 50;
+        int blockSize = 64;
 
         try
         {
-            // Classical matrix multiplication algorithm
-            long startTime = System.currentTimeMillis();
-            double[][] classicResult = multiply(matrix1, matrix2);
-            long endTime = System.currentTimeMillis();
-            System.out.println("Classic matrix multiplication time: " + (endTime - startTime) + " ms\n");
-
-            // Testing accelerated algorithms
-            measureAndCompare("Optimized", Main::multiplyOptimized, matrix1, matrix2, classicResult);
-            measureAndCompare("Blocked", Main::multiplyBlocked, matrix1, matrix2, 64, classicResult);
-            measureAndCompare("With transpose", Main::multiplyWithTranspose, matrix1, matrix2, classicResult);
-            measureAndCompare("Unrolled", Main::multiplyUnrolled, matrix1, matrix2, classicResult);
-            measureAndCompare("Combined", Main::multiplyCombined, matrix1, matrix2, 64, classicResult);
+            Map<String, Double> results = measureAverageTime(matrixSize, iterations, blockSize);
+            printResults(results);
         }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println("Matrix multiplication error: " + e.getMessage());
+        catch (Exception e) {
+            System.out.println("Error during performance measurement: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
