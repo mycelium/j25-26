@@ -7,8 +7,6 @@ import java.nio.file.Paths;
 
 public class WordFrequencyCounter {
 
-    public static int maxSize = 10000; //in bytes
-
     public static Map<String, Integer> countWordsString(String line)
     {
         String[] words = Arrays.stream(line.split(" "))
@@ -51,27 +49,22 @@ public class WordFrequencyCounter {
             throw new Exception("Can't read file");
         }
 
-        if (Files.size(filePath) < maxSize) 
-        {
-            return countWordsString(Files.readString(Paths.get(filePath.toString())));
-        }
-
         Map<String, Integer> result = new HashMap<>();            
             
-        var reader = new BufferedReader(new FileReader(file));
-        String line;
-
-        while ((line = reader.readLine()) != null) 
+        try (var reader = new BufferedReader(new FileReader(file)))
         {
-            countWordsString(line).forEach(
-                (key, value) -> {
-                    result.merge(key, value, Integer::sum);
-                }
-            );
+            String line;
+
+            while ((line = reader.readLine()) != null) 
+            {
+                countWordsString(line).forEach(
+                    (key, value) -> {
+                        result.merge(key, value, Integer::sum);
+                    }
+                );
+            }
         }
-
-        reader.close();
-
+        
         return result;
     }
 
