@@ -15,13 +15,13 @@ public class MatrixMult {
             for (int testNum = 0; testNum < numberOfTests; testNum++) {
                 try {
                     long startTime = System.currentTimeMillis();
-                    multiply(firstMatrix, secondMatrix);
+                    multiplyUneffective(firstMatrix, secondMatrix);
                     long endTime = System.currentTimeMillis();
                     long durationSimple = endTime - startTime;
                     totalTimeSimple += durationSimple;
 
                     startTime = System.currentTimeMillis();
-                    multiplyEffective(firstMatrix, secondMatrix);
+                    multiply(firstMatrix, secondMatrix);
                     endTime = System.currentTimeMillis();
                     long durationEffective = endTime - startTime;
                     totalTimeEffective += durationEffective;
@@ -54,7 +54,7 @@ public class MatrixMult {
     }
 
     public static double[][]
-        multiply(double[][] firstMatrix, double[][] secondMatrix)
+        multiplyUneffective(double[][] firstMatrix, double[][] secondMatrix)
             throws ArithmeticException {
         int firstSizeN = firstMatrix.length;
         int firstSizeM = firstMatrix[0].length;
@@ -80,7 +80,7 @@ public class MatrixMult {
 
 
     public static double[][]
-        multiplyEffective(double[][] firstMatrix, double[][] secondMatrix)
+        multiply(double[][] firstMatrix, double[][] secondMatrix)
             throws ArithmeticException{
         int firstSizeN = firstMatrix.length;
         int firstSizeM = firstMatrix[0].length;
