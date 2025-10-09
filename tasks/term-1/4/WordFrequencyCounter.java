@@ -87,7 +87,6 @@ public class WordFrequencyCounter {
             } catch (Exception ex) {
                 System.err.println("Ошибка в потоковом режиме: " + ex.getMessage());
             }
-
         } catch (IOException e) {
             System.err.println("Ошибка чтения пути из консоли: " + e.getMessage());
         }

@@ -70,7 +70,6 @@ public class MatrixMult {
         }
         return a;
     }
-
     public static void main(String[] args) {
         int[] sizes = {50, 100, 500, 1000};
         int repetitions = 10;
