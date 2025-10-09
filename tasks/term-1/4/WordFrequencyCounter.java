@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutionException;
 
 public class WordFrequencyCounter {
     private static final long MAX_SIZE = 1024*1024;
-    private static final long BATCH_SIZE = 1024*1024;
 
     public static Map<String, Integer> countWords(Path filePath) {
         try {
@@ -52,7 +51,6 @@ public class WordFrequencyCounter {
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath.toString()))){
             String line;
-            int count = 0;
             while ((line = br.readLine()) != null){
                 for (String word : getWordsString(line)){
                     if (dict.containsKey(word)){
@@ -79,13 +77,24 @@ public class WordFrequencyCounter {
     }
 
     public static String[] getWordsString(String str){
+        StringBuilder strBuilder = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isLetterOrDigit(str.charAt(i)) || str.charAt(i) == ' ') {
+                strBuilder.append(str.charAt(i));
+            }
+            else { strBuilder.append(' '); }
+        }
+
+        str = strBuilder.toString();
         return Arrays.stream(
                 str.toLowerCase().split(" "))
-                    .filter(
-                            string ->
-                                    !string.isEmpty() &&
-                                    string.chars().allMatch(Character::isLetter)
-                    ).toArray(String[]::new);
+                .filter(
+                string ->
+                        !string.isEmpty() &&
+                        string.chars().allMatch(Character::isLetter)
+                )
+                    .toArray(String[]::new);
     }
 
     public static void printFrequencies(Map<String, Integer> frequencies) {
@@ -110,7 +119,7 @@ public class WordFrequencyCounter {
 
         printFrequencies(countWords(path));
 
-        path = Path.of("tasks/term-1/4/long_text.txt");
+        Path path = Path.of("tasks/term-1/4/big_text.txt");
 
         printFrequencies(countWords(path));
     }
