@@ -41,24 +41,32 @@ public class MatrixMult {
 	}
 	
 	
-	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
-	    int n = firstMatrix.length, p = firstMatrix[0].length, m = secondMatrix[0].length;
-	    if (p != secondMatrix.length) throw new IllegalArgumentException("Incompatible dimensions");
+	public static double[][] multiplyOptimized(double[][] firstMatrix, double[][] secondMatrix) {
+	    int rowFirst = firstMatrix.length;
+	    int colFirst = firstMatrix[0].length;
+	    int colSecond = secondMatrix[0].length;
+	    
+	    if (colFirst != secondMatrix.length) {
+	        System.out.println("\nMultiplication Not Possible");
+	        return null;
+	    }
+	    
+	    double[][] result = new double[rowFirst][colSecond];
 
-	    double[][] result = new double[n][m];
-
-	    IntStream.range(0, n).parallel().forEach(i -> {
-	        double[] Ai = firstMatrix[i];
-	        double[] Ci = result[i];
-	        for (int k = 0; k < p; k++) {
-	            double a_ik = Ai[k];
-	            double[] Bk = secondMatrix[k];
-	            for (int j = 0; j < m; j++) {
-	                Ci[j] += a_ik * Bk[j];
+	    for (int i = 0; i < rowFirst; i++) {
+	        double[] resultRow = result[i];
+	        double[] firstRow = firstMatrix[i];
+	        
+	        for (int k = 0; k < colFirst; k++) {
+	            double firstValue = firstRow[k];
+	            double[] secondRow = secondMatrix[k];
+	            
+	            for (int j = 0; j < colSecond; j++) {
+	                resultRow[j] += firstValue * secondRow[j];
 	            }
 	        }
-	    });
-
+	    }
+	    
 	    return result;
 	}
 
@@ -86,7 +94,7 @@ public class MatrixMult {
 	                secondMatrix[i][j] = Math.random() * 10;
 	        
 	        long startTime = System.nanoTime();
-	        double[][] result = multiply(firstMatrix, secondMatrix);
+	        double[][] result = multiplyOptimized(firstMatrix, secondMatrix);
 	        long endTime = System.nanoTime();
 	        
 	        long durationNs = endTime - startTime; 
@@ -95,7 +103,7 @@ public class MatrixMult {
 	        
 	       
 	        long startTime1 = System.nanoTime();
-	        double[][] resultOptimised = multiplyParallel(firstMatrix, secondMatrix);
+	        double[][] resultOptimised = multiply(firstMatrix, secondMatrix);
 	        long endTime1 = System.nanoTime();
 	        
 	        long duration = endTime1 - startTime1; 
