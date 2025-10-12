@@ -4,7 +4,9 @@ import java.nio.file.Path;
 public class WordFrequencyCounter {
 
     public Map<String, Integer> countWords(Path filePath) {
-        // read file, tokenize words, update map
+        try {
+            String content = Files.readString(filePath, )
+        }
         return null;
     }
 
