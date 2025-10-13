@@ -19,7 +19,10 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
-    implementation("edu.stanford.nlp:stanford-corenlp:4.5.10")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.0")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.0:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.0:models-english")
+    implementation("com.opencsv:opencsv:5.12.0")
 }
 
 testing {
@@ -34,6 +37,8 @@ testing {
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     toolchain {
         languageVersion = JavaLanguageVersion.of(23)
     }

@@ -1,8 +1,5 @@
 package org.example.Analyzer;
 
-import java.util.List;
-import java.util.Properties;
-
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -10,70 +7,50 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.util.CoreMap;
+import java.util.Properties;
 
-public class Analyzer 
-{
+public class Analyzer {
     private StanfordCoreNLP pipeline;
-
-    public Analyzer()
-    {
+    
+    public Analyzer() {
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
         props.setProperty("tokenize.language", "en");
-        pipeline = new StanfordCoreNLP(props);
+        this.pipeline = new StanfordCoreNLP(props);
     }
-
-    public AnalyzerResult analyzeReview(String text) throws IllegalArgumentException, Exception
-    {
+    
+    public String analyzeSentiment(String text) {
         if (text == null || text.trim().isEmpty()) {
-            throw new IllegalArgumentException("Got empty text");
+            return "neutral";
         }
-
+        
         Annotation annotation = pipeline.process(text);
-        List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
-
-        if (sentences.isEmpty()) {
-            throw new Exception("Null");
-        }
-
-        return getOverallSentiment(sentences, text);
-    }
-
-    public String getSimpleSentiment(String text) throws IllegalArgumentException, Exception
-    {
-        AnalyzerResult result = analyzeReview(text);
-        String detailed = result.getSentiment();
+        double sentimentScore = 0;
+        int sentenceCount = 0;
         
-        if (detailed.contains("positive")) return "positive";
-        if (detailed.contains("negative")) return "negative";
-
-        return "neutral";
-    }
-
-    private AnalyzerResult getOverallSentiment(List<CoreMap> sentences, String text)
-    {
-        int totalSentiment = 0;
-        
-        for (CoreMap sentence : sentences) {
+        for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
             Tree tree = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
             int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
-            totalSentiment += sentiment;
+            
+            sentimentScore += sentiment;
+            sentenceCount++;
         }
         
-        int averageSentiment = sentences.size() > 0 ? totalSentiment / sentences.size() : 2;
-        return new AnalyzerResult(getSentimentLabel(averageSentiment), averageSentiment, text);
+        if (sentenceCount == 0) {
+            return "neutral";
+        }
+        
+        int averageScore = (int) (sentimentScore / sentenceCount + 0.5);
+        return classifySentiment(averageScore);
     }
-
-    private String getSentimentLabel(int sentimantScore)
-    {
-        switch (sentimantScore) {
-            case 0: return "very negative";
-            case 1: return "negative";
-            case 2: return "neutral";
-            case 3: return "positive";
-            case 4: return "very positive";
-            default: return "neutral";
+    
+    private String classifySentiment(int score) {
+        if (score < 2) {
+            return "negative";
+        } else if (score > 2) {
+            return "positive";
+        } else {
+            return "neutral";
         }
     }
-
 }
