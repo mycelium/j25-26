@@ -1,6 +1,7 @@
 package org.example.internal;
 
 public class Point {
+    
     private double x;
     private double y;
     private String classLabel = null;
