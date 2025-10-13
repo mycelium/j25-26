@@ -78,7 +78,7 @@ public class Space {
         for (PointWithDistance pwd : nearestPoints) {
             String Label = pwd.point().getLabel();
             if (tiedClasses.contains(Label)) {
-                double weight = 1.0 / (1.0 + pwd.distance()); // взвешивание по расстоянию
+                double weight = 1.0 / (1.0 + pwd.distance());
                 weightedVotes.put(Label, weightedVotes.getOrDefault(Label, 0.0) + weight);
             }
         }
