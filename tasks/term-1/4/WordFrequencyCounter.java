@@ -113,7 +113,7 @@ public class WordFrequencyCounter {
         System.out.println();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         WordFrequencyCounter counter = new WordFrequencyCounter();
         Map<String, Integer> smallFileCounter = counter.countWords(Path.of("term-1/4/smallFile.txt"));
 
@@ -122,7 +122,6 @@ public class WordFrequencyCounter {
         Map<String, Integer> bigFileCounter = counter.countWords(Path.of("term-1/4/bigFile.txt"));
 
         counter.printFrequencies(bigFileCounter);
-        
 
     }
 }
