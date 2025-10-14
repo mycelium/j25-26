@@ -107,8 +107,8 @@ public void printFrequencies(Map<String, Integer> frequencies) {
      
         WordFrequencyCounter counter = new WordFrequencyCounter();
     
-            Path filePath = Path.of(".\\5sem\\java\\j25-26\\tasks\\term-1\\4\\smallTest.txt"); // проверка для небольшого текста = 29 Кб
-            //Path filePath = Path.of(".\\5sem\\java\\j25-26\\tasks\\term-1\\4\\largeTest.txt"); // проверка для большого текста = 44318 Кб
+            Path filePath = Path.of(".\\tasks\\term-1\\4\\smallTest.txt"); // проверка для небольшого текста = 29 Кб
+            //Path filePath = Path.of(".\\tasks\\term-1\\4\\largeTest.txt"); // проверка для большого текста = 44318 Кб
             if (!Files.exists(filePath)) {
             System.out.println("File not exists: " + filePath);
             return; 
