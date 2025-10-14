@@ -22,7 +22,6 @@ public class MatrixMult {
         }
         return res;
     }
-
     public static double[][] multiplypro(double[][] A, double[][] B) {
         int m = A.length;
         if (m == 0) return new double[0][0];

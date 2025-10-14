@@ -69,7 +69,6 @@ public class WordFrequencyCounter {
             }
 
             WordFrequencyCounter wfc = new WordFrequencyCounter();
-
             System.out.println("\n--- Full-load variant ---");
             try {
                 Map<String, Integer> full = wfc.countWords(p);
