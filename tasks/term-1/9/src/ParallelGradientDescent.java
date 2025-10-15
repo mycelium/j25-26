@@ -1,17 +1,34 @@
 package src;
 
-import java.util.concurrent.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ParallelGradientDescent {
+
+    private record Vector2D(double x1, double x2) {
+        public double norm() { return Math.hypot(x1, x2); }
+    }
+    public record ThreadResult(Vector2D data, double fValue) { }
 
     private static final double X_MIN = -5.12;
     private static final double X_MAX = 5.12;
 
-    public static double f(double x, double y) {
-        double r = Math.sqrt(x * x + y * y);
+    private static final double EPSILON = 1e-12;
+
+    private static final double TOLERANCE = 1e-12;
+    private static final double TOLERANCE_SQUARED = TOLERANCE * TOLERANCE;
+
+    private double learningRate;
+    private int maxIterations;
+
+    private final double optimalValue;
+
+    private static double f(Vector2D x) {
+        double r = x.norm();
+
         double numerator = 1.0 + Math.cos(12.0 * r);
         double denominator = 0.5 * r * r + 2.0;
 
@@ -19,98 +36,154 @@ public class ParallelGradientDescent {
     }
 
     private static double df_dr(double r) {
-        if (r < 1e-12) return 0.0;
+        if (r < EPSILON) { return 0.0; }
 
-        double cos12r = Math.cos(12.0 * r);
-        double sin12r = Math.sin(12.0 * r);
-        double D = 0.5 * r * r + 2.0;
-        double D2 = D * D;
+        double v = (0.5 * r * r + 2.0);
+        double numerator = -12 * Math.sin(12 * r) * v - r * (Math.cos(12 * r) + 1);
+        double denominator = v * v;
 
-        double numeratorDerivative = 12.0 * sin12r * D - r * (1.0 + cos12r);
-        return numeratorDerivative / D2;
+        return -numerator / denominator;
     }
 
-    public static double[] gradient(double x, double y) {
-        double r = Math.sqrt(x * x + y * y);
-
-        if (r < 1e-12) {
-            return new double[]{0.0, 0.0};
-        }
+    private static Vector2D gradient(Vector2D x) {
+        double r = x.norm();
+        if (r < EPSILON) { return new Vector2D(0.0, 0.0); }
 
         double dfdr = df_dr(r);
-        double scale = dfdr / r;
-
-        return new double[]{scale * x, scale * y};
+        return new Vector2D(dfdr * x.x1() / r, dfdr * x.x2() / r);
     }
 
-    public static double[] gradientDescent(double x, double y,
-                                           double learningRate,
-                                           int maxIter,
-                                           double tolerance) {
-        for (int i = 0; i < maxIter; i++) {
-            double[] grad = gradient(x, y);
-            double newX = x - learningRate * grad[0];
-            double newY = y - learningRate * grad[1];
+    private ThreadResult gradientDescentThread(Vector2D x) {
+        Vector2D resultX = x;
+        for (int i = 0; i < maxIterations; i++) {
+            Vector2D grad = gradient(resultX);
+            double nX1 = resultX.x1() - learningRate * grad.x1();
+            double nX2 = resultX.x2() - learningRate * grad.x2();
 
-            double step = Math.sqrt(Math.pow(newX - x, 2) + Math.pow(newY - y, 2));
-            if (step < tolerance) {
-                x = newX;
-                y = newY;
+            double dx1 = nX1 - resultX.x1;
+            double dx2 = nX2 - resultX.x2;
+            if (dx1 * dx1 + dx2 * dx2 < TOLERANCE_SQUARED) {
+                resultX = new Vector2D(nX1, nX2);
                 break;
             }
 
-            x = newX;
-            y = newY;
-
-            x = Math.max(X_MIN, Math.min(X_MAX, x));
-            y = Math.max(X_MIN, Math.min(X_MAX, y));
+            resultX = new Vector2D(
+                    Math.clamp(nX1, X_MIN, X_MAX),
+                    Math.clamp(nX2, X_MIN, X_MAX)
+            );
         }
-        return new double[]{x, y};
+
+        return new ThreadResult(resultX, f(resultX));
     }
 
-    public static void main(String[] args) {
-        int numThreads = 32;
-        double learningRate = 0.005;
-        int maxIter = 10000;
-        double tolerance = 1e-12;
-
-        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-        List<Future<double[]>> futures = new ArrayList<>();
-        Random rand = new Random();
-
-        for (int i = 0; i < numThreads; i++) {
-            double startX = X_MIN + rand.nextDouble() * (X_MAX - X_MIN);
-            double startY = X_MIN + rand.nextDouble() * (X_MAX - X_MIN);
-
-            Future<double[]> future = executor.submit(() ->
-                    gradientDescent(startX, startY, learningRate, maxIter, tolerance)
-            );
-            futures.add(future);
+    public ParallelGradientDescent(double learningRate, int maxIterations, double optimalValue) {
+        if (learningRate < 0) {
+            throw new IllegalArgumentException("Learning rate must be non-negative");
+        }
+        if (maxIterations < 0) {
+            throw new IllegalArgumentException("Iterations must be non-negative");
+        }
+        if (optimalValue != -1) {
+            throw new IllegalArgumentException("Function used in gradient descent minimum is -1");
         }
 
-        double bestX = 0, bestY = 0;
-        double bestValue = Double.POSITIVE_INFINITY;
+        this.learningRate = learningRate;
+        this.maxIterations = maxIterations;
+        this.optimalValue = optimalValue;
+    }
 
-        for (Future<double[]> future : futures) {
+    public static ParallelGradientDescent createDefault() {
+        return new ParallelGradientDescent(
+                0.005,
+                10000,
+                -1
+        );
+    }
+
+    public ThreadResult optimize(int parallelStarts, long timeoutMs) {
+        if (parallelStarts <= 0) {
+            throw new IllegalArgumentException("Number of parallel starts must be positive");
+        }
+        if (timeoutMs < 0) {
+            throw new IllegalArgumentException("Timeout must be non-negative");
+        }
+
+        AtomicReference<ThreadResult> best = new AtomicReference<>(
+                new ThreadResult(new Vector2D(0, 0), Double.POSITIVE_INFINITY)
+        );
+        AtomicBoolean shouldStop = new AtomicBoolean(false);
+
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+            for (int i = 0; i < parallelStarts && !shouldStop.get(); i++) {
+                CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                    Vector2D start = new Vector2D(
+                            X_MIN + ThreadLocalRandom.current().nextDouble() * (X_MAX - X_MIN),
+                            X_MIN + ThreadLocalRandom.current().nextDouble() * (X_MAX - X_MIN)
+                    );
+
+                    ThreadResult res = gradientDescentThread(start);
+
+                    best.getAndUpdate(currentBest ->
+                            (res.fValue() < currentBest.fValue()) ? res : currentBest
+                    );
+
+                    if (Math.abs(res.fValue() - optimalValue) < EPSILON) {
+                        shouldStop.set(true);
+                    }
+                }, executor);
+
+                futures.add(future);
+            }
+
+            CompletableFuture<Void> all = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
             try {
-                double[] point = future.get();
-                double x = point[0], y = point[1];
-                double val = f(x, y);
-
-                if (val < bestValue) {
-                    bestValue = val;
-                    bestX = x;
-                    bestY = y;
+                all.orTimeout(timeoutMs, TimeUnit.MILLISECONDS).join();
+            }
+            catch (CompletionException e) {
+                if (e.getCause() instanceof TimeoutException) {
+                    System.out.println("Optimization stopped due to timeout.");
+                }
+                else {
+                    System.err.println("Unexpected error during optimization: " + e.getCause().getMessage());
                 }
             }
             catch (Exception e) {
-                System.err.println("Error!");
+                System.err.println("Unexpected exception: " + e.getMessage());
             }
+
+            shouldStop.set(true);
+
         }
 
-        executor.shutdown();
-
-        System.out.printf("Лучший результат: x = [%.8f, %.8f], f(x) = %.10f%n", bestX, bestY, bestValue);
-        System.out.println("Истинный минимум: [0.0, 0.0], f = -1.0");
+        return best.get();
     }
+
+    public double getLearningRate() { return learningRate; }
+    public int getMaxIterations() { return maxIterations; }
+
+    public void setLearningRate(double learningRate) { this.learningRate = learningRate; }
+    public void setMaxIterations(int maxIterations) { this.maxIterations = maxIterations; }
+
+    public static void main(String[] args) {
+        ParallelGradientDescent optimizer = ParallelGradientDescent.createDefault();
+
+        long start = System.currentTimeMillis();
+        var result = optimizer.optimize(1000, 5000);
+        long elapsed = System.currentTimeMillis() - start;
+
+        System.out.printf("""
+            Optimization finished in %d ms.
+            Best point: [%.8f, %.8f]
+            f(x)      : %.12f
+            Error     : %.2e
+            """,
+                elapsed,
+                result.data().x1(), result.data().x2(),
+                result.fValue(),
+                Math.abs(result.fValue() - (-1.0))
+        );
+    }
+
 }
