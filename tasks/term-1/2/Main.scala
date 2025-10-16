@@ -40,6 +40,7 @@ object Main {
       nQueens(n) match {
         case Some(result) =>
           println("Array: " + result.mkString("[", ", ", "]"))
+          printBoard(result)
         case None => println("No solution found")
       }
     }
@@ -122,6 +123,18 @@ object Main {
 
     var queens = new Array[Int](size)
     if (placeQueens(queens, 0)) Some(queens) else None
+  }
+
+
+  def printBoard(board: Array[Int]): Unit = {
+    val size = board.length
+    for (row <- 0 until size){
+      for (column <- 0 until size){
+        if (board(row) == column) print("1 ")
+        else print("0 ")
+      }
+      println()
+    }
   }
 
 }
