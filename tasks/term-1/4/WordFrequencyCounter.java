@@ -119,7 +119,7 @@ public class WordFrequencyCounter {
 
         printFrequencies(countWords(path));
 
-        Path path = Path.of("tasks/term-1/4/big_text.txt");
+        path = Path.of("tasks/term-1/4/big_text.txt");
 
         printFrequencies(countWords(path));
     }
