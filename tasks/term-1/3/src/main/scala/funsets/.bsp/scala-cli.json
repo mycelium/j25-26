@@ -1,0 +1,20 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "C:\\Program Files\\scala-cli-x86_64-pc-win32\\scala-cli.EXE",
+    "bsp",
+    "--json-options",
+    "C:\\Users\\marty\\j25-26\\tasks\\term-1\\3\\src\\main\\scala\\funsets\\.scala-build\\ide-options-v2.json",
+    "--json-launcher-options",
+    "C:\\Users\\marty\\j25-26\\tasks\\term-1\\3\\src\\main\\scala\\funsets\\.scala-build\\ide-launcher-options.json",
+    "--envs-file",
+    "C:\\Users\\marty\\j25-26\\tasks\\term-1\\3\\src\\main\\scala\\funsets\\.scala-build\\ide-envs.json",
+    "C:\\Users\\marty\\j25-26\\tasks\\term-1\\3\\src\\main\\scala\\funsets"
+  ],
+  "version": "1.9.1",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
