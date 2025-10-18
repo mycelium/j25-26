@@ -20,7 +20,7 @@ public class App {
 
         Space space = new Space();
         new CSVPointReader()
-            .readPointsFromCSV("../testPoints.csv")
+            .readPointsFromCSV("../testPoints.txt")
             .forEach(
                 p -> space.addPoint(p)
             );
