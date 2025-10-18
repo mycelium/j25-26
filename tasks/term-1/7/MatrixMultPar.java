@@ -101,9 +101,12 @@ public class MatrixMultPar {
 			System.out.printf("Время выполнения параллельного умножения: %d мс%n", timeParallel);
 			System.out.printf("Ускорение: %f\n", result);
 		}
-
-		//measure();
-		//printMid();
+		// try {
+		// 	measure();
+		// 	printMid();
+		// } catch (Exception e) {
+		// 	System.err.println("Ошибка анализа результатов сравнения");
+		// }
 	}
 
 	public static void printMid() throws IOException{
