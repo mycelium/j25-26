@@ -1,71 +1,85 @@
 import java.util.*;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.management.GarbageCollectorMXBean;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class WordFrequencyCounter {
 
-    public static Map<String, Integer> countWordsString(String line)
-    {
-        String[] words = Arrays.stream(line.split(" "))
-                    .filter(str ->  str != null && 
-                                    !str.isEmpty() && 
-                                    str.chars().allMatch(Character::isLetter))
-                    .toArray(String[]::new);
-
-        var dict = new HashMap<String, Integer>();
-
-        for (String word : words) 
-        {   
-            word = word.toLowerCase();
-            
-            if (dict.containsKey(word)) {
-                dict.replace(word, dict.get(word)+1);
-            }    
-            else{
-                dict.put(word, 1);
+    public static Map<String, Integer> countWordsString(String line) {
+        if (line == null || line.isEmpty()) {
+            return new HashMap<>();
+        }
+        
+        String[] words = line.toLowerCase()
+                .replaceAll("[^a-zA-Zа-яА-Я\\s]", " ")
+                .split("\\s+"); 
+        
+        Map<String, Integer> dict = new HashMap<>();
+        
+        for (String word : words) {
+            word = word.trim();
+            if (!word.isEmpty() && word.chars().anyMatch(Character::isLetter)) {
+                dict.put(word, dict.getOrDefault(word, 0) + 1);
             }
         }
-
+        
         return dict;
     }
     
     public static Map<String, Integer> countWords(Path filePath) throws Exception {
-        // read file, tokenize words, update map
-
-        var file = filePath.toFile();
         
-        if (!file.exists()) {
-            throw new Exception("File does not exists");
-        }
-        
-        if (file.isDirectory()) {
-            throw new Exception("It's a directory, not a file");
-        }
-        
-        if (!file.canRead()) {
-            throw new Exception("Can't read file");
-        }
+        if (Files.size(filePath) > Runtime.getRuntime().maxMemory()) {
+            Map<String, Integer> dict = new HashMap<>();
+            StringBuilder leftover = new StringBuilder();
+            try (Reader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
+                char[] buffer = new char[4096];
+                int read;
+                while ((read = reader.read(buffer)) != -1) {
+                    String chunk = leftover.append(buffer, 0, read).toString();
 
-        Map<String, Integer> result = new HashMap<>();            
-            
-        try (var reader = new BufferedReader(new FileReader(file)))
-        {
-            String line;
+                    String[] parts = chunk.split("\\s+");
 
-            while ((line = reader.readLine()) != null) 
-            {
-                countWordsString(line).forEach(
-                    (key, value) -> {
-                        result.merge(key, value, Integer::sum);
+                    leftover.setLength(0);
+                    if (!Character.isWhitespace(chunk.charAt(chunk.length() - 1))) {
+                        leftover.append(parts[parts.length - 1]);
+                        parts = Arrays.copyOf(parts, parts.length - 1);
                     }
-                );
+
+                    for (String word : parts) {
+                        word = word.toLowerCase().replaceAll("[^a-zа-я]", "").trim();
+                        if (!word.isEmpty()) {
+                            dict.merge(word, 1, Integer::sum);
+                        }
+                    }
+                }
+
+                if (leftover.length() > 0) {
+                    String word = leftover.toString().toLowerCase().replaceAll("[^a-zа-я]", "").trim();
+                    if (!word.isEmpty()) {
+                        dict.merge(word, 1, Integer::sum);
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return dict;
+
+        }else{
+            try {
+                String content = Files.readString(filePath);
+                return countWordsString(content);
+            } catch (IOException e) {
+                    e.printStackTrace();
+                    return Collections.emptyMap();
             }
         }
-        
-        return result;
     }
 
     public static void printFrequencies(Map<String, Integer> frequencies) {
@@ -73,12 +87,9 @@ public class WordFrequencyCounter {
     }
 
     public static void main(String[] args) 
-    {
+    {   
         try {
-            printFrequencies(countWords(Paths.get(args[0])));
-        }
-        catch (IndexOutOfBoundsException e){
-            System.err.println("Для запуска программы передайте одним аргументом путь до файла");
+            printFrequencies(countWords(Paths.get("./big.txt")));
         }
         catch (Exception e) {
             System.err.printf("Error while executing: %s", e.getMessage());
