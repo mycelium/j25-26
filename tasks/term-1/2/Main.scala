@@ -2,7 +2,7 @@ package recfun
 import common._
 
 object Main {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println("Pascal's Triangle")
     for (row <- 0 to 10) {
       for (col <- 0 to row)
@@ -62,7 +62,43 @@ object Main {
    */
 
   def nQueens(size: Int): Option[Array[Int]] = {
-
+  def isSafe(queens: Array[Int], row: Int, col: Int): Boolean = {
+    for (i <- 0 until row) {
+      if (queens(i) == col || math.abs(queens(i) - col) == math.abs(i - row)) {
+        return false
+      }
+    }
+    true
   }
+  
+  def solve(queens: Array[Int], row: Int): Boolean = {
+    if (row == size) true
+    else {
+      for (col <- 0 until size) {
+        if (isSafe(queens, row, col)) {
+          queens(row) = col
+          if (solve(queens, row + 1)) return true
+        }
+      }
+      false
+    }
+  }
+  
+  val queens = new Array[Int](size)
+  if (solve(queens, 0)) Some(queens) else None
+}
+
+def printBoard(queens: Array[Int]): Unit = {
+  val size = queens.length
+  
+  for (row <- 0 until size) {
+    for (col <- 0 until size) {
+      if (queens(row) == col) print("1 ") 
+      else print("0 ")
+    }
+    println()
+  }
+  println()
+  
 
 }
