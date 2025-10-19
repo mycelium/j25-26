@@ -12,6 +12,7 @@ public class WordFrequencyCounter {
 
     private static final long MAX_FILE_SIZE_FOR_FULL_LOAD = 500 * 1024 * 1024;
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+    private static final int MAX_WORD_LENGTH = 1024 * 1024;
 
     private boolean validateFilePath(Path filePath) {
         if (filePath == null) {
@@ -81,12 +82,26 @@ public class WordFrequencyCounter {
                 return wordCount;
             }
 
-            String[] words = content.toLowerCase().split("[^\\p{L}]+");
+            String[] words = content.toLowerCase().split("\\s+");
 
             for (String word : words) {
-                String processedWord = processWord(word);
-                if (processedWord != null && !processedWord.isEmpty()) {
-                    wordCount.merge(processedWord, 1, Integer::sum);
+                if (word.length() > MAX_WORD_LENGTH) {
+                    System.out.println("Processing extremely long word (" + (word.length() / (1024 * 1024)) + " MB) in chunks...");
+                    int start = 0;
+                    while (start < word.length()) {
+                        int end = Math.min(start + MAX_WORD_LENGTH, word.length());
+                        String chunk = word.substring(start, end);
+                        String processedChunk = processWord(chunk);
+                        if (processedChunk != null && !processedChunk.isEmpty()) {
+                            wordCount.merge(processedChunk, 1, Integer::sum);
+                        }
+                        start = end;
+                    }
+                } else {
+                    String processedWord = processWord(word);
+                    if (processedWord != null && !processedWord.isEmpty()) {
+                        wordCount.merge(processedWord, 1, Integer::sum);
+                    }
                 }
             }
 
@@ -134,8 +149,17 @@ public class WordFrequencyCounter {
                 for (int i = 0; i < charsRead; i++) {
                     char c = buffer[i];
 
-                    if (Character.isLetter(c)) {
+                    if (!Character.isWhitespace(c)) {
                         currentWord.append(Character.toLowerCase(c));
+                        
+                        if (currentWord.length() >= MAX_WORD_LENGTH) {
+                            String word = currentWord.toString();
+                            String processedWord = processWord(word);
+                            if (processedWord != null && !processedWord.isEmpty()) {
+                                wordCount.merge(processedWord, 1, Integer::sum);
+                            }
+                            currentWord.setLength(0);
+                        }
                     } else {
                         if (currentWord.length() > 0) {
                             String word = currentWord.toString();
