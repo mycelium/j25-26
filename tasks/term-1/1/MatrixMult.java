@@ -2,7 +2,6 @@
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-
 public class MatrixMult {
 	
 	static void printMatrix(double[][] Matrix, int row, int col) {
