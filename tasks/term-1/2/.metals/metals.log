@@ -1,0 +1,604 @@
+2025.10.19 22:27:42 INFO  Started: Metals version 1.6.3 in folders '/home/user/study/java/j25-26/tasks/term-1/2' for client Visual Studio Code 1.105.1.
+2025.10.19 22:27:43 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.19 22:27:43 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:47 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:47 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:47 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:47 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+Oct 19, 2025 10:27:48 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2
+2025.10.19 22:27:47 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:48 INFO  Running List(/home/user/.local/share/coursier/bin/scala-cli, setup-ide, /home/user/study/java/j25-26/tasks/term-1/2)
+2025.10.19 22:27:48 INFO  Attempting to connect to the build server...
+2025.10.19 22:27:48 INFO  Running BSP server List(/home/user/.local/share/coursier/bin/.scala-cli.aux, bsp, --json-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-options-v2.json, --json-launcher-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-launcher-options.json, --envs-file, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-envs.json, /home/user/study/java/j25-26/tasks/term-1/2)
+2025.10.19 22:27:49 WARN  no build target for: /home/user/study/java/j25-26/tasks/term-1/2/Main.scala
+2025.10.19 22:27:49 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:49 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/bsp.trace.json or /home/user/.cache/metals/bsp.trace.json
+2025.10.19 22:27:48 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$BuildTargetNotFoundForPathException: No build target could be found for the path: /home/user/study/java/j25-26/tasks/term-1/2/Main.scala
+	at scala.meta.internal.metals.debug.DebugDiscovery.validate(DebugDiscovery.scala:88)
+	at scala.meta.internal.metals.debug.DebugDiscovery.debugDiscovery(DebugDiscovery.scala:164)
+	at scala.meta.internal.metals.MetalsLspService.$anonfun$debugDiscovery$3(MetalsLspService.scala:1548)
+	at scala.meta.internal.metals.MetalsLspService.afterCompilationFinished(MetalsLspService.scala:1543)
+	at scala.meta.internal.metals.MetalsLspService.debugDiscovery(MetalsLspService.scala:1548)
+	at scala.meta.internal.metals.WorkspaceLspService.executeCommand(WorkspaceLspService.scala:1118)
+	at scala.meta.metals.lsp.DelegatingScalaService.executeCommand(DelegatingScalaService.scala:169)
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$recursiveFindRpcMethods$0(GenericEndpoint.java:65)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.request(GenericEndpoint.java:128)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleRequest(RemoteEndpoint.java:271)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:201)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:185)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:97)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:114)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:27:49 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:50 INFO  time: Connected to build server in 1.66s
+2025.10.19 22:27:50 INFO  Connected to Build server: scala-cli v1.9.1
+2025.10.19 22:27:50 INFO  time: Imported build in 0.22s
+2025.10.19 22:27:51 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:27:51 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:51 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:53 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:27:53 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:53 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:55 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:55 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:58 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:27:58 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:28:00 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:28:00 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:28:09 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/lib/src.zip. Java symbols will not be available.
+2025.10.19 22:28:14 INFO  time: indexed workspace in 24s
+2025.10.19 22:28:15 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:28:15 INFO  time: compiled 2_d5c0a6989e in 0.88s
+2025.10.19 22:28:30 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:28:34 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:28:35 INFO  time: compiled 2_d5c0a6989e in 5.57s
+2025.10.19 22:28:45 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:28:45 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:28:46 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:28:52 INFO  Loaded expression compiler in 6 seconds
+2025.10.19 22:28:53 INFO  Loaded step filter in 1 second
+2025.10.19 22:28:56 INFO  Loaded all sources and classes in 3 seconds
+2025.10.19 22:28:58 INFO  Initialized Scala 3 decoder in 1 second
+2025.10.19 22:28:58 INFO  Trying to attach to remote debuggee VM localhost:59333 .
+2025.10.19 22:28:58 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:28:59 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:28:58 INFO  Closing debug server tcp://0.0.0.0:46161
+Oct 19, 2025 10:30:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 197
+Oct 19, 2025 10:30:38 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 334
+Oct 19, 2025 10:30:54 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 461
+Oct 19, 2025 10:31:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 500
+Oct 19, 2025 10:31:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 503
+Oct 19, 2025 10:31:04 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 520
+Oct 19, 2025 10:31:06 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 539
+2025.10.19 22:31:17 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:31:20 INFO  time: compiled 2_d5c0a6989e in 3.05s
+2025.10.19 22:31:20 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:31:23 INFO  time: compiled 2_d5c0a6989e in 2.3s
+2025.10.19 22:31:23 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$WorkspaceErrorsException$: Cannot run class, since the workspace has errors.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$WorkspaceErrorsException$.<clinit>(DiscoveryFailures.scala:57)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionScalaFuture$$anonfun$liftToLspError$1.applyOrElse(MetalsEnrichments.scala:248)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionScalaFuture$$anonfun$liftToLspError$1.applyOrElse(MetalsEnrichments.scala:245)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:31:49 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:31:50 INFO  time: compiled 2_d5c0a6989e in 1.74s
+Oct 19, 2025 10:32:04 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 816
+2025.10.19 22:32:07 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:32:08 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:32:08 INFO  time: compiled 2_d5c0a6989e in 1.12s
+2025.10.19 22:32:10 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:32:25 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:32:56 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:01 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:03 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:14 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:15 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:15 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:26 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:27 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:33:27 INFO  Shutting down server
+2025.10.19 22:33:27 INFO  shutting down Metals
+2025.10.19 22:33:27 INFO  Shut down connection with build server.
+2025.10.19 22:33:27 INFO  Exiting server
+2025.10.19 22:33:54 INFO  Started: Metals version 1.6.3 in folders '/home/user/study/java/j25-26/tasks/term-1/2' for client Visual Studio Code 1.105.1.
+2025.10.19 22:33:56 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.19 22:33:56 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:33:56 INFO  Attempting to connect to the build server...
+2025.10.19 22:33:56 INFO  Running BSP server List(/home/user/.local/share/coursier/bin/.scala-cli.aux, bsp, --json-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-options-v2.json, --json-launcher-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-launcher-options.json, --envs-file, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-envs.json, /home/user/study/java/j25-26/tasks/term-1/2)
+2025.10.19 22:33:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/bsp.trace.json or /home/user/.cache/metals/bsp.trace.json
+2025.10.19 22:33:58 INFO  time: Connected to build server in 1.51s
+2025.10.19 22:33:58 INFO  Connected to Build server: scala-cli v1.9.1
+2025.10.19 22:33:58 INFO  time: Imported build in 0.17s
+Oct 19, 2025 10:34:00 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3
+Oct 19, 2025 10:34:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2
+2025.10.19 22:34:04 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:34:07 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/lib/src.zip. Java symbols will not be available.
+2025.10.19 22:34:07 INFO  time: indexed workspace in 9.31s
+2025.10.19 22:34:12 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:34:32 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:34:33 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:34:33 INFO  time: compiled 2_d5c0a6989e in 1.23s
+2025.10.19 22:34:49 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:34:51 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:34:51 INFO  time: compiled 2_d5c0a6989e in 1.49s
+2025.10.19 22:34:56 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:35:27 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:35:28 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:35:28 INFO  time: compiled 2_d5c0a6989e in 1.13s
+2025.10.19 22:35:29 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+Oct 19, 2025 10:35:37 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 154
+2025.10.19 22:35:39 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:35:40 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:35:40 INFO  time: compiled 2_d5c0a6989e in 1.49s
+2025.10.19 22:35:41 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:36:01 INFO  Disconnecting from scala-cli session...
+2025.10.19 22:36:01 INFO  Shut down connection with build server.
+2025.10.19 22:36:01 INFO  BSP server: Oct 19, 2025 10:36:01 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleNotification
+2025.10.19 22:36:01 INFO  BSP server: WARNING: Notification threw an exception: {
+2025.10.19 22:36:01 INFO  BSP server:   "jsonrpc": "2.0",
+2025.10.19 22:36:01 INFO  BSP server:   "method": "build/exit",
+2025.10.19 22:36:01 INFO  BSP server:   "params": null
+2025.10.19 22:36:01 INFO  BSP server: }
+2025.10.19 22:36:01 INFO  BSP server: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:152)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:220)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:187)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+2025.10.19 22:36:01 INFO  BSP server: 	at java.base@17.0.6/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+2025.10.19 22:36:01 INFO  BSP server: 	at java.base@17.0.6/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+2025.10.19 22:36:01 INFO  BSP server: 	at java.base@17.0.6/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+2025.10.19 22:36:01 INFO  BSP server: 	at java.base@17.0.6/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+2025.10.19 22:36:01 INFO  BSP server: 	at java.base@17.0.6/java.lang.Thread.run(Thread.java:833)
+2025.10.19 22:36:01 INFO  BSP server: 	at com.oracle.svm.core.thread.PlatformThreads.threadStartRoutine(PlatformThreads.java:775)
+2025.10.19 22:36:01 INFO  BSP server: 	at com.oracle.svm.core.posix.thread.PosixPlatformThreads.pthreadStartRoutine(PosixPlatformThreads.java:203)
+2025.10.19 22:36:01 INFO  BSP server: Caused by: java.lang.reflect.InvocationTargetException
+2025.10.19 22:36:01 INFO  BSP server: 	at java.base@17.0.6/java.lang.reflect.Method.invoke(Method.java:568)
+2025.10.19 22:36:01 INFO  BSP server: 	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+2025.10.19 22:36:01 INFO  BSP server: 	... 13 more
+2025.10.19 22:36:01 INFO  BSP server: Caused by: java.lang.RuntimeException: BSP server not initialized yet
+2025.10.19 22:36:01 INFO  BSP server: 	at scala.sys.package$.error(package.scala:27)
+2025.10.19 22:36:01 INFO  BSP server: 	at scala.build.bsp.BloopSession$Reference.get(BloopSession.scala:70)
+2025.10.19 22:36:01 INFO  BSP server: 	at scala.build.bsp.BspImpl.$anonfun$11(BspImpl.scala:475)
+2025.10.19 22:36:01 INFO  BSP server: 	at scala.build.bsp.BuildServerProxy.onBuildExit(BuildServerProxy.scala:29)
+2025.10.19 22:36:01 INFO  Attempting to connect to the build server...
+2025.10.19 22:36:01 INFO  Running BSP server List(/home/user/.local/share/coursier/bin/.scala-cli.aux, bsp, --json-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-options-v2.json, --json-launcher-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-launcher-options.json, --envs-file, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-envs.json, /home/user/study/java/j25-26/tasks/term-1/2)
+2025.10.19 22:36:01 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/bsp.trace.json or /home/user/.cache/metals/bsp.trace.json
+2025.10.19 22:36:01 INFO  time: Connected to build server in 0.55s
+2025.10.19 22:36:02 INFO  Connected to Build server: scala-cli v1.9.1
+2025.10.19 22:36:04 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/lib/src.zip. Java symbols will not be available.
+2025.10.19 22:36:04 INFO  time: indexed workspace in 2.97s
+2025.10.19 22:36:30 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:36:30 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:36:30 INFO  time: compiled 2_d5c0a6989e in 0.85s
+2025.10.19 22:36:35 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:36:40 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/lib/src.zip. Java symbols will not be available.
+2025.10.19 22:36:40 INFO  time: indexed workspace in 2.16s
+2025.10.19 22:36:40 INFO  Correctly reloaded workspace
+2025.10.19 22:36:59 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:37:02 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:37:06 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:37:11 INFO  Shutting down server
+2025.10.19 22:37:11 INFO  shutting down Metals
+2025.10.19 22:37:11 INFO  Shut down connection with build server.
+2025.10.19 22:37:11 INFO  Exiting server
+2025.10.19 22:40:04 INFO  Started: Metals version 1.6.3 in folders '/home/user/study/java/j25-26/tasks/term-1/2' for client Visual Studio Code 1.105.1.
+2025.10.19 22:40:06 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.19 22:40:06 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.19 22:40:07 INFO  Attempting to connect to the build server...
+2025.10.19 22:40:07 INFO  Running BSP server List(/home/user/.local/share/coursier/bin/.scala-cli.aux, bsp, --json-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-options-v2.json, --json-launcher-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-launcher-options.json, --envs-file, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-envs.json, /home/user/study/java/j25-26/tasks/term-1/2)
+2025.10.19 22:40:07 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/bsp.trace.json or /home/user/.cache/metals/bsp.trace.json
+2025.10.19 22:40:09 INFO  time: Connected to build server in 2.01s
+2025.10.19 22:40:09 INFO  Connected to Build server: scala-cli v1.9.1
+2025.10.19 22:40:09 INFO  time: Imported build in 0.18s
+2025.10.19 22:40:18 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/lib/src.zip. Java symbols will not be available.
+2025.10.19 22:40:19 INFO  time: indexed workspace in 9.41s
+2025.10.19 22:42:54 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:43:12 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$: There is nothing to run or test in the current file.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$NoRunOptionException$.<clinit>(DiscoveryFailures.scala:66)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$runOrTestFile$2(DebugDiscovery.scala:527)
+	at scala.Option.fold(Option.scala:263)
+	at scala.meta.internal.metals.debug.DebugDiscovery.runOrTestFile(DebugDiscovery.scala:512)
+	at scala.meta.internal.metals.debug.DebugDiscovery.$anonfun$debugDiscovery$1(DebugDiscovery.scala:170)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 22:45:12 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:45:12 INFO  time: compiled 2_d5c0a6989e in 0.58s
+2025.10.19 22:45:22 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:45:22 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:45:22 INFO  time: compiled 2_d5c0a6989e in 0.81s
+2025.10.19 22:45:26 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:45:27 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:45:26 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:45:27 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:45:27 INFO  Loaded step filter in 1 millisecond
+2025.10.19 22:45:29 INFO  Loaded all sources and classes in 1 second
+2025.10.19 22:45:30 INFO  Initialized Scala 3 decoder in 1 second
+2025.10.19 22:45:30 INFO  Trying to attach to remote debuggee VM localhost:52067 .
+2025.10.19 22:45:30 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:45:32 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:45:32 INFO  Closing debug server tcp://0.0.0.0:45257
+Oct 19, 2025 10:46:45 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 155
+Oct 19, 2025 10:46:47 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 179
+Oct 19, 2025 10:46:50 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 202
+2025.10.19 22:47:07 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:47:07 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:47:07 INFO  time: compiled 2_d5c0a6989e in 0.96s
+2025.10.19 22:47:09 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:47:09 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:47:09 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:47:09 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:47:09 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:47:11 INFO  Loaded all sources and classes in 1 second
+2025.10.19 22:47:12 INFO  Initialized Scala 3 decoder in 1 second
+2025.10.19 22:47:12 INFO  Trying to attach to remote debuggee VM localhost:45771 .
+2025.10.19 22:47:12 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:47:13 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:47:12 INFO  Closing debug server tcp://0.0.0.0:45879
+Oct 19, 2025 10:47:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 315
+2025.10.19 22:47:28 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:47:28 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:47:28 INFO  time: compiled 2_d5c0a6989e in 0.67s
+2025.10.19 22:47:32 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:47:32 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:47:32 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:47:32 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:47:32 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:47:32 INFO  Loaded all sources and classes in 857 milliseconds
+2025.10.19 22:47:33 INFO  Initialized Scala 3 decoder in 651 milliseconds
+2025.10.19 22:47:33 INFO  Trying to attach to remote debuggee VM localhost:38505 .
+2025.10.19 22:47:33 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:47:34 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:47:33 INFO  Closing debug server tcp://0.0.0.0:43685
+Oct 19, 2025 10:48:20 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 497
+Oct 19, 2025 10:48:20 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 499
+Oct 19, 2025 10:48:24 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 530
+Oct 19, 2025 10:48:34 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 587
+2025.10.19 22:48:59 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:48:59 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:49:00 INFO  time: compiled 2_d5c0a6989e in 1.02s
+2025.10.19 22:49:01 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:49:01 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:49:01 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:49:01 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:49:01 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:49:03 INFO  Loaded all sources and classes in 1 second
+2025.10.19 22:49:04 INFO  Initialized Scala 3 decoder in 1 second
+2025.10.19 22:49:04 INFO  Trying to attach to remote debuggee VM localhost:50193 .
+2025.10.19 22:49:04 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:49:05 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:49:04 INFO  Closing debug server tcp://0.0.0.0:44289
+2025.10.19 22:49:24 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:49:24 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:49:24 INFO  time: compiled 2_d5c0a6989e in 0.83s
+2025.10.19 22:49:25 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:49:25 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:49:25 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:49:25 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:49:25 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:49:25 INFO  Loaded all sources and classes in 567 milliseconds
+2025.10.19 22:49:26 INFO  Initialized Scala 3 decoder in 499 milliseconds
+2025.10.19 22:49:26 INFO  Trying to attach to remote debuggee VM localhost:43465 .
+2025.10.19 22:49:26 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:49:27 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:49:26 INFO  Closing debug server tcp://0.0.0.0:45673
+2025.10.19 22:49:40 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:49:40 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:49:40 INFO  time: compiled 2_d5c0a6989e in 0.81s
+2025.10.19 22:49:41 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:49:41 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:49:42 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:49:42 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:49:42 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:49:42 INFO  Loaded all sources and classes in 523 milliseconds
+2025.10.19 22:49:43 INFO  Initialized Scala 3 decoder in 556 milliseconds
+2025.10.19 22:49:43 INFO  Trying to attach to remote debuggee VM localhost:32837 .
+2025.10.19 22:49:43 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:49:44 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:49:43 INFO  Closing debug server tcp://0.0.0.0:35875
+Oct 19, 2025 10:49:53 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 993
+2025.10.19 22:50:01 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:50:01 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:50:01 INFO  time: compiled 2_d5c0a6989e in 0.55s
+2025.10.19 22:50:02 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:50:02 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:50:02 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:50:02 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:50:02 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:50:02 INFO  Loaded all sources and classes in 557 milliseconds
+2025.10.19 22:50:03 INFO  Initialized Scala 3 decoder in 502 milliseconds
+2025.10.19 22:50:03 INFO  Trying to attach to remote debuggee VM localhost:47219 .
+2025.10.19 22:50:03 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:50:04 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:50:03 INFO  Closing debug server tcp://0.0.0.0:44635
+2025.10.19 22:50:22 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 22:50:22 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 22:50:22 INFO  time: compiled 2_d5c0a6989e in 0.45s
+2025.10.19 22:50:23 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 22:50:23 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 22:50:23 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 22:50:23 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 22:50:23 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 22:50:23 INFO  Loaded all sources and classes in 664 milliseconds
+2025.10.19 22:50:24 INFO  Initialized Scala 3 decoder in 761 milliseconds
+2025.10.19 22:50:24 INFO  Trying to attach to remote debuggee VM localhost:60259 .
+2025.10.19 22:50:24 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 22:50:25 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 22:50:24 INFO  Closing debug server tcp://0.0.0.0:45051
+Oct 19, 2025 11:11:47 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2129
+Oct 19, 2025 11:11:48 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2143
+2025.10.19 23:16:12 INFO  Created report: Optional[file:///home/user/study/java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.19 23:16:12 INFO  java.lang.IndexOutOfBoundsException: 0 (full report at: "/home/user/study/java/j25-26/tasks/term-1/2/.metals/.reports/metals-full/2025-10-19/r_compiler-error_(2_5fd5c0a6989e)_23-16-12-576.md")
+Oct 19, 2025 11:16:12 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2401
+Oct 19, 2025 11:16:19 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2443
+Oct 19, 2025 11:16:52 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2680
+Oct 19, 2025 11:16:57 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2750
+2025.10.19 23:17:04 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 23:17:05 INFO  time: compiled 2_d5c0a6989e in 1.26s
+2025.10.19 23:17:05 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 23:17:06 INFO  time: compiled 2_d5c0a6989e in 0.93s
+2025.10.19 23:17:06 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$WorkspaceErrorsException$: Cannot run class, since the workspace has errors.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$WorkspaceErrorsException$.<clinit>(DiscoveryFailures.scala:57)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionScalaFuture$$anonfun$liftToLspError$1.applyOrElse(MetalsEnrichments.scala:248)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionScalaFuture$$anonfun$liftToLspError$1.applyOrElse(MetalsEnrichments.scala:245)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.10.19 23:18:02 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.10.19 23:18:03 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.19 23:18:03 INFO  time: compiled 2_d5c0a6989e in 1.5s
+2025.10.19 23:18:04 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.10.19 23:18:04 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.10.19 23:18:04 INFO  Starting debug proxy for [recfun.Main]
+2025.10.19 23:18:04 INFO  Loaded expression compiler in 1 millisecond
+2025.10.19 23:18:04 INFO  Loaded step filter in 0 milliseconds
+2025.10.19 23:18:06 INFO  Loaded all sources and classes in 2 seconds
+2025.10.19 23:18:07 INFO  Initialized Scala 3 decoder in 1 second
+2025.10.19 23:18:07 INFO  Trying to attach to remote debuggee VM localhost:57899 .
+2025.10.19 23:18:07 INFO  Attaching to debuggee VM succeeded.
+2025.10.19 23:18:08 INFO  Canceling debug proxy for [recfun.Main]
+2025.10.19 23:18:07 INFO  Closing debug server tcp://0.0.0.0:45805

@@ -1,3 +1,16 @@
+error id: 046B01E7E3DF6E9E826DC8A89D81964C
+file://<WORKSPACE>/Main.scala
+### java.lang.IndexOutOfBoundsException: 0
+
+occurred in the presentation compiler.
+
+
+
+action parameters:
+offset: 623
+uri: file://<WORKSPACE>/Main.scala
+text:
+```scala
 package recfun
 
 object Main {
@@ -21,8 +34,7 @@ object Main {
     println("\nnQueens test:")
     var solutions = nQueens(10)
     solutions match {
-      case Some(solution) => printBoard(solution)
-      case None => println("Solution didn't founded!")
+      case Come(s@@)
     }
   
   }
@@ -121,3 +133,32 @@ def printBoard(queens: Array[Int]): Unit = {
 }
 
 }
+```
+
+
+presentation compiler configuration:
+Scala version: 3.7.3-bin-nonbootstrapped
+Classpath:
+<WORKSPACE>/.scala-build/2_d5c0a6989e/classes/main [exists ], <HOME>/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.7.3/scala3-library_3-3.7.3.jar [exists ], <HOME>/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar [exists ], <HOME>/.cache/coursier/v1/https/repo1.maven.org/maven2/com/sourcegraph/semanticdb-javac/0.10.0/semanticdb-javac-0.10.0.jar [exists ], <WORKSPACE>/.scala-build/2_d5c0a6989e/classes/main/META-INF/best-effort [missing ]
+Options:
+-Xsemanticdb -sourceroot <WORKSPACE> -Ywith-best-effort-tasty
+
+
+
+
+#### Error stacktrace:
+
+```
+scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	scala.collection.immutable.List.apply(List.scala:79)
+	dotty.tools.pc.InferCompletionType$.inferType(InferExpectedType.scala:94)
+	dotty.tools.pc.InferCompletionType$.inferType(InferExpectedType.scala:62)
+	dotty.tools.pc.completions.Completions.advancedCompletions(Completions.scala:523)
+	dotty.tools.pc.completions.Completions.completions(Completions.scala:122)
+	dotty.tools.pc.completions.CompletionProvider.completions(CompletionProvider.scala:139)
+	dotty.tools.pc.ScalaPresentationCompiler.complete$$anonfun$1(ScalaPresentationCompiler.scala:197)
+```
+#### Short summary: 
+
+java.lang.IndexOutOfBoundsException: 0

@@ -1,0 +1,20 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "/home/user/.local/share/coursier/bin/.scala-cli.aux",
+    "bsp",
+    "--json-options",
+    "/home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-options-v2.json",
+    "--json-launcher-options",
+    "/home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-launcher-options.json",
+    "--envs-file",
+    "/home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-envs.json",
+    "/home/user/study/java/j25-26/tasks/term-1/2"
+  ],
+  "version": "1.9.1",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
