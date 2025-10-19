@@ -237,7 +237,7 @@ public class WordFrequencyCounter {
         try {
             WordFrequencyCounter counter = new WordFrequencyCounter();
 
-            Path filePath = Path.of("C:/Users/pc/PyCharmMiscProject/1GB.txt");
+            Path filePath = Path.of("C:/Users/pc/PyCharmMiscProject/input.txt");
             System.out.println("Processing file: " + filePath);
             System.out.println("===========================================\n");
 
