@@ -75,6 +75,7 @@ public static double[][] multiplyOptimized(double[][] firstMatrix, double[][] se
 		System.out.println("Enter the sizes for the second matrix");
 		 int row2 = scan.nextInt();
 		 int col2 = scan.nextInt();
+
 		 
 	        double[][] firstMatrix = new double[row1][col1];
 	        double[][] secondMatrix = new double[row2][col2];
