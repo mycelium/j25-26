@@ -3,13 +3,15 @@ import java.util.Arrays;
 
 public class MatrixMult{
 
-    static double[][] firstMatrix = null;
+    static double[][] firstMatrix = {
+            {1, 0, 0},
+            {0, 1, 0},
+            {0, 0, 1}
+    };;
     static double[][] secondMatrix = {
-        {7, 8,7,9,7, 8,7,9,7, 8,7,9,7, 8,7,},
-            {7, 8,7,9,7, 8,7,9,7, 8,7,9,7, 2,4,},
-            {7, 8,7,9,7, 8,7,9,7, 8,7,9,7, 8,7,},
-            {7, 8,7,9,7, 8,7,9,7, 8,7,9,7, 8,7,},
-
+            {1, 0, 0},
+            {0, 1, 0},
+            {0, 0, 1}
     };
 
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix){
