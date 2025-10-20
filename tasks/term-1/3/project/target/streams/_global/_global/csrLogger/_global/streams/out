@@ -1,0 +1,13 @@
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/sbteclipse/sbteclipse-plugin_2.12_1.0/5.2.4/sbteclipse-plugin_2.12_1.0-5.2.4.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/sbteclipse/sbteclipse-plugin_2.12_1.0/5.2.4/sbteclipse-plugin_2.12_1.0-5.2.4.pom.sha1
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/sbteclipse/sbteclipse-plugin_2.12_1.0/5.2.4/sbteclipse-plugin-5.2.4.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/sbteclipse/sbteclipse-plugin_2.12_1.0/5.2.4/sbteclipse-plugin-5.2.4.pom.sha1
+[debug] downloaded https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.12/sbt_1.0/5.2.4/ivys/ivy.xml
+[debug] downloaded https://repo1.maven.org/maven2/org/scalaz/scalaz-core_2.12/7.2.14/scalaz-core_2.12-7.2.14.pom
+[debug] downloaded https://repo1.maven.org/maven2/org/scalaz/scalaz-effect_2.12/7.2.14/scalaz-effect_2.12-7.2.14.pom
+[debug] downloaded https://repo1.maven.org/maven2/jline/jline/2.14.6/jline-2.14.6.pom
+[debug] downloaded https://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/9/oss-parent-9.pom
+[debug] downloaded https://repo1.maven.org/maven2/jline/jline/2.14.6/jline-2.14.6.jar
+[debug] downloaded https://repo1.maven.org/maven2/org/scalaz/scalaz-effect_2.12/7.2.14/scalaz-effect_2.12-7.2.14.jar
+[debug] downloaded https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.12/sbt_1.0/5.2.4/jars/sbteclipse-plugin.jar
+[debug] downloaded https://repo1.maven.org/maven2/org/scalaz/scalaz-core_2.12/7.2.14/scalaz-core_2.12-7.2.14.jar

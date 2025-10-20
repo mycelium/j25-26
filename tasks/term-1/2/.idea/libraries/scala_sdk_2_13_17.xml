@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="scala-sdk-2.13.17" type="Scala">
+    <properties>
+      <compiler-classpath>
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.13.17.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.13.17.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.13.17.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/io.github.java-diff-utils/java-diff-utils/jars/java-diff-utils-4.16.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.jline/jline/jars/jline-3.29.0-jdk8.jar" />
+      </compiler-classpath>
+      <compiler-bridge-binary-jar>file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala2-sbt-bridge/jars/scala2-sbt-bridge-2.13.17.jar</compiler-bridge-binary-jar>
+    </properties>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.13.17.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.13.17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.13.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
