@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 
 import java.util.Scanner;
 import java.util.stream.IntStream;
@@ -111,11 +111,3 @@ public class MatrixMult {
 	        System.out.println("Execution time optimised : " + durationSecon + " ms");
 	}
 
-=======
-public class MatrixMult {
-
-	public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix){
-		return new double[1][1];
-	}
->>>>>>> 063d39b (First term tasks)
-}
