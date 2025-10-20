@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /*
 Важные замечания:
-- Для сравнения умножений я использовал built-in библиотеку.
+- Для сравнения умножений я использовал библиотеку Apache Commons Math.
   Чтобы установить ее, необходимо добавить следующую dependency в pom.xml:
 
 <dependency>
