@@ -57,7 +57,6 @@ public class MatrixMult {
         for (int size : sizes) {
             System.out.println("\nТест для матриц " + size + "x" + size );
 
-            // Генерация матриц
             double[][] A = new double[size][size];
             double[][] B = new double[size][size];
             for (int i = 0; i < size; i++) {
