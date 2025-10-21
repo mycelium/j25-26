@@ -1,45 +1,25 @@
-# Java lessons and tasks 2025-2026
+# Matrix Multiplication (Java)
 
-Group: All Groups
-Name: A.Lukashin
+Реализована функция `multiply(double[][] firstMatrix, double[][] secondMatrix)` для умножения матриц и измерения времени выполнения.
 
-## Git task
+## Оптимизация
 
-1. Write your github login into the google spreadsheet
-2. Accept invitation to project
-3. Create your own branch: <[30101, 30102]_Surname-Name>
-4. Change README.md (Group and name)
-5. Push your changes into **your** branch
+Были рассмотрены варианты:
+1. Транспонирование второй матрицы — ускоряет доступ к данным (улучшает кэширование).
+2. Использование ссылок на строки — уменьшает количество обращений к памяти.
+3. Многопоточность — можно распараллелить вычисления по строкам (не реализовано здесь).
+4. Блочное умножение — делит матрицу на части, улучшая работу с кэшем (не использовано).
 
+## Использовано в этой версии
 
-Do not touch main branch. Do not touch main branch. I will never push anything to main. I swear!
+Применено **транспонирование второй матрицы** и **сохранение ссылок на строки**.
+Эти два простых приёма заметно ускоряют работу без усложнения кода.
 
-
-## [Term 1](https://github.com/mycelium/j25-26/tree/main/tasks/term-1#hsai-25-26-java-course---1)
-
-### 1. Java: Matrix multiplication
-
-### 2. Scala: misc
-
-### 3. Scala: Functional Set
-
-### 4. Java: Word Frequency Counter
-
-### 5. Java: Sentiment Analysis with CoreNLP
-
-### 6. Java: K-Nearest Neighbors (KNN) Classifier
-
-### 7. Java: Parallel matrix multiplication
-
-### 8. Java: Image Classification with DeepLearning4j (DL4J)
-
-
-## Term 2
-
-### 1. Java: Parallel merge sort on files
-
-### 2. Java: JSON parser
-
-### 3. Java: HTTPServer
-
-### 4. Java: Spring + Telegram Bot
+### Пример без улучшения
+```
+Matrix multiply 1000x1000...
+Execution time: 3.421 seconds
+```
+### Пример с улучшением
+Matrix multiply 1000x1000...
+Execution time: 0,726528 seconds
