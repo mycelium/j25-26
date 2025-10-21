@@ -27,7 +27,8 @@ public class MatrixMult {
 		//оптимизация
 		for (int i = 0; i < firstRowCount; i++) {
 			for (int k = 0; k < firstColCount; k++) {
-				double tmpVal = firstMatrix[i][k];            								for (int j = 0; j < secondColCount; j++) {
+				double tmpVal = firstMatrix[i][k];
+				for (int j = 0; j < secondColCount; j++) {
 					result[i][j] += tmpVal * secondMatrix[k][j];
 				}
 			}
