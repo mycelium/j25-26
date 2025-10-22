@@ -1,0 +1,151 @@
+2025.10.22 17:43:19 INFO  Started: Metals version 1.6.3 in folders 'C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2' for client Visual Studio Code 1.105.1.
+2025.10.22 17:43:19 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.22 17:43:20 INFO  no build target found for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.22 17:43:21 INFO  Attempting to connect to the build server...
+2025.10.22 17:43:21 INFO  Running BSP server List(C:\Users\Putyata\AppData\Local\Coursier\cache\arc\https\github.com\scala\scala3\releases\download\3.7.3\scala3-3.7.3-x86_64-pc-win32.zip\scala3-3.7.3-x86_64-pc-win32\libexec\scala-cli.exe, --cli-default-scala-version, 3.7.3, --repository, file:///C:/Users/Putyata/AppData/Local/Coursier/cache/arc/https/github.com/scala/scala3/releases/download/3.7.3/scala3-3.7.3-x86_64-pc-win32.zip/scala3-3.7.3-x86_64-pc-win32/maven2, --prog-name, scala, --skip-cli-updates, bsp, --json-options, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.scala-build\ide-options-v2.json, --json-launcher-options, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.scala-build\ide-launcher-options.json, --envs-file, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.scala-build\ide-envs.json, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala)
+2025.10.22 17:43:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\bsp.trace.json or C:\Users\Putyata\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2025.10.22 17:43:21 INFO  time: Connected to build server in 0.81s
+2025.10.22 17:43:22 INFO  Connected to Build server: scala v1.9.0
+2025.10.22 17:43:22 INFO  time: Imported build in 0.1s
+2025.10.22 17:43:21 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:43:23 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+окт. 22, 2025 5:43:27 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 58
+2025.10.22 17:43:30 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.22 17:43:30 INFO  time: indexed workspace in 7.74s
+окт. 22, 2025 5:43:57 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 195
+окт. 22, 2025 5:43:57 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 201
+окт. 22, 2025 5:43:57 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 207
+окт. 22, 2025 5:46:15 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 874
+окт. 22, 2025 5:48:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1343
+2025.10.22 17:50:13 INFO  Created report: Optional[file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.22 17:50:13 INFO  empty definition using pc, found symbol in pc: scala/collection/IterableOps#head(). (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_17-50-13-140.md")
+2025.10.22 17:51:29 INFO  Created report: Optional[file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.22 17:51:29 INFO  empty definition using pc, found symbol in pc: scala/Int# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_17-51-29-445.md")
+2025.10.22 17:54:21 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:54:23 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 1.91s
+2025.10.22 17:54:38 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:54:38 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.16s
+Exception in thread "pool-5-thread-1" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:208)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:153)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+окт. 22, 2025 5:54:55 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2775
+Exception in thread "pool-5-thread-2" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:208)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:153)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Exception in thread "pool-5-thread-3" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:208)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:153)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025.10.22 17:54:55 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:54:55 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 17:54:55 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.45s
+2025.10.22 17:55:14 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:55:14 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 17:55:14 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.26s
+2025.10.22 17:55:22 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:55:22 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 17:55:22 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.26s
+2025.10.22 17:55:44 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:55:44 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 17:55:44 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.23s
+Exception in thread "pool-5-thread-4" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:208)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:153)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025.10.22 17:56:31 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 17:56:31 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 17:56:31 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.21s
+Exception in thread "pool-5-thread-5" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:208)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:153)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025.10.22 18:12:44 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 18:12:46 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 18:12:46 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 1.15s
+2025.10.22 18:13:53 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 18:13:53 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 18:13:53 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.42s
+2025.10.22 18:14:02 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 18:14:02 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 18:14:02 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.28s
+окт. 22, 2025 7:19:43 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 5707
+2025.10.22 19:24:45 INFO  empty definition using pc, found symbol in pc: scala/Int# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_17-51-29-445.md")
+2025.10.22 19:24:45 INFO  empty definition using pc, found symbol in pc: scala/Int# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_17-51-29-445.md")
+2025.10.22 19:24:45 INFO  Created report: Optional[file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.22 19:24:45 INFO  empty definition using pc, found symbol in pc: scala/Array# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-24-45-789.md")
+2025.10.22 19:26:10 INFO  Created report: Optional[file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.22 19:26:10 INFO  empty definition using pc, found symbol in pc: scala/Option# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-26-10-895.md")
+2025.10.22 19:27:23 INFO  empty definition using pc, found symbol in pc: scala/Array# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-24-45-789.md")
+2025.10.22 19:27:23 INFO  empty definition using pc, found symbol in pc: scala/Int# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_17-51-29-445.md")
+окт. 22, 2025 7:30:52 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6950
+2025.10.22 19:34:07 INFO  Created report: Optional[file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.22 19:34:07 INFO  empty definition using pc, found symbol in pc:  (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-34-07-991.md")
+2025.10.22 19:34:08 INFO  empty definition using pc, found symbol in pc:  (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-34-07-991.md")
+окт. 22, 2025 7:40:06 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7623
+2025.10.22 19:42:19 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:42:21 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:42:21 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 1.62s
+2025.10.22 19:42:53 WARN  Could not load snapshot text for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala
+2025.10.22 19:42:53 WARN  Could not load snapshot text for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala
+2025.10.22 19:42:53 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:42:53 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:42:53 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.47s
+2025.10.22 19:43:06 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:43:06 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:43:06 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.35s
+2025.10.22 19:43:20 WARN  Could not load snapshot text for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala
+2025.10.22 19:43:20 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:43:20 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:43:20 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.31s
+2025.10.22 19:44:00 INFO  Created report: Optional[file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala]
+2025.10.22 19:44:00 INFO  empty definition using pc, found symbol in pc:  (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-44-00-829.md")
+2025.10.22 19:44:05 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:44:05 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:44:05 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.33s
+2025.10.22 19:44:11 INFO  empty definition using pc, found symbol in pc: scala/Int# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_17-51-29-445.md")
+2025.10.22 19:44:11 INFO  empty definition using pc, found symbol in pc: scala/Array# (full report at: "C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\.metals\.reports\metals-full\2025-10-22\r_empty-definition_(2_5f7bdc5ac749-74fc6722ed)_19-24-45-789.md")
+2025.10.22 19:44:20 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:44:20 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:44:20 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.22s
+2025.10.22 19:46:24 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:46:25 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:46:25 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 1.45s
+2025.10.22 19:46:42 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:46:42 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:46:42 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.59s
+2025.10.22 19:47:03 INFO  compiling 2_7bdc5ac749-74fc6722ed (1 scala source)
+2025.10.22 19:47:03 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.10.22 19:47:03 INFO  time: compiled 2_7bdc5ac749-74fc6722ed in 0.44s
+окт. 22, 2025 7:52:50 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2025.10.22 19:53:47 INFO  Shutting down server
+2025.10.22 19:53:47 INFO  shutting down Metals
+2025.10.22 19:53:47 INFO  Shut down connection with build server.
+2025.10.22 19:53:47 INFO  Exiting server

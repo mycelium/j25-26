@@ -1,0 +1,20 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "C:\\Users\\Putyata\\AppData\\Local\\Coursier\\data\\bin\\.scala-cli.aux.exe",
+    "bsp",
+    "--json-options",
+    "C:\\Users\\Putyata\\Desktop\\Study\\Sem 5\\Java\\j25-26\\.scala-build\\ide-options-v2.json",
+    "--json-launcher-options",
+    "C:\\Users\\Putyata\\Desktop\\Study\\Sem 5\\Java\\j25-26\\.scala-build\\ide-launcher-options.json",
+    "--envs-file",
+    "C:\\Users\\Putyata\\Desktop\\Study\\Sem 5\\Java\\j25-26\\.scala-build\\ide-envs.json",
+    "C:\\Users\\Putyata\\Desktop\\Study\\Sem 5\\Java\\j25-26"
+  ],
+  "version": "1.9.1",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}

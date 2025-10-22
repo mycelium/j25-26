@@ -1,0 +1,22 @@
+2025.10.22 19:54:26 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.22 19:54:26 INFO  no build target found for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.22 19:54:29 INFO  no build target found for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.22 19:54:30 INFO  no build target found for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.22 19:54:30 INFO  Running List(C:\Users\Putyata\AppData\Local\Coursier\data\bin\scala-cli.BAT, setup-ide, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26)
+2025.10.22 19:54:30 INFO  no build target found for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.22 19:54:31 INFO  Attempting to connect to the build server...
+2025.10.22 19:54:31 INFO  Running BSP server List(C:\Users\Putyata\AppData\Local\Coursier\data\bin\.scala-cli.aux.exe, bsp, --json-options, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\.scala-build\ide-options-v2.json, --json-launcher-options, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\.scala-build\ide-launcher-options.json, --envs-file, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\.scala-build\ide-envs.json, C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26)
+2025.10.22 19:54:31 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\.metals\bsp.trace.json or C:\Users\Putyata\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2025.10.22 19:54:31 INFO  no build target found for C:\Users\Putyata\Desktop\Study\Sem 5\Java\j25-26\tasks\term-1\2\Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.10.22 19:54:32 INFO  time: Connected to build server in 1.38s
+2025.10.22 19:54:32 INFO  Connected to Build server: scala-cli v1.9.1
+2025.10.22 19:54:32 INFO  compiling j25-26_d5c0a6989e (4 scala sources and 7 java sources)
+2025.10.22 19:54:36 INFO  time: compiled j25-26_d5c0a6989e in 3.82s
+2025.10.22 19:54:36 INFO  compiling j25-26_d5c0a6989e (4 scala sources and 7 java sources)
+2025.10.22 19:54:36 INFO  time: compiled j25-26_d5c0a6989e in 0.45s
+2025.10.22 19:54:38 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.10.22 19:54:40 INFO  time: indexed workspace in 7.42s
+2025.10.22 19:54:40 INFO  compiling j25-26_d5c0a6989e (4 scala sources and 7 java sources)
+2025.10.22 19:54:40 INFO  time: compiled j25-26_d5c0a6989e in 0.54s
+окт. 22, 2025 7:54:46 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace

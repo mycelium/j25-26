@@ -1,3 +1,19 @@
+error id: file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala:scala/runtime/RichInt#until().
+file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala
+empty definition using pc, found symbol in pc: 
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+	 -until.
+	 -until#
+	 -until().
+	 -scala/Predef.until.
+	 -scala/Predef.until#
+	 -scala/Predef.until().
+offset: 2415
+uri: file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala
+text:
+```scala
 package recfun
 
 object Main {
@@ -21,8 +37,8 @@ object Main {
     println("count of change = " + countChange(money, coins))
 
     println("\nExcerice 4 N-Queens Problem")
-    val n = 18
-    println("Solution for N = " + n + ":")
+    val n = 4
+    println("Solution for N =" + n + ":")
     printBoard(nQueens(n))
   }
 
@@ -73,41 +89,53 @@ object Main {
 
   def nQueens(size: Int): Option[Array[Int]] = {
 
-    def conflicts(newRow: Int, newCol: Int, queens: List[(Int, Int)]): Boolean = {
-      queens.exists { case (row, col) =>
-        col == newCol || math.abs(newCol - col) == newRow - row
+    // Проверяет, можно ли поставить ферзя в (row, col)
+  def tryColumn(queens: Array[Int], row: Int, col: Int): Boolean = {
+    for (i <- 0 un@@til row) {
+      val qCol = queens(i)
+      if (col == qCol || math.abs(col - qCol) == row - i) {
+        return false
       }
     }
+    true
+  }
 
-    def placeQueen(row: Int, queens: List[(Int, Int)]): Option[List[(Int, Int)]] = {
-      if (row == size) {
-        Some(queens)
+  // Находит первый подходящий столбец в строке `row`, или -1
+  def findColumn(queens: Array[Int], row: Int): Int = {
+    for (col <- 0 until size) {
+      if (tryColumn(queens, row, col)) {
+        return col
+      }
+    }
+    -1
+  }
+
+  // Рекурсивно заполняет доску, начиная со строки `row`
+  def placeQueens(queens: Array[Int], row: Int): Boolean = {
+    if (row == size) {
+      true  // Все строки заполнены — решение найдено
+    } else {
+      val col = findColumn(queens, row)
+      if (col == -1) {
+        false  // Нет подходящего столбца — тупик
       } else {
-        def tryColumn(col: Int): Option[List[(Int, Int)]] = {
-          if (col >= size) {
-            None
-          } else if (conflicts(row, col, queens)) {
-            tryColumn(col + 1)
-          } else {
-            placeQueen(row + 1, (row, col) :: queens) match {
-              case Some(solution) => Some(solution)
-              case None           => tryColumn(col + 1)
-            }
-          }
-        }
-        tryColumn(0)
+        queens(row) = col
+        placeQueens(queens, row + 1)  // Рекурсивно заполняем следующую строку
       }
     }
+  }
 
-    placeQueen(0, Nil) match {
-      case Some(queenList) =>
-        val board = Array.fill(size)(0)
-        for ((row, col) <- queenList) {
-          board(row) = col
-        }
-        Some(board)
-      case None => None
+  // Основной код
+  if (size <= 0) {
+    Some(Array.empty[Int])
+  } else {
+    val board = Array.fill(size)(-1)  // -1 означает "пусто"
+    if (placeQueens(board, 0)) {
+      Some(board)
+    } else {
+      None
     }
+  }
   }
 
   def printBoard(solution: Option[Array[Int]]): Unit = {
@@ -126,3 +154,10 @@ object Main {
     }
   }
 }
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: 

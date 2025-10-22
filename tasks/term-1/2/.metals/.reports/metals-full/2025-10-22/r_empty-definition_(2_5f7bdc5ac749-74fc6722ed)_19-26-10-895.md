@@ -1,3 +1,19 @@
+error id: file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala:scala/Option#
+file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala
+empty definition using pc, found symbol in pc: scala/Option#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+	 -Option.
+	 -Option#
+	 -Option().
+	 -scala/Predef.Option.
+	 -scala/Predef.Option#
+	 -scala/Predef.Option().
+offset: 2279
+uri: file:///C:/Users/Putyata/Desktop/Study/Sem%205/Java/j25-26/tasks/term-1/2/Main.scala
+text:
+```scala
 package recfun
 
 object Main {
@@ -19,11 +35,6 @@ object Main {
     val coins = List(2, 3, 3)
     println("money = " + money + ", coins = " + coins)
     println("count of change = " + countChange(money, coins))
-
-    println("\nExcerice 4 N-Queens Problem")
-    val n = 18
-    println("Solution for N = " + n + ":")
-    printBoard(nQueens(n))
   }
 
   /**
@@ -72,57 +83,20 @@ object Main {
    */
 
   def nQueens(size: Int): Option[Array[Int]] = {
-
-    def conflicts(newRow: Int, newCol: Int, queens: List[(Int, Int)]): Boolean = {
-      queens.exists { case (row, col) =>
-        col == newCol || math.abs(newCol - col) == newRow - row
-      }
+    def tryColumn(queens: Array[Int], row: Int, col: Int): Boolean = {
+      
     }
 
-    def placeQueen(row: Int, queens: List[(Int, Int)]): Option[List[(Int, Int)]] = {
-      if (row == size) {
-        Some(queens)
-      } else {
-        def tryColumn(col: Int): Option[List[(Int, Int)]] = {
-          if (col >= size) {
-            None
-          } else if (conflicts(row, col, queens)) {
-            tryColumn(col + 1)
-          } else {
-            placeQueen(row + 1, (row, col) :: queens) match {
-              case Some(solution) => Some(solution)
-              case None           => tryColumn(col + 1)
-            }
-          }
-        }
-        tryColumn(0)
-      }
-    }
-
-    placeQueen(0, Nil) match {
-      case Some(queenList) =>
-        val board = Array.fill(size)(0)
-        for ((row, col) <- queenList) {
-          board(row) = col
-        }
-        Some(board)
-      case None => None
+    def findColumn(queens: Array[Int], row: Int): Option@@[Int] = {
+      for 
     }
   }
 
-  def printBoard(solution: Option[Array[Int]]): Unit = {
-    solution match {
-      case None =>
-        println("No solution")
-      case Some(queens) =>
-        val size = queens.length
-        for (row <- 0 until size) {
-          for (col <- 0 until size) {
-            if (queens(row) == col) print("Q ")
-            else print(". ")
-          }
-          println()
-        }
-    }
-  }
 }
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: scala/Option#
