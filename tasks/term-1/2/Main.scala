@@ -1,55 +1,77 @@
 package recfun
-import common._
 
 object Main {
-  def main(args: Array[String]) {
-    println("Pascal's Triangle")
-    for (row <- 0 to 10) {
+  def main(args: Array[String]): Unit = {
+    println("Scala Laboratory Work")
+    
+    println("\n1. Pascal's Triangle:")
+    for (row <- 0 to 8) {
       for (col <- 0 to row)
         print(pascal(col, row) + " ")
       println()
     }
+    
+    println("\n2. Parentheses Balance Check:")
+    val test1 = "(example (with nested) parentheses)".toList
+    val test2 = "incorrect ) bracket ( placement".toList
+    println(s"Test 1: ${balance(test1)}") // true
+    println(s"Test 2: ${balance(test2)}") // false
+    
+    println("\n3. Number of Change Ways:")
+    println(s"Change for 10 with coins [1,2,5]: ${countChange(10, List(1,2,5))}")
+    println(s"Change for 6 with coins [2,3]: ${countChange(6, List(2,3))}")
+    
+    println("\n4. N-Queens Problem:")
+    val queensSolution = nQueens(5)
+    queensSolution match {
+      case Some(solution) => 
+        println("Solution found:")
+        printBoard(solution)
+      case None => println("No solution found")
+    }
   }
 
   /**
-   * Exercise 1
+   *  Pascal's Triangle
    */
-  def pascal(c: Int, r: Int): Int = {
-
+  def pascal(column: Int, row: Int): Int = {
+    if (column < 0 || column > row) 0
+    else if (column == 0 || column == row) 1
+    else pascal(column - 1, row - 1) + pascal(column, row - 1)
   }
 
   /**
-   * Exercise 2 Parentheses Balancing
+   * Parentheses Balance
    */
   def balance(chars: List[Char]): Boolean = {
-   
+    def checkBalance(chars: List[Char], openCount: Int): Boolean = {
+      if (chars.isEmpty) openCount == 0
+      else if (openCount < 0) false
+      else chars.head match {
+        case '(' => checkBalance(chars.tail, openCount + 1)
+        case ')' => checkBalance(chars.tail, openCount - 1)
+        case _ => checkBalance(chars.tail, openCount)
+      }
+    }
+    checkBalance(chars, 0)
   }
 
   /**
-   * Exercise 3 Counting Change
-   * Write a recursive function that counts how many different ways you can make
-   * change for an amount, given a list of coin denominations. For example,
-   * there is 1 way to give change for 5 if you have coins with denomiation
-   * 2 and 3: 2+3.
+   * Counting Change
    */
-  def countChange(money: Int, coins: List[Int]): Int = {
-
+  def countChange(amount: Int, coins: List[Int]): Int = {
+    if (amount == 0) 1
+    else if (amount < 0 || coins.isEmpty) 0
+    else {
+      // Use first coin + skip first coin
+      countChange(amount - coins.head, coins) + countChange(amount, coins.tail)
+    }
   }
-  
+
   /**
-   * Excerice 4 N-Queens Problem
-   * Write a function that provides a solution for n-queens problem if possible
-   * Input parameter represents board size and number of queens
-   * Output is an array: index represents row number and value represents column number.
-   * Example: nQueens(4): [1,3,0,2] or
-   * 0 1 0 0
-   * 0 0 0 1
-   * 1 0 0 0
-   * 0 0 1 0
+   *  N-Queens Problem
    */
+  def nQueens(boardSize: Int): Option[Array[Int]] = {
+    
+    def canPlaceQueen(positions: Array[Int], currentRow: Int, testCol: Int): Boolean = {
 
-  def nQueens(size: Int): Option[Array[Int]] = {
-
-  }
-
-}
