@@ -20,3 +20,5 @@
 2025.10.22 19:54:40 INFO  time: compiled j25-26_d5c0a6989e in 0.54s
 окт. 22, 2025 7:54:46 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFO: Unsupported notification method: $/setTrace
+2025.10.22 19:56:59 INFO  compiling j25-26_d5c0a6989e (4 scala sources and 7 java sources)
+2025.10.22 19:56:59 INFO  time: compiled j25-26_d5c0a6989e in 0.94s
