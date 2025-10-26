@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-
 
 # Java lessons and tasks 2025-2026
 
 Group: 30102
-=======
-# Java lessons and tasks 2025-2026
-
-Group: All Groups
->>>>>>> 03a66fa1c5b5ae74946ef53243d29a084276ff58
 Name: S. Smirnov
 
 ## Git task
