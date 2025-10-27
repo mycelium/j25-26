@@ -64,12 +64,4 @@
 - Вход: изображение с цифрой
 - Выход: значение цифры
 
-### 9. Extra tasks (individual): 
-
-| # | Summary                       | Description                                  | Assignee           |
-|---|-------------------------------|----------------------------------------------|--------------------|
-| 1 | Parallel Gradient Descent     | ![image.png](image.png)<br/> x[-5.12, 5.12]  | Крутиков Даниил    |
-| 2 | Parallel Genetic Optimization | ![image_2.png](image_2.png)<br/>x[-600, 600] | Санько Всеволод    |
-| 3 | Graph pathfinding: `A*`       | ![dataset](https://drive.google.com/file/d/1zyfy02aMbQmxD_KhEkCiA_ANzdadgBN0)                                 | Невечерин Алексей  |
-
 
