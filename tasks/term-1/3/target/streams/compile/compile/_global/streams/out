@@ -1,0 +1,18 @@
+[0m[[0m[33mwarn[0m] [0m[0mbad option '-optimise' was ignored[0m
+[0m[[0m[33mwarn[0m] [0m[0mbad option '-Yinline-warnings' was ignored[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: C:\Personal\Study\Polytech\Sem 5\Java\j25-26\tasks\term-1\3\src\main\scala\common\package.scala:34:93 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m34 |[0m    [33mval[0m [36mresourceFile[0m = subFile(projectDir, ([31m"src"[0m :: [31m"main"[0m :: [31m"resources"[0m :: resourcePath): [35m_*[0m)[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m                                                                                             ^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mThe syntax `x: _*` is no longer supported for vararg splices; use `x*` instead[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mThis construct can be rewritten automatically under -rewrite -source 3.4-migration.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: C:\Personal\Study\Polytech\Sem 5\Java\j25-26\tasks\term-1\3\src\main\scala\funsets\FunSets.scala:64:4 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m64 |[0m    iter(-bound)[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m    ^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m    Line is indented too far to the left, or a `}` is missing[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- [E181] Potential Issue Warning: C:\Personal\Study\Polytech\Sem 5\Java\j25-26\tasks\term-1\3\src\main\scala\common\package.scala:32:30 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m32 |[0m    [33mval[0m [36mclassesDir[0m = [33mnew[0m [35mFile[0m(getClass.getResource([31m"."[0m).toURI)[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m                              ^^^^^^^^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m                       Suspicious top-level unqualified call to getClass[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[33mwarn[0m] [0m[0m5 warnings found[0m
