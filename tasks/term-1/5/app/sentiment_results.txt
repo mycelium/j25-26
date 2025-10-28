@@ -1,0 +1,12 @@
+id	Sentiment	Review
+R1	positive	This movie was absolutely amazing! Great acting and fantastic storyline.
+R2	negative	Terrible film, complete waste of time and money.
+R3	negative	It was okay, nothing special but not bad either.
+R4	negative	The cinematography was beautiful but the plot was weak and confusing.
+R5	negative	One of the worst movies I've ever seen in my life.
+R6	positive	Brilliant performance by all actors, highly recommended!
+R7	negative	Mediocre at best, expected much more from this director.
+R8	positive	Outstanding movie with great special effects and engaging story.
+R9	negative	Boring and predictable, I fell asleep halfway through.
+R10	positive	A true masterpiece of modern cinema that everyone should see.
+R11	neutral	Test test.
