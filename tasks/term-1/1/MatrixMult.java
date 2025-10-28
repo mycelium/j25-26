@@ -72,36 +72,50 @@ public class MatrixMult {
 
 
 	public static void main(String[] args) {
-		   Scanner scan = new Scanner(System.in);
-		   
-		System.out.println("Matrix Multiplication");
-		System.out.println("Enter the sizes for the first matrix");
-		 int row1 = scan.nextInt();
-		 int col1 = scan.nextInt();
-		System.out.println("Enter the sizes for the second matrix");
-		 int row2 = scan.nextInt();
-		 int col2 = scan.nextInt();
-		 
-	        double[][] firstMatrix = new double[row1][col1];
-	        double[][] secondMatrix = new double[row2][col2];
+    Scanner scan = new Scanner(System.in);
 
-	        for (int i = 0; i < row1; i++)
-	            for (int j = 0; j < col1; j++)
-	                firstMatrix[i][j] = Math.random() * 10;
+    System.out.println("Matrix Multiplication");
+    System.out.println("Enter the sizes for the first matrix");
+    int row1 = scan.nextInt();
+    int col1 = scan.nextInt();
+    System.out.println("Enter the sizes for the second matrix");
+    int row2 = scan.nextInt();
+    int col2 = scan.nextInt();
 
-	        for (int i = 0; i < row2; i++)
-	            for (int j = 0; j < col2; j++)
-	                secondMatrix[i][j] = Math.random() * 10;
-	        long startNormal = System.nanoTime();
-	        double[][] result = multiply(firstMatrix, secondMatrix);
-	        long endNormal = System.nanoTime();
-	        System.out.println("Execution time (normal): " + (endNormal - startNormal) / 1_000_000.0 + " ms");
+    double[][] firstMatrix = new double[row1][col1];
+    double[][] secondMatrix = new double[row2][col2];
 
-	        long startOpt = System.nanoTime();
-	        double[][] resultOpt = multiplyOptimized(firstMatrix, secondMatrix);
-	        long endOpt = System.nanoTime();
-	        System.out.println("Execution time (optimized): " + (endOpt - startOpt) / 1_000_000.0 + " ms");
 
-	        scan.close();
-	}
+    for (int i = 0; i < row1; i++)
+        for (int j = 0; j < col1; j++)
+            firstMatrix[i][j] = Math.random() * 10;
+
+    for (int i = 0; i < row2; i++)
+        for (int j = 0; j < col2; j++)
+            secondMatrix[i][j] = Math.random() * 10;
+
+    int iterations = 5; 
+    double totalOptimized = 0;
+    double totalNormal = 0;
+    
+    for (int i = 0; i < iterations; i++) {
+        long start = System.nanoTime();
+        multiply(firstMatrix, secondMatrix);
+        long end = System.nanoTime();
+        totalNormal += (end - start);
+    }
+
+    
+    for (int i = 0; i < iterations; i++) {
+        long start = System.nanoTime();
+        multiplyOptimized(firstMatrix, secondMatrix);
+        long end = System.nanoTime();
+        totalOptimized += (end - start);
+    }
+
+    System.out.println("Average execution time (normal): " + (totalNormal / iterations) / 1_000_000.0 + " ms");
+    System.out.println("Average execution time (optimized): " + (totalOptimized / iterations) / 1_000_000.0 + " ms");
+
+    scan.close();
+}
 }
