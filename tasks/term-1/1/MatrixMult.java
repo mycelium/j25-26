@@ -1,6 +1,6 @@
 public class MatrixMult {
 
-    // умножение матриц с оптимизацией по порядку ikj
+    //умножение матриц с оптимизацией по порядку ikj
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
         int n = firstMatrix.length;
         int m = secondMatrix[0].length;
