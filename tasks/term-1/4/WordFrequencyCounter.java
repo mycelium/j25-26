@@ -8,7 +8,7 @@ import java.util.*;
 public class WordFrequencyCounter {
 
     
-    //Вариант 1 — загрузка всего содержимого файла в память.
+    // Вариант 1 — загрузка всего содержимого файла в память.
      
     public Map<String, Integer> countWords(Path filePath) {
         Map<String, Integer> wordCount = new HashMap<>();
