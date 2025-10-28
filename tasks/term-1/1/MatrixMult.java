@@ -1,7 +1,7 @@
 
 
 import java.util.Scanner;
-import java.util.stream.IntStream;
+
 
 public class MatrixMult {
 	
@@ -45,8 +45,8 @@ public class MatrixMult {
 	    int rowFirst = firstMatrix.length;
 	    int colFirst = firstMatrix[0].length;
 	    int colSecond = secondMatrix[0].length;
-	    
-	    if (colFirst != secondMatrix.length) {
+	    int rowSecond = secondMatrix.length;
+	    if (colFirst != rowSecond) {
 	        System.out.println("\nMultiplication Not Possible");
 	        return null;
 	    }
@@ -92,22 +92,16 @@ public class MatrixMult {
 	        for (int i = 0; i < row2; i++)
 	            for (int j = 0; j < col2; j++)
 	                secondMatrix[i][j] = Math.random() * 10;
-	        
-	        long startTime = System.nanoTime();
-	        double[][] result = multiplyOptimized(firstMatrix, secondMatrix);
-	        long endTime = System.nanoTime();
-	        
-	        long durationNs = endTime - startTime; 
-	        double durationSeconds = durationNs / 1_000_000.0;
-	        System.out.println("Execution time : " + durationSeconds + " ms");
-	        
-	       
-	        long startTime1 = System.nanoTime();
-	        double[][] resultOptimised = multiply(firstMatrix, secondMatrix);
-	        long endTime1 = System.nanoTime();
-	        
-	        long duration = endTime1 - startTime1; 
-	        double durationSecon = duration / 1_000_000.0;
-	        System.out.println("Execution time optimised : " + durationSecon + " ms");
-	}
+	        long startNormal = System.nanoTime();
+	        double[][] result = multiply(firstMatrix, secondMatrix);
+	        long endNormal = System.nanoTime();
+	        System.out.println("Execution time (normal): " + (endNormal - startNormal) / 1_000_000.0 + " ms");
 
+	        long startOpt = System.nanoTime();
+	        double[][] resultOpt = multiplyOptimized(firstMatrix, secondMatrix);
+	        long endOpt = System.nanoTime();
+	        System.out.println("Execution time (optimized): " + (endOpt - startOpt) / 1_000_000.0 + " ms");
+
+	        scan.close();
+	}
+}
