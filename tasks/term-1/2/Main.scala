@@ -1,5 +1,5 @@
 package recfun
-import common._
+//import common._
 
 object Main {
   def main(args: Array[String]) {
@@ -9,20 +9,42 @@ object Main {
         print(pascal(col, row) + " ")
       println()
     }
+    println(pascal(3,5))
+
+    println("'((((1234+5+4)+5)+4)'", balance("((((1234+5+4)+5)+4)".toList))
+    println("'((((1234+5+4)+5)+4)+5)'", balance("((((1234+5+4)+5)+4)+5)".toList))
+
+    println(countChange(5, List(2,3,1)))
+
+    printBoard(nQueens(4))
+    printBoard(nQueens(1))
+    printBoard(nQueens(2))
+    printBoard(nQueens(7))
   }
 
   /**
    * Exercise 1
    */
   def pascal(c: Int, r: Int): Int = {
-
+    if (c==0 || c == r) 1
+    else pascal(c-1, r-1) + pascal(c, r-1)
   }
+
 
   /**
    * Exercise 2 Parentheses Balancing
    */
   def balance(chars: List[Char]): Boolean = {
-   
+    def brackets(chars: List[Char], count: Int): Boolean = {
+      if (count < 0) false
+      else if (chars.isEmpty) count == 0
+      else chars.head match {
+        case '(' => brackets(chars.tail, count + 1)
+        case ')' => brackets(chars.tail, count - 1)
+        case _ => brackets(chars.tail, count)
+      }
+    }
+    brackets(chars, 0)
   }
 
   /**
@@ -33,7 +55,9 @@ object Main {
    * 2 and 3: 2+3.
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-
+    if (money == 0) 1
+    else if (money < 0 || coins.isEmpty) 0
+    else countChange(money, coins.tail) + countChange(money - coins.head, coins)
   }
   
   /**
@@ -50,6 +74,51 @@ object Main {
 
   def nQueens(size: Int): Option[Array[Int]] = {
 
+    def canPlace(queens: Array[Int], row: Int, col: Int): Boolean = {
+      (0 until row).forall { r =>
+        val c = queens(r)
+        c != col && math.abs(c - col) != row - r
+      }
+    }
+
+    def placement(row: Int, current: Array[Int]): Option[Array[Int]] = {
+      if (row == size) Some(current.clone())
+      else {
+        var result: Option[Array[Int]] = None
+        var col = 0
+
+        while (col < size && result.isEmpty) {
+          if (canPlace(current, row, col)) {
+            // Пробуем поставить ферзя в эту позицию
+            current(row) = col
+            result = placement(row + 1, current)
+          }
+          col += 1
+        }
+        result
+      }
+    }
+
+    placement(0, Array.ofDim[Int](size))
+
   }
 
+  def printBoard (solution: Option[Array[Int]]): Unit = {
+    solution match {
+      case Some(board) =>
+        val size = board.length
+        println(s"Решение: [${board.mkString(", ")}]")
+
+        for (row <- 0 until size) {
+          for (col <- 0 until size) {
+            if (board(row) == col) print(" 1 ")  // Ферзь
+            else print(" 0 ")  // Темная клетка
+          }
+          println()
+        }
+
+      case None =>
+        println("Решение не найдено")
+    }
+  }
 }
