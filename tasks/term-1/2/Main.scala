@@ -8,7 +8,7 @@ object Main {
     }
 
     println("\n=== Проверка баланса скобок ===")
-    val testCases = List(
+    val testCases: List[String] = List(
       "(just (an) example)",
       "())(",
       "((()))",
@@ -22,7 +22,7 @@ object Main {
     }
 
     println("\n=== Количество вариантов размена ===")
-    val moneyTestCases = List(
+    val moneyTestCases: List[(Int, List[Int])] = List(
       (4, List(1, 2)),
       (10, List(1, 2, 5)),
       (5, List(1, 2, 3)),
