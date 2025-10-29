@@ -1,41 +1,54 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.DoubleSummaryStatistics;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
-import java.util.stream.IntStream;
 
 public class MatrixMultPar {
 
-	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix){
+	static int numThreads = 0;
+	
+	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
 		int m = firstMatrix.length;
-        int n = firstMatrix[0].length;
-        int p = secondMatrix[0].length;
-        
-        if (secondMatrix.length != n) {
-            throw new IllegalArgumentException("Несовместимые размеры матриц");
-        }
-        
-        double[][] result = new double[m][p];
-
-		IntStream.range(0, m).parallel().forEach(
-			i -> {
-				for (int k = 0; k < n; k++) {
-					double aik = firstMatrix[i][k];
-
-					for (int j = 0; j < p; j++) 
-					{
-						result[i][j] += aik * secondMatrix[k][j];
+		int n = firstMatrix[0].length;
+		int p = secondMatrix[0].length;
+		
+		if (secondMatrix.length != n) {
+			throw new IllegalArgumentException("Несовместимые размеры матриц");
+		}
+		
+		double[][] result = new double[m][p];
+		
+		List<Thread> threads = new ArrayList<>();
+		
+		for (int threadId = 0; threadId < numThreads; threadId++) {
+			final int currentThreadId = threadId;
+			
+			Thread thread = new Thread(() -> {
+				for (int i = currentThreadId; i < m; i += numThreads) {
+					for (int k = 0; k < n; k++) {
+						double aik = firstMatrix[i][k];
+						for (int j = 0; j < p; j++) {
+							result[i][j] += aik * secondMatrix[k][j];
+						}
 					}
 				}
+			});
+			
+			threads.add(thread);
+			thread.start();
+		}
+		
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new RuntimeException("Поток был прерван", e);
 			}
-		);
-        
-        return result;
+		}
+		
+		return result;
 	}
 
 	public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
@@ -79,101 +92,88 @@ public class MatrixMultPar {
 
 	public static void main(String[] args) throws IOException, InterruptedException
 	{   
+		numThreads = 29;
+		System.out.println("Количество потоков в pool: " + numThreads);
+
+		warmUp(numThreads);
+		
 		int size = 1000;
 
 		double[][] A = createRandomMatrix(size, size);
 		double[][] B = createRandomMatrix(size, size);
 					
 		long start = System.currentTimeMillis();
-				
 		var matrix = multiply(A, B);
 		long time = System.currentTimeMillis() - start;
-
+					
 		start = System.currentTimeMillis();
-		var matrixParallel = multiplyParallel(A, B);
+		var matrixParallel =  multiplyParallel(A, B);
 		long timeParallel = System.currentTimeMillis() - start;
 
 		if (Arrays.deepEquals(matrix, matrixParallel)) 
 		{
-			Double result = (double) time / timeParallel;
+			Double difference = (double) time / timeParallel;
 
 			System.out.printf("Время выполнения обычного умножения: %d мс%n", time);
 			System.out.printf("Время выполнения параллельного умножения: %d мс%n", timeParallel);
-			System.out.printf("Ускорение: %f\n", result);
+			System.out.printf("Ускорение: %f\n", difference);
 		}
-		// try {
-		// 	measure();
-		// 	printMid();
-		// } catch (Exception e) {
-		// 	System.err.println("Ошибка анализа результатов сравнения");
-		// }
-	}
 
-	public static void printMid() throws IOException{
-		for (Integer i = 2; i < 41; i++) {
-			DoubleSummaryStatistics stats = Files.readAllLines(Paths.get("results_" + i.toString()))
-                                        .stream()
-                                        .mapToDouble(Double::parseDouble)
-                                        .summaryStatistics();
-    
-    		System.out.printf("%d - %f\n", i, stats.getAverage());
+		try {
+			measure();
+		} catch (Exception e) {
+			System.err.println("Ошибка анализа результатов сравнения");
 		}
 	}
 
-	public static void measure() throws IOException, InterruptedException {
+	public static void measure() throws InterruptedException {
+		
+		double maxSum = -1;
+		int maxThread = -1;
+
 		for (int threadCount = 2; threadCount < 41; threadCount++) {
-			
-			File file = new File("./results_" + threadCount);
-			file.delete();
-			file.createNewFile();
+			numThreads = threadCount;
+		
+			double sum = 0;
 
-			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+			// Прогрев JVM
+			warmUp(threadCount);
 				
-				// Прогрев JVM
-				System.out.println("Прогрев для " + threadCount + " потоков...");
-				warmUp(threadCount);
-				
-				for (int j = 0; j < 30; j++) {
-					int size = 1000;
+			for (int j = 0; j < 100; j++) {
+				int size = 1000;
 
-					double[][] A = createRandomMatrix(size, size);
-					double[][] B = createRandomMatrix(size, size);
+				double[][] A = createRandomMatrix(size, size);
+				double[][] B = createRandomMatrix(size, size);
 
-					// время на GC
-					System.gc();
-					Thread.sleep(50);
+				// время на GC
+				System.gc();
+				Thread.sleep(50);
 
-					long start = System.currentTimeMillis();
-					var matrix = multiply(A, B);
-					long time = System.currentTimeMillis() - start;
+				long start = System.currentTimeMillis();
+				multiply(A, B);
+				long time = System.currentTimeMillis() - start;
 
-					System.gc();
-					Thread.sleep(50);
+				System.gc();
+				Thread.sleep(50);
 					
-					long timeParallel = measureParallelMultiplication(A, B, threadCount);
+				start = System.currentTimeMillis();
+				multiplyParallel(A, B);
+				long timeParallel = System.currentTimeMillis() - start;
 
-					double result = (double) time / timeParallel;
-					writer.write(String.valueOf(result) + '\n');
-					System.out.printf("Тест %d: Ускорение = %.2f%n", j + 1, result);
-				}
+				double result = (double) time / timeParallel;
+				sum += result;
+				printAnimatedProgress(j, 100, String.format("Вычисление среднего ускорения для %d тредов", numThreads));
+			}
+
+			System.out.printf("\r%d - %f                                        \n", numThreads, sum / 100);
+			
+			if (maxSum <= sum) {
+				maxSum = sum;
+				maxThread = numThreads;
 			}
 		}
-	}
 
-	private static long measureParallelMultiplication(double[][] A, double[][] B, int threadCount) {
-		ForkJoinPool customPool = new ForkJoinPool(threadCount);
-		try {
-			long start = System.currentTimeMillis();
-			customPool.submit(() -> {
-				multiplyParallel(A, B);
-			}).get();
-			return System.currentTimeMillis() - start;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		} finally {
-			customPool.shutdown();
-		}
+		System.out.printf("Максимальное среднее ускорение %f было получено для %d тредов\n", maxSum, maxThread);
 	}
 	
 	// Несколько прогревочных итераций
@@ -195,4 +195,14 @@ public class MatrixMultPar {
 		}
 	}
 
+	private static final String[] ANIMATION = {"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"};
+    
+    public static void printAnimatedProgress(int current, int total, String message) {
+        float percent = (float) current / total;
+        int animIndex = (int) ((System.currentTimeMillis() / 100) % ANIMATION.length);
+        
+        String bar = String.format("[%s] %.1f%% %s", ANIMATION[animIndex], percent * 100, message);
+        
+        System.out.print("\r" + bar);
+    }
 }
