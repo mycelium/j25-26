@@ -86,7 +86,7 @@ object FunSets {
   /**
    * Prints the contents of a set on the console.
    */
-  def printSet(s: Set) {
+  def printSet(s: Set) Unit = {
     println(toString(s))
   }
 }
