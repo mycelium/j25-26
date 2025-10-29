@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class wordCounter {
     public Map<String, Integer> countFrequencyOfWords(String filename) {
+        System.out.println("Used function: loading the entire file.");
         Map<String, Integer> wordsMap = new HashMap<String, Integer>();
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
@@ -29,6 +30,7 @@ public class wordCounter {
         return wordsMap;
     }
     public Map<String, Integer> countFrequencyOfWordsStreaming(String filename) {
+        System.out.println("Used function: streaming the file");
         Map<String, Integer> wordsMap = new HashMap<String, Integer>();
 
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filename))) {
@@ -57,62 +59,61 @@ public class wordCounter {
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (e1, e2) -> e1,
-                        LinkedHashMap::new  // сохраняет порядок сортировки
+                        LinkedHashMap::new
                 ));
         return sortedMap;
     }
     public void printDictionary(Map<String, Integer> dict){
-        Scanner in=new Scanner(System.in);
-        System.out.print("Print all dictionary or a top frequently words?(type '1' or '2') ");
+
         int mapSize = dict.size();
         Map<String, Integer> sortedMap=sortMap(dict);
         dict=sortedMap;
-        int choice=in.nextInt();
-        if(choice==1){
-            for (Map.Entry<String, Integer> entry : dict.entrySet()) {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
-            }
-            System.out.println("Unique words: "+mapSize+"");
-        } else if (choice==2) {
-            int numWords;
-            do {
-                System.out.print("How many words do you want to print?(from 1 to " + mapSize + ") ");
-                numWords = in.nextInt();
-                if (numWords > mapSize) {
-                    System.out.println("Number should be less than "+mapSize+"");
-                }else if (numWords <= 0) {
-                    System.out.println("Number should be more than 0");
-                }else{
-                    break;
-                }
-            } while (true);
-            int count = 0;
-            for (Map.Entry<String, Integer> entry : dict.entrySet()) {
-                if (count >= numWords) {
-                    break;
-                }
-                System.out.println(entry.getKey() + ": " + entry.getValue());
-                count++;
-            }
-            System.out.println("Unique words: "+numWords+"");
+        System.out.println("All dictionary: ");
+        for (Map.Entry<String, Integer> entry : dict.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
+        System.out.println("Unique words: "+mapSize+"");
+        System.out.println("");
+
+        int numWords=10;
+        System.out.println("Top "+numWords+" frequent words: ");
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : dict.entrySet()) {
+            if (count >= numWords) {
+                break;
+            }
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+            count++;
+        }
+        System.out.println("Unique words: "+numWords+"");
+        System.out.println("");
+
     }
     public static void main(String[] args){
-        Scanner in=new Scanner(System.in);
         wordCounter counter=new wordCounter();
-        Map<String, Integer> q;
+        Map<String, Integer> test1;
+        Map<String, Integer> test2;
+        String f1="allFile.txt";
+        String f2="streamingFile.txt";
         try {
-            System.out.println("Enter filename(with .txt): ");
-            String filename = in.nextLine();
-            long fileSize = Files.size(Paths.get(filename));
-            if (fileSize >= 1024 * 1024 * 1024) { //если размер файла превышает 1Гб
-                q = counter.countFrequencyOfWordsStreaming(filename);
+            long fileSize = Files.size(Paths.get(f1));
+            if (fileSize >= 1024) { //если размер файла превышает 1Мб
+                test1 = counter.countFrequencyOfWordsStreaming(f1);
             } else {
-                q = counter.countFrequencyOfWords(filename);
+                test1 = counter.countFrequencyOfWords(f1);
             }
-            counter.printDictionary(q);
+            counter.printDictionary(test1);
+
+            long fileSize1 = Files.size(Paths.get(f2));
+            if (fileSize >= 1024) { //если размер файла превышает 1Мб
+                test2 = counter.countFrequencyOfWordsStreaming(f2);
+            } else {
+                test2 = counter.countFrequencyOfWords(f2);
+            }
+            counter.printDictionary(test2);
         }catch (IOException e) {
             System.err.println("Error to read file " + e.getMessage());
         }
     }
 }
+
