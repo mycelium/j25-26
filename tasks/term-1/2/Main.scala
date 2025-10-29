@@ -128,9 +128,8 @@ object Main {
 
 
   def printBoard(solution: Array[Int]): Unit = {
-    val n = solution.length
     for (row <- solution) {
-      for (col <- 0 until n) {
+      for (col <- solution.indices) {
         if (col == row) print("1 ")
         else print("0 ")
       }
