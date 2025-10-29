@@ -3,6 +3,12 @@ public class MatrixMult {
 
     //основная функция перемножения матриц
 //    public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix){
+//        if (firstMatrix == null || secondMatrix == null ||
+//                firstMatrix.length == 0 || secondMatrix.length == 0 ||
+//                firstMatrix[0] == null || secondMatrix[0] == null) {
+//            System.out.println("Одна из матриц пустая.");
+//            return null;
+//        }
 //        if(firstMatrix[0].length != secondMatrix.length){
 //            System.out.println("Количество столбцов первой матрицы не равно количеству строк второй матрицы, перемножение невозможно");
 //            return null;
@@ -21,6 +27,12 @@ public class MatrixMult {
 
     //оптимизированная
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix){
+        if (firstMatrix == null || secondMatrix == null ||
+                firstMatrix.length == 0 || secondMatrix.length == 0 ||
+                firstMatrix[0] == null || secondMatrix[0] == null) {
+            System.out.println("Одна из матриц пустая.");
+            return null;
+        }
         if(firstMatrix[0].length != secondMatrix.length){
             System.out.println("Количество столбцов первой матрицы не равно количеству строк второй матрицы, перемножение невозможно");
             return null;

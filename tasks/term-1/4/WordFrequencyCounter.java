@@ -3,43 +3,39 @@ import java.nio.file.*;
 import java.util.*;
 
 public class WordFrequencyCounter {
+    private void processLine(String line, Map<String, Integer> map) {
+        String[] words = line.split("\\W+");
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                String lower = word.toLowerCase();
+                map.put(lower, map.getOrDefault(lower, 0) + 1);
+            }
+        }
+    }
 
     public Map<String, Integer> countWords(Path filePath) {
-        // read file, tokenize words, update map
-        Map<String,Integer> hashCountWords = new HashMap<>();
+        Map<String, Integer> hashCountWords = new HashMap<>();
         try {
             List<String> lines = Files.readAllLines(filePath);
             for (String line : lines) {
-                String[] words = line.split("\\W+");
-                for (String word : words) {
-                    if (!word.isEmpty()) {
-                        String lower = word.toLowerCase();
-                        hashCountWords.put(lower, hashCountWords.getOrDefault(lower, 0) + 1);
-                    }
-                }
+                processLine(line, hashCountWords);
             }
-        } catch (Exception e){
-            System.out.println("Error reading file"+e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
-
         return hashCountWords;
     }
 
+
     public Map<String, Integer> countWordsStream(Path filePath) {
-        Map<String,Integer> hashCountWords = new HashMap<>();
-        try (BufferedReader reader  = Files.newBufferedReader(filePath)){
+        Map<String, Integer> hashCountWords = new HashMap<>();
+        try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
-            while ((line = reader.readLine()) != null){
-                String[] words = line.split("\\W+");
-                for (String word : words) {
-                    if(!word.isEmpty()){
-                        String lower = word.toLowerCase();
-                        hashCountWords.put(lower, hashCountWords.getOrDefault(lower, 0) + 1);
-                    }
-                }
+            while ((line = reader.readLine()) != null) {
+                processLine(line, hashCountWords);
             }
-        } catch(Exception e){
-            System.out.println("Error reading file"+e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
         return hashCountWords;
     }
