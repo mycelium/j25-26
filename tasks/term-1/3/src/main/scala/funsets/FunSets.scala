@@ -1,4 +1,3 @@
-
 package funsets
 
 object FunSets {
