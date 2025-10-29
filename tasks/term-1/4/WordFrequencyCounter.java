@@ -30,11 +30,7 @@ public class WordFrequencyCounter {
         Map<String, Integer> frequencies = new HashMap<>();
         System.out.print("Total processing.. \n");
         String content = Files.readString(filePath, java.nio.charset.StandardCharsets.UTF_8);
-        String[] words = content.toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯёЁ\\s]", " ")
-                                .split("\\s+");
-        for (String word : words) {
-            frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
-        }                      
+        adaptText(content, frequencies);                  
         return frequencies;
     }
 
@@ -44,17 +40,21 @@ public class WordFrequencyCounter {
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯёЁ\\s]", " ")
-                                     .split("\\s+");
-                for (String word : words) {
-                    frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
-                }
+                adaptText(line, frequencies);
             }
         }
         
         return frequencies;
     }
 
+    private void adaptText(String line, Map<String, Integer> frequencies){
+        String[] words = line.toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯёЁ\\s]", " ")
+                            .split("\\s+");
+        for (String word : words) {
+            frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
+        }
+    }
+ 
 
     public void printFrequencies(Map<String, Integer> frequencies) {
         // print word counts
