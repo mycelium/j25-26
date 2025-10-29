@@ -3,12 +3,29 @@
  */
 package org.example;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "warn");
+        try {
+            InputStream inputStream = new FileInputStream("src/main/resources/miniDataset.txt");
+            
+            Processor processor = new Processor();
+            processor.process(inputStream);
+            inputStream.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File IMDB Dataset.csv not found. Current directory: " + System.getProperty("user.dir"));
+        } catch (Exception e) {
+            System.out.println("An error occurred while reading the file");
+            e.printStackTrace();
+        }
     }
 }
