@@ -4,23 +4,28 @@ import java.io.*;
 
 public class WordFrequencyCounter {
 
-    // загрузка всего файла в память
-    private Map<String, Integer> countWordsInMemory(Path filePath) throws IOException {
-        Map<String, Integer> frequencies = new HashMap<>();
-        String content = new String(Files.readAllBytes(filePath));
-
-        // токенизируем слова
-        String[] words = content.toLowerCase()
+    // токенизация слов
+    private String[] tokenizeText(String text) {
+        return text.toLowerCase()
                 .replaceAll("[^a-zA-Zа-яА-Я0-9\\s]", " ")
                 .split("\\s+");
+    }
 
-        // подсчитываем частоты
+    // подсчет частоты слов
+    private void countWordsInArray(String[] words, Map<String, Integer> frequencies) {
         for (String word : words) {
             if (!word.isEmpty()) {
                 frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
             }
         }
-
+    }
+    
+    // загрузка всего файла в память
+    private Map<String, Integer> countWordsInMemory(Path filePath) throws IOException {
+        Map<String, Integer> frequencies = new HashMap<>();
+        String content = new String(Files.readAllBytes(filePath));
+        String[] words = tokenizeText(content);
+        countWordsInArray(words, frequencies);
         return frequencies;
     }
 
@@ -31,16 +36,8 @@ public class WordFrequencyCounter {
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
             while ((line = reader.readLine()) != null) {
-                // обрабатываем каждую строку отдельно
-                String[] words = line.toLowerCase()
-                        .replaceAll("[^a-zA-Zа-яА-Я0-9\\s]", " ")
-                        .split("\\s+");
-
-                for (String word : words) {
-                    if (!word.isEmpty()) {
-                        frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
-                    }
-                }
+                String[] words = tokenizeText(line);
+                countWordsInArray(words, frequencies);
             }
         }
 
