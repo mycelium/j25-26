@@ -9,6 +9,16 @@ import java.nio.file.Paths;
 public class WordFrequencyCounter {
     private static final long SWITCHING_SIZE = 1024 * 1024;
 
+    private static void processLine(String line, Map<String, Integer> numWord) {
+        String[] words = line.split("\\s+");
+        for (String word : words) {
+            word = word.toLowerCase().replaceAll("[^а-яa-z]", "");
+            if (!word.isEmpty()) {
+                numWord.put(word, numWord.getOrDefault(word, 0) + 1);
+            }
+        }
+    }
+
     public static Map<String, Integer> countWords(Path filePath) {
         // read file, tokenize words, update map
         Map<String, Integer> numWord = new HashMap<String, Integer>();
@@ -17,26 +27,12 @@ public class WordFrequencyCounter {
 
             if (fileSize < SWITCHING_SIZE) {
                 String content = Files.readString(filePath);
-                String[] words = content.split("\\s+");
-                for (String word : words) {
-                    word = word.toLowerCase();
-                    word = word.replaceAll("[^а-яa-z]", "");
-                    if (!word.isEmpty()) {
-                        numWord.put(word, numWord.getOrDefault(word, 0) + 1);
-                    }
-                }
+                processLine(content, numWord);
             } else {
                 try (BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
                     String line;
                     while ((line = br.readLine()) != null) {
-                        String[] words = line.split("\\s+");
-                        for (String word : words) {
-                            word = word.toLowerCase();
-                            word = word.replaceAll("[^а-яa-z]", "");
-                            if (!word.isEmpty()) {
-                                numWord.put(word, numWord.getOrDefault(word, 0) + 1);
-                            }
-                        }
+                        processLine(line, numWord);
                     }
                 }
             }
