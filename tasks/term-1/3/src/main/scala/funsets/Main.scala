@@ -3,18 +3,22 @@ package funsets
 object Main extends App {
   import FunSets._
 
-  val s = singletonSet(1)
-  val t = singletonSet(2)
-  val u = union(s, t)         
+  val s1 = singletonSet(10)
+  val s2 = singletonSet(25)
+  val s3 = singletonSet(40)
 
-  println("u = " + toString(u))               
+  val u = union(s1, s2)
+  val i = intersect(u, s2)
+  val d = diff(u, s2)
+  val f = filter(u, x => x % 2 == 0)
+  val m = map(u, x => x * x)
 
-  println("forall(u, _ < 3) = " + forall(u, _ < 3))  
-  println("forall(u, _ % 2 == 0) = " + forall(u, _ % 2 == 0))
-
-  println("exists(u, _ == 2) = " + exists(u, _ == 2)) 
-  println("exists(u, _ == 3) = " + exists(u, _ == 3)) 
-
-  val m = map(u, _ * 2)        
-  println("map(u, _ * 2) = " + toString(m))
+  println("Singleton 10 contains 10? " + contains(s1, 10))
+  println("Union of 10 and 25: "); printSet(u)
+  println("Intersection with 25: "); printSet(i)
+  println("Difference with 25: "); printSet(d)
+  println("Filter even: "); printSet(f)
+  println("Map x*x: "); printSet(m)
+  println("Exists > 20 in union? " + exists(u, _ > 20))
+  println("Forall < 30 in union? " + forall(u, _ < 30))
 }
