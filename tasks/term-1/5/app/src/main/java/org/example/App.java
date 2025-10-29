@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.Processor.Processor;
+import org.example.processor.Processor;
 
 public class App {
     public String getGreeting() {

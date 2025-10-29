@@ -1,7 +1,9 @@
-package org.example.Processor;
+package org.example.processor;
 
 import java.io.FileReader;
-import org.example.Analyzer.Analyzer;
+
+import org.example.analyzer.Analyzer;
+
 import com.opencsv.CSVReader;
 
 public class Processor
