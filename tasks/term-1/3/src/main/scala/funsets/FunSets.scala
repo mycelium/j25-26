@@ -1,3 +1,11 @@
+package funsets
+
+import common._
+
+/**
+ * 2. Purely Functional Sets.
+ */
+
 object FunSets {
   /**
    * We represent a set by its characteristic function, i.e.
