@@ -41,8 +41,6 @@ object Main {
       else println("No solution")
       println()
     }
-
-
   }
 
   def pascal(c: Int, r: Int): Int = {
@@ -55,7 +53,6 @@ object Main {
         goingUp(c - 1, r - 1) + goingUp(c, r - 1)
       else 1
     }
-
     goingUp(c,r)
   }
 
