@@ -165,26 +165,14 @@ public class MatrixMult {
                                 "You should pass a valid matrix to multiply them!"
                 );
             }
-        }
-        catch (IllegalArgumentException e) {
-            System.err.println("[ERROR] " + e.getMessage());
-            return null;
-        }
 
-        try {
             if (isInvalidMatrix(secondMatrix)) {
                 throw new IllegalArgumentException(
                         "Second matrix is not valid. " +
                                 "You should pass a valid matrix to multiply them!"
                 );
             }
-        }
-        catch (IllegalArgumentException e) {
-            System.err.println("[ERROR] " + e.getMessage());
-            return null;
-        }
 
-        try {
             if (firstMatrix[0].length != secondMatrix.length) {
                 throw new IllegalArgumentException(
                         "Column amount of the first matrix " +
