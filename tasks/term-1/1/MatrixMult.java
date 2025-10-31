@@ -2,13 +2,13 @@ public class MatrixMult {
 
     private static final int DEFAULT_BLOCK_SIZE = 128;
 
-    private static boolean isInvalidMatrix(double[][] matrix_data) {
-        if (matrix_data == null) {
+    private static boolean isInvalidMatrix(double[][] matrix) {
+        if (matrix == null) {
             return true;
         }
 
-        int cols = matrix_data[0].length;
-        for (double[] matrixRow: matrix_data) {
+        int cols = matrix[0].length;
+        for (double[] matrixRow: matrix) {
             if (matrixRow.length != cols) {
                 return true;
             }
@@ -158,27 +158,42 @@ public class MatrixMult {
      * @return new matrix (result of the multiplication of corresponding matrices).
      */
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
-        if (isInvalidMatrix(firstMatrix)) {
-            System.err.println(
-                    "First matrix is not valid. " +
-                            "You should pass a valid matrix to multiply them!"
-            );
+        try {
+            if (isInvalidMatrix(firstMatrix)) {
+                throw new IllegalArgumentException(
+                        "First matrix is not valid. " +
+                                "You should pass a valid matrix to multiply them!"
+                );
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.err.println("[ERROR] " + e.getMessage());
             return null;
         }
 
-        if (isInvalidMatrix(secondMatrix)) {
-            System.err.println(
-                    "Second matrix is not valid. " +
-                            "You should pass a valid matrix to multiply them!"
-            );
+        try {
+            if (isInvalidMatrix(secondMatrix)) {
+                throw new IllegalArgumentException(
+                        "Second matrix is not valid. " +
+                                "You should pass a valid matrix to multiply them!"
+                );
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.err.println("[ERROR] " + e.getMessage());
             return null;
         }
 
-        if (firstMatrix[0].length != secondMatrix.length) {
-            System.err.println(
-                    "Column amount of the first matrix " +
-                            "is not equal to the row amount of the second matrix!"
-            );
+        try {
+            if (firstMatrix[0].length != secondMatrix.length) {
+                throw new IllegalArgumentException(
+                        "Column amount of the first matrix " +
+                                "is not equal to the row amount of the second matrix!"
+                );
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.err.println("[ERROR] " + e.getMessage());
             return null;
         }
 
