@@ -2,9 +2,6 @@ package funsets
 
 import common._
 
-/**
- * 2. Purely Functional Sets.
- */
 object FunSets {
   /**
    * We represent a set by its characteristic function, i.e.
@@ -20,31 +17,38 @@ object FunSets {
   /**
    * Returns the set of the one given element.
    */
-    def singletonSet(elem: Int): Set = ???
+    def singletonSet(elem: Int): Set = (x => elem == x)
   
 
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
-    def union(s: Set, t: Set): Set = ???
+    def union(s: Set, t: Set): Set = (x => s(x) || t(x))
   
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
    */
-    def intersect(s: Set, t: Set): Set = ???
+    def intersect(s: Set, t: Set): Set = (x => s(x) && t(x))
+  /*
+   (that looks more wierd with each iteration... If i were compiler,
+   i would stop working and ask programmer to make an more optimized program.
+   when we do intersection - we save both sets, 
+   instead of saving only intersected values...
+   comparing only with intersected is be faster.)
+  */
   
   /**
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
-    def diff(s: Set, t: Set): Set = ???
+    def diff(s: Set, t: Set): Set = (x => intersect(s, t)(x) && !union(s, t)(x))
   
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-    def filter(s: Set, p: Int => Boolean): Set = ???
+    def filter(s: Set, p: Int => Boolean): Set = intersect(s, p)
   
 
   /**
@@ -57,23 +61,35 @@ object FunSets {
    */
     def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (!filter(s, p)(a)) false 
+      else if (a == 0 + bound) true
+      else iter(a + 1)
     }
-    iter(???)
+    iter(0 - bound)
   }
   
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = ???
+   val maxBoundExists = 10000
+    def exists(s: Set, p: Int => Boolean): Boolean = {
+      def iter(bound: Int): Boolean = {
+      if (forall(s, p)) true
+      else if (bound >= maxBoundExists) false
+      else iter(bound + 1)
+      }
+    iter(0)
+    }
+    /*
+    m.. i think i kan just find a number nearest to zero which is in Set, 
+    and check it, but that looks like thing that i should not do in this task.
+    */
   
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-    def map(s: Set, f: Int => Int): Set = ???
+    def map(s: Set, f: Int => Int): Set = (x => exists(s, a => f(a) == x))
   
   /**
    * Displays the contents of a set
