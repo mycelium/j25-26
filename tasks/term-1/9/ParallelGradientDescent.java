@@ -1,7 +1,3 @@
-package src;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -101,6 +97,10 @@ public class ParallelGradientDescent {
     }
 
     public ThreadResult optimize(int parallelStarts, long timeoutMs) {
+        return optimize(parallelStarts, timeoutMs, false);
+    }
+
+    public ThreadResult optimize(int parallelStarts, long timeoutMs, boolean waitForCompletion) {
         if (parallelStarts <= 0) {
             throw new IllegalArgumentException("Number of parallel starts must be positive");
         }
@@ -113,11 +113,16 @@ public class ParallelGradientDescent {
         );
         AtomicBoolean shouldStop = new AtomicBoolean(false);
 
-        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            List<CompletableFuture<Void>> futures = new ArrayList<>();
+        Thread[] threads = new Thread[parallelStarts];
+        CountDownLatch latch = new CountDownLatch(parallelStarts);
 
-            for (int i = 0; i < parallelStarts && !shouldStop.get(); i++) {
-                CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+        for (int i = 0; i < parallelStarts; i++) {
+            threads[i] = new Thread(() -> {
+                try {
+                    if (shouldStop.get()) {
+                        return;
+                    }
+
                     Vector2D start = new Vector2D(
                             X_MIN + ThreadLocalRandom.current().nextDouble() * (X_MAX - X_MIN),
                             X_MIN + ThreadLocalRandom.current().nextDouble() * (X_MAX - X_MIN)
@@ -132,29 +137,37 @@ public class ParallelGradientDescent {
                     if (Math.abs(res.fValue() - optimalValue) < EPSILON) {
                         shouldStop.set(true);
                     }
-                }, executor);
-
-                futures.add(future);
-            }
-
-            CompletableFuture<Void> all = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
-            try {
-                all.orTimeout(timeoutMs, TimeUnit.MILLISECONDS).join();
-            }
-            catch (CompletionException e) {
-                if (e.getCause() instanceof TimeoutException) {
-                    System.out.println("Optimization stopped due to timeout.");
                 }
-                else {
-                    System.err.println("Unexpected error during optimization: " + e.getCause().getMessage());
+                finally {
+                    latch.countDown();
                 }
-            }
-            catch (Exception e) {
-                System.err.println("Unexpected exception: " + e.getMessage());
-            }
+            });
+            threads[i].start();
+        }
 
+        try {
+            boolean finished = latch.await(timeoutMs, TimeUnit.MILLISECONDS);
+            if (!finished) {
+                System.out.println("Optimization stopped due to timeout.");
+                shouldStop.set(true);
+            }
+        }
+        catch (InterruptedException e) {
+            System.err.println("Optimization interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt();
             shouldStop.set(true);
+        }
 
+        if (waitForCompletion) {
+            for (Thread thread : threads) {
+                try {
+                    thread.join(1000);
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
         }
 
         return best.get();
