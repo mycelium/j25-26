@@ -12,7 +12,7 @@ import java.util.*;
 
 public class App {
     public static void main(String[] args) {
-        String baseDir = System.getProperty("user.dir"); // ...\term-1\5\app
+        String baseDir = System.getProperty("user.dir"); // пусто
         Path testFile = Paths.get(baseDir).getParent().resolve("C:\\Users\\sergey\\IdeaProjects\\j25-26\\tasks\\term-1\\5\\test.txt"); // тестовые значения
         Path resultFile = Paths.get(baseDir).getParent().resolve("C:\\Users\\sergey\\IdeaProjects\\j25-26\\tasks\\term-1\\5\\results.txt"); //выход
 
