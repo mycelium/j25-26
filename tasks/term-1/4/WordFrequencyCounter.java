@@ -5,7 +5,7 @@ import java.io.*;
 public class WordFrequencyCounter {
 
     public Map<String, Integer> countWords1(Path filePath) {
-        Map<String, Integer> freq = new Map<>();
+        Map<String, Integer> freq = new HashMap<>();
         StringBuilder res = new StringBuilder();
         try {
             BufferedReader file = new BufferedReader(new FileReader(filePath.toFile()));
