@@ -25,7 +25,7 @@ object Main {
     println("Counting Change")
     for(m <- 0 to 5) {
       for(coinAmt <- 1 to 4) {
-        var lst = (1 to coinAmt).toList
+        val lst = (1 to coinAmt).toList
         print(s"There is(are) ${countChange(m,lst)} way(s) to pay $m with")
         lst.foreach(el => print(s" $el"))
         println()
@@ -36,7 +36,7 @@ object Main {
     println("N-Queens Problem")
     for(size <- 1 to 10) {
       println(s"Size = $size")
-      var opBoard = nQueens(size)
+      val opBoard = nQueens(size)
       if (opBoard != None) printBoard(opBoard.get)
       else println("No solution")
       println()
@@ -45,22 +45,15 @@ object Main {
 
   def pascal(c: Int, r: Int): Int = {
 
-    if(c < 0 || r < 0)
-      throw new IllegalArgumentException(s"Column and Row number can't be negative.")
-
-    def goingUp(c: Int, r: Int): Int = {
       if (c != 0 && c != r)
-        goingUp(c - 1, r - 1) + goingUp(c, r - 1)
+        pascal(c - 1, r - 1) + pascal(c, r - 1)
       else 1
-    }
-    goingUp(c,r)
   }
 
   def balance(chars: List[Char]): Boolean = {
 
     def checkNextChar(charsLeft: List[Char], unclosedAmt: Int): Boolean = {
       // unclosedAmt - Количество незакрытых ( в рассмотренной строке
-
       if (charsLeft.isEmpty) unclosedAmt == 0
       else{
         charsLeft.head match {
@@ -76,22 +69,13 @@ object Main {
 
   def countChange(money: Int, coins: List[Int]): Int = {
 
-    if (money < 0)
-      throw new IllegalArgumentException("Amount of money cannot be negative")
-
-    def countChange0(moneyLeft: Int, coinsLeft: List[Int]): Int = {
-      if (moneyLeft == 0) 1
-      else if (coinsLeft.isEmpty || moneyLeft < 0) 0
-      else countChange0(moneyLeft, coinsLeft.tail) +
-        countChange0(moneyLeft - coinsLeft.head, coinsLeft)
-    }
-    countChange0(money, coins)
+    if (money == 0) 1
+      else if (coins.isEmpty || money < 0) 0
+      else countChange(money, coins.tail) +
+        countChange(money - coins.head, coins)
   }
 
   def nQueens(size: Int): Option[Array[Int]] = {
-
-    if (size < 0)
-      throw new IllegalArgumentException("Size can't be negative")
 
     def changePos(qToChange: Int, pos: Int, board: Array[Int]): Option[Array[Int]] = {
       // qToChange - Какую фигуру(строку) меняем;
@@ -118,15 +102,13 @@ object Main {
     }
 
     def isSafe(row: Int, col: Int, board: Array[Int]): Boolean = {
-      var res = true
       for (i <- 1 until row) {
-        val higherCol = board(i - 1)
-        if (higherCol == col ||           // По вертикали
-          higherCol == col + (i - row) || // По диагонали влево
-          higherCol == col - (i - row))   // По диагонали вправо
-          res = false
+        if (board(i - 1) == col ||           // По вертикали
+          board(i - 1) == col + (i - row) || // По диагонали влево
+          board(i - 1) == col - (i - row))   // По диагонали вправо
+          return false
       }
-      res
+      true
     }
 
     val tmp = Array.fill(size)(0)
