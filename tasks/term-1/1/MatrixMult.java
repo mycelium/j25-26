@@ -192,15 +192,17 @@ public class MatrixMult {
     }
 
     public static void main(String[] args) {
-        measureMultiplicationPerformance(3, 100);
-        System.out.println();
         measureMultiplicationPerformance(10, 100);
         System.out.println();
         measureMultiplicationPerformance(25, 100);
         System.out.println();
-        measureMultiplicationPerformance(250, 100);
+        measureMultiplicationPerformance(100, 100);
+        System.out.println();
+        measureMultiplicationPerformance(500, 10);
         System.out.println();
         measureMultiplicationPerformance(1000, 10);
+        System.out.println();
+//        measureMultiplicationPerformance(1500, 10);
     }
 
 }
