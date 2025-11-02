@@ -1,13 +1,11 @@
 
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class WordFrequencyCounter {
 
-  
+   
     public Map<String, Integer> countWordsFull(Path filePath) {
         Map<String, Integer> frequencies = new HashMap<>();
 
@@ -25,26 +23,44 @@ public class WordFrequencyCounter {
         return frequencies;
     }
 
-   
+    
     public Map<String, Integer> countWordsStream(Path filePath) {
         Map<String, Integer> frequencies = new HashMap<>();
-        try (BufferedReader reader = Files.newBufferedReader(filePath)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] words = line.toLowerCase().split("\\W+");
-                for (String word : words) {
-                    if (!word.isEmpty()) {
-                        frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
+
+        try (Reader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
+            char[] buffer = new char[8192]; // 8 KB chunks
+            StringBuilder wordBuilder = new StringBuilder();
+            int charsRead;
+
+            while ((charsRead = reader.read(buffer)) != -1) {
+                for (int i = 0; i < charsRead; i++) {
+                    char c = Character.toLowerCase(buffer[i]);
+                    if (Character.isLetterOrDigit(c)) {
+                        wordBuilder.append(c);
+                    } else {
+                        if (wordBuilder.length() > 0) {
+                            String word = wordBuilder.toString();
+                            frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
+                            wordBuilder.setLength(0); // reset
+                        }
                     }
                 }
             }
+
+            
+            if (wordBuilder.length() > 0) {
+                String word = wordBuilder.toString();
+                frequencies.put(word, frequencies.getOrDefault(word, 0) + 1);
+            }
+
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         }
+
         return frequencies;
     }
 
-   
+    
     public void printFrequencies(Map<String, Integer> frequencies, int topN) {
         if (frequencies.isEmpty()) {
             System.out.println("No words found.");
@@ -83,12 +99,12 @@ public class WordFrequencyCounter {
 
             Map<String, Integer> frequencies;
 
-            
-            if (fileSize < 100 * 1024 * 1024) {
+          
+            if (fileSize < 100 * 1024 * 1024) { // <100 MB
                 System.out.println("File is small → using full file reading");
                 frequencies = counter.countWordsFull(filePath);
             } else {
-                System.out.println("File is large → using stream reading");
+                System.out.println("File is large → using buffered stream reading");
                 frequencies = counter.countWordsStream(filePath);
             }
 
