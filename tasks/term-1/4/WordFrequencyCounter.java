@@ -12,41 +12,41 @@ import java.util.stream.Collectors;
 
 public class WordFrequencyCounter {
 
+    
 public Map<String, Integer> countWords(Path filePath) {
-            try {
-                System.out.println("Start countWordsInMemory");
-                return countWordsInMemory(filePath);
-            } catch (OutOfMemoryError e) {
-                System.out.println("OutOfMemoryError detected: " + e.getMessage());
-                System.out.println("Switch to countWordsStreaming");
-                return countWordsStreaming(filePath);
-            }
+    System.out.println("Start countWords");
+    
+    // Сначала проверяем размер файла
+    try {
+        long fileSize = Files.size(filePath);
+        long maxSize = 20 * 1024 * 1024;
+        
+        if (fileSize > maxSize) {
+            System.out.println("File size " + (fileSize/1024 )/1024+ " MB exceeds 20 MB limit. Cannot process in memory.");
+            System.out.println("Switch to countWordsStreaming");
+            return countWordsStreaming(filePath);
+        } else {
+            return countWordsInMemory(filePath);
+        }
+    } catch (IOException e) {
+        System.err.println("Error checking file size: " + e.getMessage());
+        return Collections.emptyMap();
     }
-    
-    
-    private Map<String, Integer> countWordsInMemory(Path filePath) {
+}
+
+private Map<String, Integer> countWordsInMemory(Path filePath) {
         Map<String, Integer> frequencies = new HashMap<>();
         try {
-              long fileSize = Files.size(filePath);
-              long maxSize = 20 * 1024 * 1024;  // граница размера файла для чтения в память 20мб
-              if (fileSize > maxSize) {
-                   throw new OutOfMemoryError("File size " + (fileSize/1024 )/1024+ " MB exceeds 20 MB limit. Cannot process in memory.");
-               }
-
             String content = Files.readString(filePath, java.nio.charset.StandardCharsets.UTF_8);
             processLine(content, frequencies);
-           
         } catch (IOException e) {
             System.err.println("IOException detected " + e.getMessage());
-            
-        } catch (OutOfMemoryError e) {
-             throw e;
         }
         return frequencies;
     }
     
    
-    private Map<String, Integer> countWordsStreaming(Path filePath) {
+private Map<String, Integer> countWordsStreaming(Path filePath) {
         Map<String, Integer> frequencies = new HashMap<>();
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
@@ -107,7 +107,7 @@ public void printFrequencies(Map<String, Integer> frequencies) {
      
         WordFrequencyCounter counter = new WordFrequencyCounter();
     
-            Path filePath = Path.of(".\\tasks\\term-1\\4\\smallTest.txt"); // проверка для небольшого текста = 29 Кб
+          Path filePath = Path.of(".\\tasks\\term-1\\4\\smallTest.txt"); // проверка для небольшого текста = 29 Кб
             //Path filePath = Path.of(".\\tasks\\term-1\\4\\largeTest.txt"); // проверка для большого текста = 44318 Кб
             if (!Files.exists(filePath)) {
             System.out.println("File not exists: " + filePath);
