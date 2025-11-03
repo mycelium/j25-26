@@ -15,8 +15,6 @@ public class WordFrequencyCounter {
     
 public Map<String, Integer> countWords(Path filePath) {
     System.out.println("Start countWords");
-    
-    // Сначала проверяем размер файла
     try {
         long fileSize = Files.size(filePath);
         long maxSize = 20 * 1024 * 1024;
