@@ -3,12 +3,38 @@
  */
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
-
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Random rand = new Random();
+        List<Point> trainingData = new ArrayList<>();
+        int numClasses = 3 + rand.nextInt(8);
+        System.out.println("Number of classes: " + numClasses);
+
+        for (int c = 0; c < numClasses; c++) {
+            String label = "Class_" + (char) ('A' + c);
+            double centerX = rand.nextDouble() * 20 - 10; 
+            double centerY = rand.nextDouble() * 20 - 10;
+
+            for (int i = 0; i < 30; i++) {
+                double x = centerX + rand.nextDouble() * 2 - 1;
+                double y = centerY + rand.nextDouble() * 2 - 1;
+                trainingData.add(new Point(x, y, label));
+            }
+        }
+
+        Point newPoint = new Point(rand.nextDouble() * 20 - 10, rand.nextDouble() * 20 - 10);
+        KNN knn = new KNN(trainingData, 10);
+        String predictedClass = knn.classify(newPoint);
+        System.out.println("New point: " + newPoint);
+        System.out.println("Predicted class: " + predictedClass);
+        var image = Plotter.createPlot(trainingData, newPoint, predictedClass);
+        Plotter.showPlot(image);
     }
 }
