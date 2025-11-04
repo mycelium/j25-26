@@ -3,6 +3,8 @@
  */
 package org.example;
 
+import java.util.List;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -10,5 +12,11 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        String inputFile = "D:\\MyGames\\Git\\j25-26\\tasks\\term-1\\5\\test.txt";
+        String outputFile = "D:\\MyGames\\Git\\j25-26\\tasks\\term-1\\5\\res.txt";
+
+        AssessmentProcess processor = new AssessmentProcess();
+        List<OneReview> results = processor.analyzeFullTextFile(inputFile, outputFile);
     }
 }
