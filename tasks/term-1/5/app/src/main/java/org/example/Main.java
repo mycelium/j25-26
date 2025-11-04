@@ -6,8 +6,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Main {
     public static void main(String[] args){
         Map<String, String> reviewsMap = new HashMap<>();
@@ -15,7 +14,7 @@ public class Main {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get("IMDB Dataset.csv"))) {
             String line;
             Pattern pattern = Pattern.compile("^\"(.*)\",(positive|negative|neutral)$");
-            reader.readLine(); // пропускаем заголовок
+            reader.readLine();
 
             while ((line = reader.readLine()) != null) {
                 Matcher matcher = pattern.matcher(line);
