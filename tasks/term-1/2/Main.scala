@@ -107,7 +107,7 @@ object Main {
         }
       }
     }
-    val positionQ = new Array[Int](size)
+    val positionQ = Array.fill(size)(0) // Поправил с new Array[Int](size) на Array.fill(size)(0)
     val findVal = finding(0, positionQ)
     if (findVal) Some(positionQ) else None
 
