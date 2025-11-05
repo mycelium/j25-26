@@ -1,3 +1,16 @@
+error id: 046B01E7E3DF6E9E826DC8A89D81964C
+file://<WORKSPACE>/Main.scala
+### java.lang.IndexOutOfBoundsException: 0
+
+occurred in the presentation compiler.
+
+
+
+action parameters:
+offset: 1009
+uri: file://<WORKSPACE>/Main.scala
+text:
+```scala
 package recfun
 
 object Main {
@@ -11,7 +24,6 @@ object Main {
 
     println("\nBalance test:")
     println(balance("(some test example))((())".toList))
-    println(balance("(())(())()".toList))
     println(balance("(((((())))))))))))))))".toList))
 
     println("\nCount Change test:")
@@ -41,16 +53,17 @@ object Main {
    * Exercise 2 Parentheses Balancing
    */
   def balance(chars: List[Char]): Boolean = {
-  def balanceHelper(chars: List[Char], counter: Int): Boolean = chars match {
-    case Nil => counter == 0
-    case _ if counter < 0 => false
-    case '(' :: tail => balanceHelper(tail, counter + 1)
-    case ')' :: tail => balanceHelper(tail, counter - 1)
-    case _ :: tail => balanceHelper(tail, counter)
+    val i@@ counter = 0;
+    for (char <- chars) {
+      if (counter < 0) return false
+      char match {
+        case '(' => counter += 1
+        case ')' => counter -= 1
+        case _ =>
+      }
+    }
+    counter == 0
   }
-  
-  balanceHelper(chars, 0)
-}
 
   /**
    * Exercise 3 Counting Change
@@ -121,3 +134,32 @@ def printBoard(queens: Array[Int]): Unit = {
 }
 
 }
+```
+
+
+presentation compiler configuration:
+Scala version: 3.7.3-bin-nonbootstrapped
+Classpath:
+<WORKSPACE>/.scala-build/2_d5c0a6989e/classes/main [exists ], <HOME>/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.7.3/scala3-library_3-3.7.3.jar [exists ], <HOME>/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar [exists ], <HOME>/.cache/coursier/v1/https/repo1.maven.org/maven2/com/sourcegraph/semanticdb-javac/0.10.0/semanticdb-javac-0.10.0.jar [exists ], <WORKSPACE>/.scala-build/2_d5c0a6989e/classes/main/META-INF/best-effort [missing ]
+Options:
+-Xsemanticdb -sourceroot <WORKSPACE> -Ywith-best-effort-tasty
+
+
+
+
+#### Error stacktrace:
+
+```
+scala.collection.LinearSeqOps.apply(LinearSeq.scala:131)
+	scala.collection.LinearSeqOps.apply$(LinearSeq.scala:128)
+	scala.collection.immutable.List.apply(List.scala:79)
+	dotty.tools.pc.InferCompletionType$.inferType(InferExpectedType.scala:94)
+	dotty.tools.pc.InferCompletionType$.inferType(InferExpectedType.scala:62)
+	dotty.tools.pc.completions.Completions.advancedCompletions(Completions.scala:523)
+	dotty.tools.pc.completions.Completions.completions(Completions.scala:122)
+	dotty.tools.pc.completions.CompletionProvider.completions(CompletionProvider.scala:139)
+	dotty.tools.pc.ScalaPresentationCompiler.complete$$anonfun$1(ScalaPresentationCompiler.scala:197)
+```
+#### Short summary: 
+
+java.lang.IndexOutOfBoundsException: 0

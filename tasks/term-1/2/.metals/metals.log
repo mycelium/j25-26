@@ -602,3 +602,117 @@ WARNING: Unmatched cancel notification for request id 2750
 2025.10.19 23:18:07 INFO  Attaching to debuggee VM succeeded.
 2025.10.19 23:18:08 INFO  Canceling debug proxy for [recfun.Main]
 2025.10.19 23:18:07 INFO  Closing debug server tcp://0.0.0.0:45805
+2025.10.19 23:25:23 INFO  Shutting down server
+2025.10.19 23:25:23 INFO  shutting down Metals
+2025.10.19 23:25:23 INFO  Shut down connection with build server.
+2025.10.19 23:25:23 INFO  BSP server: Oct 19, 2025 11:25:23 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleNotification
+2025.10.19 23:25:23 INFO  Exiting server
+2025.11.05 11:50:54 INFO  Started: Metals version 1.6.3 in folders '/home/user/study/java/j25-26/tasks/term-1/2' for client Visual Studio Code 1.105.1.
+2025.11.05 11:50:56 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.11.05 11:50:56 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.11.05 11:51:01 INFO  no build target found for /home/user/study/java/j25-26/tasks/term-1/2/Main.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2025.11.05 11:51:02 INFO  Attempting to connect to the build server...
+2025.11.05 11:51:02 INFO  Running BSP server List(/home/user/.local/share/coursier/bin/.scala-cli.aux, bsp, --json-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-options-v2.json, --json-launcher-options, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-launcher-options.json, --envs-file, /home/user/study/java/j25-26/tasks/term-1/2/.scala-build/ide-envs.json, /home/user/study/java/j25-26/tasks/term-1/2)
+2025.11.05 11:51:02 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/bsp.trace.json or /home/user/.cache/metals/bsp.trace.json
+2025.11.05 11:51:05 INFO  BSP server: Starting compilation server
+2025.11.05 11:51:15 INFO  time: Connected to build server in 13s
+2025.11.05 11:51:15 INFO  Connected to Build server: scala-cli v1.9.1
+2025.11.05 11:51:15 INFO  time: Imported build in 0.54s
+Nov 05, 2025 11:51:23 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 14
+Nov 05, 2025 11:51:23 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 16
+Nov 05, 2025 11:51:23 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 18
+Nov 05, 2025 11:51:24 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 29
+Nov 05, 2025 11:51:26 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 33
+2025.11.05 11:51:27 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/src.zip, /usr/lib/jvm/java-21-openjdk-amd64/lib/src.zip. Java symbols will not be available.
+2025.11.05 11:51:27 INFO  time: indexed workspace in 11s
+2025.11.05 11:51:42 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:51:58 INFO  time: compiled 2_d5c0a6989e in 15s
+2025.11.05 11:51:58 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:52:04 INFO  time: compiled 2_d5c0a6989e in 6.37s
+2025.11.05 11:52:04 ERROR scala.meta.internal.metals.debug.DiscoveryFailures$WorkspaceErrorsException$: Cannot run class, since the workspace has errors.
+	at scala.meta.internal.metals.debug.DiscoveryFailures$WorkspaceErrorsException$.<clinit>(DiscoveryFailures.scala:57)
+	at scala.meta.internal.metals.debug.DebugDiscovery.validate(DebugDiscovery.scala:86)
+	at scala.meta.internal.metals.debug.DebugDiscovery.debugDiscovery(DebugDiscovery.scala:164)
+	at scala.meta.internal.metals.MetalsLspService.$anonfun$debugDiscovery$3(MetalsLspService.scala:1548)
+	at scala.meta.internal.metals.MetalsLspService.$anonfun$afterCompilationFinished$6(MetalsLspService.scala:1541)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:503)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2025.11.05 11:52:14 INFO  Created report: Optional[file:///home/user/study/java/j25-26/tasks/term-1/2/Main.scala]
+2025.11.05 11:52:14 INFO  java.lang.IndexOutOfBoundsException: 0 (full report at: "/home/user/study/java/j25-26/tasks/term-1/2/.metals/.reports/metals-full/2025-11-05/r_compiler-error_(2_5fd5c0a6989e)_11-52-14-004.md")
+2025.11.05 11:52:15 INFO  Created report: Optional[file:///home/user/study/java/j25-26/tasks/term-1/2/Main.scala]
+2025.11.05 11:52:15 INFO  java.lang.IndexOutOfBoundsException: 0 (full report at: "/home/user/study/java/j25-26/tasks/term-1/2/.metals/.reports/metals-full/2025-11-05/r_compiler-error_(2_5fd5c0a6989e)_11-52-15-635.md")
+Nov 05, 2025 11:52:19 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 133
+Nov 05, 2025 11:53:42 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 156
+Nov 05, 2025 11:54:01 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 239
+2025.11.05 11:54:04 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:54:08 INFO  time: compiled 2_d5c0a6989e in 4.4s
+2025.11.05 11:54:10 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:54:13 INFO  time: compiled 2_d5c0a6989e in 2.73s
+Nov 05, 2025 11:55:20 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 367
+2025.11.05 11:56:35 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:56:36 INFO  time: compiled 2_d5c0a6989e in 1.28s
+2025.11.05 11:56:39 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:56:40 INFO  time: compiled 2_d5c0a6989e in 1.05s
+2025.11.05 11:56:59 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:56:59 INFO  time: compiled 2_d5c0a6989e in 0.8s
+Nov 05, 2025 11:57:04 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 500
+Nov 05, 2025 11:57:06 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 512
+2025.11.05 11:57:07 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:57:07 INFO  time: compiled 2_d5c0a6989e in 0.92s
+2025.11.05 11:57:21 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:57:23 INFO  time: compiled 2_d5c0a6989e in 2.38s
+2025.11.05 11:58:39 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:58:42 INFO  time: compiled 2_d5c0a6989e in 2.38s
+2025.11.05 11:58:48 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:58:50 INFO  time: compiled 2_d5c0a6989e in 1.58s
+2025.11.05 11:58:52 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 11:58:54 INFO  time: compiled 2_d5c0a6989e in 1.82s
+Nov 05, 2025 12:23:13 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 977
+2025.11.05 12:23:20 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 12:23:23 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.11.05 12:23:23 INFO  time: compiled 2_d5c0a6989e in 3.98s
+2025.11.05 12:24:08 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 12:24:10 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.11.05 12:24:10 INFO  time: compiled 2_d5c0a6989e in 2.28s
+2025.11.05 12:24:11 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.11.05 12:24:12 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.11.05 12:24:11 INFO  Starting debug proxy for [recfun.Main]
+2025.11.05 12:24:13 INFO  Loaded expression compiler in 1 second
+2025.11.05 12:24:13 INFO  Loaded step filter in 115 milliseconds
+2025.11.05 12:24:16 INFO  Loaded all sources and classes in 2 seconds
+2025.11.05 12:24:18 INFO  Initialized Scala 3 decoder in 1 second
+2025.11.05 12:24:18 INFO  Trying to attach to remote debuggee VM localhost:42117 .
+2025.11.05 12:24:18 INFO  Attaching to debuggee VM succeeded.
+2025.11.05 12:24:19 INFO  Canceling debug proxy for [recfun.Main]
+2025.11.05 12:24:18 INFO  Closing debug server tcp://0.0.0.0:38481
+Nov 05, 2025 12:25:09 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1156
+2025.11.05 12:25:16 INFO  compiling 2_d5c0a6989e (1 scala source)
+2025.11.05 12:25:18 WARN  there was 1 deprecation warning; re-run with -deprecation for details
+2025.11.05 12:25:18 INFO  time: compiled 2_d5c0a6989e in 1.39s
+2025.11.05 12:25:18 INFO  tracing is disabled for protocol dap-server, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-server.trace.json or /home/user/.cache/metals/dap-server.trace.json
+2025.11.05 12:25:19 INFO  tracing is disabled for protocol dap-client, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/user/study/java/j25-26/tasks/term-1/2/.metals/dap-client.trace.json or /home/user/.cache/metals/dap-client.trace.json
+2025.11.05 12:25:18 INFO  Starting debug proxy for [recfun.Main]
+2025.11.05 12:25:19 INFO  Loaded expression compiler in 1 millisecond
+2025.11.05 12:25:19 INFO  Loaded step filter in 0 milliseconds
+2025.11.05 12:25:21 INFO  Loaded all sources and classes in 1 second
+2025.11.05 12:25:21 INFO  Initialized Scala 3 decoder in 974 milliseconds
+2025.11.05 12:25:21 INFO  Trying to attach to remote debuggee VM localhost:37939 .
+2025.11.05 12:25:21 INFO  Attaching to debuggee VM succeeded.
+2025.11.05 12:25:22 INFO  Canceling debug proxy for [recfun.Main]
+2025.11.05 12:25:22 INFO  Closing debug server tcp://0.0.0.0:36581
