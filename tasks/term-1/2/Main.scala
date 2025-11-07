@@ -73,7 +73,6 @@ object Main {
    */
 
   def nQueens(size: Int): Option[Array[Int]] = {
-
     def canPlace(queens: Array[Int], row: Int, col: Int): Boolean = {
       (0 until row).forall { r =>
         val c = queens(r)
@@ -84,23 +83,24 @@ object Main {
     def placement(row: Int, current: Array[Int]): Option[Array[Int]] = {
       if (row == size) Some(current.clone())
       else {
-        var result: Option[Array[Int]] = None
-        var col = 0
-
-        while (col < size && result.isEmpty) {
-          if (canPlace(current, row, col)) {
-            // Пробуем поставить ферзя в эту позицию
+        @annotation.tailrec
+        def tryColumns(col: Int): Option[Array[Int]] = {
+          if (col >= size) None
+          else if (canPlace(current, row, col)) {
             current(row) = col
-            result = placement(row + 1, current)
+            placement(row + 1, current) match {
+              case Some(solution) => Some(solution)
+              case None => tryColumns(col + 1)
+            }
+          } else {
+            tryColumns(col + 1)
           }
-          col += 1
         }
-        result
+        tryColumns(0)
       }
     }
 
     placement(0, Array.ofDim[Int](size))
-
   }
 
   def printBoard (solution: Option[Array[Int]]): Unit = {
