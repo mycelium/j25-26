@@ -17,7 +17,7 @@ dependencies {
 }
 
 java {
-    // Подними до 11 или 17 чтобы избежать предупреждений про "8" в JDK24
+  
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
