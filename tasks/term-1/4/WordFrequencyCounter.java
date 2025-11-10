@@ -1,70 +1,118 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class WordFrequencyCounter {
+    public Map<String, Integer> countFrequencyOfWords(String filename) {
+        System.out.println("Used function: loading the entire file.");
+        Map<String, Integer> wordsMap = new HashMap<String, Integer>();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filename));
+            String content = String.join("\n", lines);
+            String[] words = content.split("\\s+");
+            for (String word : words) {
+                String cleanedWord = word.replaceAll("[^a-zA-Zа-яА-Я]", "").toLowerCase();
 
-    public static Map<String, Integer> countWords(Path filePath) {
-        Map<String, Integer> wordCounts = new HashMap<>();
-        StringBuilder unprocessedTail = new StringBuilder();
-
-        try (Reader inputReader = Files.newBufferedReader(filePath)) {
-            char[] readBuffer = new char[4096];
-            int charsRead;
-
-            while ((charsRead = inputReader.read(readBuffer)) != -1) {
-                String currentChunk = unprocessedTail.append(readBuffer, 0, charsRead).toString();
-                String[] potentialWords = currentChunk.split("\\s+");
-
-                unprocessedTail.setLength(0);
-
-                if (!currentChunk.isEmpty() && !Character.isWhitespace(currentChunk.charAt(currentChunk.length() - 1))) {
-                    unprocessedTail.append(potentialWords[potentialWords.length - 1]);
-                    potentialWords = Arrays.copyOf(potentialWords, potentialWords.length - 1);
-                }
-
-                for (String rawWord : potentialWords) {
-                    String normalized = normalizeWord(rawWord);
-                    if (!normalized.isEmpty()) {
-                        wordCounts.merge(normalized, 1, Integer::sum);
-                    }
-                }
-            }
-
-            if (unprocessedTail.length() > 0) {
-                String finalWord = normalizeWord(unprocessedTail.toString());
-                if (!finalWord.isEmpty()) {
-                    wordCounts.merge(finalWord, 1, Integer::sum);
+                if (!cleanedWord.isEmpty()) {
+                    wordsMap.put(cleanedWord, wordsMap.getOrDefault(cleanedWord, 0) + 1);
                 }
             }
 
         } catch (IOException e) {
-            System.err.println("Failed to read file: " + e.getMessage());
+            System.err.println("Error to read file " + e.getMessage());
+        }
+        return wordsMap;
+    }
+    public Map<String, Integer> countFrequencyOfWordsStreaming(String filename) {
+        System.out.println("Used function: streaming the file");
+        Map<String, Integer> wordsMap = new HashMap<String, Integer>();
+
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filename))) {
+            String line;
+            Pattern pattern = Pattern.compile("[a-zA-Zа-яА-Я]+");
+
+            while ((line = reader.readLine()) != null) {
+                Matcher matcher = pattern.matcher(line.toLowerCase());
+
+                while (matcher.find()) {
+                    String word = matcher.group();
+                    wordsMap.put(word, wordsMap.getOrDefault(word, 0) + 1);
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error to read file " + e.getMessage());
         }
 
-        return wordCounts;
+        return wordsMap;
     }
-
-    private static String normalizeWord(String word) {
-        return word.toLowerCase()
-                   .replaceAll("[^a-zа-яё]", "")
-                   .trim();
+    public Map<String, Integer> sortMap(Map<String, Integer> map){
+        Map<String, Integer> sortedMap = map.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+        return sortedMap;
     }
+    public void printDictionary(Map<String, Integer> dict){
 
-    public static void printFrequencies(Map<String, Integer> frequencies) {
-        frequencies.entrySet().stream()
-            .sorted(Map.Entry.comparingByKey())
-            .forEach(entry -> System.out.println(entry.getKey() + " - " + entry.getValue()));
+        int mapSize = dict.size();
+        Map<String, Integer> sortedMap=sortMap(dict);
+        dict=sortedMap;
+        System.out.println("All dictionary: ");
+        for (Map.Entry<String, Integer> entry : dict.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+        System.out.println("Unique words: "+mapSize+"");
+        System.out.println("");
+
+        int numWords=10;
+        System.out.println("Top "+numWords+" frequent words: ");
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : dict.entrySet()) {
+            if (count >= numWords) {
+                break;
+            }
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+            count++;
+        }
+        System.out.println("Unique words: "+numWords+"");
+        System.out.println("");
+
     }
+    public static void main(String[] args){
+        WordFrequencyCounter counter=new WordFrequencyCounter();
+        Map<String, Integer> test1;
+        Map<String, Integer> test2;
+        String smallfile="tasks\\term-1\\4\\SmallText.txt";
+        String bigfile="tasks\\term-1\\4\\BigText.txt";
+        try {
+            long fileSize1 = Files.size(Paths.get(smallfile));
+            if (fileSize1 >= 1024) {
+                test1 = counter.countFrequencyOfWordsStreaming(smallfile);
+            } else {
+                test1 = counter.countFrequencyOfWords(smallfile);
+            }
+            counter.printDictionary(test1);
 
-    public static void main(String[] args) {
-        Path targetFile = Paths.get("tasks\\term-1\\4\\test.txt");
-        Map<String, Integer> result = countWords(targetFile);
-        printFrequencies(result);
+            long fileSize2 = Files.size(Paths.get(bigfile));
+            if (fileSize2 >= 1024) {
+                test2 = counter.countFrequencyOfWordsStreaming(bigfile);
+            } else {
+                test2 = counter.countFrequencyOfWords(bigfile);
+            }
+            counter.printDictionary(test2);
+        }catch (IOException e) {
+            System.err.println("Error to read file " + e.getMessage());
+        }
     }
 }
