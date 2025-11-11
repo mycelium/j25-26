@@ -3,12 +3,24 @@
  */
 package org.example;
 
+import org.example.neuralnet.NeuralNet;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        
+        NeuralNet neuralNet = new NeuralNet();
+
+        Integer result = neuralNet.EvaluateImageFromPath("../image.png");
+        if (result == null) {
+            return;
+        }
+
+        System.out.printf("Модель предсказывает: %d\n", result);
+        //измерение точности модели
+        //neuralNet.GetStatistic();
     }
 }
