@@ -3,12 +3,33 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import com.opencsv.CSVReader;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import java.io.FileReader;
+
+import org.example.SentimentAnalyzer.SentimentAnalyzer;
+
+public class App {
+
+    public static void main(String[] args) throws Exception {
+
+        String inputCsv = "../IMDB Dataset.csv";
+
+        SentimentAnalyzer analyzer = new SentimentAnalyzer();
+
+        try (CSVReader reader = new CSVReader(new FileReader(inputCsv))) {
+            String[] row;
+
+            reader.readNext();
+
+            int count = 0;
+            while ((row = reader.readNext()) != null) {
+                String review = row[0];
+
+                String sentiment = analyzer.analyze(review);
+
+                System.out.printf("Comment %d: %s\n", ++count, sentiment);
+            }
+        }
     }
 }
