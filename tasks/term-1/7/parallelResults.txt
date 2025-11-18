@@ -1,0 +1,68 @@
+Tests for 100x100 matrix:
+Execution time for iteration 1 for parallel multiply: 17 ms
+Execution time for iteration 2 for parallel multiply: 17 ms
+Execution time for iteration 3 for parallel multiply: 0 ms
+Execution time for iteration 4 for parallel multiply: 1 ms
+Execution time for iteration 5 for parallel multiply: 1 ms
+Execution time for iteration 6 for parallel multiply: 1 ms
+Execution time for iteration 7 for parallel multiply: 1 ms
+Execution time for iteration 8 for parallel multiply: 0 ms
+Execution time for iteration 9 for parallel multiply: 1 ms
+Execution time for iteration 10 for parallel multiply: 0 ms
+---- TEST RESULTS FOR 100x100 MATRIX ----
+Total execution time for effective method: 39 ms
+Average execution time for effective method: 3 ms
+
+
+
+
+Tests for 500x500 matrix:
+Execution time for iteration 1 for parallel multiply: 7 ms
+Execution time for iteration 2 for parallel multiply: 8 ms
+Execution time for iteration 3 for parallel multiply: 9 ms
+Execution time for iteration 4 for parallel multiply: 7 ms
+Execution time for iteration 5 for parallel multiply: 8 ms
+Execution time for iteration 6 for parallel multiply: 10 ms
+Execution time for iteration 7 for parallel multiply: 9 ms
+Execution time for iteration 8 for parallel multiply: 7 ms
+Execution time for iteration 9 for parallel multiply: 8 ms
+Execution time for iteration 10 for parallel multiply: 8 ms
+---- TEST RESULTS FOR 500x500 MATRIX ----
+Total execution time for effective method: 81 ms
+Average execution time for effective method: 8 ms
+
+
+
+
+Tests for 1000x1000 matrix:
+Execution time for iteration 1 for parallel multiply: 119 ms
+Execution time for iteration 2 for parallel multiply: 83 ms
+Execution time for iteration 3 for parallel multiply: 89 ms
+Execution time for iteration 4 for parallel multiply: 84 ms
+Execution time for iteration 5 for parallel multiply: 73 ms
+Execution time for iteration 6 for parallel multiply: 77 ms
+Execution time for iteration 7 for parallel multiply: 110 ms
+Execution time for iteration 8 for parallel multiply: 70 ms
+Execution time for iteration 9 for parallel multiply: 88 ms
+Execution time for iteration 10 for parallel multiply: 74 ms
+---- TEST RESULTS FOR 1000x1000 MATRIX ----
+Total execution time for effective method: 867 ms
+Average execution time for effective method: 86 ms
+
+
+
+
+Tests for 2000x2000 matrix:
+Execution time for iteration 1 for parallel multiply: 2151 ms
+Execution time for iteration 2 for parallel multiply: 1454 ms
+Execution time for iteration 3 for parallel multiply: 1800 ms
+Execution time for iteration 4 for parallel multiply: 1219 ms
+Execution time for iteration 5 for parallel multiply: 1588 ms
+Execution time for iteration 6 for parallel multiply: 1999 ms
+Execution time for iteration 7 for parallel multiply: 1412 ms
+Execution time for iteration 8 for parallel multiply: 1660 ms
+Execution time for iteration 9 for parallel multiply: 2011 ms
+Execution time for iteration 10 for parallel multiply: 1831 ms
+---- TEST RESULTS FOR 2000x2000 MATRIX ----
+Total execution time for effective method: 17125 ms
+Average execution time for effective method: 1712 ms
