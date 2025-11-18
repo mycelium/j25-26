@@ -4,11 +4,31 @@
 package org.example;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public static void main(String[] args)
+    {
+
+        if (args.length < 2)
+        {
+            System.out.println("Provide the path to the input and output" +
+                    " .csv file as a command line argument");
+            return;
+        }
+        
+        try
+        {
+            SentimentAnalyzer sentimentAnalyzer = new SentimentAnalyzer();
+            CSVProcessor csvProcessor = new CSVProcessor();
+
+            String inputFile = args[0];
+            String outputFile = args[1];
+
+            csvProcessor.processCSV(inputFile, outputFile, sentimentAnalyzer);
+            csvProcessor.checkAnalyzeSentimentResult(inputFile, outputFile);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
