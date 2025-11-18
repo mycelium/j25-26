@@ -1,0 +1,21 @@
+review,sentiment
+This movie was an absolute masterpiece! The acting was superb and the plot kept me engaged until the very end.,positive
+A painfully boring film with a nonsensical plot and wooden acting. I regret spending my money on this.,negative
+The cinematography was beautiful, but the story felt a bit slow and predictable. It was okay, but not memorable.,neutral
+I haven't felt this excited by a film in years. An incredible, heart-pounding adventure from start to finish.,positive
+A complete waste of time. The characters were unlikeable and the dialogue was cringe-worthy.,negative
+The film presented an interesting historical event with a balanced perspective. It was informative and well-researched.,neutral
+The visual effects were groundbreaking and the score was hauntingly beautiful. A true cinematic achievement.,positive
+Unfunny, unoriginal, and utterly tedious. I can't believe this script got the green light.,negative
+It was a perfectly adequate comedy. I laughed a few times, but I'll probably forget it by next week.,neutral
+This movie touched my soul. A powerful and moving story about love and loss that will stay with me.,positive
+Poorly paced and confusing. The movie couldn't decide what kind of story it wanted to be.,negative
+The lead performance was strong, though the supporting cast was uneven. A mixed bag overall.,neutral
+A delightful and charming film for the whole family. Full of heart and positive messages.,positive
+The plot was riddled with holes and the ending made no sense whatsoever. A frustrating experience.,negative
+It was a standard action flick. The stunts were good, but the story was nothing we haven't seen before.,neutral
+An instant classic! The direction was flawless and the performances were all award-worthy.,positive
+I've never been more bored in a theater. The two hours felt like an eternity.,negative
+The documentary covered the topic thoroughly. It was educational, if not particularly engaging.,neutral
+Hilarious from beginning to end! A clever script brought to life by a fantastic cast.,positive
+Cheap jump scares and a derivative plot. A soulless addition to the horror genre.,negative
