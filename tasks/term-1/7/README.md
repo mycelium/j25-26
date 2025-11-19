@@ -17,24 +17,25 @@
 ```java
 public static void findOptimalThreadCount(double[][] matrixA, double[][] matrixB, int numExperiments){
     ...
+    int maxThreads = Runtime.getRuntime().availableProcessors();
     for (int threads = 1; threads <= maxThreads; threads++) {
-        setNumThreads(threads);
-        long totalTime = 0;
-        
-        for (int exp = 0; exp < numExperiments; exp++) {
-            long startTime = System.currentTimeMillis();
-            multiplyParallel(matrixA, matrixB);
-            long endTime = System.currentTimeMillis();
-            totalTime += (endTime - startTime);
-        }
-        
-        long avgTime = totalTime / numExperiments;
-        System.out.println("Threads: " + threads + ", Average time: " + avgTime + " ms");
-        
-        if (avgTime < bestTime) {
-            bestTime = avgTime;
-            optimalThreads = threads;
-        }
+            setNumThreads(threads);
+            long totalTime = 0;
+            
+            for (int exp = 0; exp < numExperiments; exp++) {
+                long startTime = System.currentTimeMillis();
+                multiplyParallel(matrixA, matrixB);
+                long endTime = System.currentTimeMillis();
+                totalTime += (endTime - startTime);
+            }
+            
+            long avgTime = totalTime / numExperiments;
+            System.out.println("Threads: " + threads + ", Average time: " + avgTime + " ms");
+            
+            if (avgTime < bestTime) {
+                bestTime = avgTime;
+                optimalThreads = threads;
+            }
     }
     ...
 }
@@ -43,7 +44,7 @@ public static void findOptimalThreadCount(double[][] matrixA, double[][] matrixB
 ### Сравнение времени
 Для каждого размера матриц умножение выполняется 10 раз, а время усредняется.
 
-Для моей платформы оптимальное количество потоков = 4. 
+Для моей платформы оптимальное количество потоков - 4. 
 |             | Однопоточная релализация | Многопоточная реализация 
 |-------------|---------|---------|
 | $500 \cdot 500$   | 33 ms | 25 ms |
