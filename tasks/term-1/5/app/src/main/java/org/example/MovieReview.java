@@ -8,6 +8,11 @@ public class MovieReview {
         this.reviewText = reviewText;
     }
 
+    public MovieReview (String reviewText, String sentiment) {
+        this.reviewText = reviewText;
+        this.sentiment = sentiment;
+    }
+
     public String getReviewText() { return reviewText; }
     public String getSentiment() { return sentiment; }
 

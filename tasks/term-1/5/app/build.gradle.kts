@@ -19,6 +19,7 @@ dependencies {
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models-english")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
 
 testing {
