@@ -45,9 +45,11 @@ public class DatasetProcessor {
         return null;
     }
 
+
     private String cleanText(String text) {
         if (text == null) return "";
 
+        // удаление всяких html тегов
         text = text.replace("<br />", " ")
                 .replaceAll("<[^>]+>", "");
 
