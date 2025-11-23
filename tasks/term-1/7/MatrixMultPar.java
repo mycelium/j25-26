@@ -1,10 +1,9 @@
-import java.util.concurrent.*;
-
 public class MatrixMultPar {
 
     private static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
-    private static final ExecutorService executor = Executors.newFixedThreadPool(AVAILABLE_PROCESSORS);
-    private static final int PARALLEL_THRESHOLD = 500; // Изменен порог на 500
+    private static final int PARALLEL_THRESHOLD = 130; //примерно на 130*130 происходит уравнивание времени
+    //Original mult и Parallel mult
+    //эксперементально выяснено, что до 130 эффективнее обычное умножение, а не параллельное из-за затрат на объединение потоков
 
     public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
         if (firstMatrix.length == 0 || secondMatrix.length == 0) {
@@ -20,35 +19,37 @@ public class MatrixMultPar {
 
         double[][] result = new double[rowsA][colsB];
 
-        //используем многопоточность для матриц >= порога
-        if (rowsA >= PARALLEL_THRESHOLD && colsB >= PARALLEL_THRESHOLD && AVAILABLE_PROCESSORS > 1) {
-            //параллельная версия
-            int nThreads = Math.min(AVAILABLE_PROCESSORS, rowsA);
-            int rowsPerThread = (int) Math.ceil((double) rowsA / nThreads);
+        //используем if (rowsA < PARALLEL_THRESHOLD || colsB < PARALLEL_THRESHOLD || AVAILABLE_PROCESSORS == 1) {
+            //return multiply(firstMatrix, secondMatrix);
+        //}
 
-            try {
-                Future<?>[] futures = new Future[nThreads];
-                for (int i = 0; i < nThreads; i++) {
-                    int startRow = i * rowsPerThread;
-                    int endRow = Math.min(startRow + rowsPerThread, rowsA);
-                    if (startRow < rowsA) {
-                        futures[i] = executor.submit(new MatrixMultiplierTask(
-                                firstMatrix, secondMatrix, result, startRow, endRow));
-                    }
-                }
+        int nThreads = Math.min(AVAILABLE_PROCESSORS, rowsA);
+        int rowsPerThread = (int) Math.ceil((double) rowsA / nThreads);
 
-                for (Future<?> future : futures) {
-                    if (future != null) {
-                        future.get();
-                    }
+        Thread[] threads = new Thread[nThreads];
+
+        try {
+            //создаем и запускаем потоки
+            for (int i = 0; i < nThreads; i++) {
+                int startRow = i * rowsPerThread;
+                int endRow = Math.min(startRow + rowsPerThread, rowsA);
+                if (startRow < rowsA) {
+                    threads[i] = new Thread(new MatrixMultiplierTask(
+                            firstMatrix, secondMatrix, result, startRow, endRow));
+                    threads[i].start();
                 }
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException("Parallel multiply failed!", e);
             }
-        } else {
-            //однопоточная версия для маленьких матриц
-            return multiply(firstMatrix, secondMatrix);
+
+            //ожидаем завершения всех потоков
+            for (Thread thread : threads) {
+                if (thread != null) {
+                    thread.join();
+                }
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Parallel multiply failed!", e);
         }
+
         return result;
     }
 
@@ -69,9 +70,10 @@ public class MatrixMultPar {
 
         @Override
         public void run() {
-            int n = A[0].length;
+            int n = A[0].length; // cols in A = rows in B
             int p = B[0].length;
 
+            // оптимизация циклов i -> k -> j
             for (int i = startRow; i < endRow; i++) {
                 double[] aRow = A[i];
                 double[] cRow = C[i];
@@ -102,45 +104,28 @@ public class MatrixMultPar {
         return result;
     }
 
-    public static void shutdown() {
-        executor.shutdown();
-        try {
-            if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
-    }
-
     public static void main(String[] args) {
-        try {
-            System.out.println("AVAILABLE_PROCESSORS: " + AVAILABLE_PROCESSORS);
-            System.out.println("PARALLEL_THRESHOLD: " + PARALLEL_THRESHOLD);
+        System.out.println("AVAILABLE_PROCESSORS: " + AVAILABLE_PROCESSORS);
+        System.out.println("PARALLEL_THRESHOLD: " + PARALLEL_THRESHOLD);
 
-            int[] sizes = {500, 1000, 1500, 2000};
-            int testRuns = 5;
+        int[] sizes = {10, 100, 130, 150, 160, 200,500, 1000, 1500};
+        int testRuns = 5;
 
-            for (int size : sizes) {
-                System.out.println("\n" + "=".repeat(50));
-                System.out.println("Matrix size: " + size + "*" + size);
+        for (int size : sizes) {
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("Matrix size: " + size + "*" + size);
 
-                double[][] matrix1 = generateRandomMatrix(size, size);
-                double[][] matrix2 = generateRandomMatrix(size, size);
+            double[][] matrix1 = generateRandomMatrix(size, size);
+            double[][] matrix2 = generateRandomMatrix(size, size);
 
-                long originalTime = testVersion("Original", matrix1, matrix2, testRuns,
-                        MatrixMultPar::multiply);
+            long originalTime = testVersion("Original", matrix1, matrix2, testRuns,
+                    MatrixMultPar::multiply);
 
-                long parallelTime = testVersion("Parallel", matrix1, matrix2, testRuns,
-                        MatrixMultPar::multiplyParallel);
+            long parallelTime = testVersion("Parallel", matrix1, matrix2, testRuns,
+                    MatrixMultPar::multiplyParallel);
 
-                // Добавляем вычисление ускорения
-                double speedup = (double) originalTime / parallelTime;
-                System.out.printf("Speedup: %.2fx%n", speedup);
-            }
-        } finally {
-            shutdown();
+            double speedup = (double) originalTime / parallelTime;
+            System.out.printf("Speedup: %.2fx%n", speedup);
         }
     }
 
@@ -153,12 +138,11 @@ public class MatrixMultPar {
             long startTime = System.nanoTime();
             multiplier.multiply(A, B);
             long endTime = System.nanoTime();
-            long duration = (endTime - startTime) / 1_000_000;
+            long duration = (endTime - startTime) / 1000000;
             totalTime += duration;
 
             try { Thread.sleep(100); } catch (InterruptedException e) {}
         }
-
         long avgTime = totalTime / runs;
         System.out.printf("%-20s - Time: %4d ms%n", name, avgTime);
         return avgTime;
