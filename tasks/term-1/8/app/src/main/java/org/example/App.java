@@ -3,12 +3,132 @@
  */
 package org.example;
 
+import org.datavec.image.loader.NativeImageLoader;
+import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
+import org.deeplearning4j.eval.Evaluation;
+import org.deeplearning4j.nn.api.OptimizationAlgorithm;
+import org.deeplearning4j.nn.conf.ConvolutionMode;
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.layers.*;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
+import org.nd4j.linalg.learning.config.Adam;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.nd4j.linalg.factory.Nd4j;
+
+import java.io.File;
+import java.io.IOException;
+import org.deeplearning4j.util.ModelSerializer;
+//gradlew run --args="C:\Users\marty\j25-26\tasks\term-1\8\images\seven.png"
+
 public class App {
+
     public String getGreeting() {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    private static final int HEIGHT = 28;
+    private static final int WIDTH = 28;
+    private static final int CHANNELS = 1;
+    private static final int OUTPUT_NUM = 10;
+    private static final int BATCH_SIZE = 64;
+    private static final int EPOCHS = 3;    
+    private static final int SEED = 123;
+
+    public static MultiLayerNetwork buildModel() {
+
+        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+                .seed(SEED)
+                .l2(0.0005)
+                .updater(new Adam(1e-3))
+                .weightInit(org.deeplearning4j.nn.weights.WeightInit.RELU)
+                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+                .list()
+                .layer(0, new ConvolutionLayer.Builder(5, 5)
+                        .nIn(CHANNELS)
+                        .nOut(32)
+                        .stride(1, 1)
+                        .activation(Activation.RELU)
+                        .convolutionMode(ConvolutionMode.Same)
+                        .build())
+                .layer(1, new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                        .kernelSize(2, 2)
+                        .stride(2, 2)
+                        .build())
+                .layer(2, new ConvolutionLayer.Builder(3, 3)
+                        .nOut(64)
+                        .stride(1, 1)
+                        .activation(Activation.RELU)
+                        .convolutionMode(ConvolutionMode.Same)
+                        .build())
+                .layer(3, new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                        .kernelSize(2, 2)
+                        .stride(2, 2)
+                        .build())
+                .layer(4, new DenseLayer.Builder()
+                        .activation(Activation.RELU)
+                        .nOut(128)
+                        .build())
+                .layer(5, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+                        .nOut(OUTPUT_NUM)
+                        .activation(Activation.SOFTMAX)
+                        .build())
+                .setInputType(org.deeplearning4j.nn.conf.inputs.InputType
+                        .convolutionalFlat(HEIGHT, WIDTH, CHANNELS))
+                .build();
+        MultiLayerNetwork model = new MultiLayerNetwork(conf);
+        model.init();
+        return model;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        DataSetIterator train = new MnistDataSetIterator(BATCH_SIZE, true, SEED);
+        DataSetIterator test  = new MnistDataSetIterator(BATCH_SIZE, false, SEED);
+        ImagePreProcessingScaler scaler = new ImagePreProcessingScaler(0, 1);
+        scaler.fit(train);
+        train.setPreProcessor(scaler);
+        test.setPreProcessor(scaler);
+        MultiLayerNetwork model = buildModel();
+        System.out.println("Start training");
+        for (int epoch = 1; epoch <= EPOCHS; epoch++) {
+            model.fit(train);
+            System.out.println("Epoch " + epoch + " complete");
+            if (epoch == EPOCHS) {
+                System.out.println("\nFinal Evaluation");
+                Evaluation evaluation = model.evaluate(test);
+                System.out.println(evaluation.stats());
+            }
+            
+            train.reset();
+            test.reset();
+        }
+        
+        ModelSerializer.writeModel(model, new File("mnist-cnn-model.zip"), true);
+        
+        if (args.length > 0) {
+            String imagePath = args[0];
+            File file = new File(imagePath);
+            if (file.exists()) {
+                int predicted = predictSingleImage(model, imagePath, scaler);
+                System.out.println("Predicted digit: " + predicted);
+            } else {
+                System.out.println("File not found: " + imagePath);
+            }
+        } else {
+            System.out.println("No image file provided");
+        }
+    }
+
+    public static int predictSingleImage(MultiLayerNetwork model, String imagePath, ImagePreProcessingScaler scaler) throws IOException {
+        NativeImageLoader loader = new NativeImageLoader(HEIGHT, WIDTH, CHANNELS, false);
+        INDArray img = loader.asMatrix(new File(imagePath));
+        scaler.transform(img);
+        INDArray output = model.output(img);
+        return Nd4j.argMax(output, 1).getInt(0);
     }
 }
