@@ -171,14 +171,14 @@ public class MatrixMultPar {
                     System.out.println("\nTEST №" + (test + 1));
                     System.out.printf("\nParallel time: %d ms\n", parallelTime);
                     System.out.printf("Sequential time: %d ms\n", seqTime);
-
-                    double avgParallelForSize = sizeParallelTotal / (double) numOfTests;
-                    double avgSequentialForSize = sizeSeqTotal / (double) numOfTests;
-
-                    System.out.printf("\n=== RESULTS for %dx%d matrix ===\n", size, size);
-                    System.out.printf("Average parallel time: %.2f ms\n", avgParallelForSize);
-                    System.out.printf("Average sequential time: %.2f ms\n", avgSequentialForSize);
                 }
+
+                double avgParallelForSize = sizeParallelTotal / (double) numOfTests;
+                double avgSequentialForSize = sizeSeqTotal / (double) numOfTests;
+
+                System.out.printf("\n=== RESULTS for %dx%d matrix ===\n", size, size);
+                System.out.printf("Average parallel time: %.2f ms\n", avgParallelForSize);
+                System.out.printf("Average sequential time: %.2f ms\n", avgSequentialForSize);
             }
         } catch (Exception e) {
             System.out.println("Error during testing: " + e.getMessage());
