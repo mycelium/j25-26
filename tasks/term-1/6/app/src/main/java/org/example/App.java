@@ -3,12 +3,66 @@
  */
 package org.example;
 
+import java.util.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    public static void main(String[] args) {
+        List<Point> trainingData = generateTrainingData();
+
+        Point testPoint = generateTestPoint();
+
+        KNNClassifier knn = new KNNClassifier(3);
+        knn.addTrainingData(trainingData);
+
+        String predictedClass = knn.classify(testPoint);
+
+        System.out.println("New point: (" +
+                String.format("%.2f", testPoint.getX()) + ", " +
+                String.format("%.2f", testPoint.getY()) + ")");
+        System.out.println("Predicted class: " + predictedClass);
+
+        testPoint.setLabel(predictedClass);
+        trainingData.add(testPoint);
+
+        KNNPlotter.plotPoints(trainingData, "output/knn_result.png");
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    private static List<Point> generateTrainingData() {
+        Random rand = new Random();
+        List<Point> points = new ArrayList<>();
+
+        int numClasses = 5;
+        System.out.println("Number of classes: " + numClasses);
+
+        for (int c = 0; c < numClasses; c++) {
+            String label = "Class" + (char)('A' + c);
+
+            double centerX = rand.nextDouble() * 15;
+            double centerY = rand.nextDouble() * 15;
+
+            int pointsPerClass = 10;
+            for (int i = 0; i < pointsPerClass; i++) {
+                double x = centerX + rand.nextGaussian() * 1.5;
+                double y = centerY + rand.nextGaussian() * 1.5;
+
+                x = Math.max(0, Math.min(20, x));
+                y = Math.max(0, Math.min(20, y));
+
+                points.add(new Point(x, y, label));
+            }
+
+            System.out.println("Generated " + pointsPerClass + " points for " + label +
+                    " around center (" + String.format("%.1f", centerX) +
+                    ", " + String.format("%.1f", centerY) + ")");
+        }
+
+        return points;
+    }
+
+    private static Point generateTestPoint() {
+        Random rand = new Random();
+        double x = rand.nextDouble() * 20;
+        double y = rand.nextDouble() * 20;
+        return new Point(x, y);
     }
 }
