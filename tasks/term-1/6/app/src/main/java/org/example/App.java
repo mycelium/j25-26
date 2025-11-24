@@ -3,12 +3,58 @@
  */
 package org.example;
 
+import java.util.*;
+import org.example.knn.*;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        KNNClassifier classifier = new KNNClassifier(3);
+
+        List<Point> trainingData = Arrays.asList(
+                new Point(2, 2, "A"), new Point(2, 3, "A"), new Point(3, 2, "A"),
+                new Point(3, 3, "A"), new Point(2, 4, "A"), new Point(4, 2, "A"),
+                new Point(1, 1, "A"), new Point(1, 2, "A"),
+
+                new Point(12, 12, "B"), new Point(13, 12, "B"), new Point(12, 13, "B"),
+                new Point(13, 13, "B"), new Point(14, 12, "B"), new Point(12, 14, "B"),
+                new Point(14, 14, "B"), new Point(13, 14, "B"),
+
+                new Point(2, 12, "C"), new Point(3, 12, "C"), new Point(2, 13, "C"),
+                new Point(3, 13, "C"), new Point(2, 14, "C"), new Point(4, 13, "C"),
+                new Point(3, 14, "C"), new Point(1, 13, "C"),
+
+                new Point(7, 7, "D"), new Point(8, 7, "D"), new Point(7, 8, "D"),
+                new Point(8, 8, "D"), new Point(7.5, 7.5, "D"));
+
+        classifier.addTrainingPoints(trainingData);
+
+        List<Point> testPoints = Arrays.asList(
+                new Point(2.5, 2.5),
+                new Point(12.5, 12.5),
+                new Point(2.5, 12.5),
+                new Point(7.5, 7.5),
+                new Point(5, 5),
+                new Point(10, 10));
+
+        System.out.println("KNN classification results:");
+        System.out.println("=============================================");
+        for (Point testPoint : testPoints) {
+            String predictedClass = classifier.classify(testPoint);
+            System.out.printf("Point (%.1f, %.1f) -> class: %s%n",
+                    testPoint.getX(), testPoint.getY(), predictedClass);
+        }
+
+        // Создаем и отображаем визуализатор
+        KNNVisualizer visualizer = new KNNVisualizer(classifier, testPoints);
+
+        // Сохраняем график как изображение
+        visualizer.saveAsImage("knn_classification.png");
+
+        // Показываем график в окне
+        visualizer.display();
     }
 }
