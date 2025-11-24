@@ -716,3 +716,8 @@ WARNING: Unmatched cancel notification for request id 1156
 2025.11.05 12:25:21 INFO  Attaching to debuggee VM succeeded.
 2025.11.05 12:25:22 INFO  Canceling debug proxy for [recfun.Main]
 2025.11.05 12:25:22 INFO  Closing debug server tcp://0.0.0.0:36581
+2025.11.05 12:32:58 INFO  Shutting down server
+2025.11.05 12:32:58 INFO  shutting down Metals
+2025.11.05 12:32:58 INFO  Shut down connection with build server.
+2025.11.05 12:32:58 INFO  Exiting server
+2025.11.07 01:11:14 INFO  Started: Metals version 1.6.3 in folders '/home/user/study/java/j25-26/tasks/term-1/2' for client Visual Studio Code 1.105.1.
