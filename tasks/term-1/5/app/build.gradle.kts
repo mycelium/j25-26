@@ -19,6 +19,12 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    
+    // Stanford CoreNLP for sentiment analysis
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models-english")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
 }
 
 testing {
@@ -34,7 +40,7 @@ testing {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(21) // Changed from 23 to 21 for better compatibility
     }
 }
 
@@ -42,3 +48,4 @@ application {
     // Define the main class for the application.
     mainClass = "org.example.App"
 }
+
