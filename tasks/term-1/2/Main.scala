@@ -1,6 +1,5 @@
 package recfun
 //import common._
-import scala.collection.mutable
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -79,37 +78,23 @@ object Main {
   /** Exercise 1
     */
   def pascal(c: Int, r: Int): Int = {
-    val cache = new mutable.HashMap[(Int, Int), Int]()
-
-    def compute(col: Int, row: Int): Int = {
-      if (col < 0 || col > row) return 0
-      if (col == 0 || col == row) return 1
-
-      cache.getOrElseUpdate(
-        (col, row), {
-          compute(col - 1, row - 1) + compute(col, row - 1)
-        }
-      )
-    }
-
-    compute(c, r)
+    if (c < 0 || c > r) 0
+    else if (c == 0 || c == r) 1
+    else pascal(c - 1, r - 1) + pascal(c, r - 1)
   }
 
   /** Exercise 2 Parentheses Balancing
     */
   def balance(chars: List[Char]): Boolean = {
     def checkBalance(chars: List[Char], openCount: Int): Boolean = {
-      if (openCount < 0) {
-        false
-      } else if (chars.isEmpty) {
-        openCount == 0
-      } else {
+      if (openCount < 0) false
+      else if (chars.isEmpty) openCount == 0
+      else
         chars.head match {
           case '(' => checkBalance(chars.tail, openCount + 1)
           case ')' => checkBalance(chars.tail, openCount - 1)
           case _   => checkBalance(chars.tail, openCount)
         }
-      }
     }
 
     checkBalance(chars, 0)
@@ -121,20 +106,10 @@ object Main {
     * have coins with denomiation 2 and 3: 2+3.
     */
   def countChange(money: Int, coins: List[Int]): Int = {
-    val memo = new mutable.HashMap[(Int, List[Int]), Int]()
-
     def count(m: Int, coinList: List[Int]): Int = {
-      if (memo.contains((m, coinList))) {
-        return memo((m, coinList))
-      }
-
-      val result =
-        if (m == 0) 1
-        else if (m < 0 || coinList.isEmpty) 0
-        else count(m - coinList.head, coinList) + count(m, coinList.tail)
-
-      memo.put((m, coinList), result)
-      result
+      if (m == 0) 1
+      else if (m < 0 || coinList.isEmpty) 0
+      else count(m - coinList.head, coinList) + count(m, coinList.tail)
     }
 
     count(money, coins.sorted)
@@ -152,49 +127,37 @@ object Main {
     if (size == 2 || size == 3) return None
     if (size == 1) return Some(Array(0))
 
-    val placement = new Array[Int](size)
+    def solve(rows: List[Int]): Option[List[Int]] = {
+      val currentRow = rows.length
 
-    def notBeat(row: Int, col: Int): Boolean = {
-      for (i <- 0 until row) {
-        if (
-          placement(i) == col ||
-          math.abs(placement(i) - col) == row - i
-        ) {
-          return false
-        }
-      }
-      true
-    }
-
-    def place(row: Int): Boolean = {
-      if (row >= size) return true
-
-      for (col <- 0 until size) {
-        if (notBeat(row, col)) {
-          placement(row) = col
-          if (place(row + 1)) {
-            return true
+      if (currentRow == size) Some(rows.reverse)
+      else {
+        def isValidPlacement(col: Int): Boolean = {
+          rows.zipWithIndex.forall { case (existingCol, row) =>
+            existingCol != col && math.abs(
+              existingCol - col
+            ) != (currentRow - row)
           }
         }
+
+        (0 until size).collectFirst {
+          case col if isValidPlacement(col) =>
+            solve(col :: rows)
+        }.flatten
       }
-      false
     }
 
-    if (place(0)) Some(placement) else None
+    solve(List.empty[Int]).map(_.toArray)
   }
 
   def printBoard(placement: Array[Int]): Unit = {
     val size = placement.length
     for (row <- 0 until size) {
       for (col <- 0 until size) {
-        if (placement(row) == col) {
-          print("1 ")
-        } else {
-          print("0 ")
-        }
+        if (placement(row) == col) print("1 ")
+        else print("0 ")
       }
       println()
     }
   }
-
 }
