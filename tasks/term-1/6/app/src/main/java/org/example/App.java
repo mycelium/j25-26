@@ -3,12 +3,153 @@
  */
 package org.example;
 
+import java.io.IOException;
+import java.util.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    public static void main(String[] args) {
+        demonstrateGridClusters();
+        demonstrateTwoMoons();
+        demonstrateRandom();
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    private static void demonstrateGridClusters() {
+        List<Point> trainingData = new ArrayList<>();
+        Random random = new Random(42);
+        int classes = 3;
+        int pointsPerClass = 40;
+        double noise = 0.05;
+
+        for (int i = 0; i < classes; i++) {
+            double centerX = (i % 2) * 0.7 + 0.15;
+            double centerY = ((double) i / 2) * 0.7 + 0.15;
+            String label = "Class " + (i + 1);
+
+            for (int j = 0; j < pointsPerClass; j++) {
+                double x = centerX + (random.nextDouble() - 0.5) * noise;
+                double y = centerY + (random.nextDouble() - 0.5) * noise;
+                trainingData.add(new Point(x, y, label));
+            }
+        }
+
+        Point testPoint = new Point(0.15, 0.3, "");
+        KNNClassifier knn = new KNNClassifier(trainingData, 3);
+        String predictedClass = knn.predict(testPoint);
+        System.out.println("Grid Clusters - Predicted class for point (" +
+                testPoint.getX() + ", " + testPoint.getY() +
+                "): " + predictedClass);
+
+        Point visualizationPoint = new Point(testPoint.getX(), testPoint.getY(), "Test Point (" + predictedClass + ")");
+
+        List<Point> allPoints = new ArrayList<>(trainingData);
+        allPoints.add(visualizationPoint);
+
+        try {
+            ChartGenerator chart = new ChartGenerator(allPoints);
+            chart.saveChart("tasks/term-1/6/app/results/grid_clusters.png");
+            System.out.println("Grid Clusters visualization saved as tasks/term-1/6/app/results/grid_clusters.png");
+        }
+        catch (IOException e) {
+            System.err.println("Error saving grid_clusters.png: " + e.getMessage());
+        }
+    }
+
+    private static void demonstrateTwoMoons() {
+        List<Point> trainingData = new ArrayList<>();
+        Random random = new Random(42);
+        int pointsPerMoon = 100;
+        double noise = 0.1;
+
+        for (int i = 0; i < pointsPerMoon; i++) {
+            double angle = random.nextDouble() * Math.PI;
+            double radius = 1.0 + noise * random.nextGaussian();
+            double x1 = radius * Math.cos(angle) + 0.5;
+            double y1 = radius * Math.sin(angle) + 0.5;
+            trainingData.add(new Point(x1, y1, "Moon 1"));
+
+            double x2 = radius * Math.cos(angle + Math.PI) + 0.5;
+            double y2 = radius * Math.sin(angle + Math.PI) - 0.5;
+            trainingData.add(new Point(x2, y2, "Moon 2"));
+        }
+
+        double minX = trainingData.stream().mapToDouble(Point::getX).min().orElse(0);
+        double maxX = trainingData.stream().mapToDouble(Point::getX).max().orElse(1);
+        double minY = trainingData.stream().mapToDouble(Point::getY).min().orElse(0);
+        double maxY = trainingData.stream().mapToDouble(Point::getY).max().orElse(1);
+
+        List<Point> normalizedData = new ArrayList<>();
+        for (Point p : trainingData) {
+            double nx = (p.getX() - minX) / (maxX - minX + 1e-8);
+            double ny = (p.getY() - minY) / (maxY - minY + 1e-8);
+            normalizedData.add(new Point(nx, ny, p.getLabel()));
+        }
+        trainingData = normalizedData;
+
+        Point testPoint = new Point(0.5, 0.87, "");
+        KNNClassifier knn = new KNNClassifier(trainingData, 4);
+        String predictedClass = knn.predict(testPoint);
+        System.out.println("Two Moons - Predicted class for point (" +
+                testPoint.getX() + ", " + testPoint.getY() +
+                "): " + predictedClass);
+
+        Point visualizationPoint = new Point(testPoint.getX(), testPoint.getY(), "Test Point (" + predictedClass + ")");
+
+        List<Point> allPoints = new ArrayList<>(trainingData);
+        allPoints.add(visualizationPoint);
+
+        try {
+            ChartGenerator chart = new ChartGenerator(allPoints);
+            chart.saveChart("tasks/term-1/6/app/results/two_moons.png");
+            System.out.println("Two Moons visualization saved as tasks/term-1/6/app/results/two_moons.png");
+        }
+        catch (IOException e) {
+            System.err.println("Error saving two_moons.png: " + e.getMessage());
+        }
+    }
+
+    private static void demonstrateRandom() {
+        List<Point> trainingData = new ArrayList<>();
+        Random random = new Random(42);
+        int classes = 5;
+        int pointsPerClass = 60;
+        double noise = 0.8;
+
+        Map<Integer, Point> classCenters = new HashMap<>();
+        for (int i = 0; i < classes; i++) {
+            double centerX = random.nextDouble();
+            double centerY = random.nextDouble();
+            classCenters.put(i, new Point(centerX, centerY, "Center"));
+        }
+
+        for (int i = 0; i < classes * pointsPerClass; i++) {
+            int classId = i % classes;
+            Point center = classCenters.get(classId);
+            String label = "Class " + (classId + 1);
+
+            double x = center.getX() + (random.nextDouble() - 0.5) * noise;
+            double y = center.getY() + (random.nextDouble() - 0.5) * noise;
+            trainingData.add(new Point(x, y, label));
+        }
+
+        Point testPoint = new Point(0.0, 0.5, "");
+        KNNClassifier knn = new KNNClassifier(trainingData, 5);
+        String predictedClass = knn.predict(testPoint);
+        System.out.println("Random - Predicted class for point (" +
+                testPoint.getX() + ", " + testPoint.getY() +
+                "): " + predictedClass);
+
+        Point visualizationPoint = new Point(testPoint.getX(), testPoint.getY(), "Test Point (" + predictedClass + ")");
+
+        List<Point> allPoints = new ArrayList<>(trainingData);
+        allPoints.add(visualizationPoint);
+
+        try {
+            ChartGenerator chart = new ChartGenerator(allPoints);
+            chart.saveChart("tasks/term-1/6/app/results/random_clusters.png");
+            System.out.println("Random Clusters visualization saved as tasks/term-1/6/app/results/random_clusters.png");
+        }
+        catch (IOException e) {
+            System.err.println("Error saving random_clusters.png: " + e.getMessage());
+        }
     }
 }
