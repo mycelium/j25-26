@@ -355,7 +355,6 @@ public class App {
                 minX = 0; maxX = 1; minY = 0; maxY = 1;
             }
 
-            // Add padding
             double xRange = Math.max(1e-6, maxX - minX);
             double yRange = Math.max(1e-6, maxY - minY);
             double padX = xRange * 0.1;
