@@ -19,6 +19,10 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models-english")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
 
 testing {
@@ -34,7 +38,7 @@ testing {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
