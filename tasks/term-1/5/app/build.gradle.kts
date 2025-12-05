@@ -19,6 +19,11 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    // Stanford CoreNLP for sentiment analysis
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models-english")
 }
 
 testing {
@@ -40,5 +45,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "org.example.SentimentAnalyzer"
 }
