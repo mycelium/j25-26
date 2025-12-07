@@ -86,19 +86,6 @@ public class SentimentAnalyzer {
         }
     
         return list;
-        // List<String> lines = Files.readAllLines(Paths.get(path));
-
-        // for (String line : lines) {
-        //     int c = line.lastIndexOf(",");
-        //     if (c == -1) continue;
-
-        //     String text = cleanText(line.substring(0, c));
-        //     String label = line.substring(c + 1).trim().toLowerCase();
-
-        //     list.add(new ReviewRecord(text, label));
-        // }
-
-        // return list;
     }
 
     public static class ReviewRecord {
