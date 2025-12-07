@@ -19,6 +19,13 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models-english")
+    
+    // Для работы с CSV
+    implementation("com.opencsv:opencsv:5.8")
 }
 
 testing {
@@ -34,11 +41,27 @@ testing {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
+}
+
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}
+
+// --- НОВАЯ ЧАСТЬ ---
+// Настройка задачи run для выделения больше памяти
+tasks.named<JavaExec>("run") {
+    // Увеличиваем максимальный размер кучи до 2 ГБ (или больше, если позволяет RAM)
+    maxHeapSize = "2g"
+    // Дополнительно можно указать минимальный размер кучи
+    minHeapSize = "512m"
+    // Или передать другие аргументы JVM, если нужно
+    // jvmArgs("-XX:MaxMetaspaceSize=512m", "-XX:+UseG1GC")
 }
