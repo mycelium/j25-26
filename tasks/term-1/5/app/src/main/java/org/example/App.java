@@ -3,12 +3,46 @@
  */
 package org.example;
 
+import java.util.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        try {
+            SentimentAnalyzer analyzer = new SentimentAnalyzer();
+
+            String path = "IMDB Dataset.csv";
+
+            List<SentimentAnalyzer.ReviewRecord> data = analyzer.loadDataset(path);
+
+            System.out.println("Записей загружено: " + data.size());
+            System.out.println("Выбираю 20 случайных отзывов...\n");
+
+            Collections.shuffle(data);
+            List<SentimentAnalyzer.ReviewRecord> sample = data.subList(0, 20);
+
+            int correct = 0;
+            int countTests = 20;
+
+            for (int i = 0; i < countTests; i++) {
+                SentimentAnalyzer.ReviewRecord r = sample.get(i);
+
+                String predicted = analyzer.analyzeSentiment(r.text);
+
+                if (predicted.equalsIgnoreCase(r.label)) {
+                    correct++;
+                }
+
+                String shortText = r.text.length() > 120 ? r.text.substring(0, 120) + "..." : r.text;
+
+                System.out.println("Отзыв " + (i + 1) + ": " + "Текст: \"" + shortText + "\", " + "Предсказано: " + predicted + ", " + "Факт: " + r.label);
+            }
+
+            System.out.println();
+            System.out.println("Итог:");
+            System.out.println("Точность: " + correct + " из " + countTests + " (" + (correct * 100 / countTests) + "%)");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
