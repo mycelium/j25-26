@@ -3,12 +3,108 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.inputs.InputType;
+import org.deeplearning4j.nn.conf.layers.*;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.nd4j.linalg.learning.config.Adam;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
+import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
+import org.nd4j.evaluation.classification.Evaluation;
+import org.nd4j.linalg.factory.Nd4j;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+public class App {
+    private static final int HEIGHT = 28;
+    private static final int WIDTH = 28;
+    private static final int CHANNELS = 1;
+    private static final int OUTPUT_NUM = 10;
+    private static final int BATCH_SIZE = 64;
+    private static final int EPOCHS = 5;
+    private static final int SEED = 12345;
+
+    public static void main(String[] args) throws Exception {
+        DataSetIterator trainIter = new MnistDataSetIterator(BATCH_SIZE, true, SEED);
+        DataSetIterator testIter = new MnistDataSetIterator(BATCH_SIZE, false, SEED);
+
+        DataNormalization scaler = new ImagePreProcessingScaler(0, 1);
+        scaler.fit(trainIter);
+        trainIter.setPreProcessor(scaler);
+        testIter.setPreProcessor(scaler);
+
+        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+                .seed(SEED)
+                .l2(1e-4)
+                .updater(new Adam(1e-3))
+                .list()
+                .layer(new ConvolutionLayer.Builder(5, 5)
+                        .nIn(CHANNELS)
+                        .stride(1, 1)
+                        .nOut(20)
+                        .activation(Activation.RELU)
+                        .build())
+                .layer(new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                        .kernelSize(2, 2)
+                        .stride(2, 2)
+                        .build())
+                .layer(new ConvolutionLayer.Builder(5, 5)
+                        .stride(1, 1)
+                        .nOut(50)
+                        .activation(Activation.RELU)
+                        .build())
+                .layer(new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                        .kernelSize(2, 2)
+                        .stride(2, 2)
+                        .build())
+                .layer(new DenseLayer.Builder()
+                        .nOut(500)
+                        .activation(Activation.RELU)
+                        .build())
+                .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+                        .nOut(OUTPUT_NUM)
+                        .activation(Activation.SOFTMAX)
+                        .build())
+                .setInputType(InputType.convolutionalFlat(HEIGHT, WIDTH, CHANNELS))
+                .build();
+
+        MultiLayerNetwork model = new MultiLayerNetwork(conf);
+        model.init();
+        model.setListeners(new ScoreIterationListener(100));
+
+        System.out.println("Beginning of the learning...");
+
+        for (int i = 0; i < EPOCHS; i++) {
+            model.fit(trainIter);
+            trainIter.reset();
+            System.out.println("Epoch " + (i + 1) + " is done.");
+        }
+
+        Evaluation eval = model.evaluate(testIter);
+        System.out.println("\nAccuracy: " + eval.accuracy());
+        System.out.println(eval.stats());
+
+        testIter.reset();
+        var ds = testIter.next();
+        INDArray features = ds.getFeatures();
+        INDArray labels = ds.getLabels();
+
+        INDArray single = features.getRow(0);
+        single = single.reshape(1, CHANNELS, HEIGHT, WIDTH);
+
+        INDArray output = model.output(single);
+        INDArray flatOutput = output.reshape(-1);
+        int predicted = Nd4j.argMax(flatOutput).getInt(0);
+        int actual = Nd4j.argMax(labels.getRow(0)).getInt(0);
+
+        System.out.println("\nExample prediction:");
+        System.out.println("Actual:    " + actual);
+        System.out.println("Predicted: " + predicted);
     }
 }
