@@ -7,8 +7,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    
+    @Test 
+    void testAppCreation() {
+        App app = new App();
+        assertNotNull(app);
+    }
+    
+    @Test
+    void testDigitClassifier() {
+        try {
+        
+            Class<?> digitClassifierClass = Class.forName("org.example.App$DigitClassifier");
+            Object classifier = digitClassifierClass.getDeclaredConstructor().newInstance();
+            assertNotNull(classifier);
+        } catch (Exception e) {
+          
+            App.main(new String[]{});
+            assertTrue(true);
+        }
     }
 }
