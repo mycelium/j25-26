@@ -7,38 +7,44 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
     application
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
-    // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-beta7")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-beta7")
+    implementation("org.deeplearning4j:deeplearning4j-datasets:1.0.0-beta7")
+    implementation("org.slf4j:slf4j-simple:1.7.36")
 }
 
 testing {
     suites {
-        // Configure the built-in test suite
         val test by getting(JvmTestSuite::class) {
-            // Use JUnit Jupiter test framework
             useJUnitJupiter("5.12.1")
         }
     }
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
 application {
-    // Define the main class for the application.
     mainClass = "org.example.App"
+}
+
+tasks.withType<JavaExec> {
+    jvmArgs = listOf(
+        "-Xmx4g",
+        "-Dfile.encoding=UTF-8",
+        "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+        "--add-opens", "java.base/java.util=ALL-UNNAMED"
+    )
 }
