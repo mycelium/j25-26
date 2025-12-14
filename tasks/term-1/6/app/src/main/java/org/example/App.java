@@ -3,12 +3,82 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        System.out.println("=== K-Nearest Neighbors Classifier ===");
+        
+        KNNClassifier classifier = new KNNClassifier(3);
+        
+        List<Point> trainingData = generateTrainingData();
+        classifier.addTrainingPoints(trainingData);
+        
+        System.out.println("Training data generated:");
+        for (Point p : trainingData) {
+            System.out.println(p);
+        }
+        
+        //////////////////етст
+        testAdditionalPoints(classifier);
+        /////////////////
+
+        Point testPoint = new Point(5.5, 3.5);  //КООРДИНАТЫ ТЕСТОВОЙ ТОЧКИ
+        System.out.println("\nTest point: (" + testPoint.getX() + ", " + testPoint.getY() + ")");
+        
+        String predictedClass = classifier.classify(testPoint);
+        testPoint.setLabel(predictedClass);
+        
+        System.out.println("Predicted class: " + predictedClass);
+        
+        String outputPath = "knn_classification.png";
+        DataVisualizer.visualizePoints(trainingData, testPoint, outputPath);
+    }
+    
+    private static List<Point> generateTrainingData() {
+        List<Point> points = new ArrayList<>();
+        Random random = new Random();
+        
+        //класс A: лево-верх
+        for (int i = 0; i < 20; i++) {
+            double x = 2 + random.nextDouble() * 3;
+            double y = 7 + random.nextDouble() * 3;
+            points.add(new Point(x, y, "Class A"));
+        }
+        
+        //класс B: право-низ
+        for (int i = 0; i < 20; i++) {
+            double x = 7 + random.nextDouble() * 3;
+            double y = 2 + random.nextDouble() * 3;
+            points.add(new Point(x, y, "Class B"));
+        }
+        
+        //класс C: центр
+        for (int i = 0; i < 20; i++) {
+            double x = 4 + random.nextDouble() * 4;
+            double y = 4 + random.nextDouble() * 4;
+            points.add(new Point(x, y, "Class C"));
+        }
+        
+        return points;
+    }
+    
+    private static void testAdditionalPoints(KNNClassifier classifier) {
+        System.out.println("\nAdditional Tests");
+        
+        Point[] testPoints = {
+            new Point(2.0, 8.0),
+            new Point(8.0, 2.0),
+            new Point(5.0, 5.0),
+            new Point(1.0, 1.0),
+            new Point(9.0, 9.0)
+        };
+        
+        for (Point testPoint : testPoints) {
+            String predictedClass = classifier.classify(testPoint);
+            System.out.printf("Point (%.1f, %.1f) -> %s%n", testPoint.getX(), testPoint.getY(), predictedClass);
+        }
     }
 }
