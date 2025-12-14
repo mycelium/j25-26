@@ -117,7 +117,7 @@ public class MatrixMultPar {
     }
 
     public static void main(String[] args) {
-        int size = 2000;    //размер матриц
+        int size = 1000;    //размер матриц
         int repeat = 10;
 
         double[][] A = generateMatrix(size, size);
