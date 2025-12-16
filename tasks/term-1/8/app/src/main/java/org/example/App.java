@@ -7,7 +7,7 @@ import java.io.IOException;
 public class App {
     public static void main(String[] args) {
         int batchSize = 64;
-        int numEpochs = 5;
+        int numEpochs = 1;
         double learningRate = 0.001;
 
         try {

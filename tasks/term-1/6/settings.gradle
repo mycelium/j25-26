@@ -13,3 +13,4 @@ plugins {
 
 rootProject.name = 'knn'
 include('app')
+include('images')
