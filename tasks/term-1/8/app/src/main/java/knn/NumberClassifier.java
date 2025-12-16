@@ -1,4 +1,4 @@
-package org.example;
+package knn;
 
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;

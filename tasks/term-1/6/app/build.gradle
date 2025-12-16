@@ -33,5 +33,5 @@ java {
 }
 
 application {
-    mainClass = 'org.example.App'
+    mainClass = 'knn.App'
 }
