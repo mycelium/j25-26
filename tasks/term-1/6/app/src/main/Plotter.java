@@ -1,5 +1,3 @@
-package org.example;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

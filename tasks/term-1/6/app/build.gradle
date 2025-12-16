@@ -19,24 +19,22 @@ repositories {
 dependencies {
 }
 
-testing {
-    suites {
-        // Configure the built-in test suite
-        test {
-            // Use JUnit4 test framework
-            useJUnit('4.13.2')
-        }
-    }
-}
-
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main")
+        }
     }
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'lab6.knn.App'
+    mainClass = 'App'
 }

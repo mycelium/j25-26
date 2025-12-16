@@ -1,6 +1,5 @@
-package lab6.knn;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class KNNClassifier {
 

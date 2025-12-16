@@ -1,5 +1,3 @@
-package lab6.knn;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,7 +9,6 @@ public class App {
         List<Point> trainingData = generateData(50);
         System.out.println("Generated " + trainingData.size() + " training points.");
 
-        // 2. Define a new point
         Point newPoint = new Point(5.0, 5.0); // Input point
         System.out.println("New point to classify: " + newPoint);
 
@@ -51,4 +48,3 @@ public class App {
         return data;
     }
 }
-
