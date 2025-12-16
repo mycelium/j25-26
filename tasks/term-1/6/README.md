@@ -1,5 +1,4 @@
 запуск: 
-cd "C:\Users\olegl\all\polytech\параллельное программирование\j25-26\tasks\term-1\6"
 
 .\gradlew run --args="2.0 2.0"
 
