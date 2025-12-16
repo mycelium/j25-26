@@ -111,13 +111,13 @@ public class MatrixMultPar {
 		System.out.println("--------|-----------|----------");
 
 		// Сначала замеряем однопоточную версию
-		long sequentialTime = measureTime(() -> multiplySequential(matrixA, matrixB), 3);
+		long sequentialTime = measureTime(() -> multiplySequential(matrixA, matrixB), 10);
 		System.out.printf("%7d | %9d | %.2fx%n", 1, sequentialTime, 1.0);
 
 		// Тестируем разное количество потоков
 		for (int threads = 2; threads <= maxThreads; threads++) {
 			final int numThreads = threads; // Создаем effectively final копию
-			long time = measureTime(() -> multiplyParallel(matrixA, matrixB, numThreads), 3);
+			long time = measureTime(() -> multiplyParallel(matrixA, matrixB, numThreads), 10);
 			double speedup = (double) sequentialTime / time;
 
 			System.out.printf("%7d | %9d | %.2fx%n", threads, time, speedup);
@@ -199,11 +199,11 @@ public class MatrixMultPar {
 			System.out.println("|--------------------|------------|-----------|");
 
 			// Замер однопоточной версии
-			long sequentialTime = measureTime(() -> multiplySequential(matrixA, matrixB), 5);
+			long sequentialTime = measureTime(() -> multiplySequential(matrixA, matrixB), 10);
 			System.out.printf("| Однопоточная       | %10d | %.2fx     |%n", sequentialTime, 1.0);
 
 			// Замер параллельной версии с оптимальным количеством потоков
-			long parallelTime = measureTime(() -> multiplyParallel(matrixA, matrixB, optimalThreads), 5);
+			long parallelTime = measureTime(() -> multiplyParallel(matrixA, matrixB, optimalThreads), 10);
 			double speedup = (double) sequentialTime / parallelTime;
 			System.out.printf("| Параллельная (%2d)  | %10d | %.2fx     |%n",
 				optimalThreads, parallelTime, speedup);
