@@ -15,7 +15,7 @@ public class App {
 
     public static void main(String[] args) throws IOException, CsvValidationException {
         try {
-            DataSetReader     dsr         = new DataSetReader("IMDB Dataset.csv");
+            DataSetReader     dsr         = new DataSetReader("src\\main\\resources\\IMDB Dataset.csv");
             SentimentPipeline sp          = new SentimentPipeline();
             int               correctNumb = 0;
 
