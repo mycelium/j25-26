@@ -1,4 +1,4 @@
-package org.example;
+package knn;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package org.example;
+package knn;
 
 import javax.swing.*;
 import java.awt.*;
