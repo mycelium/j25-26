@@ -1,5 +1,4 @@
-
-package org.digitclassifier;
+package org.example;
 
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
