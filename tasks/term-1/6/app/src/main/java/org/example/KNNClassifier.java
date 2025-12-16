@@ -1,4 +1,4 @@
-package org.example;
+package knn.classifier;
 import java.util.*;
 
 public class KNNClassifier {
