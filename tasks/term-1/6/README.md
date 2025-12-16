@@ -12,3 +12,7 @@
   ...
 ...
 ```
+
+### Используемые библиотеки
+---
+* Guava (Google Core Libraries for Java) версия 33.4.5-jre
