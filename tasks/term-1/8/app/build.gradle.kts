@@ -18,7 +18,10 @@ repositories {
 
 dependencies {
     // This dependency is used by the application.
-    implementation(libs.guava)
+    implementation(libs.dl4j.core)
+    implementation(libs.dl4j.datasets)
+    implementation(libs.nd4j.native)
+    implementation(libs.logback)
 }
 
 testing {
@@ -38,7 +41,15 @@ java {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main")
+        }
+    }
+}
+
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "App"
 }
