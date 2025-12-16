@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass.set("digitclassifier.App")
+    mainClass.set("org.digitclassifier.App")
 }
 
 repositories {
