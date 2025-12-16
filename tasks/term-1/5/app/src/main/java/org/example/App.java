@@ -12,12 +12,23 @@ import java.util.*;
 
 public class App {
     public static void main(String[] args) {
-        String baseDir = System.getProperty("user.dir"); // пусто
-        Path testFile = Paths.get(baseDir).getParent().resolve("C:\\Users\\sergey\\IdeaProjects\\j25-26\\tasks\\term-1\\5\\test.txt"); // тестовые значения
-        Path resultFile = Paths.get(baseDir).getParent().resolve("C:\\Users\\sergey\\IdeaProjects\\j25-26\\tasks\\term-1\\5\\results.txt"); //выход
+        String targetPath = "tasks/term-1/5/test.txt";
 
-        System.out.println("Input:  " + testFile.toAbsolutePath());
-        System.out.println("Output: " + resultFile.toAbsolutePath());
+
+        Path testFile = findFile(targetPath);
+
+        if (testFile == null) {
+            System.err.println("CRITICAL ERROR: Could not find " + targetPath);
+            System.err.println("Current dir: " + System.getProperty("user.dir"));
+            return;
+        }
+
+   
+        Path resultFile = testFile.getParent().resolve("results.txt");
+
+        System.out.println("Found Input:  " + testFile.toAbsolutePath());
+        System.out.println("Set Output:   " + resultFile.toAbsolutePath());
+
 
         if (!Files.exists(testFile)) {
             System.err.println("Not found test.txt at directory!");
@@ -60,6 +71,27 @@ public class App {
         }
     }
 
+    private static Path findFile(String relativePath) {
+        Path current = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
+        
+   
+        int steps = 0;
+        while (current != null && steps < 10) {
+            Path candidate = current.resolve(relativePath);
+            if (Files.exists(candidate)) {
+                return candidate;
+            }
+
+            if (relativePath.contains("tasks/term-1/")) {
+                Path shorter = current.resolve("5/test.txt");
+                if (Files.exists(shorter)) return shorter;
+            }
+            
+            current = current.getParent();
+            steps++;
+        }
+        return null;
+    }
     private static String predictSentiment(StanfordCoreNLP pipeline, String text) {
         if (text == null || text.trim().isEmpty()) return "neutral";
 
