@@ -127,14 +127,12 @@ public class App {
 
     private static String scoreToSentimentClass(int score) {
         switch (score) {
-            case 0: return "very negative";
-            case 1: return "negative";
+            case 0, 1: return "negative";
             case 2: return "neutral";
-            case 3: return "positive";
-            case 4: return "very positive";
+            case 3, 4: return "positive";
             default:
-                if (score < 0) return "very negative";
-                else return "very positive";
+                if (score < 0) return "negative";
+                else return "positive";
         }
     }
 }
