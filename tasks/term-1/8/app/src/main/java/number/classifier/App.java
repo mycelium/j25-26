@@ -1,6 +1,4 @@
-package knn;
-
-import org.example.NumberClassifier;
+package number.classifier;
 
 public class App {
     public static void main(String[] args) {

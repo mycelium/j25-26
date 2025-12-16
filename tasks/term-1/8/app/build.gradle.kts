@@ -37,7 +37,7 @@ java {
 }
 
 application {
-    mainClass = "org.example.App"
+    mainClass = "number.classifier.App"
 }
 
 tasks.withType<JavaExec> {
