@@ -1,4 +1,4 @@
-package org.example;
+package ru.knn;
 
 public record Point(double x, double y, String label) {
 

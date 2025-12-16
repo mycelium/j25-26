@@ -1,4 +1,4 @@
-package org.example;
+package ru.knn;
 
 import java.util.*;
 

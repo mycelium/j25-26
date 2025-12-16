@@ -1,4 +1,4 @@
-package org.example;
+package ru.knn;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
