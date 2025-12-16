@@ -1,4 +1,4 @@
-package org.example;
+package org.lab8;
 
 import org.datavec.image.loader.NativeImageLoader;
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
@@ -32,7 +32,7 @@ public class App {
         DataNormalization scaler = new ImagePreProcessingScaler(0, 1);
         scaler.fit(trainIter);
         trainIter.setPreProcessor(scaler);
-        testIter.setPreProcessor(scaler); // Важно: тестовые данные нормализуем так же
+        testIter.setPreProcessor(scaler); // тестовые данные нормализуем так же
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
                 .seed(seed)

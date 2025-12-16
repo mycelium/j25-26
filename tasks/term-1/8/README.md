@@ -9,4 +9,5 @@
 
 
 Запуск: ./gradlew run --args="img_3.jpg"
+
 файл img_3.jpg лежит в 8/app/
