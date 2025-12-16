@@ -8,3 +8,5 @@
   - neutral
   
 Запуск: ./gradlew run
+
+Датасет "IMDB Dataset.csv" должен находиться в папке 5/app
