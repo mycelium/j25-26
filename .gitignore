@@ -1,0 +1,9 @@
+app/bin/
+app/build/
+*.class
+*.zip
+*.tar
+# build artifacts
+target/
+.scala-build/
+.gradle/
