@@ -135,12 +135,12 @@ public class KNNVisualizer extends JPanel {
 
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial", Font.BOLD, 14));
-        g2d.drawString("Легенда", legendStartX, legendStartY - 10);
+        g2d.drawString("Legend", legendStartX, legendStartY - 10);
 
         g2d.setFont(new Font("Arial", Font.PLAIN, 12));
 
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Обучающие точки:", legendStartX, legendStartY + 20);
+        g2d.drawString("Training points:", legendStartX, legendStartY + 20);
 
         int yOffset = 40;
         for (Map.Entry<String, Color> entry : colorMap.entrySet()) {
@@ -149,29 +149,29 @@ public class KNNVisualizer extends JPanel {
             g2d.setColor(Color.BLACK);
             g2d.drawOval(legendStartX, legendStartY + yOffset, 10, 10);
 
-            g2d.drawString("Класс " + entry.getKey(), legendStartX + 15, legendStartY + yOffset + 8);
+            g2d.drawString("Class " + entry.getKey(), legendStartX + 15, legendStartY + yOffset + 8);
             yOffset += 25;
         }
 
         yOffset += 10;
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Тестовые точки:", legendStartX, legendStartY + yOffset);
+        g2d.drawString("Test points:", legendStartX, legendStartY + yOffset);
 
         yOffset += 20;
         g2d.setColor(Color.BLACK);
         g2d.drawRect(legendStartX, legendStartY + yOffset, 10, 10);
-        g2d.drawString("- тестовая точка", legendStartX + 15, legendStartY + yOffset + 8);
+        g2d.drawString("- test point", legendStartX + 15, legendStartY + yOffset + 8);
 
         yOffset += 30;
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Пример:", legendStartX, legendStartY + yOffset);
+        g2d.drawString("Example:", legendStartX, legendStartY + yOffset);
 
         yOffset += 20;
         g2d.setColor(Color.RED);
         g2d.fillRect(legendStartX, legendStartY + yOffset, 10, 10);
         g2d.setColor(Color.BLACK);
         g2d.drawRect(legendStartX, legendStartY + yOffset, 10, 10);
-        g2d.drawString("- отнесена к классу A", legendStartX + 15, legendStartY + yOffset + 8);
+        g2d.drawString("- assigned to class A", legendStartX + 15, legendStartY + yOffset + 8);
     }
 
     private int scaleX(double x) {

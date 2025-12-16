@@ -7,10 +7,6 @@ import java.util.*;
 import org.example.knn.*;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
         KNNClassifier classifier = new KNNClassifier(3);
 
