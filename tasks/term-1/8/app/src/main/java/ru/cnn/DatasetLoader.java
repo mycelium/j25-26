@@ -1,4 +1,4 @@
-package org.example;
+package ru.cnn;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;

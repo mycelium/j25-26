@@ -1,4 +1,4 @@
-package org.example;
+package ru.reviewanalyzer;
 
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;

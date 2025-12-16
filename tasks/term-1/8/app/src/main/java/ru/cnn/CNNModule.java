@@ -1,4 +1,4 @@
-package org.example;
+package ru.cnn;
 
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;

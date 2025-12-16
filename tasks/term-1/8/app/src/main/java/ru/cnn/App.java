@@ -1,7 +1,5 @@
-package org.example;
+package ru.cnn;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class App {

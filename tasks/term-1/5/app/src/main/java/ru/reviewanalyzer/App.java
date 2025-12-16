@@ -1,4 +1,4 @@
-package org.example;
+package ru.reviewanalyzer;
 
 import java.util.List;
 
