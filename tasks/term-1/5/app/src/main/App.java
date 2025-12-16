@@ -1,5 +1,3 @@
-package lab5;
-
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.ling.*;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
@@ -17,12 +15,13 @@ public class App {
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
         List<String> reviews = new ArrayList<>();
+        // Default to short_reviews.txt in the current directory if no argument provided
         File file = new File(args.length > 0 ? args[0] : "short_reviews.txt");
         
         if (file.exists()) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                     String line;
-                    br.readLine(); 
+                    br.readLine();
                     
                     int count = 0;
                     while ((line = br.readLine()) != null && count < 20) {
@@ -57,7 +56,6 @@ public class App {
             
             Annotation annotation = new Annotation(review);
             pipeline.annotate(annotation);
-
             
             System.out.println("Review: " + review);
             
@@ -84,4 +82,3 @@ public class App {
         }
     }
 }
-

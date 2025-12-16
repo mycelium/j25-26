@@ -3,10 +3,7 @@
 
 
 [versions]
-guava = "33.4.5-jre"
-stanford-corenlp = "4.5.7"  # Add this line (check for latest version)
+stanford-corenlp = "4.5.7"
 
 [libraries]
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
-# Add these two lines:
 stanford-corenlp = { module = "edu.stanford.nlp:stanford-corenlp", version.ref = "stanford-corenlp" }
