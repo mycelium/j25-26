@@ -1,4 +1,4 @@
-package org.example;
+package knn.classifier;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
