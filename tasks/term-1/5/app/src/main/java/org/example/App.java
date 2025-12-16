@@ -23,7 +23,7 @@ public class App {
             return;
         }
 
-   
+  
         Path resultFile = testFile.getParent().resolve("results.txt");
 
         System.out.println("Found Input:  " + testFile.toAbsolutePath());
@@ -73,8 +73,8 @@ public class App {
 
     private static Path findFile(String relativePath) {
         Path current = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
-        
-   
+
+
         int steps = 0;
         while (current != null && steps < 10) {
             Path candidate = current.resolve(relativePath);
@@ -86,7 +86,7 @@ public class App {
                 Path shorter = current.resolve("5/test.txt");
                 if (Files.exists(shorter)) return shorter;
             }
-            
+
             current = current.getParent();
             steps++;
         }
