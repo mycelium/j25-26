@@ -5,7 +5,6 @@
 package org.example;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
@@ -64,8 +63,8 @@ public class App {
             System.out.println("Visualization plots created successfully!");
             System.out.println();
 
-            // Interactive mode
-            runInteractiveMode(classifier);
+            // Demo classification with specific points
+            demonstrateClassification(classifier);
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -73,40 +72,25 @@ public class App {
         }
     }
 
-    private static void runInteractiveMode(KNNClassifier classifier) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Interactive Classification Mode ===");
-        System.out.println("Enter coordinates (x y) to classify a point, or 'quit' to exit:");
+    private static void demonstrateClassification(KNNClassifier classifier) {
+        System.out.println("=== Classification Demo ===");
+        System.out.println("Testing classification with sample points:");
 
-        while (true) {
-            System.out.print("> ");
-            String input = scanner.nextLine().trim();
+        // Test points that should fall into different classes
+        Point[] demoPoints = {
+            new Point(2.0, 2.0),   // Should be class A (near A cluster center)
+            new Point(8.0, 3.0),   // Should be class B (near B cluster center)
+            new Point(5.0, 8.0),   // Should be class C (near C cluster center)
+            new Point(1.0, 1.0),   // Should be class A (within A cluster)
+            new Point(6.0, 5.0)    // Border point, could vary
+        };
 
-            if (input.equalsIgnoreCase("quit")) {
-                break;
-            }
-
-            try {
-                String[] parts = input.split("\\s+");
-                if (parts.length != 2) {
-                    System.out.println("Please enter two numbers separated by space.");
-                    continue;
-                }
-
-                double x = Double.parseDouble(parts[0]);
-                double y = Double.parseDouble(parts[1]);
-
-                Point testPoint = new Point(x, y);
-                String prediction = classifier.classify(testPoint);
-
-                System.out.printf("Point (%.2f, %.2f) -> Predicted class: %s%n", x, y, prediction);
-
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter numeric coordinates.");
-            }
+        for (Point testPoint : demoPoints) {
+            String prediction = classifier.classify(testPoint);
+            System.out.printf("Point (%.1f, %.1f) -> Predicted class: %s%n",
+                testPoint.getX(), testPoint.getY(), prediction);
         }
 
-        scanner.close();
-        System.out.println("Goodbye!");
+        System.out.println("\nDemo completed!");
     }
 }
