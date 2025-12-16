@@ -1,4 +1,4 @@
-package org.example;
+package knn;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
