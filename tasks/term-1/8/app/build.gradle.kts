@@ -17,9 +17,6 @@ repositories {
 }
 
 dependencies {
-    // This dependency is used by the application.
-    implementation(libs.guava)
-
     // DeepLearning4j dependencies for CNN
     implementation(libs.deeplearning4j.core)
     implementation(libs.deeplearning4j.modelimport)
