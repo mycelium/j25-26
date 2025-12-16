@@ -1,0 +1,19 @@
+# Scala/Java build and IDE artifacts
+**/.metals/
+**/.vscode/
+**/.idea/
+**/target/
+**/project/project/
+**/project/target/
+
+# Gradle build artifacts
+**/build/
+**/.gradle/
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Данные, которые не должны идти в репо
+data/
+reviews.txt
+app/imdb_small.csv
+**/..

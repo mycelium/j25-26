@@ -1,0 +1,4 @@
+[0m[[0m[31merror[0m] [0m[0m/home/user/j25-26/tasks/term-1/2/Main.scala:2:8: not found: object common[0m
+[0m[[0m[31merror[0m] [0m[0mimport common._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
