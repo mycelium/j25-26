@@ -8,15 +8,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class App {
-
-    static final String filePathModel        = "app/src/model.zip";
-    static final String filePathImageFolder  = "app/src/images";
+    
+    static final String filePathModel        = "src\\main\\resources\\model.zip";
+    static final String filePathImageFolder  = "src\\main\\resources\\images";
 
     static ClassifierMLN cmln;
-
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
 
@@ -82,7 +78,7 @@ public class App {
         }
 
         for (int folderI = 0; folderI < 10; folderI++) {
-            String folderPath = basePath + '/' + folderI;
+            String folderPath = basePath + '\\' + folderI;
             File folder = new File(folderPath);
 
             if (folder.exists() && folder.isDirectory()) {
