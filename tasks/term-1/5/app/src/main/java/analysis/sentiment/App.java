@@ -1,13 +1,13 @@
-package org.example;
+package analysis.sentiment;
 
-import org.example.Preparing.*;
-import org.example.SentimentAnalyzer.*;
+import analysis.sentiment.Preparing.*;
+import analysis.sentiment.SentimentAnalyzer.*;
 import java.util.*;
 
 public class App {
     public static void main(String[] args) {
         try {
-            String filePath = "app/src/resources/IMDB Dataset.csv";
+            String filePath = "IMDB Dataset.csv";
             Preparing prepair = new Preparing();
             List<Review> reviews = prepair.loadReviews(filePath); 
             SentimentAnalyzer analyzer = new SentimentAnalyzer();
