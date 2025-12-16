@@ -17,8 +17,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1'
-    implementation 'org.nd4j:nd4j-native-platform:1.0.0-M2.1'
+    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
 }
 
 testing {
@@ -40,5 +40,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "org.imageClassification.App"
 }

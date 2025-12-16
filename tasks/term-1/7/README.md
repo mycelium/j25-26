@@ -56,4 +56,3 @@ public static void tune(double[][] X, double[][] Y, int trials) {
 | $500 \times 500$| 111 ms | 4 ms |
 | $1000 \times 1000$| 913 ms | 29 ms |
 | $2000 \times 2000$| 7782 ms | 386 ms |
-
