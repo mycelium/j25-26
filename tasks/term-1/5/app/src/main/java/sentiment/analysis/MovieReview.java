@@ -1,4 +1,4 @@
-package org.example;
+package sentiment.analysis;
 
 public class MovieReview {
     private String reviewText;

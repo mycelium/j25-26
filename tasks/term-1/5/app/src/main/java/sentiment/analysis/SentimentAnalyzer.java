@@ -1,4 +1,4 @@
-package org.example;
+package sentiment.analysis;
 
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.ling.*;

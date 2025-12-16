@@ -1,6 +1,6 @@
-package org.example;
+package sentiment.analysis;
 
-import org.example.MovieReview;
+import sentiment.analysis.MovieReview;
 
 import java.io.*;
 import java.nio.file.Files;

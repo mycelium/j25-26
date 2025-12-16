@@ -1,7 +1,6 @@
-package org.example;
+package sentiment.analysis;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class App {
     private SentimentAnalyzer sentimentAnalyzer;

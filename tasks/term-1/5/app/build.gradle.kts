@@ -15,7 +15,6 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.guava)
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models-english")
@@ -37,5 +36,5 @@ java {
 }
 
 application {
-    mainClass = "org.example.App"
+    mainClass = "sentiment.analysis.App"
 }
