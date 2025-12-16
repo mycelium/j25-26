@@ -9,13 +9,10 @@ public class App {
 
     private static int iterationsNumb = 20;
 
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) throws IOException, CsvValidationException {
         try {
-            DataSetReader     dsr         = new DataSetReader("src\\main\\resources\\IMDB Dataset.csv");
+            System.out.println(System.getProperty("user.dir"));
+            DataSetReader     dsr         = new DataSetReader("src\\main\\java\\org\\example\\resources\\IMDB Dataset.csv");
             SentimentPipeline sp          = new SentimentPipeline();
             int               correctNumb = 0;
 
