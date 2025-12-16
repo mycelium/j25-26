@@ -13,3 +13,4 @@ plugins {
 
 rootProject.name = "sentiments"
 include("app")
+

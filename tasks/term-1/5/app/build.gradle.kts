@@ -19,17 +19,12 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.10")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.10:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.10:models-english")
+    implementation("commons-io:commons-io:2.15.1")
 }
 
-testing {
-    suites {
-        // Configure the built-in test suite
-        val test by getting(JvmTestSuite::class) {
-            // Use JUnit Jupiter test framework
-            useJUnitJupiter("5.12.1")
-        }
-    }
-}
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
