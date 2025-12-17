@@ -19,6 +19,19 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    
+    // DeepLearning4j dependencies
+    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
+    implementation("org.deeplearning4j:deeplearning4j-datasets:1.0.0-M2.1")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
+    implementation("org.datavec:datavec-data-image:1.0.0-M2.1")
+    implementation("org.slf4j:slf4j-simple:2.0.7")
+    
+    // Logging
+    implementation("ch.qos.logback:logback-classic:1.2.11")
+    
+    // Testing
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
 }
 
 testing {
@@ -34,11 +47,11 @@ testing {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "lab.mnist.MNISTClassifier"
 }
