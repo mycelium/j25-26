@@ -2,6 +2,19 @@ package matrix;
 
 public class MatrixMult {
 
+    //общий для обеих версий метод транспонирования матрицы
+    private static double[][] transpose(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[][] transposed = new double[cols][rows];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposed[j][i] = matrix[i][j];
+            }
+        }
+        return transposed;
+    }
+
     public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
         int rowsA = firstMatrix.length;
         int colsA = firstMatrix[0].length;
@@ -15,13 +28,7 @@ public class MatrixMult {
         double[][] result = new double[rowsA][colsB];
         int threadCount = getOptimalThreadCount(rowsA, colsB);
         
-        //оптимизация через транспонирование
-        double[][] secondMatrixT = new double[colsB][rowsB];
-        for (int i = 0; i < rowsB; i++) {
-            for (int j = 0; j < colsB; j++) {
-                secondMatrixT[j][i] = secondMatrix[i][j];
-            }
-        }
+        double[][] secondMatrixT = transpose(secondMatrix);
 
         //создание массива потоков, расчет индексов, запуск
         Thread[] threads = new Thread[threadCount];
@@ -46,7 +53,6 @@ public class MatrixMult {
                 threads[i].start();
             }
         }
-
         //завершение каждого потока
         for (int i = 0; i < threadCount; i++) {
             if (threads[i] != null) {
@@ -54,11 +60,32 @@ public class MatrixMult {
                     threads[i].join();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    throw new RuntimeException("Поток был прерван", e);
+                    throw new RuntimeException("Поток прерван", e);
                 }
             }
         }
+        return result;
+    }
 
+    public static double[][] multiplyOptimized(double[][] firstMatrix, double[][] secondMatrix) {
+        int rowsA = firstMatrix.length;
+        int colsA = firstMatrix[0].length;
+        int rowsB = secondMatrix.length;
+        int colsB = secondMatrix[0].length;
+
+        double[][] result = new double[rowsA][colsB];
+
+        double[][] secondMatrixT = transpose(secondMatrix);
+
+        for (int i = 0; i < rowsA; i++) {
+            for (int j = 0; j < colsB; j++) {
+                double sum = 0;
+                for (int k = 0; k < colsA; k++) {
+                    sum += firstMatrix[i][k] * secondMatrixT[j][k];
+                }
+                result[i][j] = sum;
+            }
+        }
         return result;
     }
 
@@ -71,27 +98,13 @@ public class MatrixMult {
         return availableProcessors;
     }
 
-    public static double[][] multiplyOptimized(double[][] firstMatrix, double[][] secondMatrix) {
-        int rowsA = firstMatrix.length;
-        int colsA = firstMatrix[0].length;
-        int colsB = secondMatrix[0].length;
-        double[][] result = new double[rowsA][colsB];
-        for (int i = 0; i < rowsA; i++) {
-            for (int j = 0; j < colsB; j++) {
-                for (int k = 0; k < colsA; k++) {
-                    result[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
-                }
-            }
-        }
-        return result;
-    }
-
     public static void testPerformance() {
         int[] sizes = {100, 200, 500, 1000, 2000};
         for (int size : sizes) {
             System.out.println("\n" + "=".repeat(30));
             System.out.println("Матрица " + size + "x" + size);
             System.out.println("=".repeat(30));
+            
             double[][] matrixA = generateRandomMatrix(size, size);
             double[][] matrixB = generateRandomMatrix(size, size);
 
