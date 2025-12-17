@@ -13,12 +13,16 @@ import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.learning.config.Adam;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.datavec.image.loader.NativeImageLoader;
+
+import java.io.File;
 
 public class App {
     private static final Logger log = LoggerFactory.getLogger(App.class);
@@ -42,7 +46,6 @@ public class App {
                 .weightInit(WeightInit.XAVIER)
                 .list()
                 .layer(0, new ConvolutionLayer.Builder(5, 5)
-                        //nIn and nOut specify depth. nIn here is the nChannels and nOut is the number of filters to be applied
                         .nIn(nChannels)
                         .stride(1, 1)
                         .nOut(20)
@@ -72,7 +75,7 @@ public class App {
 
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
-        model.setListeners(new ScoreIterationListener(100)); // Print score every 100 iterations
+        model.setListeners(new ScoreIterationListener(100)); 
 
         log.info("Train model....");
         model.fit(mnistTrain, nEpochs);
@@ -81,7 +84,6 @@ public class App {
         Evaluation eval = model.evaluate(mnistTest);
         log.info(eval.stats());
 
-        // Single example prediction
         log.info("Single example prediction:");
         if (mnistTest.resetSupported()) {
             mnistTest.reset();
@@ -91,7 +93,7 @@ public class App {
         var labels = testData.getLabels();
         
         // Take the first example from the batch
-        var singleFeature = features.getRow(0).reshape(1, 784); // Reshape to [1, 784] to define batch size of 1
+        var singleFeature = features.getRow(0).reshape(1, 784); 
         var singleLabel = labels.getRow(0);
         
         var output = model.output(singleFeature);
@@ -99,6 +101,38 @@ public class App {
         log.info("Actual label vector: {}", singleLabel);
         log.info("Predicted label vector: {}", output);
         log.info("Predicted class: {}", model.predict(singleFeature)[0]);
+
+        log.info("--------------------------------------------------");
+        log.info("Custom Image Predictions:");
+        predictImage(model, "1.png");
+        predictImage(model, "8.png");
+    }
+
+    private static void predictImage(MultiLayerNetwork model, String path) throws Exception {
+        File file = new File(path);
+        if (!file.exists()) {
+            log.warn("File not found: {}", file.getAbsolutePath());
+            return;
+        }
+
+        NativeImageLoader loader = new NativeImageLoader(28, 28, 1);
+        INDArray image = loader.asMatrix(file); // Shape [1, 1, 28, 28]
+
+        image.divi(255.0);
+
+        if (image.meanNumber().doubleValue() > 0.5) {
+            image = image.rsub(1.0); // 1.0 - pixel_value
+        }
+
+        image = image.reshape(1, 784);
+
+        int[] predictedClasses = model.predict(image);
+        INDArray output = model.output(image);
+
+        log.info("Image: {}", path);
+        log.info("Predicted Class: {}", predictedClasses[0]);
+        log.info("Probabilities: {}", output);
+        log.info("--------------------------------------------------");
     }
 }
 

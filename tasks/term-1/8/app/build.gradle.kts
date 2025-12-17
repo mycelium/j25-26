@@ -20,6 +20,7 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.dl4j.core)
     implementation(libs.dl4j.datasets)
+    implementation(libs.datavec.data.image)
     implementation(libs.nd4j.native)
     implementation(libs.logback)
 }

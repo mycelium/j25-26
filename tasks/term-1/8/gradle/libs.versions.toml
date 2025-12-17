@@ -10,5 +10,6 @@ logback = "1.4.14"
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 dl4j-core = { module = "org.deeplearning4j:deeplearning4j-core", version.ref = "dl4j" }
 dl4j-datasets = { module = "org.deeplearning4j:deeplearning4j-datasets", version.ref = "dl4j" }
+datavec-data-image = { module = "org.datavec:datavec-data-image", version.ref = "dl4j" }
 nd4j-native = { module = "org.nd4j:nd4j-native-platform", version.ref = "dl4j" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
