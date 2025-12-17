@@ -41,15 +41,7 @@ java {
     }
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs("src/main")
-        }
-    }
-}
-
 application {
     // Define the main class for the application.
-    mainClass = "App"
+    mainClass = "org.example.App"
 }

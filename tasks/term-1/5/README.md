@@ -15,32 +15,38 @@
 
 ### Сборка проекта
 
+Unix/Linux/macOS:
 ```bash
-gradlew build
+./gradlew build
 ```
 
-или на Windows:
-
+Windows (PowerShell/CMD):
 ```bash
-gradlew.bat build
+.\gradlew.bat build
 ```
 
 ### Запуск приложения
 
+Unix/Linux/macOS:
 ```bash
-gradlew run
+./gradlew run
 ```
 
-или на Windows:
-
+Windows (PowerShell/CMD):
 ```bash
-gradlew.bat run
+.\gradlew.bat run
 ```
 
 ### Запуск с указанием файла
 
+Unix/Linux/macOS:
 ```bash
-gradlew run --args="путь/к/файлу.txt"
+./gradlew run --args="путь/к/файлу.txt"
+```
+
+Windows (PowerShell/CMD):
+```bash
+.\gradlew.bat run --args="путь/к/файлу.txt"
 ```
 
 ## Формат входных данных
