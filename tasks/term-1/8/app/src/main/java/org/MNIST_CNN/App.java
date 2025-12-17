@@ -1,4 +1,4 @@
-package org.example;
+package org.MNIST_CNN;
 
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;

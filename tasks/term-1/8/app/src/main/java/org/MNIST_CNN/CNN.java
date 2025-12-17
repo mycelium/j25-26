@@ -1,4 +1,4 @@
-package org.example;
+package org.MNIST_CNN;
 
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;

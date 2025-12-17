@@ -1,4 +1,4 @@
-package org.example;
+package org.MNIST_CNN;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
