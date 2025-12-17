@@ -1,5 +1,25 @@
-# Ignore Gradle project-specific cache directory
+# Gradle
 .gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
 
-# Ignore Gradle build output directory
-build
+# IDE specific files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Generated files
+knn_result.png
+
+# System files
+.DS_Store
+Thumbs.db
