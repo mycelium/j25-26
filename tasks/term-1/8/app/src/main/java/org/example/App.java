@@ -1,5 +1,8 @@
 package org.example;
 
+import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+
 import java.io.File;
 
 public class App {
@@ -9,37 +12,20 @@ public class App {
 
         System.out.println("---===[Loading MNIST]===---");
         
-        MNISTLoader trainLoader = new MNISTLoader(
-            "tasks\\term-1\\8\\app\\src\\main\\resources\\MNIST\\train-images.idx3-ubyte",
-            "tasks\\term-1\\8\\app\\src\\main\\resources\\MNIST\\train-labels.idx1-ubyte"
-        );
-        
-        MNISTLoader testLoader = new MNISTLoader(
-            "tasks\\term-1\\8\\app\\src\\main\\resources\\MNIST\\t10k-images.idx3-ubyte",
-            "tasks\\term-1\\8\\app\\src\\main\\resources\\MNIST\\t10k-labels.idx1-ubyte"
-        );
+        DataSetIterator trainIter = new MnistDataSetIterator(batchSize, true, 12345);
+        DataSetIterator testIter = new MnistDataSetIterator(batchSize, false, 12345);
         
         CNN model = new CNN();
         
         System.out.println("---===[Training]===---");
-        for (int epoch = 0; epoch < numEpochs; epoch++) {
-            System.out.println("Epoch " + (epoch + 1));
-            model.fit(trainLoader, batchSize);
-        }
+        model.fit(trainIter, numEpochs);
         
         System.out.println("---===[Testing]===---");
-        model.evaluate(testLoader);
-        
-        double[] testImage = testLoader.getImage(0); 
-        int actualLabel = testLoader.getLabel(0);
-        int predicted = model.predict(testImage);
-        
-        System.out.println("---===[First value prediction]===---");
-        System.out.println("Predicted: " + predicted + ", Actual: " + actualLabel);
+        model.evaluate(testIter);
 
-        String testImagePath = "tasks\\term-1\\8\\app\\src\\main\\resources\\testExamples\\3.png";
-        File testImageFile = new java.io.File(testImagePath);
-        
+        String testImagePath = "app/src/main/resources/3.png";
+        File testImageFile = new File(testImagePath);
+
         System.out.println("---===[Image prediction]===---");
         if (testImageFile.exists()) {
             try {
@@ -47,6 +33,7 @@ public class App {
                 System.out.println("Test image: " + testImageFile.getName() + ", predicted digit: " + testImagePrediction);
             } catch (Exception e) {
                 System.out.println("Error processing test image: " + e.getMessage());
+                e.printStackTrace();
             }
         } else {
             System.out.println("Test image not found: " + testImagePath);

@@ -9,15 +9,15 @@ import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.conf.layers.SubsamplingLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
+import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.dataset.DataSet;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.learning.config.Adam;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import java.io.IOException;
-import java.util.List;
 
 public class CNN {
     private MultiLayerNetwork model;
@@ -67,30 +67,11 @@ public class CNN {
         System.out.println("---===[CNN model created]===---");
     }
     
-    public void fit(MNISTLoader loader, int batchSize) {
-        List<double[]> images = loader.getAllImages();
-        List<Integer> labels = loader.getAllLabels();
-        
-        for (int i = 0; i < images.size(); i += batchSize) {
-            int end = Math.min(i + batchSize, images.size());
-            int actualBatchSize = end - i;
-            
-            INDArray features = Nd4j.create(actualBatchSize, 1, 28, 28);
-            INDArray labelFeatures = Nd4j.create(actualBatchSize, 10);
-            
-            for (int j = 0; j < actualBatchSize; j++) {
-                int idx = i + j;
-                double[] image = images.get(idx);
-                int label = labels.get(idx);
-                
-                for (int k = 0; k < image.length; k++) {
-                    features.putScalar(new int[]{j, 0, k/28, k%28}, image[k]);
-                }
-                
-                labelFeatures.putScalar(new int[]{j, label}, 1.0);
-            }
-            
-            model.fit(new DataSet(features, labelFeatures));
+    public void fit(DataSetIterator trainIter, int numEpochs) {
+        for (int epoch = 0; epoch < numEpochs; epoch++) {
+            System.out.println("Epoch " + (epoch + 1));
+            model.fit(trainIter);
+            trainIter.reset();
         }
     }
     
@@ -104,21 +85,16 @@ public class CNN {
         return output.argMax(1).getInt(0);
     }
     
-    public void evaluate(MNISTLoader loader) {
-        List<double[]> images = loader.getAllImages();
-        List<Integer> labels = loader.getAllLabels();
+    public void evaluate(DataSetIterator testIter) {
+        Evaluation eval = new Evaluation(10);
         
-        int correct = 0;
-        for (int i = 0; i < images.size(); i++) {
-            int predicted = predict(images.get(i));
-            int trueLabel = labels.get(i);
-            if (predicted == trueLabel) {
-                correct++;
-            }
+        while (testIter.hasNext()) {
+            var batch = testIter.next();
+            INDArray output = model.output(batch.getFeatures());
+            eval.eval(batch.getLabels(), output);
         }
         
-        double accuracy = (double) correct / images.size();
-        System.out.println("Accuracy: " + String.format("%.2f", (accuracy * 100)) + "% (" + correct + "/" + images.size() + ")");
+        System.out.println(eval.stats());
     }
     
     public int predictFromImage(String imagePath) throws IOException {
