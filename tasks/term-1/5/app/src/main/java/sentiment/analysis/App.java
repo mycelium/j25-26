@@ -12,10 +12,12 @@ public class App {
         this.datasetProcessor = new DatasetProcessor();
     }
 
-    public void analyzeMovieReviews(String inputFilePath) {
+    public void analyzeMovieReviews() {
         try {
-            System.out.println("Reading reviews from: " + inputFilePath);
-            List<MovieReview> reviews = datasetProcessor.readReviewFromDataset(inputFilePath);
+            String inputPath = "src/main/resources/IMDB Dataset.csv";
+
+            System.out.println("Reading reviews from: " + inputPath);
+            List<MovieReview> reviews = datasetProcessor.readReviewFromDataset(inputPath);
 
             if(reviews.isEmpty()) {
                 System.out.println("No reviews found in the dataset file.");
@@ -63,18 +65,9 @@ public class App {
         System.out.println("Movie Review Sentiment Analysis");
         System.out.println("===============================");
 
-        String inputPath;
-
-        if (args.length >= 1) {
-            inputPath = args[0];
-        } else {
-            inputPath = "C:\\Users\\halva\\IdeaProjects\\j25-26\\tasks\\term-1\\5\\app\\src\\main\\resources\\IMDB Dataset.csv";
-        }
-
-        System.out.println("Using input file: " + inputPath);
         System.out.println("\nStarting analysis...");
 
-        app.analyzeMovieReviews(inputPath);
+        app.analyzeMovieReviews();
 
         System.exit(0);
     }
