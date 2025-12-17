@@ -10,7 +10,7 @@
 
 ## Структура проекта
 
-- `app/src/main/App.java`: Основной класс приложения, содержащий реализацию CNN.
+- `app/src/main/java/org/example/App.java`: Основной класс приложения, содержащий реализацию CNN.
 - `app/build.gradle.kts`: Конфигурация сборки Gradle.
 - `gradle/libs.versions.toml`: Каталог версий зависимостей.
 
