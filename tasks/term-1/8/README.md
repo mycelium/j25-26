@@ -2,7 +2,7 @@
 
 ## 8. Java: Image Classification with DeepLearning4j (DL4J)
 
-Programm uses `resource\` subfolder in `app\src\main\` directory. First folder in it is `MNIST dataset` which contains, as name suggests, MNIST dataset. Second folder in it is `test data` which contains test data. 
+Programm uses `resources\` subfolder in `app\src\main\` directory. First folder in it is `MNIST dataset` which contains, as name suggests, MNIST dataset. Second folder in it is `test data` which contains test data. 
 
 Example test data located in `test data` folder are: images of two, six and seven named accordingly.
 
