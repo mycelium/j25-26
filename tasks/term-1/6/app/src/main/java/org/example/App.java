@@ -3,12 +3,24 @@
  */
 package org.example;
 
+import java.util.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    public static void main(String[] args) {
+        KNNClassificator classificator = new KNNClassificator(4);
+        double[] labelX = {2.0, 6.0, 6.0};
+        double[] labelY = {4.0, 7.0, 2.0};
+        classificator.createData(labelX, labelY);
+        double[] testPointX = {4.1, 5.0, 3.2, 7.1, 8.2, 6.4, 5.8, 8.4, 6.7, 2.7, 7.3, 7.9};
+        double[] testPointY = {8.9, 3.1, 4.9, 8.1, 5.1, 9.0, 5.7, 2.3, 4.6, 6.9, 5.5, 6.1};
+        System.out.println("KNN Point classification:");
+        for(int i = 0; i < testPointX.length; i++)
+        {
+            Integer predict = classificator.classifyPoint(testPointX[i], testPointY[i]);
+            System.out.printf("Coordinates: (%.1f, %.1f), Label: %d %n", testPointX[i], testPointY[i], predict);
+        }
+        classificator.visualize();
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
 }
+
