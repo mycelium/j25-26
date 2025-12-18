@@ -28,9 +28,8 @@ application {
 }
 
 dependencies {
-    implementation("edu.stanford.nlp:stanford-corenlp:4.5.1")
-    implementation("edu.stanford.nlp:stanford-corenlp:4.5.1:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.5:models")
     implementation("com.opencsv:opencsv:5.7.1")
-    implementation("org.slf4j:slf4j-simple:2.0.9")
-
+    implementation("org.slf4j:slf4j-simple:2.0.7")
 }
