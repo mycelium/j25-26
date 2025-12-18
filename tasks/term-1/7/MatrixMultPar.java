@@ -1,16 +1,23 @@
 package lab7;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class MatrixMultPar {
     
-    // Однопоточное умножение
+    // Однопоточное умножение из лабы 1
     public static double[][] multiply(double[][] A, double[][] B) {
         int n = A.length;
-        double[][] C = new double[n][n];
+        int m = A[0].length;
+        int p = B[0].length;
+        
+        double[][] C = new double[n][p];
         
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < p; j++) {
                 double sum = 0;
-                for (int k = 0; k < n; k++) {
+                for (int k = 0; k < m; k++) {
                     sum += A[i][k] * B[k][j];
                 }
                 C[i][j] = sum;
@@ -19,243 +26,155 @@ public class MatrixMultPar {
         return C;
     }
     
-    // Оптимизированное параллельное умножение с транспонированием
-    public static double[][] multiplyParallel(double[][] A, double[][] B) {
-        int n = A.length;
-        double[][] C = new double[n][n];
-        int threads = Runtime.getRuntime().availableProcessors();
+    // Параллельное умножение 
+    public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
+        int n = firstMatrix.length;
+        int m = firstMatrix[0].length;
+        int p = secondMatrix[0].length;
         
-        // Транспонируем матрицу B для лучшей локальности кэша
-        double[][] BT = new double[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                BT[j][i] = B[i][j];
-            }
-        }
+        double[][] result = new double[n][p];
         
-        Thread[] workers = new Thread[threads];
+        int threadCount = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         
-        for (int t = 0; t < threads; t++) {
-            final int threadId = t;
-            final int start = threadId * n / threads;
-            final int end = (threadId == threads - 1) ? n : (threadId + 1) * n / threads;
+        int rowsPerThread = n / threadCount;
+        int extraRows = n % threadCount;
+        
+        int startRow = 0;
+        for (int t = 0; t < threadCount; t++) {
+            final int fromRow = startRow;
+            final int rowsForThread = rowsPerThread + (t < extraRows ? 1 : 0);
+            final int toRow = fromRow + rowsForThread;
             
-            workers[t] = new Thread(new Runnable() {
-                public void run() {
-                    for (int i = start; i < end; i++) {
-                        double[] Ai = A[i]; // Кэшируем строку A[i]
-                        double[] Ci = C[i]; // Кэшируем строку C[i]
-                        for (int j = 0; j < n; j++) {
-                            double[] BTj = BT[j]; // Кэшируем строку BT[j]
-                            double sum = 0;
-                            for (int k = 0; k < n; k++) {
-                                sum += Ai[k] * BTj[k];
-                            }
-                            Ci[j] = sum;
+            executor.execute(() -> {
+                for (int i = fromRow; i < toRow; i++) {
+                    for (int j = 0; j < p; j++) {
+                        double sum = 0;
+                        for (int k = 0; k < m; k++) {
+                            sum += firstMatrix[i][k] * secondMatrix[k][j];
                         }
+                        result[i][j] = sum;
                     }
                 }
             });
-            workers[t].start();
+            
+            startRow = toRow;
         }
         
-        for (int t = 0; t < threads; t++) {
-            try {
-                workers[t].join();
-            } catch (InterruptedException e) {
-                System.out.println("Поток прерван: " + e.getMessage());
-            }
+        executor.shutdown();
+        try {
+            executor.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        return result;
+    }
+    
+    //тестирование разных потоков
+    public static double[][] multiplyParallel(double[][] A, double[][] B, int threadCount) {
+        int n = A.length;
+        int m = A[0].length;
+        int p = B[0].length;
+        
+        double[][] C = new double[n][p];
+        
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        
+        int rowsPerThread = n / threadCount;
+        int extraRows = n % threadCount;
+        
+        int startRow = 0;
+        for (int t = 0; t < threadCount; t++) {
+            final int fromRow = startRow;
+            final int rowsForThread = rowsPerThread + (t < extraRows ? 1 : 0);
+            final int toRow = fromRow + rowsForThread;
+            
+            executor.execute(() -> {
+                for (int i = fromRow; i < toRow; i++) {
+                    for (int j = 0; j < p; j++) {
+                        double sum = 0;
+                        for (int k = 0; k < m; k++) {
+                            sum += A[i][k] * B[k][j];
+                        }
+                        C[i][j] = sum;
+                    }
+                }
+            });
+            
+            startRow = toRow;
+        }
+        
+        executor.shutdown();
+        try {
+            executor.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
         
         return C;
     }
     
-    // Создание тестовой матрицы
-    public static double[][] createTestMatrix(int size) {
-        double[][] matrix = new double[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                matrix[i][j] = Math.random() * 100; // Случайные числа
+    // Генерация матрицы
+    public static double[][] generateMatrix(int rows, int cols) {
+        double[][] matrix = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = Math.random() * 100;
             }
         }
         return matrix;
     }
     
-    // Проверка корректности умножения
-    public static boolean checkResult(double[][] A, double[][] B, double[][] C) {
-        int n = A.length;
-        double[][] expected = multiply(A, B);
-        
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (Math.abs(expected[i][j] - C[i][j]) > 0.001) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    // Основной метод
     public static void main(String[] args) {
-        System.out.println("=== ПАРАЛЛЕЛЬНОЕ УМНОЖЕНИЕ МАТРИЦ ===");
-        System.out.println("Доступно процессоров: " + Runtime.getRuntime().availableProcessors());
+        System.out.println("Параллельное умножение матриц");
+        System.out.println("Доступно ядер: " + Runtime.getRuntime().availableProcessors());
         
-        // Тестируем разные размеры матриц
-        int[] sizes = {200, 500, 1000};
+        int[] sizes = {500, 1000};
+        int repeats = 5;
         
         for (int size : sizes) {
-            System.out.println("\n--- Размер матрицы: " + size + "x" + size + " ---");
+            System.out.println("\n=== Матрица " + size + "x" + size + " ===");
             
-            double[][] A = createTestMatrix(size);
-            double[][] B = createTestMatrix(size);
+            double[][] A = generateMatrix(size, size);
+            double[][] B = generateMatrix(size, size);
             
-            // Прогрев JVM (не измеряем время)
+            
             for (int i = 0; i < 2; i++) {
                 multiply(A, B);
                 multiplyParallel(A, B);
             }
             
-            // Однопоточный тест (среднее из 3 запусков)
-            long singleTotalTime = 0;
-            for (int i = 0; i < 3; i++) {
-                long startTime = System.nanoTime();
-                double[][] resultSingle = multiply(A, B);
-                long endTime = System.nanoTime();
-                singleTotalTime += (endTime - startTime);
-                
-                // Проверяем корректность
-                if (!checkResult(A, B, resultSingle)) {
-                    System.out.println("ОШИБКА: Неправильный результат в однопоточном режиме!");
-                }
+            // Однопоточное
+            long singleTotal = 0;
+            for (int i = 0; i < repeats; i++) {
+                long start = System.currentTimeMillis();
+                multiply(A, B);
+                long end = System.currentTimeMillis();
+                singleTotal += (end - start);
             }
-            double avgSingleTime = singleTotalTime / (3 * 1000000.0);
+            long singleAvg = singleTotal / repeats;
+            System.out.println("Однопоточное время: " + singleAvg + " мс");
             
-            // Многопоточный тест (среднее из 3 запусков)
-            long multiTotalTime = 0;
-            for (int i = 0; i < 3; i++) {
-                long startTime = System.nanoTime();
-                double[][] resultMulti = multiplyParallel(A, B);
-                long endTime = System.nanoTime();
-                multiTotalTime += (endTime - startTime);
-                
-                // Проверяем корректность
-                if (!checkResult(A, B, resultMulti)) {
-                    System.out.println("ОШИБКА: Неправильный результат в многопоточном режиме!");
+            // Параллельное с разными потоками 
+            int[] threadCounts = {2, 4, 8};
+            for (int threads : threadCounts) {
+                long multiTotal = 0;
+                for (int i = 0; i < repeats; i++) {
+                    long start = System.currentTimeMillis();
+                    multiplyParallel(A, B, threads);
+                    long end = System.currentTimeMillis();
+                    multiTotal += (end - start);
                 }
-            }
-            double avgMultiTime = multiTotalTime / (3 * 1000000.0);
-            
-            System.out.printf("Однопоточное: %.2f мс\n", avgSingleTime);
-            System.out.printf("Многопоточное: %.2f мс\n", avgMultiTime);
-            
-            if (avgMultiTime > 0) {
-                double speedup = avgSingleTime / avgMultiTime;
-                System.out.printf("Ускорение: %.2f раз\n", speedup);
-            }
-            
-            // Даем JVM отдохнуть между тестами
-            System.gc();
-            try { Thread.sleep(200); } catch (InterruptedException e) {}
-        }
-        
-        // Поиск оптимального количества потоков
-        System.out.println("\n=== ПОИСК ОПТИМАЛЬНЫХ ПОТОКОВ ===");
-        findOptimalThreadCount();
-    }
-    
-    // Метод для поиска оптимального количества потоков
-    public static void findOptimalThreadCount() {
-        int size = 1000;
-        double[][] A = createTestMatrix(size);
-        double[][] B = createTestMatrix(size);
-        
-        int maxThreads = Runtime.getRuntime().availableProcessors() * 2;
-        long bestTime = Long.MAX_VALUE;
-        int bestThreadCount = 1;
-        
-        System.out.println("Тестируем от 1 до " + maxThreads + " потоков:");
-        System.out.println("Размер тестовой матрицы: " + size + "x" + size);
-        
-        for (int threadCount = 1; threadCount <= maxThreads; threadCount++) {
-            final int threads = threadCount;
-            
-            long totalTime = 0;
-            int runs = 3;
-            
-            for (int run = 0; run < runs; run++) {
-                // Транспонируем матрицу B
-                double[][] BT = new double[size][size];
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                        BT[j][i] = B[i][j];
-                    }
+                long multiAvg = multiTotal / repeats;
+                System.out.println("Параллельное время (" + threads + " потока/ов): " + multiAvg + " мс");
+                
+                // Ускорение 
+                if (multiAvg > 0) {
+                    double speedup = (double) singleAvg / multiAvg;
+                    System.out.printf("Ускорение: %.2fx\n", speedup);
                 }
-                
-                double[][] C = new double[size][size];
-                Thread[] workers = new Thread[threads];
-                
-                long startTime = System.nanoTime();
-                
-                // Запускаем потоки
-                for (int t = 0; t < threads; t++) {
-                    final int start = t * size / threads;
-                    final int end = (t == threads - 1) ? size : (t + 1) * size / threads;
-                    
-                    workers[t] = new Thread(new Runnable() {
-                        public void run() {
-                            for (int i = start; i < end; i++) {
-                                double[] Ai = A[i];
-                                double[] Ci = C[i];
-                                for (int j = 0; j < size; j++) {
-                                    double[] BTj = BT[j];
-                                    double sum = 0;
-                                    for (int k = 0; k < size; k++) {
-                                        sum += Ai[k] * BTj[k];
-                                    }
-                                    Ci[j] = sum;
-                                }
-                            }
-                        }
-                    });
-                    workers[t].start();
-                }
-                
-                // Ждем завершения
-                for (int t = 0; t < threads; t++) {
-                    try {
-                        workers[t].join();
-                    } catch (InterruptedException e) {
-                        System.out.println("Ошибка: " + e.getMessage());
-                    }
-                }
-                
-                long endTime = System.nanoTime();
-                totalTime += (endTime - startTime);
-                
-                System.gc();
-                
-                try { Thread.sleep(50); } catch (InterruptedException e) {}
-            }
-            
-            double avgTime = totalTime / (runs * 1000000.0);
-            System.out.printf("  %2d потоков: %7.2f мс\n", threadCount, avgTime);
-            
-            if (totalTime < bestTime) {
-                bestTime = totalTime;
-                bestThreadCount = threadCount;
             }
         }
-        
-        System.out.println("\nРЕЗУЛЬТАТ:");
-        System.out.println("Оптимальное количество потоков: " + bestThreadCount);
-        System.out.printf("Лучшее время: %.2f мс\n", bestTime / (3 * 1000000.0));
-        
-        // Теоретический анализ
-        System.out.println("\nТЕОРЕТИЧЕСКИЙ АНАЛИЗ:");
-        System.out.println("Физические ядра: " + Runtime.getRuntime().availableProcessors());
-        System.out.println("Рекомендуемые потоки: " + Runtime.getRuntime().availableProcessors());
-        System.out.println("Обоснование: Для вычислительно сложных задач оптимально использовать");
-        System.out.println("количество потоков, равное количеству физических ядер процессора.");
     }
 }
