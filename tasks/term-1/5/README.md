@@ -1,5 +1,7 @@
-test.txt должен быть либо в 5\app либо в общей папке 5
-пример запуска:
+исправил доступ к пути к test.txt, проверил на другом устройстве. test.txt должен быть либо в папке 5\app либо в общей папке 5.
+
+пример запуска и вывода в консоль:
+
 BUILD SUCCESSFUL in 7s
 2 actionable tasks: 1 executed, 1 up-to-date
 Configuration cache entry stored.
