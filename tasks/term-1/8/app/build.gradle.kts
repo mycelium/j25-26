@@ -21,8 +21,8 @@ dependencies {
     implementation(libs.guava)
 
     implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
-    //implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
-    implementation("org.nd4j:nd4j-cuda-11.6-platform:1.0.0-M2.1")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
+    //implementation("org.nd4j:nd4j-cuda-11.6-platform:1.0.0-M2.1")
     implementation("org.datavec:datavec-data-image:1.0.0-M2.1")
     implementation("org.slf4j:slf4j-simple:2.0.7")
 }

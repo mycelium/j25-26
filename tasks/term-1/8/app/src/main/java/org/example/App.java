@@ -110,17 +110,14 @@ public class App {
         
         ModelSerializer.writeModel(model, new File("mnist-cnn-model.zip"), true);
         
-        if (args.length > 0) {
-            String imagePath = args[0];
-            File file = new File(imagePath);
-            if (file.exists()) {
-                int predicted = predictSingleImage(model, imagePath, scaler);
-                System.out.println("Predicted digit: " + predicted);
-            } else {
-                System.out.println("File not found: " + imagePath);
-            }
+        String imagePath = "images/four.png";
+        File file = new File(imagePath);
+        if (file.exists()) {
+            int predicted = predictSingleImage(model, imagePath, scaler);
+            System.out.println("Predicted digit: " + predicted);
         } else {
-            System.out.println("No image file provided");
+            System.out.println("File not found: " + imagePath);
+            System.out.println("Please provide a valid image path as argument.");
         }
     }
 
