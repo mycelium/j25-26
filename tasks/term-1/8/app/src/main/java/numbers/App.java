@@ -24,7 +24,7 @@ public class App {
     private static final int CHANNELS = 1;
     private static final int OUTPUT_NUM = 10;
     private static final int BATCH_SIZE = 64;
-    private static final int EPOCHS = 5;
+    private static final int EPOCHS = 3;
     private static final int SEED = 12345;
 
     public static void main(String[] args) throws Exception {
