@@ -42,6 +42,6 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.example.App'
+    mainClass = 'org.knn.App'
     applicationDefaultJvmArgs = ['-Xmx1g', '-Xms512m']
 }
