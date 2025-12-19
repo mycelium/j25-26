@@ -1,17 +1,13 @@
 package org.example;
 
-import com.opencsv.exceptions.CsvValidationException;
-
-import java.io.IOException;
 import java.util.*;
 
 public class App {
 
     private static int iterationsNumb = 20;
 
-    public static void main(String[] args) throws IOException, CsvValidationException {
+    public static void main(String[] args) {
         try {
-            System.out.println(System.getProperty("user.dir"));
             DataSetReader     dsr         = new DataSetReader("src\\main\\java\\org\\example\\resources\\IMDB Dataset.csv");
             SentimentPipeline sp          = new SentimentPipeline();
             int               correctNumb = 0;
