@@ -13,8 +13,8 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
 
-        String inputFile = "test.txt";
-        String outputFile = "res.txt";
+        String inputFile = "../test.txt";
+        String outputFile = "../res.txt";
 
         AssessmentProcess processor = new AssessmentProcess();
         processor.analyzeFullTextFile(inputFile, outputFile);
