@@ -8,7 +8,7 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            DataSetReader     dsr         = new DataSetReader("src\\main\\java\\org\\example\\resources\\IMDB Dataset.csv");
+            DataSetReader     dsr         = new DataSetReader("src\\main\\resources\\IMDB Dataset.csv");
             SentimentPipeline sp          = new SentimentPipeline();
             int               correctNumb = 0;
 

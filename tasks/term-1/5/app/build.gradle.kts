@@ -23,6 +23,9 @@ dependencies {
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models-english")
     implementation("com.opencsv:opencsv:5.12.0")
+
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("ch.qos.logback:logback-classic:1.4.11")
 }
 
 testing {
