@@ -1,4 +1,4 @@
-package org.example;
+package org.knn;
 
 public class Point {
     public double x;

@@ -1,4 +1,4 @@
-package org.example;
+package org.knn;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,12 +15,12 @@ public class Graph {
     public static void save(String file, List<Point> train, Point testPoint, String predicted) {
         try {
             BufferedImage image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = image.createGraphics();
+            Graphics2D graphics = image.createGraphics();
 
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, SIZE, SIZE);
+            graphics.setColor(Color.WHITE);
+            graphics.fillRect(0, 0, SIZE, SIZE);
 
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE;
             double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
@@ -38,41 +38,41 @@ public class Graph {
             double scaleX = (SIZE - 2 * MARGIN) / (maxX - minX);
             double scaleY = (SIZE - 2 * MARGIN) / (maxY - minY);
 
-            g.setColor(Color.LIGHT_GRAY);
+            graphics.setColor(Color.LIGHT_GRAY);
             for (int i = 0; i <= 10; i++) {
                 int x = MARGIN + i * (SIZE - 2 * MARGIN) / 10;
                 int y = MARGIN + i * (SIZE - 2 * MARGIN) / 10;
 
-                g.drawLine(x, MARGIN, x, SIZE - MARGIN);
-                g.drawLine(MARGIN, y, SIZE - MARGIN, y);
+                graphics.drawLine(x, MARGIN, x, SIZE - MARGIN);
+                graphics.drawLine(MARGIN, y, SIZE - MARGIN, y);
             }
 
-            g.setColor(Color.BLACK);
-            g.drawLine(MARGIN, SIZE - MARGIN, SIZE - MARGIN, SIZE - MARGIN); // X
-            g.drawLine(MARGIN, MARGIN, MARGIN, SIZE - MARGIN);               // Y
+            graphics.setColor(Color.BLACK);
+            graphics.drawLine(MARGIN, SIZE - MARGIN, SIZE - MARGIN, SIZE - MARGIN); // X
+            graphics.drawLine(MARGIN, MARGIN, MARGIN, SIZE - MARGIN);               // Y
 
-            g.drawString("X", SIZE - MARGIN + 10, SIZE - MARGIN + 5);
-            g.drawString("Y", MARGIN - 20, MARGIN - 10);
+            graphics.drawString("X", SIZE - MARGIN + 10, SIZE - MARGIN + 5);
+            graphics.drawString("Y", MARGIN - 20, MARGIN - 10);
 
             for (Point p : train) {
-                g.setColor(colorForLabel(p.label));
+                graphics.setColor(colorForLabel(p.label));
 
                 int x = (int) (MARGIN + (p.x - minX) * scaleX);
                 int y = (int) (SIZE - MARGIN - (p.y - minY) * scaleY);
 
-                g.fillOval(x - POINT_SIZE/2, y - POINT_SIZE/2, POINT_SIZE, POINT_SIZE);
+                graphics.fillOval(x - POINT_SIZE/2, y - POINT_SIZE/2, POINT_SIZE, POINT_SIZE);
             }
 
             int tx = (int)(MARGIN + (testPoint.x - minX) * scaleX);
             int ty = (int)(SIZE - MARGIN - (testPoint.y - minY) * scaleY);
 
-            g.setColor(Color.BLACK);
-            g.fillOval(tx - 12, ty - 12, 24, 24);
-            g.setColor(colorForLabel(predicted));
-            g.fillOval(tx - 8, ty - 8, 16, 16);
+            graphics.setColor(Color.BLACK);
+            graphics.fillOval(tx - 12, ty - 12, 24, 24);
+            graphics.setColor(colorForLabel(predicted));
+            graphics.fillOval(tx - 8, ty - 8, 16, 16);
 
-            g.setColor(Color.BLACK);
-            drawLegend(g);
+            graphics.setColor(Color.BLACK);
+            drawLegend(graphics);
 
             ImageIO.write(image, "png", new File(file));
             System.out.println("Graph saved to " + file);
