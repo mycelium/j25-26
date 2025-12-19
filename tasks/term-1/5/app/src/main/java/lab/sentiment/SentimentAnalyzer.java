@@ -87,7 +87,7 @@ public class SentimentAnalyzer {
     }
 
     public static void main(String[] args) {
-        String input = (args.length > 0) ? args[0] : "C:/JProjects/j25-26/tasks/term-1/5/testss.csv";
+        String input = (args.length > 0) ? args[0] : "testss.csv";
         String output = (args.length > 1) ? args[1] : "results.csv";
 
         new SentimentAnalyzer().processDataset(input, output);
