@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class App {
-    private static final String DEFAULT_INPUT = "/Users/anastasiasarzan/j25-26/tasks/term-1/5/reviews.txt";
+    private static final String DEFAULT_INPUT = "reviews.cvs";
     private static final String OUTPUT_FILE = "sentiment_results.txt";
 
     public static void main(String[] args) {
