@@ -13,10 +13,10 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
 
-        String inputFile = "D:\\MyGames\\Git\\j25-26\\tasks\\term-1\\5\\test.txt";
-        String outputFile = "D:\\MyGames\\Git\\j25-26\\tasks\\term-1\\5\\res.txt";
+        String inputFile = "test.txt";
+        String outputFile = "res.txt";
 
         AssessmentProcess processor = new AssessmentProcess();
-        List<OneReview> results = processor.analyzeFullTextFile(inputFile, outputFile);
+        processor.analyzeFullTextFile(inputFile, outputFile);
     }
 }

@@ -12,8 +12,7 @@ public class AssessmentProcess
         this.emotionalAnaly = new EmotionalContext();
     }
 
-    public List<OneReview> analyzeFullTextFile(String filepathInput, String filepathOutput) {
-        List<OneReview> reviews = new ArrayList<>();
+    public void analyzeFullTextFile(String filepathInput, String filepathOutput) {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filepathInput));
              FileWriter writer = new FileWriter(filepathOutput)) {
@@ -28,10 +27,6 @@ public class AssessmentProcess
 
                     String sentiment = emotionalAnaly.BillingEmotional(reviewText);
 
-                    OneReview review = new OneReview("Re" + count, reviewText);
-                    review.setTextEmotions(sentiment);
-                    reviews.add(review);
-
                     writer.write(reviewText + " :: " + sentiment + "\n");
 
                     count++;
@@ -41,6 +36,5 @@ public class AssessmentProcess
         } catch (IOException e) {
             System.err.println("Ошибка: " + e.getMessage());
         }
-        return reviews;
     }
 }

@@ -38,24 +38,32 @@ public class EmotionalContext
             for(CoreMap sentence : sentences)
             {
                 String emotion = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
-                if (emotion.contains("positive"))
-                {
-                    positive++;
-                }
-                else if (emotion.contains("negative"))
-                {
-                    negative++;
+                switch (emotion.toLowerCase()) {
+                    case "very positive":
+                        positive += 3;
+                        break;
+                    case "positive":
+                        positive += 1;
+                        break;
+                    case "negative":
+                        negative += 1;
+                        break;
+                    case "very negative":
+                        negative += 3;
+                        break;
                 }
             }
-            int stats = positive - negative;
+            double positiveRating = (double) positive / sentences.size();
+            double negativeRating = (double) negative / sentences.size();
 
-            if (stats > 0) {
+            if (positiveRating > 0.4) {
                 return "positive";
-            } else if (stats < 0) {
+            } else if (negativeRating > 0.4) {
                 return "negative";
             } else {
                 return "neutral";
             }
+
         } catch (Exception e) {
             System.err.println("Ошибка: " + e.getMessage());
             return "neutral";
