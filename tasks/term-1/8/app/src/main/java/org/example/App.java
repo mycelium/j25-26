@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class App {
     
-    static final String filePathModel        = "src\\main\\java\\org\\example\\resources\\model.zip";
-    static final String filePathImageFolder  = "src\\main\\java\\org\\example\\resources\\images";
+    static final String filePathModel        = "src\\main\\resources\\model.zip";
+    static final String filePathImageFolder  = "src\\main\\resources\\images";
 
     static ClassifierMLN cmln;
 
