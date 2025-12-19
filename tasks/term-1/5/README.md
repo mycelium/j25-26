@@ -2,39 +2,35 @@
 
 Анализ тональности текстовых отзывов с использованием Stanford CoreNLP.
 
-## Подготовка данных
+### Датасет по умолчанию
 
-**Скачайте датасет IMDB:**
-1. Перейдите на [Kaggle IMDB Dataset](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
-2. Скачайте файл `IMDB Dataset.csv`
-3. Создайте папку `data/` в корне проекта
-4. Поместите файл `IMDB Dataset.csv` в папку `data/`
+В репозитории присутствует уменьшенный датасет `imdb_small.csv`,
+который используется **по умолчанию** для демонстрации и проверки работы программы.
 
-## Запуск
-
+При запуске без аргументов:
 ```bash
 ./gradlew run
 ```
 
-Аргументы:
-- путь к CSV файлу с отзывами (по умолчанию data/IMDB Dataset.csv)
-- количество отзывов для анализа (по умолчанию 100)
+используется файл:
 
-Пример:
 ```bash
-./gradlew run --args="data/IMDB Dataset.csv 500"
+app/imdb_small.csv
 ```
+Это позволяет запустить проект без предварительного скачивания большого датасета.
 
-Пример с маленьким датасетом (для быстрой проверки):
+
+**При необходимости можно использовать полный датасет IMDB:**
+1. Перейдите на [Kaggle IMDB Dataset](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
+2. Скачайте файл `IMDB Dataset.csv`
+3. Создайте папку `data/` в корне проекта
+4. Поместите файл `IMDB_Dataset.csv` в папку `data/` (в названии файла не должно быть пробелов)
+
+Пример с запуском большого датасета 
 ```bash
-./gradlew run --args="app/imdb_small.csv 10"
+./gradlew run --args="data/IMDB_Dataset.csv 10"
 ```
 
-## Формат данных
 
-CSV файл должен содержать отзывы в формате:
-```
-"Текст отзыва",sentiment
-```
 
-Где sentiment: positive, negative, neutral.
+

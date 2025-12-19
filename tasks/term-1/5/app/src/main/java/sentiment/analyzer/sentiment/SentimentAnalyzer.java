@@ -20,7 +20,7 @@ public class SentimentAnalyzer {
     public SentimentAnalyzer() {
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
-        props.setProperty("tokenize.language", "en");
+        props.setProperty("tokenize.language", "en"); 
 
         this.pipeline = new StanfordCoreNLP(props);
     }
@@ -152,16 +152,19 @@ public class SentimentAnalyzer {
                 }
             }
         } else {
-            filePath = "data/IMDB Dataset.csv";
+            //filePath = "data/IMDB_Dataset.csv";
+            filePath = "app/imdb_small.csv";
         }
 
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
-            // Try relative to project root (parent of app directory)
+            //Попробовать найти файл относительно корня проекта (родительской директории app)
+
             Path projectRoot = Paths.get(System.getProperty("user.dir")).getParent();
             path = projectRoot.resolve(filePath);
             if (!Files.exists(path)) {
-                // Try in data folder relative to project root
+                //Попробовать найти файл в папке data относительно корня проекта
+
                 path = projectRoot.resolve("data").resolve(filePath);
                 if (!Files.exists(path)) {
                     System.err.println("Error: Dataset file not found: " + filePath);
