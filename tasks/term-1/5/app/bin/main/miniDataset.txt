@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:df4565c395da5f756689b99a997dd56ac9e7a5b48aa3e523d2aaa554b5af7ded
-size 2421
+A Star is Born is a masterpiece with electric chemistry between its leads. The raw, heartbreaking story captivated me completely.
+
+The Gray Man delivers adequate action with impressive locations. However, its thin plot brings nothing new.
+
+Jurassic World: Dominion is a convoluted, disappointing mess. It loses the original's magic completely.
+
+Everything Everywhere is a creative blast mixing martial arts and family drama. It's profoundly moving and hilarious.
+
+Dune: Part Two is epic filmmaking with staggering visuals and immersive sound. It's intellectually stimulating and immensely entertaining.
+
+Morbius offers a confusing, dull experience with bad dialogue. The action is poorly choreographed.
+
+Don't Look Up has a great premise and all-star cast. The heavy-handed satire repeats its point too much.
+
+Black Widow is a standard Marvel origin with good action. It's entertaining but ultimately forgettable.
+
+Spider-Man: No Way Home brings pure joy with brilliant multiverse execution. It balances fan service with emotional weight perfectly.
+
+Red Notice is slick with decent chemistry between stars. It's entirely predictable yet enjoyable once.
+
+Top Gun: Maverick masterfully blends nostalgia with fresh thrills. The breathtaking aerial sequences make it exhilarating cinema.
+
+The Last Airbender is a terrible adaptation with wooden acting. It disrespects the source material entirely.
+
+Cats is a bizarre failure with creepy CGI characters. The thin plot creates a confusing mess.
+
+Parasite is a flawless genre-bending masterpiece with superb acting. It's clever, unsettling, and utterly captivating.
+
+Puss in Boots: The Last Wish offers vibrant animation and mature themes. This hilarious adventure appeals to all ages.
+
+John Wick: Chapter 4 delivers balletic, brutal action choreography. Each inventive set piece builds to an epic finale.
+
+Doctor Strange has horror-tinged moments and visual flair. The rushed plot feels like a detour.
+
+Paddington 2 overflows with charm, warmth, and genuine kindness. It's a whimsical, delightful film that restores faith.
+
+Mad Max: Fury Road is an adrenaline rush of stunning visuals. The brilliantly choreographed chase is pure art.
+
+The Batman provides moody atmosphere and excellent cinematography. However, it feels overly long.
+
+The Rise of Skywalker is a frustrating, messy conclusion. Contrived plot points create disappointment.
