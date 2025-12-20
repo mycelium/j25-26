@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * K-Nearest Neighbors classifier implementation
+ * Реализация классификатора K-ближайших соседей
  */
 public class KNNClassifier {
     private final List<Point> trainingData;
@@ -29,34 +29,34 @@ public class KNNClassifier {
     }
 
     /**
-     * Classifies a new point based on k-nearest neighbors
+     * Классифицирует новую точку на основе k-ближайших соседей
      */
     public String classify(Point testPoint) {
         if (testPoint == null) {
             throw new IllegalArgumentException("Test point cannot be null");
         }
 
-        // Calculate distances to all training points
+        // Вычисление расстояний до всех обучающих точек
         List<NeighborDistance> distances = new ArrayList<>();
         for (Point trainPoint : trainingData) {
             double distance = testPoint.distanceTo(trainPoint);
             distances.add(new NeighborDistance(trainPoint, distance));
         }
 
-        // Sort by distance (ascending)
+        // Сортировка по расстоянию (по возрастанию)
         distances.sort(Comparator.comparingDouble(NeighborDistance::getDistance));
 
-        // Get k nearest neighbors
+        // Получение k ближайших соседей
         List<NeighborDistance> kNearest = distances.subList(0, k);
 
-        // Count votes for each class
+        // Подсчёт голосов для каждого класса
         Map<String, Integer> voteCount = new HashMap<>();
         for (NeighborDistance neighbor : kNearest) {
             String label = neighbor.getPoint().getLabel();
             voteCount.put(label, voteCount.getOrDefault(label, 0) + 1);
         }
 
-        // Find the class with maximum votes
+        // Определение класса с максимальным числом голосов
         return voteCount.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
@@ -64,7 +64,7 @@ public class KNNClassifier {
     }
 
     /**
-     * Helper class to store point and its distance
+     * Вспомогательный класс для хранения точки и расстояния до неё
      */
     private static class NeighborDistance {
         private final Point point;

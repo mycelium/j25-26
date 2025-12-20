@@ -1,5 +1,5 @@
 /*
- * KNN Classifier Tests
+ * Тесты классификатора KNN
  */
 package org.example;
 
@@ -21,13 +21,13 @@ public class AppTest {
         assertEquals(0.0, p1.getY(), 0.001);
         assertEquals("A", p1.getLabel());
 
-        // Test Euclidean distance: sqrt((3-0)^2 + (4-0)^2) = 5
+        // Проверка евклидового расстояния: sqrt((3-0)^2 + (4-0)^2) = 5
         assertEquals(5.0, p1.distanceTo(p2), 0.001);
     }
 
     @Test
     public void testKNNClassification() {
-        // Create training data
+        // Создание обучающих данных
         List<Point> trainingData = Arrays.asList(
             new Point(0, 0, "A"),
             new Point(1, 1, "A"),
@@ -37,18 +37,18 @@ public class AppTest {
 
         KNNClassifier classifier = new KNNClassifier(trainingData, 1);
 
-        // Test point close to class A
+        // Тестовая точка, близкая к классу A
         Point testPointA = new Point(0.5, 0.5);
         assertEquals("A", classifier.classify(testPointA));
 
-        // Test point close to class B
+        // Тестовая точка, близкая к классу B
         Point testPointB = new Point(10.5, 10.5);
         assertEquals("B", classifier.classify(testPointB));
     }
 
     @Test
     public void testKNNWithMajorityVoting() {
-        // Create training data where one class dominates
+        // Создание обучающих данных, где один класс доминирует
         List<Point> trainingData = Arrays.asList(
             new Point(0, 0, "A"),
             new Point(0.1, 0.1, "A"),
@@ -59,7 +59,7 @@ public class AppTest {
 
         KNNClassifier classifier = new KNNClassifier(trainingData, 3);
 
-        // Test point should be classified as A (majority vote)
+        // Тестовая точка должна быть классифицирована как A (голосование большинства)
         Point testPoint = new Point(1, 1);
         assertEquals("A", classifier.classify(testPoint));
     }
@@ -71,7 +71,7 @@ public class AppTest {
             new Point(1, 1, "A")
         );
 
-        // Should throw exception for k=0
+        // Должно быть выброшено исключение при k = 0
         new KNNClassifier(trainingData, 0);
     }
 
@@ -85,9 +85,9 @@ public class AppTest {
         DataGenerator generator = new DataGenerator();
         List<Point> data = generator.generateSampleData(5);
 
-        assertEquals(15, data.size()); // 5 points per class * 3 classes
+        assertEquals(15, data.size()); // 5 точек на класс * 3 класса
 
-        // Check that all classes are present
+        // Проверка наличия всех классов
         boolean hasA = false, hasB = false, hasC = false;
         for (Point point : data) {
             String label = point.getLabel();

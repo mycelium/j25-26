@@ -1,7 +1,7 @@
 package org.example;
 
 /**
- * Represents a 2D point with coordinates and class label
+ * Представляет двумерную точку с координатами и меткой класса
  */
 public class Point {
     private final double x;
@@ -31,7 +31,7 @@ public class Point {
     }
 
     /**
-     * Calculates Euclidean distance to another point
+     * Вычисляет евклидово расстояние до другой точки
      */
     public double distanceTo(Point other) {
         double dx = this.x - other.x;

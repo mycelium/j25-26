@@ -5,38 +5,38 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Generates sample training data with multiple classes
+ * Генерирует пример обучающих данных с несколькими классами
  */
 public class DataGenerator {
-    private final Random random = new Random(42); // Fixed seed for reproducibility
+    private final Random random = new Random(42); // Фиксированное зерно для воспроизводимости
 
     /**
-     * Generates sample data with 3 classes arranged in clusters
+     * Генерирует пример данных с 3 классами, расположенными в виде кластеров
      */
     public List<Point> generateSampleData(int pointsPerClass) {
         List<Point> data = new ArrayList<>();
 
-        // Class A: centered at (2, 2)
+        // Класс A: центр в точке (2, 2)
         data.addAll(generateCluster("A", 2.0, 2.0, pointsPerClass, 0.8));
 
-        // Class B: centered at (8, 3)
+        // Класс B: центр в точке (8, 3)
         data.addAll(generateCluster("B", 8.0, 3.0, pointsPerClass, 0.8));
 
-        // Class C: centered at (5, 8)
+        // Класс C: центр в точке (5, 8)
         data.addAll(generateCluster("C", 5.0, 8.0, pointsPerClass, 0.8));
 
         return data;
     }
 
     /**
-     * Generates a cluster of points around a center
+     * Генерирует кластер точек вокруг центра
      */
     private List<Point> generateCluster(String label, double centerX, double centerY,
                                       int count, double spread) {
         List<Point> cluster = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            // Generate random point within spread distance from center
+            // Генерация случайной точки в пределах заданного радиуса от центра
             double angle = random.nextDouble() * 2 * Math.PI;
             double radius = random.nextDouble() * spread;
 
@@ -50,14 +50,14 @@ public class DataGenerator {
     }
 
     /**
-     * Generates test points for classification
+     * Генерирует тестовые точки для классификации
      */
     public List<Point> generateTestPoints(int count) {
         List<Point> testPoints = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            double x = random.nextDouble() * 12; // 0-12 range
-            double y = random.nextDouble() * 12; // 0-12 range
+            double x = random.nextDouble() * 12; // Диапазон 0–12
+            double y = random.nextDouble() * 12; // Диапазон 0–12
             testPoints.add(new Point(x, y));
         }
 
@@ -65,7 +65,7 @@ public class DataGenerator {
     }
 
     /**
-     * Gets the class colors for visualization
+     * Возвращает цвет класса для визуализации
      */
     public static java.awt.Color getClassColor(String label) {
         switch (label) {

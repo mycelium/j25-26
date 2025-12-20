@@ -12,7 +12,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
- * Generates PNG plots for point visualization
+ * Генерирует PNG-графики для визуализации точек
  */
 public class PlotGenerator {
     private static final int WIDTH = 800;
@@ -21,25 +21,25 @@ public class PlotGenerator {
     private static final int POINT_SIZE = 8;
 
     /**
-     * Creates a plot of training data points
+     * Создаёт график обучающих данных
      */
     public void createTrainingDataPlot(List<Point> trainingData, String filename) throws IOException {
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = image.createGraphics();
 
-        // Set background
+        // Установка фона
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, WIDTH, HEIGHT);
 
-        // Draw axes and grid
+        // Отрисовка осей и сетки
         drawGrid(g2d);
 
-        // Draw training points
+        // Отрисовка обучающих точек
         for (Point point : trainingData) {
             drawPoint(g2d, point, DataGenerator.getClassColor(point.getLabel()), POINT_SIZE);
         }
 
-        // Draw legend
+        // Отрисовка легенды
         drawLegend(g2d, trainingData);
 
         g2d.dispose();
@@ -47,36 +47,36 @@ public class PlotGenerator {
     }
 
     /**
-     * Creates a plot showing training data and classified test points
+     * Создаёт график, отображающий обучающие данные и классифицированные тестовые точки
      */
     public void createClassificationPlot(List<Point> trainingData, List<Point> testPoints,
                                        List<String> predictions, String filename) throws IOException {
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = image.createGraphics();
 
-        // Set background
+        // Установка фона
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, WIDTH, HEIGHT);
 
-        // Draw axes and grid
+        // Отрисовка осей и сетки
         drawGrid(g2d);
 
-        // Draw training points (smaller)
+        // Отрисовка обучающих точек (меньшего размера)
         for (Point point : trainingData) {
             drawPoint(g2d, point, DataGenerator.getClassColor(point.getLabel()), POINT_SIZE / 2);
         }
 
-        // Draw test points with classification results
+        // Отрисовка тестовых точек с результатами классификации
         for (int i = 0; i < testPoints.size(); i++) {
             Point testPoint = testPoints.get(i);
             String prediction = predictions.get(i);
             Color color = DataGenerator.getClassColor(prediction);
 
-            // Draw larger point with black border for test points
+            // Отрисовка увеличенной точки с чёрной рамкой для тестовых данных
             drawPointWithBorder(g2d, testPoint, color, POINT_SIZE + 4);
         }
 
-        // Draw legend
+        // Отрисовка легенды
         drawLegend(g2d, trainingData);
 
         g2d.dispose();
@@ -86,35 +86,35 @@ public class PlotGenerator {
     private void drawGrid(Graphics2D g2d) {
         g2d.setColor(Color.LIGHT_GRAY);
 
-        // Draw grid lines
+        // Отрисовка линий сетки
         for (int i = 0; i <= 12; i++) {
             int x = MARGIN + (int)((WIDTH - 2 * MARGIN) * i / 12.0);
             int y = MARGIN + (int)((HEIGHT - 2 * MARGIN) * i / 12.0);
 
-            // Vertical lines
+            // Вертикальные линии
             g2d.drawLine(x, MARGIN, x, HEIGHT - MARGIN);
-            // Horizontal lines
+            // Горизонтальные линии
             g2d.drawLine(MARGIN, y, WIDTH - MARGIN, y);
         }
 
-        // Draw axes
+        // Отрисовка осей
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(2));
 
-        // X-axis
+        // Ось X
         g2d.drawLine(MARGIN, HEIGHT - MARGIN, WIDTH - MARGIN, HEIGHT - MARGIN);
-        // Y-axis
+        // Ось Y
         g2d.drawLine(MARGIN, HEIGHT - MARGIN, MARGIN, MARGIN);
 
-        // Axis labels
+        // Подписи осей
         g2d.setFont(new Font("Arial", Font.PLAIN, 12));
         for (int i = 0; i <= 12; i += 2) {
             int x = MARGIN + (int)((WIDTH - 2 * MARGIN) * i / 12.0);
             int y = MARGIN + (int)((HEIGHT - 2 * MARGIN) * i / 12.0);
 
-            // X-axis labels
+            // Подписи по оси X
             g2d.drawString(String.valueOf(i), x - 5, HEIGHT - MARGIN + 20);
-            // Y-axis labels
+            // Подписи по оси Y
             g2d.drawString(String.valueOf(12 - i), MARGIN - 25, y + 5);
         }
     }
@@ -131,11 +131,11 @@ public class PlotGenerator {
         int x = (int) (MARGIN + (WIDTH - 2 * MARGIN) * point.getX() / 12.0);
         int y = (int) (HEIGHT - MARGIN - (HEIGHT - 2 * MARGIN) * point.getY() / 12.0);
 
-        // Draw border
+        // Отрисовка рамки
         g2d.setColor(Color.BLACK);
         g2d.fillOval(x - size/2, y - size/2, size, size);
 
-        // Draw inner color
+        // Отрисовка внутреннего цвета
         g2d.setColor(color);
         g2d.fillOval(x - (size-4)/2, y - (size-4)/2, size-4, size-4);
     }
@@ -149,7 +149,7 @@ public class PlotGenerator {
         g2d.setColor(Color.BLACK);
         g2d.drawString("Classes:", legendX, legendY);
 
-        // Get unique classes
+        // Получение уникальных классов
         java.util.Set<String> classes = new java.util.HashSet<>();
         for (Point point : trainingData) {
             classes.add(point.getLabel());
@@ -166,7 +166,7 @@ public class PlotGenerator {
             yOffset += 20;
         }
 
-        // Add note about test points
+        // Добавление пояснения для тестовых точек
         yOffset += 10;
         g2d.setFont(new Font("Arial", Font.ITALIC, 12));
         g2d.drawString("Large points = test data", legendX - 20, yOffset);
