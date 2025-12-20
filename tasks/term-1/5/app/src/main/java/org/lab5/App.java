@@ -75,7 +75,7 @@ public class App {
      */
     public void processReviews(String csvFilePath, int limit) {
         try (Reader reader = new FileReader(csvFilePath);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
             int count = 0;
             int correct = 0;
             int total = 0;
@@ -93,7 +93,7 @@ public class App {
                 // Вывод первых 100 символов отзыва
                 String shortReview = review.length() > 100 ? 
                     review.substring(0, 100) + "..." : review;
-                System.out.println("First 200 characters of review: " + shortReview.replaceAll("<br />", " ").replaceAll("<[^>]+>", ""));
+                System.out.println("First 100 characters of review: " + shortReview.replaceAll("<br />", " ").replaceAll("<[^>]+>", ""));
                 
                 System.out.println("Actual sentiment: " + actualSentiment);
                 System.out.println("Predicted sentiment: " + predictedSentiment);
@@ -125,6 +125,22 @@ public class App {
         
         String csvPath = "IMDB Dataset.csv";
         
-        app.processReviews(csvPath, 10);
+        int limit = 10;
+
+        if (args.length > 0) {
+            try {
+                // Пытаемся распарсить первый аргумент
+                limit = Integer.parseInt(args[0]);
+                // Дополнительная проверка на адекватность числа
+                if (limit < 0) {
+                    System.err.println("Limit cannot be negative. Using default: 10");
+                    limit = 10;
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid argument format. Using default limit: 10");
+            }
+        }
+        
+        app.processReviews(csvPath, limit);
     }
 }
