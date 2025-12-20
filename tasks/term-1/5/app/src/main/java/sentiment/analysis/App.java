@@ -14,7 +14,7 @@ public class App {
 
     public void analyzeMovieReviews() {
         try {
-            String inputPath = "src/main/resources/IMDB Dataset.csv";
+            String inputPath = "../IMDB Dataset.csv";
 
             System.out.println("Reading reviews from: " + inputPath);
             List<MovieReview> reviews = datasetProcessor.readReviewFromDataset(inputPath);
@@ -27,7 +27,7 @@ public class App {
             System.out.println("Found " + reviews.size() + " reviews to analyze.");
 
             // ограничиваем количество отзывов для тестирования, а то 50000 долго очень...
-            int testLimit = 20;
+            int testLimit = 10;
             if (reviews.size() > testLimit) {
                 System.out.println("Limiting analysis to first " + testLimit + " reviews...");
                 reviews = reviews.subList(0, testLimit);
@@ -40,6 +40,7 @@ public class App {
                 review.setSentiment(analyzedReview.getSentiment());
 
                 // каждые 10 отзывов выводим процесс обработки
+                // не особо нужно при обработке 10 отзывов в целом, но...
                 if ((i + 1) % 10 == 0) {
                     System.out.println("Processed " + (i + 1) + "/" + reviews.size() + " reviews...");
                 }
