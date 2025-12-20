@@ -6,4 +6,4 @@ Project implements KNN Classifier algorithm.
 
 ### USAGE
 
-After building, compiling and running this project, `results/` folder is created, where the results of implemented algorithm is shown in 3 different images: `grid_clusters.png`, `random_clusters.png` and `two_moons.png`.
+After building, compiling and running this project, program creates 3 different images: `grid_clusters.png`, `random_clusters.png` and `two_moons.png`. They demonstrate implemented algorithm capabilities in different scenarios.

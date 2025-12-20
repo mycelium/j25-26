@@ -43,8 +43,8 @@ public class App {
 
         try {
             ChartGenerator chart = new ChartGenerator(allPoints);
-            chart.saveChart("tasks/term-1/6/app/results/grid_clusters.png");
-            System.out.println("Grid Clusters visualization saved as tasks/term-1/6/app/results/grid_clusters.png");
+            chart.saveChart("grid_clusters.png");
+            System.out.println("Grid Clusters visualization saved as grid_clusters.png");
         }
         catch (IOException e) {
             System.err.println("Error saving grid_clusters.png: " + e.getMessage());
@@ -89,15 +89,19 @@ public class App {
                 testPoint.getX() + ", " + testPoint.getY() +
                 "): " + predictedClass);
 
-        Point visualizationPoint = new Point(testPoint.getX(), testPoint.getY(), "Test Point (" + predictedClass + ")");
+        Point visualizationPoint = new Point(
+                testPoint.getX(),
+                testPoint.getY(),
+                "Test Point (" + predictedClass + ")"
+        );
 
         List<Point> allPoints = new ArrayList<>(trainingData);
         allPoints.add(visualizationPoint);
 
         try {
             ChartGenerator chart = new ChartGenerator(allPoints);
-            chart.saveChart("tasks/term-1/6/app/results/two_moons.png");
-            System.out.println("Two Moons visualization saved as tasks/term-1/6/app/results/two_moons.png");
+            chart.saveChart("two_moons.png");
+            System.out.println("Two Moons visualization saved as two_moons.png");
         }
         catch (IOException e) {
             System.err.println("Error saving two_moons.png: " + e.getMessage());
@@ -135,15 +139,19 @@ public class App {
                 testPoint.getX() + ", " + testPoint.getY() +
                 "): " + predictedClass);
 
-        Point visualizationPoint = new Point(testPoint.getX(), testPoint.getY(), "Test Point (" + predictedClass + ")");
+        Point visualizationPoint = new Point(
+                testPoint.getX(),
+                testPoint.getY(),
+                "Test Point (" + predictedClass + ")"
+        );
 
         List<Point> allPoints = new ArrayList<>(trainingData);
         allPoints.add(visualizationPoint);
 
         try {
             ChartGenerator chart = new ChartGenerator(allPoints);
-            chart.saveChart("tasks/term-1/6/app/results/random_clusters.png");
-            System.out.println("Random Clusters visualization saved as tasks/term-1/6/app/results/random_clusters.png");
+            chart.saveChart("random_clusters.png");
+            System.out.println("Random Clusters visualization saved as random_clusters.png");
         }
         catch (IOException e) {
             System.err.println("Error saving random_clusters.png: " + e.getMessage());

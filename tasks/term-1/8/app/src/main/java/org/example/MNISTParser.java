@@ -6,17 +6,27 @@ import org.nd4j.linalg.factory.Nd4j;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MNISTParser {
 
     public static final int IMAGE_MAGIC = 0x00000803;
     public static final int LABEL_MAGIC = 0x00000801;
 
+    public static String getFullPath(String filePath) {
+        return Objects.requireNonNull(
+                App.class.getClassLoader().getResource(filePath)
+        )
+                .getPath()
+                .replaceAll("%20", " ");
+    }
+
     public static INDArray loadImages(String filePath) throws IOException {
-        try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
+        String fullPath = getFullPath(filePath);
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(fullPath))) {
             int magic = dis.readInt();
             if (magic != IMAGE_MAGIC) {
-                throw new IllegalArgumentException("Not an MNIST image file : " + filePath);
+                throw new IllegalArgumentException("Not an MNIST image file : " + fullPath);
             }
 
             int numImages = dis.readInt();
@@ -36,10 +46,12 @@ public class MNISTParser {
     }
 
     public static INDArray loadLabels(String filePath) throws IOException {
-        try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
+        String fullPath = getFullPath(filePath);
+
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(fullPath))) {
             int magic = dis.readInt();
             if (magic != LABEL_MAGIC) {
-                throw new IllegalArgumentException("Not an MNIST label file: " + filePath);
+                throw new IllegalArgumentException("Not an MNIST label file: " + fullPath);
             }
 
             int numLabels = dis.readInt();

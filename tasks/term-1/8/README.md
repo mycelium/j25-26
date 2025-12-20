@@ -13,18 +13,9 @@ Download MNIST dataset and put it in the resources folder, as described earlier.
 In the `String[] imageExamples` variable you can change what test data image names will be used (or even used at all), by default value is `{"two", "six", "seven"}`.
 
 There are class consts `private static final` to tweek the configuration: 
-- `String PROJECT_PATH` (path to the `src\main` folder of the project, by default: `"tasks\\term-1\\8\\app\\src\\main\\"`)
 - `String EXAMPLE_IMAGE_FORMAT` (format of the example image format, by default: `".png"`)
-- `String EXAMPLE_IMAGE_PATH` (path to the test folder with example images to classify, by default: `PROJECT_PATH + "resources\\test data\\"`)
-- `String MNIST_PATH` (path to the folder with MNIST dataset, by default: `PROJECT_PATH + "resources\\MNIST dataset\\"`).
-
-## `MNIST dataset` format
-
-- **Files**: ending with -ubyte
-- **Train images**: `train-images.idx3-ubyte`
-- **Train images labels**: `train-labels.idx1-ubyte`
-- **Test images**: `t10k-images.idx3-ubyte`
-- **Test images labels**: `t10k-labels.idx1-ubyte`
+- `String EXAMPLE_IMAGE_PATH` (path to the test folder with example images to classify, by default: `"test data/"`)
+- `String MNIST_PATH` (path to the folder with MNIST dataset, by default: `MNIST dataset/"`).
 
 ## `test data` images format
 
