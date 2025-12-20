@@ -29,18 +29,15 @@ public class Preparing {
         }
     }
 
-    public List<Review> loadReviews(String resourceName) throws IOException {
+    public List<Review> loadReviews(String filePath) throws IOException {
         List<Review> reviews = new ArrayList<>();
 
-        InputStream is = getClass()
-                .getClassLoader()
-                .getResourceAsStream(resourceName);
-
-        if (is == null) {
-            throw new FileNotFoundException("Resource not found: " + resourceName);
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
         }
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             boolean skipHeader = true;
 
@@ -53,7 +50,6 @@ public class Preparing {
                 if (line.isEmpty()) continue;
 
                 String[] parts = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-
                 if (parts.length != 2) continue;
 
                 String reviewText = parts[0].replace("\"", "").trim();
@@ -69,6 +65,7 @@ public class Preparing {
 
         return reviews;
     }
+
 
     private Sentiment setSentiment(String reviewSentimentString) {
         switch (reviewSentimentString) {

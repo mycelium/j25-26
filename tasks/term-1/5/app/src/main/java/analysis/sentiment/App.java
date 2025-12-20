@@ -7,7 +7,7 @@ import java.util.*;
 public class App {
     public static void main(String[] args) {
         try {
-            String filePath = "IMDB Dataset.csv";
+            String filePath = "src/main/resources/IMDB Dataset.csv";
             Preparing prepair = new Preparing();
             List<Review> reviews = prepair.loadReviews(filePath); 
             SentimentAnalyzer analyzer = new SentimentAnalyzer();
