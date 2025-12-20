@@ -38,14 +38,15 @@ public class SentimentAnalyzer {
             return "neutral";
         }
         
-        // For simplicity, take the sentiment of the first sentence
+        // Для упрощения берётся тональность первого предложения
+
         CoreMap sentence = sentences.get(0);
         String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
         
         return sentiment.toLowerCase();
     }
     
-    // Convert 5 categories to 3 categories: positive, negative, neutral
+    // // Приведение 5 категорий тональности к 3 классам
     private String simplifySentiment(String sentiment) {
         if (sentiment == null) return "neutral";
         
@@ -81,7 +82,6 @@ public class SentimentAnalyzer {
                 String line = lines.get(i).trim();
                 if (!line.isEmpty()) {
                     // Parse CSV - учитываем что в отзывах могут быть запятые
-                    // Формат: "review text",sentiment
                     int lastComma = line.lastIndexOf(",");
                     if (lastComma != -1) {
                         String review = line.substring(0, lastComma).replace("\"", "").trim();
