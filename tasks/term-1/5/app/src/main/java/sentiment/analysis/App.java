@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) {
-        String inputFile = "tasks/term-1/5/app/src/main/resources/IMDB Dataset.csv";
+        String inputFile = "IMDB Dataset.csv";
 
         System.out.println("Starting sentiment analysis...");
 

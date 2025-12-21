@@ -1,39 +1,49 @@
 package sentiment.analysis;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ReviewProcessor {
 
     public List<Review> loadReviewsFromCsv(String filePath) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(filePath));
-        List<Review> reviews = new ArrayList<>();
-
-        for (int i = 1; i < lines.size(); i++) {
-            String line = lines.get(i).trim();
-            if (line.isEmpty()) continue;
-
-            String cleanLine = line;
-            if (cleanLine.startsWith("\"") && cleanLine.endsWith("\"")) {
-                cleanLine = cleanLine.substring(1, cleanLine.length() - 1);
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
+            if (inputStream == null) {
+                throw new FileNotFoundException("Ресурс не найден в classpath: " + filePath);
             }
 
-            int lastComma = cleanLine.lastIndexOf(',');
-            if (lastComma == -1) {
-                System.err.println("Skipping invalid line: " + line);
-                continue;
-            }
+            List<Review> reviews = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                String line;
+                int index = 1;
 
-            String text = cleanLine.substring(0, lastComma).trim();
-            if (text.startsWith("\"") && text.endsWith("\"")) {
-                text = text.substring(1, text.length() - 1);
-            }
+                reader.readLine();
 
-            reviews.add(new Review(i, text));
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if (line.isEmpty()) continue;
+
+                    String cleanLine = line;
+                    if (cleanLine.startsWith("\"") && cleanLine.endsWith("\"")) {
+                        cleanLine = cleanLine.substring(1, cleanLine.length() - 1);
+                    }
+
+                    int lastComma = cleanLine.lastIndexOf(',');
+                    if (lastComma == -1) {
+                        System.err.println("Skipping invalid line: " + line);
+                        continue;
+                    }
+
+                    String text = cleanLine.substring(0, lastComma).trim();
+                    if (text.startsWith("\"") && text.endsWith("\"")) {
+                        text = text.substring(1, text.length() - 1);
+                    }
+
+                    reviews.add(new Review(index++, text));
+                }
+            }
+            return reviews;
         }
-        return reviews;
     }
 
     public void printStatistics(List<Review> reviews) {
