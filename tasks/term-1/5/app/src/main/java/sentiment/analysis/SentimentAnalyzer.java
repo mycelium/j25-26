@@ -1,7 +1,8 @@
 package sentiment.analysis;
 
-import edu.stanford.nlp.pipeline.*;
-import edu.stanford.nlp.ling.*;
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 
@@ -16,28 +17,38 @@ public class SentimentAnalyzer {
         this.pipeline = new StanfordCoreNLP(props);
     }
 
-    public MovieReview analyzeSentiment (String text) {
+    public String analyzeSentiment(String text) {
         if (text == null || text.trim().isEmpty()) {
-            return new MovieReview(text, "neutral");
+            return "neutral";
         }
 
         Annotation annotation = pipeline.process(text);
         List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
 
         if (sentences == null || sentences.isEmpty()) {
-            return new MovieReview(text, "neutral");
+            return "neutral";
         }
 
-        CoreMap sentance = sentences.get(0);
-        String sentiment = sentance.get(SentimentCoreAnnotations.SentimentClass.class);
+        Map<String, Integer> sentimentCount = new HashMap<>();
+        for (CoreMap sentence : sentences) {
+            String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
+            String simpleSentiment = mapSentiment(sentiment);
+            sentimentCount.put(simpleSentiment, sentimentCount.getOrDefault(simpleSentiment, 0) + 1);
+        }
 
-        MovieReview review = new MovieReview(text);
-        review.setSentiment(mapSentiment(sentiment));
+        if (sentimentCount.isEmpty()) {
+            return "neutral";
+        }
 
-        return review;
+        Map.Entry<String, Integer> maxEntry = Collections.max(
+                sentimentCount.entrySet(),
+                Map.Entry.comparingByValue()
+        );
+
+        return maxEntry.getKey();
     }
 
-    private String mapSentiment (String stanfordSentiment) {
+    private String mapSentiment(String stanfordSentiment) {
         if (stanfordSentiment == null) {
             return "neutral";
         }

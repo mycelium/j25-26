@@ -26,7 +26,7 @@ public class App {
 
             System.out.println("Found " + reviews.size() + " reviews to analyze.");
 
-            // ограничиваем количество отзывов для тестирования, а то 50000 долго очень...
+            // ограничиваем количество отзывов для тестирования, а то 50000 долго очень
             int testLimit = 10;
             if (reviews.size() > testLimit) {
                 System.out.println("Limiting analysis to first " + testLimit + " reviews...");
@@ -36,11 +36,17 @@ public class App {
             System.out.println("Starting sentiment analysis...");
             for (int i = 0; i < reviews.size(); i++) {
                 MovieReview review = reviews.get(i);
-                MovieReview analyzedReview = sentimentAnalyzer.analyzeSentiment(review.getReviewText());
-                review.setSentiment(analyzedReview.getSentiment());
+
+                String actualSentiment = review.getActualSentiment();
+                String predictedSentiment = sentimentAnalyzer.analyzeSentiment(review.getReviewText());
+                review.setSentiment(predictedSentiment);
+
+                // если actualSentiment не был установлен при чтении, устанавливаем его как "unknown"
+                if (actualSentiment == null) {
+                    review.setActualSentiment("unknown");
+                }
 
                 // каждые 10 отзывов выводим процесс обработки
-                // не особо нужно при обработке 10 отзывов в целом, но...
                 if ((i + 1) % 10 == 0) {
                     System.out.println("Processed " + (i + 1) + "/" + reviews.size() + " reviews...");
                 }
