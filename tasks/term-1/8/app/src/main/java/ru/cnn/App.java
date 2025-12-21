@@ -10,12 +10,12 @@ public class App {
 
         try {
             DatasetLoader trainLoader = new DatasetLoader(
-                    "src\\main\\resources\\train-images.idx3-ubyte",
-                    "C:src\\main\\resources\\train-labels.idx1-ubyte"
+                    "src/main/resources/train-images.idx3-ubyte",
+                    "src/main/resources/train-labels.idx1-ubyte"
             );
             DatasetLoader testLoader = new DatasetLoader(
-                    "C:src\\main\\resources\\t10k-images.idx3-ubyte",
-                    "C:src\\main\\resources\\t10k-labels.idx1-ubyte"
+                    "src/main/resources/t10k-images.idx3-ubyte",
+                    "src/main/resources/t10k-labels.idx1-ubyte"
             );
 
 

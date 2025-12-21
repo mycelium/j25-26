@@ -31,8 +31,7 @@ public class ReviewAnalyzer {
         for (CoreMap sentence : sentences) {
             String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
 
-            if (sentiment == null) neutral++;
-            else {
+            if (sentiment != null) {
                 switch (sentiment.toLowerCase()) {
                     case "very positive":
                     case "positive": positive++; break;

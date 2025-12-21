@@ -8,7 +8,7 @@ public class App {
         DatasetFormatter formatter = new DatasetFormatter();
 
         List<Review> reviews = formatter.datasetToReviews(
-                "src\\main\\resources\\test.txt"
+                "src/main/resources/IMDB Dataset.csv"
         );
 
         ReviewAnalyzer analyzer = new ReviewAnalyzer();
@@ -16,7 +16,7 @@ public class App {
         System.out.println("---- Reviews analysis ----");
 
         int correct = 0;
-        int total = 20;
+        int total = 10;
         for (int i = 0; i < total; i++) {
             int randomID = (int) (Math.random() * (reviews.size()-1));
 
