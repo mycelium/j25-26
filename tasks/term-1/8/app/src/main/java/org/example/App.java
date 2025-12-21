@@ -3,6 +3,23 @@
  */
 package org.example;
 
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.layers.ConvolutionLayer;
+import org.deeplearning4j.nn.conf.layers.DenseLayer;
+import org.deeplearning4j.nn.conf.layers.OutputLayer;
+import org.deeplearning4j.nn.conf.layers.SubsamplingLayer;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.nn.weights.WeightInit;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.learning.config.Adam;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.deeplearning4j.nn.conf.inputs.InputType;
+import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+import org.nd4j.evaluation.classification.Evaluation;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -10,5 +27,82 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        int numVal = 10;
+        int batchSize = 128;
+        int epoch = 1;
+        int seed = 111;
+
+        try {
+            DataSetIterator train = new MnistDataSetIterator(batchSize, true, seed);
+            DataSetIterator test = new MnistDataSetIterator(batchSize, false, seed);
+
+
+            MultiLayerConfiguration config = new NeuralNetConfiguration.Builder()
+                    .seed(seed)
+                    .updater(new Adam(0.001))
+                    .weightInit(WeightInit.XAVIER)
+                    .list()
+                    .setInputType(InputType.convolutionalFlat(28, 28, 1))
+
+                    .layer(new ConvolutionLayer.Builder(5, 5)
+                            .nIn(1)
+                            .stride(1, 1)
+                            .nOut(20)
+                            .activation(Activation.RELU)
+                            .build())
+                    .layer(new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                            .kernelSize(2, 2)
+                            .stride(2, 2)
+                            .build())
+                    .layer(new ConvolutionLayer.Builder(5, 5)
+                            .stride(1, 1)
+                            .nOut(50)
+                            .activation(Activation.RELU)
+                            .build())
+                    .layer(new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                            .kernelSize(2, 2)
+                            .stride(2, 2)
+                            .build())
+                    .layer(new DenseLayer.Builder()
+                            .activation(Activation.RELU)
+                            .nOut(500)
+                            .build())
+                    .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+                            .nOut(numVal)
+                            .activation(Activation.SOFTMAX)
+                            .build())
+                    .build();
+
+            MultiLayerNetwork model = new MultiLayerNetwork(config);
+            model.init();
+            model.setListeners(new ScoreIterationListener(10));
+
+            for (int i = 0; i < epoch; i++) {
+                model.fit(train);
+                train.reset();
+            }
+
+            Evaluation eval = new Evaluation(numVal);
+
+            int maxCount = 8;
+
+            for (int i = 0; i < maxCount && test.hasNext(); i++)
+            {
+                var oneNewData = test.next();
+                var output = model.output(oneNewData.getFeatures());
+                eval.eval(oneNewData.getLabels(), output);
+            }
+
+            System.out.println(eval.stats());
+
+
+        } catch (Exception e) {
+            System.err.println("Error");
+        }
+
     }
+
 }
+
+

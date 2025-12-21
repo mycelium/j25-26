@@ -3,12 +3,61 @@
  */
 package org.example;
 
+import java.util.*;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
+
         System.out.println(new App().getGreeting());
+
+        List<Point> trainingData = new ArrayList<>();
+
+        trainingData.add(new Point(1.5, 2.2, 0));
+        trainingData.add(new Point(2.1, 1.8, 0));
+        trainingData.add(new Point(1.8, 2.5, 0));
+        trainingData.add(new Point(1.7, 1.9, 0));
+
+        trainingData.add(new Point(6.8, 5.3, 1));
+        trainingData.add(new Point(7.2, 4.8, 1));
+        trainingData.add(new Point(6.5, 5.7, 1));
+        trainingData.add(new Point(7.0, 6.0, 1));
+
+        trainingData.add(new Point(8.5, 8.2, 2));
+        trainingData.add(new Point(9.0, 7.8, 2));
+        trainingData.add(new Point(9.3, 8.0, 2));
+        trainingData.add(new Point(8.8, 7.5, 2));
+
+        KNNmethod classifier = new KNNmethod(3);
+        classifier.DataForMethod(trainingData);
+
+        Point testPoint = new Point(1.0, 1.0);
+        int predictedClass = classifier.classify(testPoint);
+
+        System.out.println("Point (" + testPoint.getX() + ", " + testPoint.getY() + ") -> class " + predictedClass);
+
+        String strFilename = "knnChart.png";
+        try {
+            Chart chart = new Chart();
+            chart.drawPoints(trainingData, testPoint, predictedClass, strFilename);
+
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+
+        Point[] testPoints = {
+                new Point(2.5, 2.5),
+                new Point(7.0, 5.0),
+                new Point(3.0, 8.0)
+        };
+
+        for (Point p : testPoints) {
+            int cls = classifier.classify(p);
+            System.out.println("Point (" + p.getX() + ", " + p.getY() + ") -> class " + cls);
+        }
     }
 }
