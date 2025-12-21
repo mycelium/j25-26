@@ -15,7 +15,6 @@ public class ReviewProcessor {
             List<Review> reviews = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
                 String line;
-                int index = 1;
 
                 reader.readLine();
 
