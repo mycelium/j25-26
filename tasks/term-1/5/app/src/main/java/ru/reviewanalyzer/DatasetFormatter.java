@@ -1,5 +1,7 @@
 package ru.reviewanalyzer;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.io.*;
 
@@ -7,7 +9,10 @@ public class DatasetFormatter {
     public List<Review> datasetToReviews(String filePath) {
         List<Review> reviews = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        Path projectPath = Paths.get("").toAbsolutePath();
+        Path fullPath = projectPath.resolve(filePath);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fullPath.toFile()))) {
             reader.readLine();
             String line;
             while ((line = reader.readLine()) != null && reviews.size() != 1000) {

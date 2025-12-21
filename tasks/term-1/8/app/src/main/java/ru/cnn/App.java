@@ -10,12 +10,12 @@ public class App {
 
         try {
             DatasetLoader trainLoader = new DatasetLoader(
-                    "C:\\Users\\erikj\\IdeaProjects\\j25-26\\tasks\\term-1\\8\\app\\src\\main\\resources\\train-images.idx3-ubyte",
-                    "C:\\Users\\erikj\\IdeaProjects\\j25-26\\tasks\\term-1\\8\\app\\src\\main\\resources\\train-labels.idx1-ubyte"
+                    "src\\main\\resources\\train-images.idx3-ubyte",
+                    "C:src\\main\\resources\\train-labels.idx1-ubyte"
             );
             DatasetLoader testLoader = new DatasetLoader(
-                    "C:\\Users\\erikj\\IdeaProjects\\j25-26\\tasks\\term-1\\8\\app\\src\\main\\resources\\t10k-images.idx3-ubyte",
-                    "C:\\Users\\erikj\\IdeaProjects\\j25-26\\tasks\\term-1\\8\\app\\src\\main\\resources\\t10k-labels.idx1-ubyte"
+                    "C:src\\main\\resources\\t10k-images.idx3-ubyte",
+                    "C:src\\main\\resources\\t10k-labels.idx1-ubyte"
             );
 
 
@@ -32,7 +32,6 @@ public class App {
 
         } catch (IOException e) {
             System.out.println("Was not able to load datasets.");
-            e.printStackTrace();
         }
     }
 }

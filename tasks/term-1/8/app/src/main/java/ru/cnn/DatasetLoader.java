@@ -3,6 +3,8 @@ package ru.cnn;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,13 @@ public class DatasetLoader {
         images = new ArrayList<>();
         labels = new ArrayList<>();
 
-        try (DataInputStream imagesStream = new DataInputStream(new FileInputStream(imagesPath));
-             DataInputStream labelsStream = new DataInputStream(new FileInputStream(labelsPath))) {
+        Path projectPath = Paths.get("").toAbsolutePath();
+        Path imagesfullPath = projectPath.resolve(imagesPath);
+        Path lablesfullPath = projectPath.resolve(labelsPath);
+
+
+        try (DataInputStream imagesStream = new DataInputStream(new FileInputStream(imagesfullPath.toFile()));
+             DataInputStream labelsStream = new DataInputStream(new FileInputStream(lablesfullPath.toFile()))) {
 
             imagesStream.readInt(); // To read format (not needed)
             int numImages = imagesStream.readInt();

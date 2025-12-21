@@ -88,6 +88,9 @@ public class PointPlotter {
         g2d.dispose();
 
         try {
+            File dirPath = new File("images/");
+            if (!dirPath.exists()) dirPath.mkdir();
+
             ImageIO.write(image, "png", new File("images/" + filename));
             System.out.println("График сохранен как: " + filename);
         } catch (IOException e) {

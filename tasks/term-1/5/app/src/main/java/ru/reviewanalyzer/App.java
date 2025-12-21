@@ -8,7 +8,7 @@ public class App {
         DatasetFormatter formatter = new DatasetFormatter();
 
         List<Review> reviews = formatter.datasetToReviews(
-                "C:\\Users\\erikj\\IdeaProjects\\j25-26\\tasks\\term-1\\5\\app\\src\\main\\resources\\test.txt"
+                "src\\main\\resources\\test.txt"
         );
 
         ReviewAnalyzer analyzer = new ReviewAnalyzer();
