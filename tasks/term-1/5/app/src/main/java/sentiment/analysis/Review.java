@@ -3,29 +3,31 @@ package sentiment.analysis;
 import java.util.Objects;
 
 public class Review {
-    private final int id;
     private final String text;
-    private String sentiment;
+    private final String actualSentiment;
+    private String calculatedSentiment;
 
-    public Review(int id, String text) {
-        this.id = id;
+
+    public Review(String text, String actualSentiment) {
         this.text = Objects.requireNonNull(text, "Text cannot be null");
-        this.sentiment = "NOT_ANALYZED";
-    }
-
-    public int getId() {
-        return id;
+        this.actualSentiment = Objects.requireNonNull(actualSentiment, "Actual sentiment cannot be null").toLowerCase();
+        this.calculatedSentiment = "NOT_ANALYZED";
     }
 
     public String getText() {
         return text;
     }
 
-    public String getSentiment() {
-        return sentiment;
+    public String getActualSentiment() {
+        return actualSentiment;
     }
 
-    public void setSentiment(String sentiment) {
-        this.sentiment = sentiment;
+    public String getCalculatedSentiment() {
+        return calculatedSentiment;
+    }
+
+    public void setCalculatedSentiment(String sentiment) {
+        this.calculatedSentiment = sentiment;
     }
 }
+

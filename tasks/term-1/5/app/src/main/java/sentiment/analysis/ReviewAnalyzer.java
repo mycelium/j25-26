@@ -4,8 +4,7 @@ import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
-import edu.stanford.nlp.trees.Tree;
+import java.util.*;
 
 import java.util.List;
 import java.util.Properties;
@@ -24,44 +23,42 @@ public class ReviewAnalyzer {
             return "neutral";
         }
 
-        Annotation annotation = new Annotation(text);
-        pipeline.annotate(annotation);
-
+        Annotation annotation = pipeline.process(text);
         List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
 
         if (sentences == null || sentences.isEmpty()) {
             return "neutral";
         }
 
-        int totalSentiment = 0;
-        int count = 0;
-
+        Map<String, Integer> counts = new HashMap<>();
         for (CoreMap sentence : sentences) {
-            Tree tree = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
-            if (tree != null) {
-                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
-                totalSentiment += sentiment;
-                count++;
-            }
+            String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
+            String simple = mapToSentiment(sentiment);
+            counts.put(simple, counts.getOrDefault(simple, 0) + 1);
         }
 
-        if (count == 0) {
-            return "neutral";
-        }
+        return counts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("neutral");
+    }
 
-        double average = totalSentiment / (double) count;
-
-        if (average <= 1.5) {
-            return "negative";
-        } else if (average >= 2.5) {
-            return "positive";
-        } else {
-            return "neutral";
+    private String mapToSentiment(String coreNLPSentiment) {
+        if (coreNLPSentiment == null) return "neutral";
+        switch (coreNLPSentiment.toLowerCase()) {
+            case "very positive":
+            case "positive":
+                return "positive";
+            case "very negative":
+            case "negative":
+                return "negative";
+            default:
+                return "neutral";
         }
     }
 
     public void analyzeReview(Review review) {
         String sentiment = analyzeSentiment(review.getText());
-        review.setSentiment(sentiment);
+        review.setCalculatedSentiment(sentiment);
     }
 }

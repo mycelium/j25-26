@@ -28,23 +28,26 @@ public class App {
         }
         System.out.println("Analyzing reviews...");
 
-        int total = Math.min(30, reviews.size());
-        List<Review> sample = reviews.subList(0, total);
-        for (Review review : sample) {
+        int startReview = 0;
+        int totalToShow = Math.min(10, reviews.size());
+        int correct = 0;
+
+        for (int i = startReview; i < totalToShow; i++) {
+            Review review = reviews.get(i);
             analyzer.analyzeReview(review);
-        }
 
-        processor.printStatistics(sample);
+            System.out.println("Review " + (i + 1) + ":");
+            System.out.println("Actual sentiment: " + review.getActualSentiment());
+            System.out.println("Calculated sentiment: " + review.getCalculatedSentiment());
+            System.out.println("---");
 
-        System.out.println("\n=== Sample Reviews ===");
-        for (int i = 0; i < Math.min(5, reviews.size()); i++) {
-            Review r = reviews.get(i);
-            String text = r.getText();
-            if (text.length() > 80) {
-                text = text.substring(0, 77) + "...";
+            boolean isCorrect = review.getActualSentiment().equalsIgnoreCase(review.getCalculatedSentiment());
+            if (isCorrect) {
+                correct++;
             }
-            System.out.printf("Review #%d [%s]: %s%n",
-                    r.getId(), r.getSentiment(), text);
         }
+
+        System.out.println("=== Result ===");
+        System.out.println("Correct: " + correct + "/" + (totalToShow - startReview));
     }
 }
