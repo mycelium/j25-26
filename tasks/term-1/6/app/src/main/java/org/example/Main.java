@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-/*To run program edit Program arguments in configuration, example: --k=50 --input=data.csv --predict=5.0,3.5 --out=result.png */
-public class App {
+
+public class Main {
 
     public static class Point {
         private final double x;
@@ -47,9 +47,9 @@ public class App {
 
     public static void main(String[] args) {
         Map<String, String> options = parseCommandLineArgs(args);
-        int k = Integer.parseInt(options.getOrDefault("k", "3"));
-        String inputPathStr = options.getOrDefault("input", "..data.csv");
-        String outputPathStr = options.getOrDefault("out", "..results.png");
+        int k = Integer.parseInt(options.getOrDefault("k", "10"));
+        String inputPathStr = options.getOrDefault("input", "data.csv");
+        String outputPathStr = options.getOrDefault("out", "result.png");
         String predictStr = options.get("predict");
 
         Path inputPath = Paths.get(inputPathStr).toAbsolutePath();
@@ -355,6 +355,7 @@ public class App {
                 minX = 0; maxX = 1; minY = 0; maxY = 1;
             }
 
+            // Add padding
             double xRange = Math.max(1e-6, maxX - minX);
             double yRange = Math.max(1e-6, maxY - minY);
             double padX = xRange * 0.1;
