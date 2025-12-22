@@ -17,7 +17,7 @@ public class SentimentApp {
             }
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-                //String header = br.readLine(); // пропускаем заголовок
+                
                 String line;
                 int idx = 1;
                 while ((line = br.readLine()) != null && idx <= 50) {
