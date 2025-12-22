@@ -4,7 +4,6 @@ public class MatrixMultPar {
 	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
 		return multiplyParallel(firstMatrix, secondMatrix, Runtime.getRuntime().availableProcessors());
 	}
-
 	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix, int numThreads) {
 		if (firstMatrix == null || secondMatrix == null) {
 			throw new IllegalArgumentException("Matrices cannot be null");
