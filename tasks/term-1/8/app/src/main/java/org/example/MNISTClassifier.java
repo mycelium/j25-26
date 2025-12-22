@@ -72,7 +72,7 @@ public class MNISTClassifier {
 
     public void train() throws IOException {
         System.out.println("Loading MNIST...");
-        // ★ СТАРЫЙ API - без builder()
+        
         DataSetIterator trainIter = new MnistDataSetIterator(BATCH_SIZE, true, SEED);
         
         for (int epoch = 0; epoch < EPOCHS; epoch++) {
@@ -85,11 +85,9 @@ public class MNISTClassifier {
 
     public void evaluate() throws IOException {
         System.out.println("Evaluating...");
-        // ★ СТАРЫЙ API - без builder()
         DataSetIterator testIter = new MnistDataSetIterator(BATCH_SIZE, false, SEED);
         
         Evaluation eval = new Evaluation(NUM_CLASSES);
-        // ★ УБРАЛ getInputPreProcessor() - не нужно в этой версии
         
         while (testIter.hasNext()) {
             var ds = testIter.next();
