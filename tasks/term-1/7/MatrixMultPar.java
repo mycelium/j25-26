@@ -119,7 +119,7 @@ public class MatrixMult {
         System.out.println("общее время: " + totaltime + " ms");
         System.out.println("среднее время: " + (totaltime / count) + " ms");
         
-        System.out.println("результаты лаб 5");
+        System.out.println("результаты лаб 1");
         System.out.println("общее время: " + totaltimelab1 + " ms");
         System.out.println("среднее время: " + (totaltimelab1 / count) + " ms");
     }
