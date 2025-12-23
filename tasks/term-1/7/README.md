@@ -7,9 +7,9 @@
 
 
 Получение количества доступных процессоров:
-'''
+```
 int numThreads = Runtime.getRuntime().availableProcessors();
-'''
+```
 
 Матрицы 500x500:
 лабораторная 1: 19 ms
