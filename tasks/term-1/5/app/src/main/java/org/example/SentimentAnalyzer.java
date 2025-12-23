@@ -24,7 +24,6 @@ public class SentimentAnalyzer {
         if (sentences.isEmpty()) {
             return "neutral";
         }
-
         Map<String, Integer> sentimentCount = new HashMap<>();
         for (CoreMap sentence : sentences) {
             String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
