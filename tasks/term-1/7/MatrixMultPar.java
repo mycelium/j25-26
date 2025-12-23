@@ -1,108 +1,195 @@
-
-import java.util.Scanner;
-import java.util.stream.IntStream;
-import java.util.concurrent.ForkJoinPool;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MatrixMultPar {
+    
+   
+    public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
+        int rowFirst = firstMatrix.length;
+        int colFirst = firstMatrix[0].length;
+        int colSecond = secondMatrix[0].length;
+        
+        if (colFirst != secondMatrix.length) {
+            System.out.println("\nMultiplication Not Possible");
+            return null;
+        }
+        
+        double[][] result = new double[rowFirst][colSecond];
 
-public static double[][] multiplyOptimized(double[][] firstMatrix, double[][] secondMatrix) {
-	    int rowFirst = firstMatrix.length;
-	    int colFirst = firstMatrix[0].length;
-	    int colSecond = secondMatrix[0].length;
-	    
-	    if (colFirst != secondMatrix.length) {
-	        System.out.println("\nMultiplication Not Possible");
-	        return null;
-	    }
-	    
-	    double[][] result = new double[rowFirst][colSecond];
-
-	    for (int i = 0; i < rowFirst; i++) {
-	        double[] resultRow = result[i];
-	        double[] firstRow = firstMatrix[i];
-	        
-	        for (int k = 0; k < colFirst; k++) {
-	            double firstValue = firstRow[k];
-	            double[] secondRow = secondMatrix[k];
-	            
-	            for (int j = 0; j < colSecond; j++) {
-	                resultRow[j] += firstValue * secondRow[j];
-	            }
-	        }
-	    }
-	    
-	    return result;
-	}
-
-	
-	
-	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix,  int threads) {
-	    int n = firstMatrix.length, p = firstMatrix[0].length, m = secondMatrix[0].length;
-	    if (p != secondMatrix.length) throw new IllegalArgumentException("Incompatible dimensions");
-
-	    double[][] result = new double[n][m];
-		 ForkJoinPool pool = new ForkJoinPool(threads);
-		 try {
-            pool.submit(() ->
-
-	    IntStream.range(0, n).parallel().forEach(i -> {
-	        double[] Ai = firstMatrix[i];
-	        double[] Ci = result[i];
-	        for (int k = 0; k < p; k++) {
-	            double a_ik = Ai[k];
-	            double[] Bk = secondMatrix[k];
-	            for (int j = 0; j < m; j++) {
-	                Ci[j] += a_ik * Bk[j];
-	            }
-	        }
-	    })
-            		 ).join(); 
-		    } finally {
-		        pool.shutdown();
-		    }
-		    
-	    return result;
-	}
-
-
-	public static void main(String[] args) {
-		   Scanner scan = new Scanner(System.in);
-		   
-		System.out.println("Matrix Multiplication");
-		System.out.println("Enter the sizes for the first matrix");
-		 int row1 = scan.nextInt();
-		 int col1 = scan.nextInt();
-		System.out.println("Enter the sizes for the second matrix");
-		 int row2 = scan.nextInt();
-		 int col2 = scan.nextInt();
-
-		 
-	        double[][] firstMatrix = new double[row1][col1];
-	        double[][] secondMatrix = new double[row2][col2];
-
-	        for (int i = 0; i < row1; i++)
-	            for (int j = 0; j < col1; j++)
-	                firstMatrix[i][j] = Math.random() * 10;
-
-	        for (int i = 0; i < row2; i++)
-	            for (int j = 0; j < col2; j++)
-	                secondMatrix[i][j] = Math.random() * 10;
-	        
-	        long startTime = System.nanoTime();
-	        double[][] result = multiplyOptimized(firstMatrix, secondMatrix);
-	        long endTime = System.nanoTime();
-	        
-	        long durationNs = endTime - startTime; 
-	        double durationSeconds = durationNs / 1_000_000.0;
-	        System.out.println("Execution time : " + durationSeconds + " ms");
-	        
-	       int threads = 8;
-	        long startTime1 = System.nanoTime();
-	        double[][] resultOptimised = multiplyParallel(firstMatrix, secondMatrix, threads);
-	        long endTime1 = System.nanoTime();
-	        
-	        long duration = endTime1 - startTime1; 
-	        double durationSecon = duration / 1_000_000.0;
-	        System.out.println("Execution time optimised : " + durationSecon + " ms");
-	}
-
+        for (int i = 0; i < rowFirst; i++) {
+            double[] resultRow = result[i];
+            double[] firstRow = firstMatrix[i];
+            
+            for (int k = 0; k < colFirst; k++) {
+                double firstValue = firstRow[k];
+                double[] secondRow = secondMatrix[k];
+                
+                for (int j = 0; j < colSecond; j++) {
+                    resultRow[j] += firstValue * secondRow[j];
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+  
+    public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix, int threads) {
+        int a = firstMatrix.length;
+        int b = secondMatrix.length;
+        int a1 = firstMatrix[0].length;
+        int b1 = secondMatrix[0].length;
+        
+        if (a1 != b) {
+            throw new IllegalArgumentException("Incompatible matrix dimensions");
+        }
+        
+        double[][] result = new double[a][b1];
+        ExecutorService executor = Executors.newFixedThreadPool(threads);
+        
+        
+        int rowsPerThread = a / threads;
+        int extraRows = a % threads;
+        
+        int currentRow = 0;
+        for (int t = 0; t < threads; t++) {
+            final int startRow = currentRow;
+            final int endRow = startRow + rowsPerThread + (t < extraRows ? 1 : 0);
+            currentRow = endRow;
+            
+            executor.submit(() -> {
+                for (int i = startRow; i < endRow; i++) {
+                    double[] resultRow = result[i];
+                    double[] firstRow = firstMatrix[i];
+                    
+                    for (int k = 0; k < a1; k++) {
+                        double firstValue = firstRow[k];
+                        double[] secondRow = secondMatrix[k];
+                        
+                        for (int j = 0; j < b1; j++) {
+                            resultRow[j] += firstValue * secondRow[j];
+                        }
+                    }
+                }
+            });
+        }
+        
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(5, TimeUnit.MINUTES)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        
+        return result;
+    }
+    
+   
+    private static double[][] generateRandomMatrix(int rows, int cols) {
+        Random rand = new Random();
+        double[][] matrix = new double[rows][cols];
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = rand.nextDouble() * 10;
+            }
+        }
+        
+        return matrix;
+    }
+    
+   
+    private static boolean areMatricesEqual(double[][] a, double[][] b, double epsilon) {
+        if (a.length != b.length || a[0].length != b[0].length) {
+            return false;
+        }
+        
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[0].length; j++) {
+                if (Math.abs(a[i][j] - b[i][j]) > epsilon) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    
+    public static void main(String[] args) {
+        int row1 = 1000, col1 = 1000;
+        int row2 = 1000, col2 = 1000;
+        
+       
+        System.out.println("Matrix A: " + row1 + " x " + col1);
+        System.out.println("Matrix B: " + row2 + " x " + col2);
+        System.out.println();
+        
+       
+        System.out.println("Generating random matrices...");
+        double[][] firstMatrix = generateRandomMatrix(row1, col1);
+        double[][] secondMatrix = generateRandomMatrix(row2, col2);
+        
+     
+        System.out.println("\nFirst Version ");
+        long startTime = System.nanoTime();
+        double[][] resultSeq = multiply(firstMatrix, secondMatrix);
+        long endTime = System.nanoTime();
+        
+        long durationNs = endTime - startTime;
+        double durationMs = durationNs / 1_000_000.0;
+        
+        System.out.println("Execution time: " + durationMs + " ms");
+          
+        int threads = 8;         
+        System.out.println("\n Parallel Version (" + threads + " threads) ");
+        long startTimePar = System.nanoTime();
+        double[][] resultPar = multiplyParallel(firstMatrix, secondMatrix, threads);
+        long endTimePar = System.nanoTime();
+        
+        long durationParNs = endTimePar - startTimePar;
+        double durationParMs = durationParNs / 1_000_000.0;
+        
+        System.out.println("Execution time: " + durationParMs + " ms");
+           
+        double speedup = durationMs / durationParMs;
+        System.out.printf("Speedup: %.2fx%n", speedup);
+        System.out.printf("Efficiency: %.1f%%%n", (speedup / threads) * 100);
+        
+    
+        if (resultSeq != null && resultPar != null) {
+            boolean equal = areMatricesEqual(resultSeq, resultPar, 0.0001);
+        }
+        
+        
+        System.out.println("\n Testing Different Thread Counts");
+        int maxThreads = 16;
+        
+        System.out.println("Threads | Time (ms) | Speedup");
+        System.out.println("--------|-----------|--------");
+        
+        for (int t = 1; t <= maxThreads; t++) {
+           
+            System.gc();
+            try { Thread.sleep(100); } catch (InterruptedException e) {}
+            
+            long start = System.nanoTime();
+            double[][] testResult = multiplyParallel(firstMatrix, secondMatrix, t);
+            long end = System.nanoTime();
+            
+            double timeMs = (end - start) / 1_000_000.0;
+            double sp = durationMs / timeMs;
+            double eff = (sp / t) * 100;
+                     
+            System.out.printf("%7d | %9.2f | %7.2f%n",
+               t,timeMs, sp );
+        }
+        
+      
+    }
+}
