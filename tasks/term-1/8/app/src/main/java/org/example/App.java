@@ -18,6 +18,9 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -38,13 +41,33 @@ public class App {
         }
         System.out.println("end learning!");
 
-
         Evaluation eval = model.evaluate(mnistTest);
         System.out.println(eval.stats());
-        if (args.length > 0) {
-            String imagePath = args[0];
-            int predicted = classifyImage(model, imagePath);
-            System.out.println("Predicted digit for " + imagePath + ": " + predicted);
+        
+        String imagesFolder = "tasks/term-1/8/imag";
+        File folder = new File(imagesFolder);
+        
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.out.println("Папка с изображениями не найдена: " + imagesFolder);
+            return;
+        }
+        
+        File[] imageFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));
+        
+        if (imageFiles == null || imageFiles.length == 0) {
+            System.out.println("В папке " + imagesFolder + " не найдено PNG файлов");
+            return;
+        }
+        
+        System.out.println("Найдено " + imageFiles.length + " изображений для классификации:");
+        
+        for (File imageFile : imageFiles) {
+            try {
+                int predicted = classifyImage(model, imageFile.getPath());
+                System.out.println("Предсказанная цифра для " + imageFile.getName() + ": " + predicted);
+            } catch (Exception e) {
+                System.out.println("Ошибка при обработке " + imageFile.getName() + ": " + e.getMessage());
+            }
         }
     }
 
@@ -90,27 +113,37 @@ public class App {
         return model;
     }
 
-
     public static int classifyImage(MultiLayerNetwork model, String imagePath) throws Exception {
         BufferedImage img = ImageIO.read(new File(imagePath));
         if (img.getWidth() != 28 || img.getHeight() != 28) {
-            throw new IllegalArgumentException("png must be 28x28");
+            // Масштабируем изображение до 28x28 если оно другого размера
+            BufferedImage resizedImg = new BufferedImage(28, 28, BufferedImage.TYPE_INT_RGB);
+            java.awt.Graphics2D g = resizedImg.createGraphics();
+            g.drawImage(img, 0, 0, 28, 28, null);
+            g.dispose();
+            img = resizedImg;
         }
-
 
         double[] pixels = new double[28 * 28];
         for (int y = 0; y < 28; y++) {
             for (int x = 0; x < 28; x++) {
                 int rgb = img.getRGB(x, y);
-                int gray = (rgb >> 16) & 0xFF;
-                pixels[y * 28 + x] = gray / 255.0;
+                // Получаем среднее значение RGB
+                int r = (rgb >> 16) & 0xFF;
+                int g = (rgb >> 8) & 0xFF;
+                int b = rgb & 0xFF;
+                int gray = (r + g + b) / 3;
+                
+                pixels[y * 28 + x] = (255 - gray) / 255.0;
             }
         }
-        INDArray input = Nd4j.create(pixels).reshape(1, 28*28);
+        
+        INDArray input = Nd4j.create(pixels, new int[]{1, 1, 28, 28});
 
         INDArray output = model.output(input);
         return Nd4j.argMax(output, 1).getInt(0);
     }
+    
     public String getGreeting() {
         return "Hello from App!";
     }
