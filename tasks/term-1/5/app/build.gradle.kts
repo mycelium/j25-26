@@ -19,6 +19,10 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models-english")
 }
 
 testing {
