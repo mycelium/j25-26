@@ -11,5 +11,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
-rootProject.name = "sentiments"
+rootProject.name = "sentiments" 
 include("app")
+

@@ -7,38 +7,29 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
-    application
+    java
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
-    // This dependency is used by the application.
-    implementation(libs.guava)
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.7")
+    implementation("edu.stanford.nlp:stanford-corenlp:4.5.7:models")
+
+    implementation("org.slf4j:slf4j-simple:2.0.17")
+
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-testing {
-    suites {
-        // Configure the built-in test suite
-        val test by getting(JvmTestSuite::class) {
-            // Use JUnit Jupiter test framework
-            useJUnitJupiter("5.12.1")
-        }
-    }
-}
-
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(23)
     }
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = "org.example.App"
+tasks.test {
+    useJUnitPlatform()
 }
