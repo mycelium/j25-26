@@ -8,20 +8,29 @@ public class App {
     public static void main(String[] args)
     {
 
-        if (args.length < 2)
+        String inputFile;
+        String outputFile;
+
+        if (args.length >= 2)
         {
-            System.out.println("Provide the path to the input and output" +
-                    " .csv file as a command line argument");
-            return;
+            inputFile = args[0];
+            outputFile = args[1];
         }
-        
+        // For this program, if one file is specified, it is the output file
+        else if (args.length == 1)
+        {
+            inputFile = "inputCSV.csv";
+            outputFile = args[0];
+        }
+        else
+        {
+            inputFile = "inputCSV.csv";
+            outputFile = "output.csv";;
+        }
         try
         {
             SentimentAnalyzer sentimentAnalyzer = new SentimentAnalyzer();
             CSVProcessor csvProcessor = new CSVProcessor();
-
-            String inputFile = args[0];
-            String outputFile = args[1];
 
             csvProcessor.processCSV(inputFile, outputFile, sentimentAnalyzer);
             csvProcessor.checkAnalyzeSentimentResult(inputFile, outputFile);
