@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    // зависимостей нет
+    testImplementation 'junit:junit:4.13.2'
 }
 
 java {
