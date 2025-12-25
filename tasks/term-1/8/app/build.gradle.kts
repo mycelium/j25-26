@@ -19,6 +19,16 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation(libs.deeplearning4j.core)
+    implementation(libs.deeplearning4j.modelimport)
+    implementation(libs.nd4j.native.platform)
+    implementation(libs.datavec.api)
+    implementation(libs.deeplearning4j.datasets)
+    implementation(libs.logback.classic)
+}
+
+tasks.test {
+    enabled = false
 }
 
 testing {

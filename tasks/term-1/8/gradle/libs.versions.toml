@@ -3,6 +3,16 @@
 
 [versions]
 guava = "33.4.5-jre"
+deeplearning4j = "1.0.0-M2.1"
+nd4j = "1.0.0-M2.1"
+datavec = "1.0.0-M2.1"
+logback = "1.4.14"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+deeplearning4j-core = { module = "org.deeplearning4j:deeplearning4j-core", version.ref = "deeplearning4j" }
+deeplearning4j-modelimport = { module = "org.deeplearning4j:deeplearning4j-modelimport", version.ref = "deeplearning4j" }
+nd4j-native-platform = { module = "org.nd4j:nd4j-native-platform", version.ref = "nd4j" }
+datavec-api = { module = "org.datavec:datavec-api", version.ref = "datavec" }
+deeplearning4j-datasets = { module = "org.deeplearning4j:deeplearning4j-datasets", version.ref = "deeplearning4j" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
