@@ -63,7 +63,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        String inputCsv = "IMDB Dataset.csv";
+        String inputCsv = "IMDB.csv";
         SentimentAnalyzer analyzer = new SentimentAnalyzer();
 
         try (CSVReader reader = new CSVReader(new FileReader(inputCsv))) {
