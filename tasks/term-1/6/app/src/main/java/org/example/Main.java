@@ -8,19 +8,19 @@ public class Main {
     public static void main(String[] args) {
         List<Point> train = new ArrayList<>();
 
-        // class 0
+        // класс 0
         train.add(new Point(1.0, 1.0, 0));
         train.add(new Point(1.5, 1.2, 0));
         train.add(new Point(0.8, 0.9, 0));
         train.add(new Point(1.2, 0.7, 0));
 
-        // class 1
+        // класс 1
         train.add(new Point(4.0, 4.0, 1));
         train.add(new Point(4.2, 3.8, 1));
         train.add(new Point(3.8, 4.1, 1));
         train.add(new Point(4.3, 4.2, 1));
 
-        // class 2
+        // класс 2
         train.add(new Point(7.0, 1.0, 2));
         train.add(new Point(7.5, 1.3, 2));
         train.add(new Point(6.8, 0.9, 2));
