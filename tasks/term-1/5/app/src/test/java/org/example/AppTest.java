@@ -3,12 +3,24 @@
  */
 package org.example;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
     @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+        App app = new App();
+        assertNotNull(app.getGreeting());
+    }
+
+    @Test void testSentimentUtils() {
+        SentimentUtils utils = new SentimentUtils();
+        assertNotNull(utils);
+    }
+    
+    @Test void testReviewClass() {
+        SentimentUtils.Review review = new SentimentUtils.Review("Good", "positive");
+        assertEquals("Good", review.text);
+        assertEquals("positive", review.label);
     }
 }

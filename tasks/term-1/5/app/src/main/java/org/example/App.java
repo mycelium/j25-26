@@ -3,12 +3,55 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.Collections;
+import java.util.List;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App {
+        public static void main(String[] args) {
+            try {
+                SentimentUtils analyzer = new SentimentUtils();
+            
+                List<SentimentUtils.Review> data = analyzer.loadReviews("../IMDB Dataset.csv");
+            
+                System.out.println("Loaded records: " + data.size());
+                System.out.println("Analyzing 15 random reviews...\n");
+            
+                Collections.shuffle(data);
+                List<SentimentUtils.Review> sample = data.subList(0, 15);
+            
+                int correct = 0;
+            
+                for (int i = 0; i < sample.size(); i++) {
+                    SentimentUtils.Review r = sample.get(i);
+                
+                    String predicted = analyzer.analyzeSentiment(r.text);
+                
+                    if (predicted.equalsIgnoreCase(r.label)) {
+                        correct++;
+                    }
+                
+                    String shortText = r.text.length() > 100 
+                        ? r.text.substring(0, 100) + "..." 
+                        : r.text;
+                
+                    System.out.println("Review " + (i + 1) + ":");
+                    System.out.println("  Text: " + shortText);
+                    System.out.println("  Actual: " + r.label + ", Predicted: " + predicted);
+                    System.out.println("  Correct: " + (predicted.equalsIgnoreCase(r.label) ? "Yes" : "No"));
+                    System.out.println();
+                }
+            
+                System.out.println("Results:");
+                System.out.println("Correct: " + correct + " out of " + sample.size());
+                System.out.println("Accuracy: " + (correct * 100 / sample.size()) + "%");
+            
+            } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public String getGreeting() {
+        return "Movie Review Sentiment Analysis";
     }
 }
