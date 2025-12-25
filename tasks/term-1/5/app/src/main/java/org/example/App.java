@@ -7,11 +7,15 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class App {
+
     public static class SentimentAnalyzer {
         private final StanfordCoreNLP pipeline;
 
@@ -62,12 +66,33 @@ public class App {
         }
     }
 
-    public static void main(String[] args) {
-        String inputCsv = "IMDB.csv";
-        SentimentAnalyzer analyzer = new SentimentAnalyzer();
 
-        try (CSVReader reader = new CSVReader(new FileReader(inputCsv))) {
-            String[] header = reader.readNext(); 
+    private static FileReader tryOpenCsv(List<String> paths) throws IOException {
+        for (String path : paths) {
+            File file = new File(path);
+            if (file.exists() && file.isFile()) {
+                return new FileReader(file);
+            }
+        }
+        throw new IOException("IMDB.csv not found in any of the expected locations: " + paths);
+    }
+
+    public static void main(String[] args) {
+        List<String> possiblePaths = Arrays.asList(
+                "IMDB.csv",
+                "../IMDB.csv",
+                "tasks/term-1/5/IMDB.csv",
+                "./IMDB.csv"
+        );
+
+        SentimentAnalyzer analyzer = new SentimentAnalyzer();
+        CSVReader reader = null;
+
+        try {
+            FileReader fileReader = tryOpenCsv(possiblePaths);
+            reader = new CSVReader(fileReader);
+
+            String[] header = reader.readNext();
             if (header == null) {
                 System.err.println("CSV file is empty");
                 return;
@@ -81,9 +106,9 @@ public class App {
 
                 String review = row[0].trim();
                 String sentiment = analyzer.getSentiment(review);
-                System.out.printf(sentiment + "\n");
+                System.out.println(sentiment);
 
-               
+                count++;
             }
 
 
@@ -93,6 +118,14 @@ public class App {
         } catch (CsvValidationException e) {
             System.err.println("CSV format error: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                  
+                }
+            }
         }
     }
 }
