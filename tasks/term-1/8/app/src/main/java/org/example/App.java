@@ -3,12 +3,51 @@
  */
 package org.example;
 
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+
 public class App {
     public String getGreeting() {
-        return "Hello World!";
+        return "MNIST CNN Image Classification with DeepLearning4J";
     }
-
+    
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        App app = new App();
+        System.out.println(app.getGreeting());
+        
+        try {
+            MultiLayerNetwork model = MNISTClassifier.trainAndEvaluate();
+            
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("TESTING ON REAL IMAGES");
+            System.out.println("=".repeat(50));
+            
+            String[] testImages = {"2.png", "5.png", "7.png"};
+            
+            for (String imagePath : testImages) {
+                try {
+                    int prediction = MNISTClassifier.predictFromImage(model, imagePath);
+                    System.out.printf("Image: %-10s -> Predicted figure: %d%n", 
+                                     imagePath, prediction);
+                } catch (Exception e) {
+                    System.out.printf("Couldn't process %s: %s%n", 
+                                     imagePath, e.getMessage());
+                }
+            }
+            
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("TEST ON GENERATED NUMBERS");
+            System.out.println("=".repeat(50));
+            
+            for (int digit = 0; digit < 5; digit++) {
+                int prediction = MNISTClassifier.predictDigit(model, digit);
+                System.out.printf("Test figure: %d -> Prediction: %d %s%n",
+                                 digit, prediction,
+                                 (digit == prediction ? "correct" : "incorrect"));
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error during program operation: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
