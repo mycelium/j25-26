@@ -3,12 +3,88 @@
  */
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class AppTest {
-    @Test public void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    @Test public void testPointCreation() {
+        Point p = new Point(1.0, 2.0, "TestClass");
+        assertEquals(1.0, p.getX(), 0.001);
+        assertEquals(2.0, p.getY(), 0.001);
+        assertEquals("TestClass", p.getLabel());
+    }
+    @Test public void testDistanceCalculation() {
+        Point p1 = new Point(0, 0, "A");
+        Point p2 = new Point(3, 4, "B");
+        assertEquals(5.0, p1.distanceTo(p2), 0.001);
+    }
+    
+    @Test public void testKNNClassifierBasic() {
+        KNNClassifier classifier = new KNNClassifier(3);
+        
+        List<Point> trainingData = Arrays.asList(
+            new Point(1, 1, "ClassA"),
+            new Point(1, 2, "ClassA"),
+            new Point(1, 3, "ClassA"),
+            new Point(9, 9, "ClassB"),
+            new Point(8, 9, "ClassB"),
+            new Point(9, 8, "ClassB")
+        );
+        
+        classifier.addTrainingPoints(trainingData);
+        
+        Point testPoint = new Point(2, 2);
+        String result = classifier.classify(testPoint);
+        
+        assertEquals("ClassA", result);
+    }
+    
+    @Test public void testKNNClassifierWithDifferentK() {
+        KNNClassifier classifier1 = new KNNClassifier(1);
+        
+        List<Point> data = Arrays.asList(
+            new Point(1, 1, "Far"),
+            new Point(2, 2, "Close")
+        );
+        
+        classifier1.addTrainingPoints(data);
+        
+        Point testPoint = new Point(2.1, 2.1);
+        String result = classifier1.classify(testPoint);
+        
+        assertEquals("Close", result);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidK() {
+        new KNNClassifier(0);
+    }
+    
+    @Test(expected = IllegalStateException.class)
+    public void testClassifyWithoutTraining() {
+        KNNClassifier classifier = new KNNClassifier(3);
+        classifier.classify(new Point(1, 1));
+    }
+    
+    @Test public void testClassifierWithMultipleClasses() {
+        KNNClassifier classifier = new KNNClassifier(3);
+        
+        List<Point> data = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            data.add(new Point(i, i, "Class1"));
+            data.add(new Point(i + 10, i, "Class2"));
+            data.add(new Point(i, i + 10, "Class3"));
+        }
+        
+        classifier.addTrainingPoints(data);
+        
+        Point testPoint = new Point(2, 2);
+        String result = classifier.classify(testPoint);
+        
+        assertEquals("Class1", result);
     }
 }

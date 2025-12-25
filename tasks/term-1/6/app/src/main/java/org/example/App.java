@@ -3,12 +3,90 @@
  */
 package org.example;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    public static void main(String[] args) {
+        System.out.println("=== K-Nearest Neighbors Classifier ===");
+        
+        KNNClassifier classifier = new KNNClassifier(3);
+        
+        List<Point> trainingData = generateTrainingData();
+        classifier.addTrainingPoints(trainingData);
+        
+        System.out.println("Generated " + trainingData.size() + " training points");
+        System.out.println("Classes: " + getUniqueLabels(trainingData));
+        
+        System.out.println("\n=== Test Predictions ===");
+        testClassifier(classifier);
+        
+        Point testPoint = new Point(5.5, 3.5);
+        System.out.println("\n=== Main Test ===");
+        System.out.printf("Test point coordinates: (%.1f, %.1f)%n", 
+                         testPoint.getX(), testPoint.getY());
+        
+        String predictedClass = classifier.classify(testPoint);
+        testPoint.setLabel(predictedClass);
+        
+        System.out.println("Predicted class: " + predictedClass);
+        
+        String outputPath = "knn_classification.png";
+        DataVisualizer.visualizePoints(trainingData, testPoint, outputPath);
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    private static List<Point> generateTrainingData() {
+        List<Point> points = new ArrayList<>();
+        Random random = new Random(42); 
+        
+        // Класс A: левый верхний квадрант
+        for (int i = 0; i < 15; i++) {
+            double x = 1 + random.nextDouble() * 3;
+            double y = 6 + random.nextDouble() * 3;
+            points.add(new Point(x, y, "ClassA"));
+        }
+        
+        // Класс B: правый нижний квадрант
+        for (int i = 0; i < 15; i++) {
+            double x = 6 + random.nextDouble() * 3;
+            double y = 1 + random.nextDouble() * 3;
+            points.add(new Point(x, y, "ClassB"));
+        }
+        
+        // Класс C: центр
+        for (int i = 0; i < 15; i++) {
+            double x = 3 + random.nextDouble() * 4;
+            double y = 3 + random.nextDouble() * 4;
+            points.add(new Point(x, y, "ClassC"));
+        }
+        
+        return points;
+    }
+    
+    private static void testClassifier(KNNClassifier classifier) {
+        Point[] testPoints = {
+            new Point(2.0, 7.0),   // Должен быть ClassA
+            new Point(7.0, 2.0),   // Должен быть ClassB
+            new Point(5.0, 5.0),   // Должен быть ClassC
+            new Point(1.0, 1.0),   // Граничный случай
+            new Point(9.0, 9.0)    // Граничный случай
+        };
+        
+        for (Point testPoint : testPoints) {
+            String predictedClass = classifier.classify(testPoint);
+            System.out.printf("Point (%.1f, %.1f) -> %s%n", 
+                            testPoint.getX(), testPoint.getY(), predictedClass);
+        }
+    }
+    
+    private static Set<String> getUniqueLabels(List<Point> points) {
+        Set<String> labels = new HashSet<>();
+        for (Point p : points) {
+            labels.add(p.getLabel());
+        }
+        return labels;
     }
 }
