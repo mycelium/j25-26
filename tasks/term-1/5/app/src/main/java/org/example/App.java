@@ -1,56 +1,45 @@
 package org.example;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class App {
+
     public static void main(String[] args) {
         try {
-            final String filePath = "IMDB Dataset.csv";
-
-            Processor textProcessor = new Processor();
-            List<Processor.Entry> dataSet = textProcessor.parseData(filePath);
-
-            if (dataSet.isEmpty()) {
-                System.err.println("Датасет пуст или не найден.");
-                return;
-            }
-
-            Emotion classifier = new Emotion();
-
-            System.out.println("--- Sentiment Analysis with CoreNLP ---\n");
-
-            int matches = 0;
-            int sampleSize = 10;
-            Random rng = new Random();
-
-            for (int i = 0; i < sampleSize; i++) {
-                int randomIndex = rng.nextInt(dataSet.size());
-                Processor.Entry entry = dataSet.get(randomIndex);
-
-                String prediction = classifier.classify(entry.getContent());
-                String real = entry.getLabel().toLowerCase();
-
-                String displayText = entry.getContent().length() > 150
-                        ? entry.getContent().substring(0, 150) + "..."
-                        : entry.getContent();
-
-                System.out.println("отзыв №" + (i + 1));
-                System.out.println(displayText);
-                System.out.println("оценка: " + prediction);
-                System.out.println("------------------------");
-
-                if (real.equals(prediction)) {
-                    matches++;
+            Emotion analyzer = new Emotion();
+            String datasetPath = "IMDB Dataset.csv";
+            List<Emotion.ReviewRecord> dataset = analyzer.loadDataset(datasetPath);
+            System.out.print("---анализатор отзывов на фильмы---\n");
+            System.out.println("загружено отзывов: " + dataset.size());
+            System.out.println("10 случайных отзывов...\n");
+            Collections.shuffle(dataset);
+            List<Emotion.ReviewRecord> sample = dataset.subList(0, 20);
+            int correctPredictions = 0;
+            final int SAMPLE = 10;
+            for (int i = 0; i < SAMPLE; i++) {
+                Emotion.ReviewRecord review = sample.get(i);
+                String predictedLabel = analyzer.analyzeSentiment(review.text);
+                if (predictedLabel.equalsIgnoreCase(review.label)) {
+                    correctPredictions++;
                 }
+                String displayText = (review.text.length() > 120)
+                        ? review.text.substring(0, 120) + "..."
+                        : review.text;
+
+                System.out.printf(
+                        "отзыв %d: \"%s\", \nпредсказано: %s, \nфакт: %s%n",
+                        i + 1, displayText, predictedLabel, review.label
+                );
             }
 
-//            double accuracy = (double) matches / sampleSize * 100;
-//            System.out.printf("\n точность на %d случайных примерах: %.2f%%\n", sampleSize, accuracy);
+            System.out.println();
+            System.out.printf(
+                    "точность: %d из %d (%.0f%%)%n",
+                    correctPredictions, SAMPLE, (correctPredictions * 100.0 / SAMPLE)
+            );
 
-        } catch (Exception ex) {
-            System.err.println(" error: " + ex.getMessage());
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

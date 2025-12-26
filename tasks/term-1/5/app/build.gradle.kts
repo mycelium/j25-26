@@ -23,6 +23,7 @@ dependencies {
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.4")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.4:models-english")
+    implementation("com.opencsv:opencsv:5.8")
 }
 
 testing {
