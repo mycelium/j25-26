@@ -3,7 +3,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class MatrixMult {
+public class MatrixMultPar {
     public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
         int a = firstMatrix.length;          // строки 1
         int b = secondMatrix.length;         // строки 2
