@@ -3,12 +3,51 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.*;
+import org.example.classifier.*;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        KNearestNeighbors classifier = new KNearestNeighbors(3);
+
+        List<DataPoint> trainingData = Arrays.asList(
+                new DataPoint(2, 2, "A"), new DataPoint(2, 3, "A"), new DataPoint(3, 2, "A"),
+                new DataPoint(3, 3, "A"), new DataPoint(2, 4, "A"), new DataPoint(4, 2, "A"),
+                new DataPoint(1, 1, "A"), new DataPoint(1, 2, "A"),
+
+                new DataPoint(12, 12, "B"), new DataPoint(13, 12, "B"), new DataPoint(12, 13, "B"),
+                new DataPoint(13, 13, "B"), new DataPoint(14, 12, "B"), new DataPoint(12, 14, "B"),
+                new DataPoint(14, 14, "B"), new DataPoint(13, 14, "B"),
+
+                new DataPoint(2, 12, "C"), new DataPoint(3, 12, "C"), new DataPoint(2, 13, "C"),
+                new DataPoint(3, 13, "C"), new DataPoint(2, 14, "C"), new DataPoint(4, 13, "C"),
+                new DataPoint(3, 14, "C"), new DataPoint(1, 13, "C"),
+
+                new DataPoint(7, 7, "D"), new DataPoint(8, 7, "D"), new DataPoint(7, 8, "D"),
+                new DataPoint(8, 8, "D"), new DataPoint(7.5, 7.5, "D"));
+
+        classifier.addTrainingPoints(trainingData);
+
+        List<DataPoint> testPoints = Arrays.asList(
+                new DataPoint(2.5, 2.5),
+                new DataPoint(12.5, 12.5),
+                new DataPoint(2.5, 12.5),
+                new DataPoint(7.5, 7.5),
+                new DataPoint(5, 5),
+                new DataPoint(10, 10));
+
+        System.out.println("KNN classification results:");
+        System.out.println("=============================================");
+        for (DataPoint testPoint : testPoints) {
+            String predictedClass = classifier.classify(testPoint);
+            System.out.printf("Point (%.1f, %.1f) -> class: %s%n",
+                    testPoint.getX(), testPoint.getY(), predictedClass);
+        }
+
+        KNNPlotter visualizer = new KNNPlotter(classifier, testPoints);
+
+        visualizer.saveAsImage("knn_classification.png");
+
+        visualizer.display();
     }
 }
