@@ -11,15 +11,14 @@ repositories {
 }
 
 dependencies {
-    // DL4J
-    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
-    // ND4J backend (CPU)
-    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
-    // Datavec для работы с датасетами (на всякий случай)
-    implementation("org.datavec:datavec-api:1.0.0-M2.1")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
+    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2")
+    implementation("org.datavec:datavec-api:1.0.0-M2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 }
+
 
 tasks.test {
     useJUnitPlatform()
