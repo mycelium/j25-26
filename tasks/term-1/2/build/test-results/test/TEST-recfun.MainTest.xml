@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="recfun.MainTest" tests="44" skipped="0" failures="0" errors="0" timestamp="2025-12-28T16:17:23.106Z" hostname="DESKTOP-OIB2LOH" time="0.135">
+  <properties/>
+  <testcase name="Test 1.1: pascal - top of triangle (0,0)" classname="recfun.MainTest" time="0.024"/>
+  <testcase name="Test 1.2: pascal - left edge (0, r)" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 1.3: pascal - right edge (r, r)" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 1.4: pascal - middle elements" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 1.5: pascal - row 5" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 1.6: pascal - negative column" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 1.7: pascal - negative row" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 1.8: pascal - column greater than row" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 1.9: pascal - large values" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.1: balance - empty string" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.2: balance - no parentheses" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.3: balance - simple balanced ()" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.4: balance - nested balanced (())" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.5: balance - multiple balanced ()()" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.6: balance - complex balanced expression" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.7: balance - balanced with text" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.8: balance - unbalanced :-)" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.9: balance - unbalanced ())(" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.10: balance - unbalanced open" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.11: balance - unbalanced close" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.12: balance - wrong order )(" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.13: balance - unbalanced more opens" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 2.14: balance - unbalanced more closes" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 2.15: balance - deeply nested" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.1: countChange - zero money" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 3.2: countChange - empty coins" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.3: countChange - negative money" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.4: countChange - simple case 4 with coins 1,2" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.5: countChange - 5 with coins 2,3" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 3.6: countChange - 10 with coins 1,5,10" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.7: countChange - 1 with coin 1" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.8: countChange - impossible (no valid coins)" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 3.9: countChange - single coin exact" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.10: countChange - 6 with coins 1,2,3" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 3.11: countChange - larger amount" classname="recfun.MainTest" time="0.002"/>
+  <testcase name="Test 4.1: nQueens - size 0 returns None" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 4.2: nQueens - size negative returns None" classname="recfun.MainTest" time="0.0"/>
+  <testcase name="Test 4.3: nQueens - size 1 has solution" classname="recfun.MainTest" time="0.013"/>
+  <testcase name="Test 4.4: nQueens - size 2 has no solution" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 4.5: nQueens - size 3 has no solution" classname="recfun.MainTest" time="0.001"/>
+  <testcase name="Test 4.6: nQueens - size 4 has solution" classname="recfun.MainTest" time="0.003"/>
+  <testcase name="Test 4.7: nQueens - size 5 has solution" classname="recfun.MainTest" time="0.002"/>
+  <testcase name="Test 4.8: nQueens - size 6 has solution" classname="recfun.MainTest" time="0.006"/>
+  <testcase name="Test 4.9: nQueens - size 8 has solution" classname="recfun.MainTest" time="0.021"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

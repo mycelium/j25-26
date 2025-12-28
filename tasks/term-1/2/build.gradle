@@ -1,0 +1,42 @@
+plugins {
+    id 'scala'
+    id 'application'
+}
+
+application {
+    mainClass = 'recfun.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.scala-lang:scala-library:2.13.12'
+    testImplementation 'org.scalatest:scalatest_2.13:3.2.17'
+    testImplementation 'org.scalatestplus:junit-5-10_2.13:3.2.17.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala']
+        }
+    }
+    test {
+        scala {
+            srcDirs = ['src/test/scala']
+        }
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+}
+
