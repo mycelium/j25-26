@@ -1,71 +1,90 @@
 public class MatrixMult {
 
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
-        int rows1 = firstMatrix.length;
-        int cols1 = firstMatrix[0].length;
-        int cols2 = secondMatrix[0].length;
+        if (firstMatrix == null || secondMatrix == null) {
+            throw new IllegalArgumentException("Matrices must not be null");
+        }
 
-        double[][] result = new double[rows1][cols2];
+        int rowsA = firstMatrix.length;
+        int colsA = firstMatrix[0].length;
+        int rowsB = secondMatrix.length;
+        int colsB = secondMatrix[0].length;
 
-        for (int i = 0; i < rows1; i++) {
-            for (int j = 0; j < cols2; j++) {
-                double sum = 0;
-                for (int k = 0; k < cols1; k++) {
-                    sum += firstMatrix[i][k] * secondMatrix[k][j];
+        if (colsA != rowsB) {
+            throw new IllegalArgumentException(
+                    "Matrices can't be multiplied: columns of A (" + colsA +
+                            ") != rows of B (" + rowsB + ")"
+            );
+        }
+
+        double[][] result = new double[rowsA][colsB];
+
+        for (int i = 0; i < rowsA; i++) {
+            double[] rowA = firstMatrix[i];
+            double[] rowResult = result[i];
+
+            for (int k = 0; k < colsA; k++) {
+                double valueA = rowA[k];
+                double[] rowB = secondMatrix[k];
+
+                for (int j = 0; j < colsB; j++) {
+                    rowResult[j] += valueA * rowB[j];
                 }
-                result[i][j] = sum;
             }
         }
+
         return result;
+    }
+
+    public static double[][] createRandomMatrix(int rows, int cols, double min, double max) {
+        double[][] matrix = new double[rows][cols];
+        double range = max - min;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = min + Math.random() * range;
+            }
+        }
+        return matrix;
     }
-    public static double[][] multiplyOptimized(double[][] firstMatrix, double[][] secondMatrix) {
-        int rows1 = firstMatrix.length;
-        int cols1 = firstMatrix[0].length;
-        int cols2 = secondMatrix[0].length;
 
-        double[][] result = new double[rows1][cols2];
-
-
-        double[][] secondT = new double[cols2][cols1];
-        for (int i = 0; i < cols1; i++) {
-            for (int j = 0; j < cols2; j++) {
-                secondT[j][i] = secondMatrix[i][j];
-            }
-        }
-        for (int i = 0; i < rows1; i++) {
-            for (int j = 0; j < cols2; j++) {
-                double sum = 0;
-                for (int k = 0; k < cols1; k++) {
-                    sum += firstMatrix[i][k] * secondT[j][k];
-                }
-                result[i][j] = sum;
-            }
+    public static void printMatrix(double[][] matrix, String name) {
+        if (matrix == null) {
+            System.out.println(name + ": Matrix is empty");
+            return;
         }
 
-        return result;
+        System.out.println("\n" + name + " (" + matrix.length + "x" + matrix[0].length + ")");
+        for (double[] row : matrix) {
+            for (double value : row) {
+                System.out.printf("%.3f ", value);
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
-        int size = 1000;
-        double[][] A = new double[size][size];
-        double[][] B = new double[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                A[i][j] = Math.random();
-                B[i][j] = Math.random();
-            }
+        int size = 2000;
+        int experiments = 5;
+
+        double[][] matrixA = createRandomMatrix(size, size, 1, 100);
+        double[][] matrixB = createRandomMatrix(size, size, 1, 100);
+
+        long totalTime = 0;
+
+        for (int i = 1; i <= experiments; i++) {
+            long start = System.nanoTime();
+            multiply(matrixA, matrixB);
+            long end = System.nanoTime();
+
+            long durationMs = (end - start) / 1_000_000;
+            totalTime += durationMs;
+
+            System.out.println("Iteration " + i + ": " + durationMs + " ms");
         }
 
-        System.out.println("Умножение обычным методом...");
-        long start = System.currentTimeMillis();
-        double[][] result1 = multiply(A, B);
-        long end = System.currentTimeMillis();
-        System.out.println("Время выполнения: " + (end - start) + " мс");
-
-        System.out.println("Умножение оптимизированным методом...");
-        start = System.currentTimeMillis();
-        double[][] result2 = multiplyOptimized(A, B);
-        end = System.currentTimeMillis();
-        System.out.println("Время выполнения (оптимизация): " + (end - start) + " мс");
+        System.out.println("\n=== RESULTS ===");
+        System.out.println("Total time: " + totalTime + " ms");
+        System.out.println("Average time: " + (totalTime / experiments) + " ms");
     }
 }

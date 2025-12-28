@@ -3,12 +3,23 @@
  */
 package org.example;
 
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        try {
+
+            MultiLayerNetwork model = CnnMNIST.trainAndEvaluate();
+
+
+            String imagePath = "2.png";
+            int prediction = CnnMNIST.predictFromImage(model, imagePath);
+
+            System.out.println("Predicted digit: " + prediction);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
