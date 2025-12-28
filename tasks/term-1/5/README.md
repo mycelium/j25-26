@@ -15,11 +15,6 @@
 
 ### Сборка проекта
 
-Unix/Linux/macOS:
-```bash
-./gradlew build
-```
-
 Windows (PowerShell/CMD):
 ```bash
 .\gradlew.bat build
@@ -27,10 +22,6 @@ Windows (PowerShell/CMD):
 
 ### Запуск приложения
 
-Unix/Linux/macOS:
-```bash
-./gradlew run
-```
 
 Windows (PowerShell/CMD):
 ```bash
@@ -38,11 +29,6 @@ Windows (PowerShell/CMD):
 ```
 
 ### Запуск с указанием файла
-
-Unix/Linux/macOS:
-```bash
-./gradlew run --args="путь/к/файлу.txt"
-```
 
 Windows (PowerShell/CMD):
 ```bash
@@ -65,4 +51,28 @@ Windows (PowerShell/CMD):
 Для каждого отзыва программа выводит:
 - Текст отзыва
 - Определенную тональность (positive, negative, neutral)
+
+## Запуск тестов
+
+Для запуска всех тестов выполните:
+```bash
+.\gradlew.bat test
+```
+
+Для просмотра подробного вывода с именами тестов:
+```bash
+.\gradlew.bat test --rerun-tasks
+```
+
+Примечание: Инициализация Stanford CoreNLP pipeline занимает несколько секунд.
+
+Тесты находятся в `app/src/test/java/org/example/SentimentAnalyzerTest.java` и включают:
+- Позитивные тексты (5 тестов)
+- Негативные тексты (5 тестов)
+- Нейтральные тексты (3 теста)
+- Граничные случаи (null, пустая строка, пробелы)
+- Множественные предложения
+- Детальный анализ тональности
+- Пакетный анализ списка текстов
+- Специальные символы и форматирование
 

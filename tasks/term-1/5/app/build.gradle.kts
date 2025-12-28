@@ -22,6 +22,19 @@ dependencies {
 
     implementation(libs.stanford.corenlp)
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.7:models")
+    
+    // JUnit 5 for testing
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+    
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+    }
 }
 
 // testing {
