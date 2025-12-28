@@ -23,7 +23,7 @@ public class App {
         System.out.println("---===[Testing]===---");
         model.evaluate(testIter);
 
-        String testImagePath = "app/src/main/resources/3.png";
+        String testImagePath = "src/main/resources/3.png";
         File testImageFile = new File(testImagePath);
 
         System.out.println("---===[Image prediction]===---");

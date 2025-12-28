@@ -43,5 +43,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("org.example.App")
+    mainClass.set("org.MNIST_CNN.App")
 }
