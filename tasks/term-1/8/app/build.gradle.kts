@@ -35,6 +35,13 @@ testing {
     }
 }
 
+tasks.named<Test>("test") {
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+    }
+}
+
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
