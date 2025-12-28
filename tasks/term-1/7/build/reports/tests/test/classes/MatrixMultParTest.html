@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class MatrixMultParTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class MatrixMultParTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/default-package.html">default-package</a> &gt; MatrixMultParTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">37</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">2.581s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">Test 1.1: Basic 2x2 matrix multiplication</td>
+<td class="success">testBasic2x2()</td>
+<td class="success">0.032s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 1.2: Basic 3x3 matrix multiplication</td>
+<td class="success">testBasic3x3()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 5.3: Both matrices are null</td>
+<td class="success">testBothMatricesNull()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 1.6: Column vector x Row vector (3x1 x 1x3)</td>
+<td class="success">testColumnVectorTimesRowVector()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 6.2: Parallel result equals single-threaded result (medium)</td>
+<td class="success">testConsistencyMedium()</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 6.1: Parallel result equals single-threaded result (small)</td>
+<td class="success">testConsistencySmall()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 4.2: Decimal/floating point numbers</td>
+<td class="success">testDecimalNumbers()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 2.6: Default thread count (system processors)</td>
+<td class="success">testDefaultThreadCount()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 6.3: Multiple runs produce same result</td>
+<td class="success">testDeterminism()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 2.4: Eight threads (threadCount=8)</td>
+<td class="success">testEightThreads()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 7.4: Extreme aspect ratio (1x100 x 100x1)</td>
+<td class="success">testExtremeAspectRatio()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 5.4: First matrix is empty</td>
+<td class="success">testFirstMatrixEmpty()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 5.1: First matrix is null</td>
+<td class="success">testFirstMatrixNull()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 2.3: Four threads (threadCount=4)</td>
+<td class="success">testFourThreads()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 3.1: Identity matrix multiplication</td>
+<td class="success">testIdentityMatrix()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 5.6: Incompatible dimensions (2x3 x 2x2)</td>
+<td class="success">testIncompatibleDimensions()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 8.3: Large matrix 1000x1000</td>
+<td class="success">testLargeMatrix1000x1000()</td>
+<td class="success">2.138s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 8.2: Large matrix 500x500</td>
+<td class="success">testLargeMatrix500x500()</td>
+<td class="success">0.280s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 8.4: Large non-square (500x200 x 200x300)</td>
+<td class="success">testLargeNonSquare()</td>
+<td class="success">0.042s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 8.1: Medium matrix 100x100</td>
+<td class="success">testMediumMatrix100x100()</td>
+<td class="success">0.027s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 4.5: Mixed positive, negative, large, small</td>
+<td class="success">testMixedNumbers()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 2.5: More threads than rows</td>
+<td class="success">testMoreThreadsThanRows()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 4.1: Negative numbers</td>
+<td class="success">testNegativeNumbers()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 1.3: Non-square matrices (2x3 x 3x2)</td>
+<td class="success">testNonSquare2x3_3x2()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 1.4: Non-square matrices (3x2 x 2x4)</td>
+<td class="success">testNonSquare3x2_2x4()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 1.5: Row vector x Column vector (1x4 x 4x1)</td>
+<td class="success">testRowVectorTimesColumnVector()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 5.5: Second matrix is empty</td>
+<td class="success">testSecondMatrixEmpty()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 5.2: Second matrix is null</td>
+<td class="success">testSecondMatrixNull()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 3.3: Single element matrix (1x1)</td>
+<td class="success">testSingleElement()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 2.1: Single thread (threadCount=1)</td>
+<td class="success">testSingleThread()</td>
+<td class="success">0.011s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 7.1: Square matrix 5x5</td>
+<td class="success">testSquare5x5()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 7.2: Tall matrix (10x3 x 3x5)</td>
+<td class="success">testTallMatrix()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 2.2: Two threads (threadCount=2)</td>
+<td class="success">testTwoThreads()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 4.3: Very large numbers</td>
+<td class="success">testVeryLargeNumbers()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 4.4: Very small numbers (near zero)</td>
+<td class="success">testVerySmallNumbers()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 7.3: Wide matrix (3x10 x 10x5)</td>
+<td class="success">testWideMatrix()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Test 3.2: Zero matrix multiplication</td>
+<td class="success">testZeroMatrix()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at Dec 28, 2025, 6:16:54 PM</p>
+</div>
+</div>
+</body>
+</html>

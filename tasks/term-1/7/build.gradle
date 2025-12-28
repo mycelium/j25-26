@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // Apache Commons Math for reference multiplication
+    testImplementation 'org.apache.commons:commons-math3:3.6.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['.']
+            exclude '*Test.java'
+        }
+    }
+    test {
+        java {
+            srcDirs = ['.']
+            include '*Test.java'
+        }
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+}
+
