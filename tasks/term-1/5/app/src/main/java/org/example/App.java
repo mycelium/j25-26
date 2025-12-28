@@ -73,26 +73,41 @@ public class App {
         pipeline.annotate(annotation);
 
         List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
-
         if (sentences == null || sentences.isEmpty()) {
             return "neutral";
         }
 
-        List<Integer> sentimentScores = new ArrayList<>();
+        // Считаем голоса за каждый класс
+        int negative = 0, neutral = 0, positive = 0;
 
         for (CoreMap sentence : sentences) {
-            String sentimentLabel = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
+            String label = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
+            if (label == null)
+                continue;
 
-            if (sentimentLabel != null) {
-                int score = mapSentimentLabelToScore(sentimentLabel);
-                sentimentScores.add(score);
-            } else {
-                sentimentScores.add(2); // default neutral
+            switch (label.toLowerCase()) {
+                case "very negative":
+                case "negative":
+                    negative++;
+                    break;
+                case "very positive":
+                case "positive":
+                    positive++;
+                    break;
+                default: // "neutral" или неизвестное
+                    neutral++;
+                    break;
             }
         }
-        double averageScore = sentimentScores.stream().mapToInt(Integer::intValue).average().orElse(2.0);
 
-        return mapAverageScoreToString(averageScore);
+        // Выбираем класс с наибольшим числом голосов
+        if (negative > positive && negative >= neutral) {
+            return "negative";
+        } else if (positive > negative && positive >= neutral) {
+            return "positive";
+        } else {
+            return "neutral";
+        }
     }
 
     private static int mapSentimentLabelToScore(String label) {
@@ -113,15 +128,12 @@ public class App {
     }
 
     private static String mapAverageScoreToString(double averageScore) {
-        if (averageScore < 1.5) {
+        if (averageScore < 1.7) {
             return "negative";
-        } else if (averageScore > 2.5) {
+        } else if (averageScore > 1.9) {
             return "positive";
         } else {
             return "neutral";
         }
     }
 }
-
-// В случае отсутствия дополнительного ранжирования (только 3 оценки, вместо 5),
-// было слишком много ощибок и неточностей
