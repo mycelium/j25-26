@@ -154,7 +154,6 @@ public class MatrixMultPar {
     }
 
     public static void main(String[] args) {
-        // Warm-up run
         multiplyParallel(generateRandomMatrix(1000, 1000), generateRandomMatrix(1000, 1000));
 
         int[][] sizes = {{1000, 1000}, {1500, 1500}, {2000, 2000}};
