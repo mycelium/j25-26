@@ -22,8 +22,8 @@ public class App {
         System.out.println("Testing");
         model.evaluate(testIter);
 
-        // Путь к изображению
-        String testImagePath = "app/src/main/resources/3.png";
+        // Путь к изображению"C:\Users\kozlo\Desktop\laaab8\app\src\main\java\resources"
+        String testImagePath = "app/src/main/java/resources/7.png";
         File testImageFile = new File(testImagePath);
 
         System.out.println("Image prediction");
