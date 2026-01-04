@@ -15,7 +15,7 @@ public class MnistImageLoader {
         }
 
         BufferedImage grayscale = toGrayscale(original);
-        BufferedImage scaled = scaleTo28x28(grayscale);
+        BufferedImage scaled = centerDigit(scaleTo28x28(grayscale));
         return pixelsToNormalizedArray(scaled);
     }
 
@@ -37,6 +37,38 @@ public class MnistImageLoader {
         g.drawImage(image, 0, 0, 28, 28, null);
         g.dispose();
         return output;
+    }
+
+    private static BufferedImage centerDigit(BufferedImage img) {
+        int minX = 28, maxX = 0, minY = 28, maxY = 0;
+        for (int y = 0; y < 28; y++) {
+            for (int x = 0; x < 28; x++) {
+                int gray = 255 - (img.getRGB(x, y) & 0xFF); // invert back to "ink"
+                if (gray > 10) { // порог шума
+                    minX = Math.min(minX, x);
+                    maxX = Math.max(maxX, x);
+                    minY = Math.min(minY, y);
+                    maxY = Math.max(maxY, y);
+                }
+            }
+        }
+        if (minX > maxX) return img; // пустое изображение
+
+
+        int width = maxX - minX + 1;
+        int height = maxY - minY + 1;
+        BufferedImage cropped = img.getSubimage(minX, minY, width, height);
+
+
+        BufferedImage centered = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
+        Graphics2D g = centered.createGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 28, 28);
+        int dx = (28 - width) / 2;
+        int dy = (28 - height) / 2;
+        g.drawImage(cropped, dx, dy, null);
+        g.dispose();
+        return centered;
     }
 
     private static double[] pixelsToNormalizedArray(BufferedImage img) {
