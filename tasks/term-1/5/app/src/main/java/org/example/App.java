@@ -74,15 +74,15 @@ public class App {
                 return new FileReader(file);
             }
         }
-        throw new IOException("IMDB.csv not found in any of the expected locations: " + paths);
+        throw new IOException("Dataset.csv not found in any of the expected locations: " + paths);
     }
 
     public static void main(String[] args) {
         List<String> possiblePaths = Arrays.asList(
-                "IMDB.csv",
-                "../IMDB.csv",
-                "tasks/term-1/5/IMDB.csv",
-                "./IMDB.csv"
+                "Dataset.csv",
+                "../Dataset.csv",
+                "tasks/term-1/5/Dataset.csv",
+                "./Dataset.csv"
         );
 
         SentimentAnalyzer analyzer = new SentimentAnalyzer();
