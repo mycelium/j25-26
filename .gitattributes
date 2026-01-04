@@ -1,3 +1,0 @@
-tasks/term-1/5/IMDB[[:space:]]Dataset.csv filter=lfs diff=lfs merge=lfs -text
-tasks/term-1/5/IMDB.csv filter=lfs diff=lfs merge=lfs -text
-*.csv filter=lfs diff=lfs merge=lfs -text
