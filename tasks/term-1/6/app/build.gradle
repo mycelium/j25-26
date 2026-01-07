@@ -42,3 +42,7 @@ application {
     // Define the main class for the application.
     mainClass = 'org.example.App'
 }
+
+run {
+    standardInput = System.in
+}

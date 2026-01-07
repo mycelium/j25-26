@@ -1,0 +1,15 @@
+2 4 left
+1 5 left
+3 3 left
+4 1 left
+2 4 left
+8 9 right
+8 6 right
+7 4 right
+9 1 right
+7 7 right
+2 9 other
+4 7 other
+1 6 other
+3 8 other
+2 7 other
