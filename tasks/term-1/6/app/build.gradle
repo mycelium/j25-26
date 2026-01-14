@@ -19,6 +19,7 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation libs.guava
+    implementation 'org.jfree:jfreechart:1.5.3'
 }
 
 testing {
