@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 
 public class MatrixMultPar {
 
-	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
+	public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix, int numThreads) {
 		int rowsFirstMatrix = firstMatrix.length;
 		int colsFirstMatrix = firstMatrix[0].length;
 		int rowsSecondMatrix = secondMatrix.length;
@@ -16,7 +16,6 @@ public class MatrixMultPar {
 
 		double[][] resultMatrix = new double[rowsFirstMatrix][colsSecondMatrix];
 
-		int numThreads = rowsFirstMatrix;
 		ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
 		List<Future<Void>> futures = new ArrayList<>();
@@ -45,29 +44,6 @@ public class MatrixMultPar {
 		return resultMatrix;
 	}
 
-	public static double[][] multiplySingleThread(double[][] firstMatrix, double[][] secondMatrix) {
-		int rowsFirstMatrix = firstMatrix.length;
-		int colsFirstMatrix = firstMatrix[0].length;
-		int rowsSecondMatrix = secondMatrix.length;
-		int colsSecondMatrix = secondMatrix[0].length;
-
-		if (colsFirstMatrix != rowsSecondMatrix) {
-			throw new IllegalArgumentException("Matrix dimensions do not match for multiplication");
-		}
-
-		double[][] resultMatrix = new double[rowsFirstMatrix][colsSecondMatrix];
-
-		for (int i = 0; i < rowsFirstMatrix; i++) {
-			for (int j = 0; j < colsSecondMatrix; j++) {
-				for (int k = 0; k < colsFirstMatrix; k++) {
-					resultMatrix[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
-				}
-			}
-		}
-
-		return resultMatrix;
-	}
-
 	public static void main(String[] args) {
 		int size = 1000;
 
@@ -81,14 +57,27 @@ public class MatrixMultPar {
 			}
 		}
 
+
+		int p = Runtime.getRuntime().availableProcessors();
+		System.out.println("Count of processors: " + p );
+
+		int[] numsThreads = {p-2, p-1, p, p+1, p+2, size};
+
+		for (int numThreads: numsThreads){
+			System.out.println("for " + numThreads + " threads:");
+			long startTime = System.currentTimeMillis();
+			double[][] resultParallel = multiplyParallel(firstMatrix, secondMatrix, numThreads);
+			long endTime = System.currentTimeMillis();
+			System.out.println("\tParallel execution time: " + (endTime - startTime) + " ms");
+		}
 		long startTime = System.currentTimeMillis();
-		double[][] resultParallel = multiplyParallel(firstMatrix, secondMatrix);
+		double[][] resultMultiply = MatrixMult.multiply(firstMatrix, secondMatrix);
 		long endTime = System.currentTimeMillis();
-		System.out.println("Parallel execution time: " + (endTime - startTime) + " ms");
+		System.out.println("\nMultiply execution time: " + (endTime - startTime) + " ms");
 
 		startTime = System.currentTimeMillis();
-		double[][] resultSingle = multiplySingleThread(firstMatrix, secondMatrix);
+		double[][] resultMultiplyOpt = MatrixMult.multiply(firstMatrix, secondMatrix);
 		endTime = System.currentTimeMillis();
-		System.out.println("Single-thread execution time: " + (endTime - startTime) + " ms");
+		System.out.println("MultiplyOpt execution time: " + (endTime - startTime) + " ms");
 	}
 }
