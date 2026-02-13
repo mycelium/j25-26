@@ -1,9 +1,9 @@
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MatrixMultPar {
 
-    private static final AtomicReference<Integer> optimalThreadCountRef = new AtomicReference<>();
+    private static final int OPTIMAL_THREAD_COUNT = 24;
 
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
         validateMatrices(firstMatrix, secondMatrix);
@@ -24,14 +24,13 @@ public class MatrixMultPar {
     }
 
     public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
-        Integer threadCount = optimalThreadCountRef.get();
-        if (threadCount == null) {
-            threadCount = initializeOptimalThreadCount(firstMatrix, secondMatrix);
+        if (firstMatrix.length < 400) {
+            return multiply(firstMatrix, secondMatrix);
         }
-        return multiplyParallelInternal(firstMatrix, secondMatrix, threadCount);
+        return multiplyParallelInternal(firstMatrix, secondMatrix, OPTIMAL_THREAD_COUNT);
     }
 
-    private static double[][] multiplyParallelInternal(double[][] firstMatrix, double[][] secondMatrix, int threadCount) {
+    static double[][] multiplyParallelInternal(double[][] firstMatrix, double[][] secondMatrix, int threadCount) {
         validateMatrices(firstMatrix, secondMatrix);
         int rowsFirst = firstMatrix.length;
         int colsFirst = firstMatrix[0].length;
@@ -94,42 +93,6 @@ public class MatrixMultPar {
         return resultMatrix;
     }
 
-    private static int initializeOptimalThreadCount(double[][] firstMatrix, double[][] secondMatrix) {
-        return optimalThreadCountRef.updateAndGet(existing -> {
-            if (existing != null) return existing;
-
-            int maxThreads = Math.min(Runtime.getRuntime().availableProcessors() * 2, 32);
-            int testRows = Math.max(300, Math.min(1000, firstMatrix.length));
-            int testCols = Math.max(300, Math.min(1000, firstMatrix[0].length));
-            int commonDimension = testCols;
-
-            double[][] testMatrixA = generateRandomMatrix(testRows, commonDimension);
-            double[][] testMatrixB = generateRandomMatrix(commonDimension, testCols);
-
-            long bestExecutionTime = Long.MAX_VALUE;
-            int bestThreadCount = 1;
-            int benchmarkTrials = 10;
-
-            for (int threads = 1; threads <= maxThreads; threads++) {
-                long totalTime = 0;
-                for (int trial = 0; trial < benchmarkTrials; trial++) {
-                    long startTime = System.nanoTime();
-                    multiplyParallelInternal(testMatrixA, testMatrixB, threads);
-                    long endTime = System.nanoTime();
-                    totalTime += (endTime - startTime);
-                }
-                long averageTime = totalTime / benchmarkTrials;
-                if (averageTime < bestExecutionTime) {
-                    bestExecutionTime = averageTime;
-                    bestThreadCount = threads;
-                }
-            }
-
-            System.out.println("Optimal thread count: " + bestThreadCount + "\n");
-            return bestThreadCount;
-        });
-    }
-
     private static void validateMatrices(double[][] firstMatrix, double[][] secondMatrix) {
         if (firstMatrix == null || secondMatrix == null)
             throw new IllegalArgumentException("Input matrices must not be null");
@@ -166,13 +129,14 @@ public class MatrixMultPar {
     }
 
     public static void main(String[] args) {
+
         int[][] matrixSizes = {{1000, 1000}, {1500, 1500}, {2000, 2000}};
-        int benchmarkIterations = 10;
+        int benchmarkIterations = 5;
 
         for (int[] size : matrixSizes) {
             int dimensionN = size[0];
             int dimensionM = size[1];
-            System.out.printf("matrices%n", dimensionN, dimensionM);
+            System.out.printf("%dx%d matrices%n", dimensionN, dimensionM);
 
             long totalSerialTime = 0;
             long totalParallelTime = 0;
