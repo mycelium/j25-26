@@ -1,7 +1,7 @@
 public class MatrixMult {
     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix){
         try{
-			long time = System.currentTimeMillis();
+			var time = System.currentTimeMillis();
             if(firstMatrix[0].length != secondMatrix.length) throw new Error();
             int len1 = firstMatrix.length;
             int len2 = secondMatrix[0].length;
@@ -44,7 +44,7 @@ public class MatrixMult {
         System.out.print("test 1: ");
         System.out.println(ok);
 
-        int size = 20;
+        int size = 1000;
         double[][] A2 = new double[size][size];
         double[][] B2 = new double[size][size];
         for (int i = 0; i < size; i++) {
@@ -54,6 +54,8 @@ public class MatrixMult {
             }
         }
         double[][] res2 = MatrixMult.multiply(A2, B2);
+        System.out.print("test 2: ");
+        System.out.println(res2.length == A2.length);
     }
 }
 
