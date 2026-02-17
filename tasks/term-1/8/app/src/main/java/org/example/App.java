@@ -23,7 +23,7 @@ public class App {
         model.evaluate(testIter);
 
         // Путь к изображению"C:\Users\kozlo\Desktop\laaab8\app\src\main\java\resources"
-        String testImagePath = "app/src/main/resources/7.png";
+        String testImagePath = "src/main/resources/7.png";
         File testImageFile = new File(testImagePath);
 
         System.out.println("Image prediction");
