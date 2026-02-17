@@ -7,9 +7,9 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -66,31 +66,21 @@ public class App {
         }
     }
 
-
-    private static FileReader tryOpenCsv(List<String> paths) throws IOException {
-        for (String path : paths) {
-            File file = new File(path);
-            if (file.exists() && file.isFile()) {
-                return new FileReader(file);
-            }
+    private static InputStream openCsvFromResources(String resourceName) throws IOException {
+        InputStream inputStream = App.class.getClassLoader().getResourceAsStream(resourceName);
+        if (inputStream == null) {
+            throw new IOException("Resource not found: " + resourceName);
         }
-        throw new IOException("Dataset.csv not found in any of the expected locations: " + paths);
+        return inputStream;
     }
 
     public static void main(String[] args) {
-        List<String> possiblePaths = Arrays.asList(
-                "Dataset.csv",
-                "../Dataset.csv",
-                "tasks/term-1/5/Dataset.csv",
-                "./Dataset.csv"
-        );
-
         SentimentAnalyzer analyzer = new SentimentAnalyzer();
         CSVReader reader = null;
 
         try {
-            FileReader fileReader = tryOpenCsv(possiblePaths);
-            reader = new CSVReader(fileReader);
+            InputStream inputStream = openCsvFromResources("Dataset.csv");
+            reader = new CSVReader(new InputStreamReader(inputStream));
 
             String[] header = reader.readNext();
             if (header == null) {
@@ -111,6 +101,7 @@ public class App {
                 count++;
             }
 
+            System.out.println("Processed " + count + " reviews");
 
         } catch (IOException e) {
             System.err.println("File error: " + e.getMessage());
@@ -123,7 +114,6 @@ public class App {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                  
                 }
             }
         }
