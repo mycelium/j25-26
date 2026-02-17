@@ -5,23 +5,31 @@ public class MatrixMultPar {
 
     private static final int OPTIMAL_THREAD_COUNT = 24;
 
-    public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
+     public static double[][] multiply(double[][] firstMatrix, double[][] secondMatrix) {
         validateMatrices(firstMatrix, secondMatrix);
         int rowsFirst = firstMatrix.length;
         int colsFirst = firstMatrix[0].length;
         int colsSecond = secondMatrix[0].length;
         double[][] resultMatrix = new double[rowsFirst][colsSecond];
 
+        double[][] transposedSecondMatrix = transposeMatrix(secondMatrix);
+
         for (int rowIndex = 0; rowIndex < rowsFirst; rowIndex++) {
-            for (int kIndex = 0; kIndex < colsFirst; kIndex++) {
-                double elementValue = firstMatrix[rowIndex][kIndex];
-                for (int colIndex = 0; colIndex < colsSecond; colIndex++) {
-                    resultMatrix[rowIndex][colIndex] += elementValue * secondMatrix[kIndex][colIndex];
+            double[] currentRowFirst = firstMatrix[rowIndex];
+            double[] currentResultRow = resultMatrix[rowIndex];
+            
+            for (int colIndex = 0; colIndex < colsSecond; colIndex++) {
+                double[] currentColumnSecond = transposedSecondMatrix[colIndex];
+                double sum = 0.0;
+                for (int kIndex = 0; kIndex < colsFirst; kIndex++) {
+                    sum += currentRowFirst[kIndex] * currentColumnSecond[kIndex];
                 }
+                currentResultRow[colIndex] = sum;
             }
         }
         return resultMatrix;
     }
+
 
     public static double[][] multiplyParallel(double[][] firstMatrix, double[][] secondMatrix) {
         if (firstMatrix.length < 400) {
