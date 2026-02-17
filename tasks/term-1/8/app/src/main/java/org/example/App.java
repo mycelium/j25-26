@@ -16,7 +16,7 @@ public class App {
         
     public static void main(String[] args) throws Exception {
         int batchSize = 64;
-        int numEpochs = 1;
+        int numEpochs = 10;
 
 
         DataSetIterator trainIter = new MnistDataSetIterator(batchSize, true, 12345);
