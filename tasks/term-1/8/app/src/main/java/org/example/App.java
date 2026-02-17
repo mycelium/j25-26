@@ -22,7 +22,7 @@ public class App {
         System.out.println("Testing");
         model.evaluate(testIter);
 
-        // Путь к изображению"C:\Users\kozlo\Desktop\laaab8\app\src\main\java\resources"
+        //C:\Users\kozlo\Desktop\labnumbers\app\src\main\resources"
         String testImagePath = "src/main/resources/8.png";
         File testImageFile = new File(testImagePath);
 
