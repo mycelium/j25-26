@@ -6,6 +6,14 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import java.io.File;
 
 public class App {
+
+    public class App {
+    
+    public String getGreeting() {
+        return "Hello";
+    }
+
+        
     public static void main(String[] args) throws Exception {
         int batchSize = 64;
         int numEpochs = 1;
