@@ -1,0 +1,296 @@
+2026.02.23 12:08:40 INFO  Started: Metals version 1.6.5 in folders 'C:\Users\79090\j25-26\tasks\term-1\5' for client Visual Studio Code 1.109.5.
+2026.02.23 12:08:40 INFO  Memory monitor started
+2026.02.23 12:08:43 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.02.23 12:08:44 INFO  Shutting down server
+2026.02.23 12:08:44 INFO  Memory monitor stopped
+2026.02.23 12:08:44 INFO  shutting down Metals
+2026.02.23 12:08:44 INFO  Exiting server
+2026.02.23 13:44:59 INFO  Started: Metals version 1.6.5 in folders 'C:\Users\79090\j25-26\tasks\term-1\exam' for client Visual Studio Code 1.109.5.
+2026.02.23 13:44:59 INFO  Memory monitor started
+2026.02.23 13:45:09 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.02.23 13:45:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+2026.02.23 13:45:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+февр. 23, 2026 1:45:16 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 6
+2026.02.23 13:45:17 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+2026.02.23 13:45:20 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+2026.02.23 13:45:21 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+2026.02.23 13:45:21 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+2026.02.23 13:45:25 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+2026.02.23 13:45:28 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java. Using fallback presentation compiler.
+февр. 23, 2026 1:45:28 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 17
+2026.02.23 13:45:28 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Response.java
+2026.02.23 13:45:34 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:34 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:34 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:46 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:47 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:47 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:47 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java. Using fallback presentation compiler.
+2026.02.23 13:45:51 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Request.java
+2026.02.23 13:46:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:10 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:20 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:21 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:21 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:21 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 13:46:24 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java
+февр. 23, 2026 1:47:43 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2026.02.23 13:56:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+февр. 23, 2026 1:56:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 66
+2026.02.23 13:56:40 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:40 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+февр. 23, 2026 1:56:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 70
+2026.02.23 13:56:40 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:40 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:45 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 13:56:45 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:00:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:00:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:00:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:01:07 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java
+2026.02.23 14:01:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:01:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:01:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:01:08 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:01:11 INFO  no build target found for c:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\App.java. Using fallback presentation compiler.
+2026.02.23 14:10:00 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:00 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java
+2026.02.23 14:10:00 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:03 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:03 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:08 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:09 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:09 INFO  Created report: Optional[file:///C:/Users/79090/j25-26/tasks/term-1/exam/app/src/main/java/org/example/Server.java]
+2026.02.23 14:10:09 INFO  empty definition using pc, found symbol in pc: java/lang/Thread#start(). (full report at: "C:\Users\79090\j25-26\tasks\term-1\exam\.metals\.reports\metals-full\2026-02-23\r_empty-definition_14-10-10-212.md")
+2026.02.23 14:10:30 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:32 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:32 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:32 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:35 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:35 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:35 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:36 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:36 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:37 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:36 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+февр. 23, 2026 2:10:37 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 138
+2026.02.23 14:10:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+февр. 23, 2026 2:10:39 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 144
+2026.02.23 14:10:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+февр. 23, 2026 2:10:39 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 146
+2026.02.23 14:10:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:40 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:42 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:42 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:44 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:44 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+февр. 23, 2026 2:10:45 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 171
+2026.02.23 14:10:45 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:46 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:46 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+февр. 23, 2026 2:10:47 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 174
+2026.02.23 14:10:46 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:47 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:47 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:49 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:57 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:57 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:58 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:57 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:58 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:10:58 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:11:00 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java
+2026.02.23 14:11:00 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:11:29 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java
+2026.02.23 14:11:29 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:11:29 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:11:29 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:11:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:11:50 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+февр. 23, 2026 2:11:50 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 229
+2026.02.23 14:11:57 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+февр. 23, 2026 2:11:57 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 230
+2026.02.23 14:23:24 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:24 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java
+2026.02.23 14:23:24 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:24 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:25 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:28 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:28 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:29 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:29 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:30 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:32 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:32 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:32 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+февр. 23, 2026 2:23:33 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 256
+2026.02.23 14:23:33 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:33 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:33 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:33 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:33 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:33 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:23:35 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java
+2026.02.23 14:23:35 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:25:54 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:25:54 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:31:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:31:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 14:51:27 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:27 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java
+2026.02.23 14:51:28 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:27 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:38 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:39 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:41 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:42 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:44 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:44 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:44 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:46 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:56 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:56 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:56 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:58 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:58 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:58 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:59 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:59 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:59 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:51:59 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:00 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:00 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:00 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:01 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:02 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:02 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:04 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:09 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:09 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:09 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java
+2026.02.23 14:52:09 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:09 INFO  Created report: Optional[file:///C:/Users/79090/j25-26/tasks/term-1/exam/app/src/main/java/org/example/Client.java]
+2026.02.23 14:52:09 INFO  empty definition using pc, found symbol in pc:  (full report at: "C:\Users\79090\j25-26\tasks\term-1\exam\.metals\.reports\metals-full\2026-02-23\r_empty-definition_14-52-09-160.md")
+2026.02.23 14:52:23 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:52:25 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:10 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:12 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:12 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:14 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:14 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:13 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:14 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:15 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:18 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:18 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java
+2026.02.23 14:53:18 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:20 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 14:53:20 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 15:00:06 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 15:49:56 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Client.java. Using fallback presentation compiler.
+2026.02.23 15:50:54 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:50:54 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java
+2026.02.23 15:50:55 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:50:54 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:10 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:11 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:11 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:17 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:17 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:16 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:51:18 WARN  no build target for: C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java
+2026.02.23 15:51:18 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:52:07 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:52:12 INFO  no build target found for C:\Users\79090\j25-26\tasks\term-1\exam\app\src\main\java\org\example\Server.java. Using fallback presentation compiler.
+2026.02.23 15:52:14 INFO  Shutting down server
+2026.02.23 15:52:14 INFO  Memory monitor stopped
+2026.02.23 15:52:14 INFO  shutting down Metals
+2026.02.23 15:52:14 ERROR Unexpected error initializing server: 
+org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Request window/showMessageRequest failed with message: Canceled
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleResponse(RemoteEndpoint.java:220)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:204)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:185)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:97)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:114)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.lang.Thread.run(Thread.java:1583)
+
+2026.02.23 15:52:14 INFO  Exiting server
+2026.02.23 15:55:50 INFO  Started: Metals version 1.6.5 in folders 'C:\Users\79090\j25-26\tasks\term-1\exam' for client Visual Studio Code 1.109.5.
+2026.02.23 15:55:50 INFO  Memory monitor started
+2026.02.23 15:55:53 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
