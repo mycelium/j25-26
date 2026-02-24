@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
+
+application {
+    mainClass = 'server.DigitServerMain'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    
+    implementation files('libs/app.jar')
+    
+    
+    implementation 'com.google.guava:guava:33.0.0-jre'
+
+    
+    implementation 'org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1'
+    implementation 'org.nd4j:nd4j-native-platform:1.0.0-M2.1'
+    implementation 'org.deeplearning4j:deeplearning4j-datasets:1.0.0-M2.1'
+    
+    
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+}
+
+task runClient(type: JavaExec) {
+    mainClass = 'server.DigitClient'
+    classpath = sourceSets.main.runtimeClasspath
+    
+
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
