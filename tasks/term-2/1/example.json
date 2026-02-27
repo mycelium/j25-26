@@ -1,0 +1,9 @@
+{
+    "str": "str",
+    "integer": 1,
+    "bool": true,
+    "inner": {
+        "array": ["string", 2, false],
+        "nullable": null
+    }
+}
