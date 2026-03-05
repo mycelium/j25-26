@@ -1,4 +1,3 @@
-
 ## HSAI 25-26 Java course - 1
 
 ### 1. Java: Matrix multiplication
@@ -69,8 +68,10 @@
 
 | # | Summary                       | Description                                  | Assignee           |
 |---|-------------------------------|----------------------------------------------|--------------------|
-| 1 | Parallel Gradient Descent     |<img width="257" height="73" alt="image" src="https://github.com/user-attachments/assets/cab88b33-1361-4fe3-8e91-921a61ab3844" /> <br/> x[-5.12, 5.12]  | Крутиков Даниил    |
-| 2 | Parallel Genetic Optimization | <img width="562" height="68" alt="image_2" src="https://github.com/user-attachments/assets/6be2adf9-ac08-44dd-837b-a3bc4548c6cf" /> <br/> x[-600, 600] | Санько Всеволод    |
-| 3 | Graph pathfinding: `A*`       | [dataset](https://drive.google.com/file/d/1zyfy02aMbQmxD_KhEkCiA_ANzdadgBN0) <br/> Input: start city, end city <br/> Output: route and weight          | Невечерин Алексей  |
+| 1 | Parallel Gradient Descent     | ![image.png](image.png)<br/> x[-5.12, 5.12]  | Крутиков Даниил    |
+| 2 | Parallel Genetic Optimization | ![image_2.png](image_2.png)<br/>x[-600, 600] | Санько Всеволод    |
+| 3 | Graph pathfinding: `A*`       | ![dataset](https://drive.google.com/file/d/1zyfy02aMbQmxD_KhEkCiA_ANzdadgBN0)                                 | Невечерин Алексей  |
+| 4 | Image Classification (MNIST)  | Write your own CNN using Java Vector API | Мелещенко Софья |
+
 
 
