@@ -29,7 +29,7 @@ package object common {
    * resources to the output directory, then the class loader cannot find them.
    */
   def resourceAsStreamFromSrc(resourcePath: List[String]): Option[java.io.InputStream] = {
-    val classesDir = new File(getClass.getResource(".").toURI)
+    val classesDir = new File(this.getClass.getResource(".").toURI)
     val projectDir = classesDir.getParentFile.getParentFile.getParentFile.getParentFile
     val resourceFile = subFile(projectDir, ("src" :: "main" :: "resources" :: resourcePath): _*)
     if (resourceFile.exists)
