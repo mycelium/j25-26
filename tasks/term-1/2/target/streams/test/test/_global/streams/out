@@ -1,0 +1,53 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(recfun.MainTest, org.scalatest.tools.Framework$$anon$1@14d5ece8, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mMainTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.1: pascal - top of triangle (0,0) (41 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.2: pascal - left edge (0, r) (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.3: pascal - right edge (r, r) (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.4: pascal - middle elements (5 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.5: pascal - row 5 (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.6: pascal - negative column (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.7: pascal - negative row (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.8: pascal - column greater than row (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.9: pascal - large values (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.1: balance - empty string (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.2: balance - no parentheses (4 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.3: balance - simple balanced () (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.4: balance - nested balanced (()) (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.5: balance - multiple balanced ()() (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.6: balance - complex balanced expression (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.7: balance - balanced with text (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.8: balance - unbalanced :-) (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.9: balance - unbalanced ())( (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.10: balance - unbalanced open (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.11: balance - unbalanced close (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.12: balance - wrong order )( (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.13: balance - unbalanced more opens (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.14: balance - unbalanced more closes (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.15: balance - deeply nested (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.1: countChange - zero money (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.2: countChange - empty coins (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.3: countChange - negative money (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.4: countChange - simple case 4 with coins 1,2 (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.5: countChange - 5 with coins 2,3 (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.6: countChange - 10 with coins 1,5,10 (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.7: countChange - 1 with coin 1 (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.8: countChange - impossible (no valid coins) (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.9: countChange - single coin exact (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.10: countChange - 6 with coins 1,2,3 (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.11: countChange - larger amount (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.1: nQueens - size 0 returns None (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.2: nQueens - size negative returns None (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.3: nQueens - size 1 has solution (9 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.4: nQueens - size 2 has no solution (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.5: nQueens - size 3 has no solution (4 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.6: nQueens - size 4 has solution (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.7: nQueens - size 5 has solution (26 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.8: nQueens - size 6 has solution (6 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.9: nQueens - size 8 has solution (28 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 944 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 44[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 44, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	recfun.MainTest[0m

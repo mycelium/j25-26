@@ -28,44 +28,45 @@ public class SentimentAnalyzerTest {
 
     // Category 1: Positive Sentiment
 
+    private void assertSentiment(String input, String expected) {
+        String result = analyzer.analyze(input);
+        assertEquals(expected, result,
+                "analyze(\"" + input + "\") should return '" + expected + "', but got '" + result + "'");
+    }
+
     @Test
     @Order(1)
     @DisplayName("Test 1.1: Simple positive sentence")
     void testSimplePositive() {
-        String result = analyzer.analyze("I love this product!");
-        assertEquals("positive", result, "Should detect positive sentiment");
+        assertSentiment("I love this product!", "positive");
     }
 
     @Test
     @Order(2)
     @DisplayName("Test 1.2: Very positive sentence")
     void testVeryPositive() {
-        String result = analyzer.analyze("This is absolutely amazing and wonderful!");
-        assertEquals("positive", result, "Should detect positive sentiment");
+        assertSentiment("This is absolutely amazing and wonderful!", "positive");
     }
 
     @Test
     @Order(3)
     @DisplayName("Test 1.3: Positive with enthusiasm")
     void testPositiveEnthusiasm() {
-        String result = analyzer.analyze("Great job! Excellent work! I am so happy!");
-        assertEquals("positive", result, "Should detect positive sentiment");
+        assertSentiment("Great job! Excellent work! I am so happy!", "positive");
     }
 
     @Test
     @Order(4)
     @DisplayName("Test 1.4: Positive review")
     void testPositiveReview() {
-        String result = analyzer.analyze("The movie was fantastic and the actors were brilliant.");
-        assertEquals("positive", result, "Should detect positive sentiment in review");
+        assertSentiment("The movie was fantastic and the actors were brilliant.", "positive");
     }
 
     @Test
     @Order(5)
     @DisplayName("Test 1.5: Positive with superlatives")
     void testPositiveSuperlatives() {
-        String result = analyzer.analyze("This is the best experience I have ever had.");
-        assertEquals("positive", result, "Should detect positive sentiment with superlatives");
+        assertSentiment("This is the best experience I have ever had.", "positive");
     }
 
     // Category 2: Negative Sentiment
@@ -74,40 +75,35 @@ public class SentimentAnalyzerTest {
     @Order(10)
     @DisplayName("Test 2.1: Simple negative sentence")
     void testSimpleNegative() {
-        String result = analyzer.analyze("I hate this product.");
-        assertEquals("negative", result, "Should detect negative sentiment");
+        assertSentiment("I hate this product.", "negative");
     }
 
     @Test
     @Order(11)
     @DisplayName("Test 2.2: Very negative sentence")
     void testVeryNegative() {
-        String result = analyzer.analyze("This is terrible and awful!");
-        assertEquals("negative", result, "Should detect negative sentiment");
+        assertSentiment("This is terrible and awful!", "negative");
     }
 
     @Test
     @Order(12)
     @DisplayName("Test 2.3: Negative complaint")
     void testNegativeComplaint() {
-        String result = analyzer.analyze("The service was horrible. I am very disappointed.");
-        assertEquals("negative", result, "Should detect negative sentiment in complaint");
+        assertSentiment("The service was horrible. I am very disappointed.", "negative");
     }
 
     @Test
     @Order(13)
     @DisplayName("Test 2.4: Negative review")
     void testNegativeReview() {
-        String result = analyzer.analyze("The movie was boring and the plot was confusing.");
-        assertEquals("negative", result, "Should detect negative sentiment in review");
+        assertSentiment("The movie was boring and the plot was confusing.", "negative");
     }
 
     @Test
     @Order(14)
     @DisplayName("Test 2.5: Strong negative words")
     void testStrongNegative() {
-        String result = analyzer.analyze("This is the worst thing I have ever seen.");
-        assertEquals("negative", result, "Should detect negative sentiment with strong words");
+        assertSentiment("This is the worst thing I have ever seen.", "negative");
     }
 
     // Category 3: Neutral Sentiment
@@ -116,24 +112,21 @@ public class SentimentAnalyzerTest {
     @Order(20)
     @DisplayName("Test 3.1: Factual statement")
     void testFactualStatement() {
-        String result = analyzer.analyze("The meeting is scheduled for tomorrow.");
-        assertEquals("neutral", result, "Factual statement should be neutral");
+        assertSentiment("The meeting is scheduled for tomorrow.", "neutral");
     }
 
     @Test
     @Order(21)
     @DisplayName("Test 3.2: Simple description")
     void testSimpleDescription() {
-        String result = analyzer.analyze("The book has 300 pages.");
-        assertEquals("neutral", result, "Simple description should be neutral");
+        assertSentiment("The book has 300 pages.", "neutral");
     }
 
     @Test
     @Order(22)
     @DisplayName("Test 3.3: Neutral question")
     void testNeutralQuestion() {
-        String result = analyzer.analyze("What time does the store open?");
-        assertEquals("neutral", result, "Neutral question should be neutral");
+        assertSentiment("What time does the store open?", "neutral");
     }
 
     // Category 4: Edge Cases - Empty and Null
@@ -143,7 +136,9 @@ public class SentimentAnalyzerTest {
     @DisplayName("Test 4.1: Null input")
     void testNullInput() {
         String result = analyzer.analyze(null);
-        assertEquals("neutral", result, "Null input should return neutral");
+        assertEquals("neutral", result,
+                "analyze(null) should return 'neutral' for null input, but got '" + result + "'. "
+                        + "Null input must be handled gracefully without throwing exceptions.");
     }
 
     @Test
@@ -151,7 +146,9 @@ public class SentimentAnalyzerTest {
     @DisplayName("Test 4.2: Empty string")
     void testEmptyString() {
         String result = analyzer.analyze("");
-        assertEquals("neutral", result, "Empty string should return neutral");
+        assertEquals("neutral", result,
+                "analyze(\"\") should return 'neutral' for empty string, but got '" + result + "'. "
+                        + "Empty input must be handled gracefully.");
     }
 
     @Test
@@ -159,7 +156,9 @@ public class SentimentAnalyzerTest {
     @DisplayName("Test 4.3: Whitespace only")
     void testWhitespaceOnly() {
         String result = analyzer.analyze("   \t\n   ");
-        assertEquals("neutral", result, "Whitespace only should return neutral");
+        assertEquals("neutral", result,
+                "analyze(\"   \\t\\n   \") should return 'neutral' for whitespace-only input, but got '" + result + "'. "
+                        + "Whitespace-only input must be treated as empty.");
     }
 
     @Test
@@ -167,7 +166,8 @@ public class SentimentAnalyzerTest {
     @DisplayName("Test 4.4: Single word positive")
     void testSingleWordPositive() {
         String result = analyzer.analyze("Amazing!");
-        assertNotNull(result, "Should handle single word");
+        assertNotNull(result,
+                "analyze(\"Amazing!\") returned null. Single-word input must return a non-null sentiment.");
     }
 
     @Test
@@ -175,7 +175,8 @@ public class SentimentAnalyzerTest {
     @DisplayName("Test 4.5: Single word negative")
     void testSingleWordNegative() {
         String result = analyzer.analyze("Terrible!");
-        assertNotNull(result, "Should handle single word");
+        assertNotNull(result,
+                "analyze(\"Terrible!\") returned null. Single-word input must return a non-null sentiment.");
     }
 
     // Category 5: Multiple Sentences
@@ -184,16 +185,14 @@ public class SentimentAnalyzerTest {
     @Order(40)
     @DisplayName("Test 5.1: Multiple positive sentences")
     void testMultiplePositiveSentences() {
-        String result = analyzer.analyze("I love this. It is amazing. Best purchase ever.");
-        assertEquals("positive", result, "Multiple positive sentences should be positive");
+        assertSentiment("I love this. It is amazing. Best purchase ever.", "positive");
     }
 
     @Test
     @Order(41)
     @DisplayName("Test 5.2: Multiple negative sentences")
     void testMultipleNegativeSentences() {
-        String result = analyzer.analyze("This is awful and terrible. I absolutely hate it.");
-        assertEquals("negative", result, "Multiple negative sentences should be negative");
+        assertSentiment("This is awful and terrible. I absolutely hate it.", "negative");
     }
 
     @Test
@@ -219,10 +218,12 @@ public class SentimentAnalyzerTest {
     @Order(50)
     @DisplayName("Test 6.1: Detailed positive analysis")
     void testDetailedPositive() {
-        String result = analyzer.analyzeDetailed("I absolutely love this!");
+        String input = "I absolutely love this!";
+        String result = analyzer.analyzeDetailed(input);
         assertTrue(
             result.equals("Positive") || result.equals("Very positive"),
-            "Detailed analysis should return Positive or Very positive"
+            "analyzeDetailed(\"" + input + "\") should return 'Positive' or 'Very positive', "
+                    + "but got '" + result + "'"
         );
     }
 
@@ -230,10 +231,12 @@ public class SentimentAnalyzerTest {
     @Order(51)
     @DisplayName("Test 6.2: Detailed negative analysis")
     void testDetailedNegative() {
-        String result = analyzer.analyzeDetailed("I absolutely hate this!");
+        String input = "I absolutely hate this!";
+        String result = analyzer.analyzeDetailed(input);
         assertTrue(
             result.equals("Negative") || result.equals("Very negative"),
-            "Detailed analysis should return Negative or Very negative"
+            "analyzeDetailed(\"" + input + "\") should return 'Negative' or 'Very negative', "
+                    + "but got '" + result + "'"
         );
     }
 
@@ -241,66 +244,68 @@ public class SentimentAnalyzerTest {
     @Order(52)
     @DisplayName("Test 6.3: Detailed neutral analysis")
     void testDetailedNeutral() {
-        String result = analyzer.analyzeDetailed("The weather is cloudy today.");
-        assertEquals("Neutral", result, "Detailed analysis should return Neutral");
+        String input = "The weather is cloudy today.";
+        String result = analyzer.analyzeDetailed(input);
+        assertEquals("Neutral", result,
+                "analyzeDetailed(\"" + input + "\") should return 'Neutral', but got '" + result + "'");
     }
 
     // Category 7: Simplify Sentiment Method
+
+    private void assertSimplify(String input, String expected) {
+        String result = analyzer.simplifySentiment(input);
+        assertEquals(expected, result,
+                "simplifySentiment(" + (input == null ? "null" : "\"" + input + "\"") + ") "
+                        + "should return '" + expected + "', but got '" + result + "'");
+    }
 
     @Test
     @Order(60)
     @DisplayName("Test 7.1: Simplify 'Very positive' to 'positive'")
     void testSimplifyVeryPositive() {
-        String result = analyzer.simplifySentiment("Very positive");
-        assertEquals("positive", result);
+        assertSimplify("Very positive", "positive");
     }
 
     @Test
     @Order(61)
     @DisplayName("Test 7.2: Simplify 'Positive' to 'positive'")
     void testSimplifyPositive() {
-        String result = analyzer.simplifySentiment("Positive");
-        assertEquals("positive", result);
+        assertSimplify("Positive", "positive");
     }
 
     @Test
     @Order(62)
     @DisplayName("Test 7.3: Simplify 'Very negative' to 'negative'")
     void testSimplifyVeryNegative() {
-        String result = analyzer.simplifySentiment("Very negative");
-        assertEquals("negative", result);
+        assertSimplify("Very negative", "negative");
     }
 
     @Test
     @Order(63)
     @DisplayName("Test 7.4: Simplify 'Negative' to 'negative'")
     void testSimplifyNegative() {
-        String result = analyzer.simplifySentiment("Negative");
-        assertEquals("negative", result);
+        assertSimplify("Negative", "negative");
     }
 
     @Test
     @Order(64)
     @DisplayName("Test 7.5: Simplify 'Neutral' to 'neutral'")
     void testSimplifyNeutral() {
-        String result = analyzer.simplifySentiment("Neutral");
-        assertEquals("neutral", result);
+        assertSimplify("Neutral", "neutral");
     }
 
     @Test
     @Order(65)
     @DisplayName("Test 7.6: Simplify null to 'neutral'")
     void testSimplifyNull() {
-        String result = analyzer.simplifySentiment(null);
-        assertEquals("neutral", result);
+        assertSimplify(null, "neutral");
     }
 
     @Test
     @Order(66)
     @DisplayName("Test 7.7: Simplify unknown to 'neutral'")
     void testSimplifyUnknown() {
-        String result = analyzer.simplifySentiment("Unknown");
-        assertEquals("neutral", result);
+        assertSimplify("Unknown", "neutral");
     }
 
     // Category 8: Batch Analysis
@@ -317,10 +322,14 @@ public class SentimentAnalyzerTest {
 
         Map<String, String> results = analyzer.analyzeBatch(texts);
 
-        assertEquals(3, results.size(), "Should have 3 results");
-        assertEquals("positive", results.get("I love this!"));
-        assertEquals("negative", results.get("I hate this!"));
-        assertEquals("neutral", results.get("The sky is blue."));
+        assertEquals(3, results.size(),
+                "analyzeBatch() with 3 texts should return 3 results, but got " + results.size()
+                        + ". Actual results: " + results);
+        for (var entry : Map.of("I love this!", "positive", "I hate this!", "negative", "The sky is blue.", "neutral").entrySet()) {
+            assertEquals(entry.getValue(), results.get(entry.getKey()),
+                    "analyzeBatch(): text '" + entry.getKey() + "' should be '" + entry.getValue()
+                            + "', but got '" + results.get(entry.getKey()) + "'. Full results: " + results);
+        }
     }
 
     @Test
@@ -331,8 +340,11 @@ public class SentimentAnalyzerTest {
 
         Map<String, String> results = analyzer.analyzeBatch(texts);
 
-        assertNotNull(results, "Should return non-null map");
-        assertTrue(results.isEmpty(), "Should return empty map for empty input");
+        assertNotNull(results,
+                "analyzeBatch(emptyList) returned null, expected an empty map");
+        assertTrue(results.isEmpty(),
+                "analyzeBatch(emptyList) should return an empty map, but got " + results.size()
+                        + " entries: " + results);
     }
 
     @Test
@@ -341,8 +353,12 @@ public class SentimentAnalyzerTest {
     void testBatchAnalysisNull() {
         Map<String, String> results = analyzer.analyzeBatch(null);
 
-        assertNotNull(results, "Should return non-null map");
-        assertTrue(results.isEmpty(), "Should return empty map for null input");
+        assertNotNull(results,
+                "analyzeBatch(null) returned null, expected an empty map. "
+                        + "Null input must be handled gracefully.");
+        assertTrue(results.isEmpty(),
+                "analyzeBatch(null) should return an empty map, but got " + results.size()
+                        + " entries: " + results);
     }
 
     // Category 9: Special Characters and Formatting
@@ -367,8 +383,7 @@ public class SentimentAnalyzerTest {
     @Order(82)
     @DisplayName("Test 9.3: Text with numbers")
     void testWithNumbers() {
-        String result = analyzer.analyze("I give this product 5 out of 5 stars because it is excellent.");
-        assertEquals("positive", result, "Should handle text with numbers");
+        assertSentiment("I give this product 5 out of 5 stars because it is excellent.", "positive");
     }
 
     @Test
@@ -380,8 +395,7 @@ public class SentimentAnalyzerTest {
             "I would highly recommend this to anyone looking for a great experience. " +
             "The customer service was also excellent and very helpful.";
 
-        String result = analyzer.analyze(longText);
-        assertEquals("positive", result, "Should handle long positive text");
+        assertSentiment(longText, "positive");
     }
 }
 

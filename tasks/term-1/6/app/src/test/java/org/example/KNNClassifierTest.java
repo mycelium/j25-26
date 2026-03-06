@@ -40,7 +40,9 @@ public class KNNClassifierTest {
 
         String result = classifier.classify(trainingData, testPoint, 1);
 
-        assertEquals("A", result, "Point at same location should be classified as A");
+        assertEquals("A", result,
+                "classify(k=1) for point (0,0): nearest is A at (0,0) with distance 0, "
+                        + "but got '" + result + "'");
     }
 
     @Test
@@ -56,7 +58,9 @@ public class KNNClassifierTest {
 
         String result = classifier.classify(trainingData, testPoint, 1);
 
-        assertEquals("A", result, "Nearest point is A at (0,0)");
+        assertEquals("A", result,
+                "classify(k=1) for point (1,1): nearest is A at (0,0) with distance ~1.41, "
+                        + "but got '" + result + "'");
     }
 
     @Test
@@ -73,7 +77,9 @@ public class KNNClassifierTest {
 
         String result = classifier.classify(trainingData, testPoint, 3);
 
-        assertEquals("A", result, "Majority (2 out of 3) should be A");
+        assertEquals("A", result,
+                "classify(k=3) for point (0.5,0.5): 3 nearest are A(0,0), A(1,0), B(0,1). "
+                        + "Majority vote: A=2, B=1 => expected 'A', but got '" + result + "'");
     }
 
     @Test
@@ -388,12 +394,15 @@ public class KNNClassifierTest {
 
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> classifier.classify(null, testPoint, 1)
+            () -> classifier.classify(null, testPoint, 1),
+            "classify(null, testPoint, 1) should throw IllegalArgumentException for null training data, "
+                    + "but no exception was thrown"
         );
 
         assertTrue(exception.getMessage().contains("null") || 
                    exception.getMessage().contains("empty"),
-                   "Exception message should mention null or empty");
+                   "Exception message should mention 'null' or 'empty' to help diagnose the issue, "
+                           + "but got: '" + exception.getMessage() + "'");
     }
 
     @Test
@@ -405,12 +414,15 @@ public class KNNClassifierTest {
 
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> classifier.classify(trainingData, testPoint, 1)
+            () -> classifier.classify(trainingData, testPoint, 1),
+            "classify(emptyList, testPoint, 1) should throw IllegalArgumentException for empty training data, "
+                    + "but no exception was thrown"
         );
 
         assertTrue(exception.getMessage().contains("empty") || 
                    exception.getMessage().contains("null"),
-                   "Exception message should mention empty");
+                   "Exception message should mention 'empty' or 'null' to help diagnose the issue, "
+                           + "but got: '" + exception.getMessage() + "'");
     }
 
     @Test
@@ -422,12 +434,15 @@ public class KNNClassifierTest {
 
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> classifier.classify(trainingData, testPoint, 0)
+            () -> classifier.classify(trainingData, testPoint, 0),
+            "classify(data, testPoint, k=0) should throw IllegalArgumentException (k must be positive), "
+                    + "but no exception was thrown"
         );
 
         assertTrue(exception.getMessage().toLowerCase().contains("k") ||
                    exception.getMessage().contains("positive"),
-                   "Exception should mention k value");
+                   "Exception message should mention 'k' or 'positive' to help diagnose the issue, "
+                           + "but got: '" + exception.getMessage() + "'");
     }
 
     @Test
@@ -439,10 +454,13 @@ public class KNNClassifierTest {
 
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> classifier.classify(trainingData, testPoint, -5)
+            () -> classifier.classify(trainingData, testPoint, -5),
+            "classify(data, testPoint, k=-5) should throw IllegalArgumentException (negative k), "
+                    + "but no exception was thrown"
         );
 
-        assertNotNull(exception.getMessage());
+        assertNotNull(exception.getMessage(),
+                "Exception message should not be null — it should describe why k=-5 is invalid");
     }
 
     @Test
@@ -457,10 +475,13 @@ public class KNNClassifierTest {
 
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> classifier.classify(trainingData, testPoint, 5)
+            () -> classifier.classify(trainingData, testPoint, 5),
+            "classify(data, testPoint, k=5) should throw IllegalArgumentException "
+                    + "(k=5 > trainingData.size()=2), but no exception was thrown"
         );
 
-        assertNotNull(exception.getMessage());
+        assertNotNull(exception.getMessage(),
+                "Exception message should not be null — it should describe why k=5 exceeds data size=2");
     }
 
     // Category 6: Performance & Large Data

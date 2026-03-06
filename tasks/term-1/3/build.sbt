@@ -1,16 +1,18 @@
 name := "funsets"
 
-scalaVersion := "2.12.7"
+scalaVersion := "2.13.12"
 
 scalacOptions ++= Seq(
   "-deprecation",
-  "-unchecked",
-  "-optimise",
-  "-Yinline-warnings"
+  "-unchecked"
 )
 
 fork := true
 
 javaOptions += "-Xmx2G"
 
-parallelExecution in Test := false
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % Test
+
+Test / parallelExecution := false
+
+Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oDF")

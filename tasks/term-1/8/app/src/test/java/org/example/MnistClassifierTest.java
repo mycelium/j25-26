@@ -34,7 +34,8 @@ public class MnistClassifierTest {
         MnistClassifier classifier = new MnistClassifier();
         MultiLayerConfiguration config = classifier.buildConfiguration();
         
-        assertNotNull(config, "Configuration should not be null");
+        assertNotNull(config, "buildConfiguration() returned null. "
+                + "The method must return a valid MultiLayerConfiguration object.");
     }
 
     @Test
@@ -44,7 +45,9 @@ public class MnistClassifierTest {
         MnistClassifier classifier = new MnistClassifier();
         MultiLayerConfiguration config = classifier.buildConfiguration();
         
-        assertEquals(6, config.getConfs().size(), "Should have 6 layers");
+        assertEquals(6, config.getConfs().size(),
+                "buildConfiguration() should produce a network with 6 layers, but got "
+                        + config.getConfs().size() + " layers.");
     }
 
     @Test
@@ -55,7 +58,8 @@ public class MnistClassifierTest {
         MultiLayerConfiguration config = classifier.buildConfiguration();
         
         assertTrue(config.getConf(0).getLayer() instanceof ConvolutionLayer,
-                "First layer should be ConvolutionLayer");
+                "Layer 0 should be ConvolutionLayer, but got "
+                        + config.getConf(0).getLayer().getClass().getSimpleName());
     }
 
     @Test
@@ -66,7 +70,8 @@ public class MnistClassifierTest {
         MultiLayerConfiguration config = classifier.buildConfiguration();
         
         assertTrue(config.getConf(1).getLayer() instanceof SubsamplingLayer,
-                "Second layer should be SubsamplingLayer");
+                "Layer 1 should be SubsamplingLayer (MaxPool), but got "
+                        + config.getConf(1).getLayer().getClass().getSimpleName());
     }
 
     @Test
@@ -77,7 +82,8 @@ public class MnistClassifierTest {
         MultiLayerConfiguration config = classifier.buildConfiguration();
         
         assertTrue(config.getConf(4).getLayer() instanceof DenseLayer,
-                "Fifth layer should be DenseLayer");
+                "Layer 4 should be DenseLayer, but got "
+                        + config.getConf(4).getLayer().getClass().getSimpleName());
     }
 
     @Test
@@ -88,7 +94,8 @@ public class MnistClassifierTest {
         MultiLayerConfiguration config = classifier.buildConfiguration();
         
         assertTrue(config.getConf(5).getLayer() instanceof OutputLayer,
-                "Last layer should be OutputLayer");
+                "Layer 5 (last) should be OutputLayer, but got "
+                        + config.getConf(5).getLayer().getClass().getSimpleName());
     }
 
     // Category 2: Model Initialization
@@ -100,7 +107,9 @@ public class MnistClassifierTest {
         MnistClassifier classifier = new MnistClassifier();
         classifier.initModel();
         
-        assertNotNull(classifier.getModel(), "Model should not be null after init");
+        assertNotNull(classifier.getModel(),
+                "getModel() returned null after initModel(). "
+                        + "initModel() must create and store a MultiLayerNetwork instance.");
     }
 
     @Test
@@ -111,7 +120,9 @@ public class MnistClassifierTest {
         classifier.initModel();
         
         MultiLayerNetwork model = classifier.getModel();
-        assertTrue(model.numParams() > 0, "Model should have parameters");
+        assertTrue(model.numParams() > 0,
+                "Model should have parameters after initialization, but numParams() returned "
+                        + model.numParams());
     }
 
     @Test
@@ -138,8 +149,12 @@ public class MnistClassifierTest {
         INDArray input = Nd4j.zeros(1, 784);
         INDArray output = classifier.predictProbabilities(input);
         
-        assertNotNull(output, "Output should not be null");
-        assertEquals(10, output.columns(), "Should have 10 output classes");
+        assertNotNull(output,
+                "predictProbabilities(zeros(1,784)) returned null after initModel(). "
+                        + "The model must produce output for valid input.");
+        assertEquals(10, output.columns(),
+                "predictProbabilities() output should have 10 columns (one per digit 0-9), "
+                        + "but got " + output.columns() + " columns. Output shape: " + java.util.Arrays.toString(output.shape()));
     }
 
     // Category 3: Pixel Normalization
@@ -151,9 +166,14 @@ public class MnistClassifierTest {
         double[] pixels = {0, 127.5, 255};
         double[] normalized = MnistClassifier.normalizePixels(pixels);
         
-        assertEquals(0.0, normalized[0], DELTA);
-        assertEquals(0.5, normalized[1], DELTA);
-        assertEquals(1.0, normalized[2], DELTA);
+        double[][] cases = {{0, 0.0}, {1, 0.5}, {2, 1.0}};
+        for (double[] c : cases) {
+            int idx = (int) c[0];
+            assertEquals(c[1], normalized[idx], DELTA,
+                    "normalizePixels([0, 127.5, 255])[" + idx + "] should be " + c[1]
+                            + ", but got " + normalized[idx]
+                            + ". Input pixel: " + pixels[idx] + ", expected: pixel/255");
+        }
     }
 
     @Test
@@ -186,7 +206,9 @@ public class MnistClassifierTest {
     void testNormalizePixelsNull() {
         double[] normalized = MnistClassifier.normalizePixels(null);
         
-        assertNull(normalized, "Should return null for null input");
+        assertNull(normalized,
+                "normalizePixels(null) should return null, but got a non-null array of length "
+                        + (normalized != null ? normalized.length : "N/A"));
     }
 
     @Test
@@ -196,7 +218,8 @@ public class MnistClassifierTest {
         double[] pixels = {};
         double[] normalized = MnistClassifier.normalizePixels(pixels);
         
-        assertEquals(0, normalized.length, "Should return empty array");
+        assertEquals(0, normalized.length,
+                "normalizePixels({}) should return empty array, but got array of length " + normalized.length);
     }
 
     // Category 4: Pixel Inversion
@@ -243,7 +266,9 @@ public class MnistClassifierTest {
     void testInvertPixelsNull() {
         double[] inverted = MnistClassifier.invertPixels(null);
         
-        assertNull(inverted, "Should return null for null input");
+        assertNull(inverted,
+                "invertPixels(null) should return null, but got a non-null array of length "
+                        + (inverted != null ? inverted.length : "N/A"));
     }
 
     @Test
@@ -287,7 +312,8 @@ public class MnistClassifierTest {
     void testCalculateMeanNull() {
         double mean = MnistClassifier.calculateMean(null);
         
-        assertEquals(0.0, mean, DELTA);
+        assertEquals(0.0, mean, DELTA,
+                "calculateMean(null) should return 0.0, but got " + mean);
     }
 
     @Test
@@ -297,7 +323,8 @@ public class MnistClassifierTest {
         double[] pixels = {};
         double mean = MnistClassifier.calculateMean(pixels);
         
-        assertEquals(0.0, mean, DELTA);
+        assertEquals(0.0, mean, DELTA,
+                "calculateMean({}) should return 0.0 for empty array, but got " + mean);
     }
 
     // Category 6: Needs Inversion Check
@@ -331,65 +358,61 @@ public class MnistClassifierTest {
 
     // Category 7: Argmax Function
 
+    private void assertArgmax(double[] probs, int expected, String desc) {
+        int result = MnistClassifier.argmax(probs);
+        assertEquals(expected, result,
+                "argmax(" + desc + ") should return " + expected + ", but got " + result
+                        + ". Input: " + (probs != null ? java.util.Arrays.toString(probs) : "null"));
+    }
+
     @Test
     @Order(60)
     @DisplayName("Test 7.1: Argmax - first element is max")
     void testArgmaxFirst() {
-        double[] probs = {0.9, 0.05, 0.03, 0.02};
-        
-        assertEquals(0, MnistClassifier.argmax(probs));
+        assertArgmax(new double[]{0.9, 0.05, 0.03, 0.02}, 0, "[0.9, 0.05, 0.03, 0.02]");
     }
 
     @Test
     @Order(61)
     @DisplayName("Test 7.2: Argmax - last element is max")
     void testArgmaxLast() {
-        double[] probs = {0.1, 0.1, 0.1, 0.7};
-        
-        assertEquals(3, MnistClassifier.argmax(probs));
+        assertArgmax(new double[]{0.1, 0.1, 0.1, 0.7}, 3, "[0.1, 0.1, 0.1, 0.7]");
     }
 
     @Test
     @Order(62)
     @DisplayName("Test 7.3: Argmax - middle element is max")
     void testArgmaxMiddle() {
-        double[] probs = {0.1, 0.1, 0.6, 0.1, 0.1};
-        
-        assertEquals(2, MnistClassifier.argmax(probs));
+        assertArgmax(new double[]{0.1, 0.1, 0.6, 0.1, 0.1}, 2, "[0.1, 0.1, 0.6, 0.1, 0.1]");
     }
 
     @Test
     @Order(63)
     @DisplayName("Test 7.4: Argmax - 10 classes (MNIST)")
     void testArgmax10Classes() {
-        double[] probs = {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.9, 0.02, 0.01};
-        
-        assertEquals(7, MnistClassifier.argmax(probs));
+        assertArgmax(new double[]{0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.9, 0.02, 0.01}, 7,
+                "10-class MNIST probabilities with max at index 7");
     }
 
     @Test
     @Order(64)
     @DisplayName("Test 7.5: Argmax - null input")
     void testArgmaxNull() {
-        assertEquals(-1, MnistClassifier.argmax(null));
+        assertArgmax(null, -1, "null");
     }
 
     @Test
     @Order(65)
     @DisplayName("Test 7.6: Argmax - empty array")
     void testArgmaxEmpty() {
-        double[] probs = {};
-        
-        assertEquals(-1, MnistClassifier.argmax(probs));
+        assertArgmax(new double[]{}, -1, "empty array");
     }
 
     @Test
     @Order(66)
     @DisplayName("Test 7.7: Argmax - single element")
     void testArgmaxSingle() {
-        double[] probs = {0.5};
-        
-        assertEquals(0, MnistClassifier.argmax(probs));
+        assertArgmax(new double[]{0.5}, 0, "[0.5]");
     }
 
     // Category 8: Input Validation
@@ -400,7 +423,8 @@ public class MnistClassifierTest {
     void testValidInput784() {
         double[] pixels = new double[784];
         
-        assertTrue(MnistClassifier.isValidInput(pixels));
+        assertTrue(MnistClassifier.isValidInput(pixels),
+                "isValidInput(double[784]) should return true (28x28=784 is the correct MNIST size)");
     }
 
     @Test
@@ -409,14 +433,16 @@ public class MnistClassifierTest {
     void testInvalidInputWrongSize() {
         double[] pixels = new double[100];
         
-        assertFalse(MnistClassifier.isValidInput(pixels));
+        assertFalse(MnistClassifier.isValidInput(pixels),
+                "isValidInput(double[100]) should return false (expected 784 pixels for 28x28 image, got 100)");
     }
 
     @Test
     @Order(72)
     @DisplayName("Test 8.3: Invalid input - null")
     void testInvalidInputNull() {
-        assertFalse(MnistClassifier.isValidInput(null));
+        assertFalse(MnistClassifier.isValidInput(null),
+                "isValidInput(null) should return false (null is not a valid pixel array)");
     }
 
     @Test
@@ -425,7 +451,8 @@ public class MnistClassifierTest {
     void testInvalidInputEmpty() {
         double[] pixels = {};
         
-        assertFalse(MnistClassifier.isValidInput(pixels));
+        assertFalse(MnistClassifier.isValidInput(pixels),
+                "isValidInput(double[0]) should return false (empty array is not a valid 28x28 image)");
     }
 
     @Test
@@ -434,7 +461,8 @@ public class MnistClassifierTest {
     void testInvalidInputTooLarge() {
         double[] pixels = new double[1000];
         
-        assertFalse(MnistClassifier.isValidInput(pixels));
+        assertFalse(MnistClassifier.isValidInput(pixels),
+                "isValidInput(double[1000]) should return false (expected 784 pixels, got 1000)");
     }
 
     // Category 9: Constants
@@ -476,7 +504,8 @@ public class MnistClassifierTest {
         MnistClassifier classifier = new MnistClassifier();
         INDArray input = Nd4j.zeros(1, 784);
         
-        assertThrows(IllegalStateException.class, () -> classifier.predict(input));
+        assertThrows(IllegalStateException.class, () -> classifier.predict(input),
+                "predict() should throw IllegalStateException when model is not initialized via initModel()");
     }
 
     @Test
@@ -486,7 +515,8 @@ public class MnistClassifierTest {
         MnistClassifier classifier = new MnistClassifier();
         classifier.initModel();
         
-        assertThrows(IllegalArgumentException.class, () -> classifier.predict(null));
+        assertThrows(IllegalArgumentException.class, () -> classifier.predict(null),
+                "predict(null) should throw IllegalArgumentException for null input");
     }
 
     @Test
@@ -496,7 +526,8 @@ public class MnistClassifierTest {
         MnistClassifier classifier = new MnistClassifier();
         INDArray input = Nd4j.zeros(1, 784);
         
-        assertThrows(IllegalStateException.class, () -> classifier.predictProbabilities(input));
+        assertThrows(IllegalStateException.class, () -> classifier.predictProbabilities(input),
+                "predictProbabilities() should throw IllegalStateException when model is not initialized");
     }
 
     @Test
@@ -505,7 +536,8 @@ public class MnistClassifierTest {
     void testEvaluateWithoutInit() {
         MnistClassifier classifier = new MnistClassifier();
         
-        assertThrows(IllegalStateException.class, () -> classifier.evaluate(64));
+        assertThrows(IllegalStateException.class, () -> classifier.evaluate(64),
+                "evaluate() should throw IllegalStateException when model is not initialized");
     }
 }
 

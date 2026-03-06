@@ -1,9 +1,5 @@
-package org.example;
-
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,8 +33,10 @@ public class WordFrequencyCounterTest {
         Path file = createTestFile("empty.txt", "");
         Map<String, Integer> result = counter.countWords(file);
         
-        assertNotNull(result, "Result should not be null");
-        assertTrue(result.isEmpty(), "Empty file should return empty map");
+        assertNotNull(result, "countWords(emptyFile) returned null, expected an empty map");
+        assertTrue(result.isEmpty(),
+                "countWords(emptyFile) should return an empty map, but got " + result.size()
+                        + " entries: " + result);
     }
 
     @Test
@@ -48,9 +46,15 @@ public class WordFrequencyCounterTest {
         Path file = createTestFile("single.txt", "hello");
         Map<String, Integer> result = counter.countWords(file);
         
-        assertNotNull(result, "Result should not be null");
-        assertEquals(1, result.size(), "Should have 1 unique word");
-        assertEquals(1, result.get("hello"), "Word 'hello' should appear once");
+        assertNotNull(result, "countWords(\"hello\") returned null");
+        assertEquals(1, result.size(),
+                "File contains only 'hello', expected 1 unique word but got " + result.size()
+                        + ". Actual map: " + result);
+        assertNotNull(result.get("hello"),
+                "Expected key 'hello' in result map, but it is missing. Actual keys: " + result.keySet());
+        assertEquals(1, result.get("hello"),
+                "Word 'hello' should appear 1 time, but got " + result.get("hello")
+                        + ". Full result: " + result);
     }
 
     @Test
@@ -60,9 +64,13 @@ public class WordFrequencyCounterTest {
         Path file = createTestFile("repeated.txt", "hello hello hello");
         Map<String, Integer> result = counter.countWords(file);
         
-        assertNotNull(result, "Result should not be null");
-        assertEquals(1, result.size(), "Should have 1 unique word");
-        assertEquals(3, result.get("hello"), "Word 'hello' should appear 3 times");
+        assertNotNull(result, "countWords(\"hello hello hello\") returned null");
+        assertEquals(1, result.size(),
+                "File contains 'hello' repeated 3 times, expected 1 unique word but got "
+                        + result.size() + ". Actual map: " + result);
+        assertEquals(3, result.get("hello"),
+                "Word 'hello' should appear 3 times, but got " + result.get("hello")
+                        + ". Full result: " + result);
     }
 
     @Test
@@ -72,12 +80,16 @@ public class WordFrequencyCounterTest {
         Path file = createTestFile("multiple.txt", "hello world foo bar");
         Map<String, Integer> result = counter.countWords(file);
         
-        assertNotNull(result, "Result should not be null");
-        assertEquals(4, result.size(), "Should have 4 unique words");
-        assertEquals(1, result.get("hello"));
-        assertEquals(1, result.get("world"));
-        assertEquals(1, result.get("foo"));
-        assertEquals(1, result.get("bar"));
+        assertNotNull(result, "countWords(\"hello world foo bar\") returned null");
+        assertEquals(4, result.size(),
+                "File contains 4 unique words, but got " + result.size() + ". Actual map: " + result);
+        for (String word : new String[]{"hello", "world", "foo", "bar"}) {
+            assertNotNull(result.get(word),
+                    "Expected key '" + word + "' in result map, but missing. Actual keys: " + result.keySet());
+            assertEquals(1, result.get(word),
+                    "Word '" + word + "' should appear 1 time, but got " + result.get(word)
+                            + ". Full result: " + result);
+        }
     }
 
     @Test
@@ -87,11 +99,13 @@ public class WordFrequencyCounterTest {
         Path file = createTestFile("mixed.txt", "apple banana apple cherry banana apple");
         Map<String, Integer> result = counter.countWords(file);
         
-        assertNotNull(result, "Result should not be null");
-        assertEquals(3, result.size(), "Should have 3 unique words");
-        assertEquals(3, result.get("apple"), "Word 'apple' should appear 3 times");
-        assertEquals(2, result.get("banana"), "Word 'banana' should appear 2 times");
-        assertEquals(1, result.get("cherry"), "Word 'cherry' should appear once");
+        assertNotNull(result, "countWords(\"apple banana apple cherry banana apple\") returned null");
+        assertEquals(3, result.size(),
+                "Expected 3 unique words (apple, banana, cherry), but got " + result.size()
+                        + ". Actual map: " + result);
+        assertWordCount(result, "apple", 3);
+        assertWordCount(result, "banana", 2);
+        assertWordCount(result, "cherry", 1);
     }
 
     // Category 2: Word Definition & Boundaries
@@ -103,9 +117,11 @@ public class WordFrequencyCounterTest {
         Path file = createTestFile("case.txt", "Hello HELLO hello HeLLo");
         Map<String, Integer> result = counter.countWords(file);
         
-        assertNotNull(result, "Result should not be null");
-        assertEquals(1, result.size(), "All variations should be counted as same word");
-        assertEquals(4, result.get("hello"), "All case variations should count as 'hello'");
+        assertNotNull(result, "countWords(\"Hello HELLO hello HeLLo\") returned null");
+        assertEquals(1, result.size(),
+                "Input 'Hello HELLO hello HeLLo' — all case variations should be the same word. "
+                        + "Expected 1 unique word, but got " + result.size() + ". Actual map: " + result);
+        assertWordCount(result, "hello", 4);
     }
 
     @Test
@@ -343,6 +359,7 @@ public class WordFrequencyCounterTest {
     @Test
     @Order(41)
     @Timeout(180)
+    @Disabled("Allocates 1 GB string in heap - always causes OutOfMemoryError. Run manually with -Xmx4g if needed.")
     @DisplayName("Test 5.2: Very long word (continuous characters)")
     void testVeryLongWord() throws IOException {
         // Create 1GB continuous word
@@ -410,9 +427,13 @@ public class WordFrequencyCounterTest {
         
         assertDoesNotThrow(() -> {
             Map<String, Integer> result = counter.countWords(file);
-            assertNotNull(result, "Should return non-null result even for non-existent file");
-            assertTrue(result.isEmpty(), "Should return empty map for non-existent file");
-        }, "Should handle non-existent file gracefully");
+            assertNotNull(result,
+                    "countWords(nonExistentFile) should return an empty map (not null).\n"
+                            + "  File path: " + file);
+            assertTrue(result.isEmpty(),
+                    "countWords(nonExistentFile) should return an empty map, but got "
+                            + result.size() + " entries: " + result + "\n  File path: " + file);
+        }, "countWords() threw an exception for non-existent file: " + file);
     }
 
     @Test
@@ -421,9 +442,14 @@ public class WordFrequencyCounterTest {
     void testNullPath() {
         assertDoesNotThrow(() -> {
             Map<String, Integer> result = counter.countWords(null);
-            assertNotNull(result, "Should return non-null result for null path");
-            assertTrue(result.isEmpty(), "Should return empty map for null path");
-        }, "Should handle null path gracefully without NPE");
+            assertNotNull(result,
+                    "countWords(null) should return an empty map (not null).\n"
+                            + "  The method should handle null path gracefully.");
+            assertTrue(result.isEmpty(),
+                    "countWords(null) should return an empty map, but got "
+                            + result.size() + " entries: " + result);
+        }, "countWords(null) threw an exception (likely NullPointerException). "
+                + "The method should handle null path gracefully.");
     }
 
     @Test
@@ -435,12 +461,24 @@ public class WordFrequencyCounterTest {
         assertDoesNotThrow(() -> {
             Files.createDirectory(dir);
             Map<String, Integer> result = counter.countWords(dir);
-            assertNotNull(result, "Should return non-null result for directory");
-            assertTrue(result.isEmpty(), "Should return empty map for directory");
-        }, "Should handle directory gracefully");
+            assertNotNull(result,
+                    "countWords(directory) should return an empty map (not null).\n"
+                            + "  Path: " + dir + " (is a directory, not a file)");
+            assertTrue(result.isEmpty(),
+                    "countWords(directory) should return an empty map, but got "
+                            + result.size() + " entries: " + result + "\n  Path: " + dir);
+        }, "countWords() threw an exception for a directory path: " + dir);
     }
 
     // Helper Methods
+
+    private void assertWordCount(Map<String, Integer> result, String word, int expectedCount) {
+        assertNotNull(result.get(word),
+                "Expected key '" + word + "' in result map, but it is missing. Actual keys: " + result.keySet());
+        assertEquals(expectedCount, result.get(word),
+                "Word '" + word + "' should appear " + expectedCount + " time(s), but got " + result.get(word)
+                        + ". Full result: " + result);
+    }
 
     private Path createTestFile(String filename, String content) throws IOException {
         Path file = tempDir.resolve(filename);

@@ -1,26 +1,10 @@
-package org.example;
-
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.jupiter.api.*;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
-
-/*
-Важные замечания:
-- Для сравнения умножений я использовал библиотеку Apache Commons Math.
-  Чтобы установить ее, необходимо добавить следующую dependency в pom.xml:
-
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-math3</artifactId>
-    <version>3.6.1</version>
-    <scope>test</scope>
-</dependency>
-
-- Я не тестировал время выполнения, потому что преподаватель сказал мне,
-  что нет ограничений на оптимизацию времени выполнения (:
-*/
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MatrixMultiplicationTest {
@@ -31,7 +15,7 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(1)
-    @DisplayName("Test 1.1: Basic 2×2 matrix multiplication")
+    @DisplayName("Test 1.1: Basic 2x2 matrix multiplication")
     void testBasic2x2() {
         double[][] A = {
             {1, 2},
@@ -46,12 +30,12 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "2×2 multiplication incorrect");
+        assertMatrixEquals(expected, result, "2x2 multiplication incorrect");
     }
 
     @Test
     @Order(2)
-    @DisplayName("Test 1.2: Basic 3×3 matrix multiplication")
+    @DisplayName("Test 1.2: Basic 3x3 matrix multiplication")
     void testBasic3x3() {
         double[][] A = {
             {1, 2, 3},
@@ -68,12 +52,12 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "3×3 multiplication incorrect");
+        assertMatrixEquals(expected, result, "3x3 multiplication incorrect");
     }
 
     @Test
     @Order(3)
-    @DisplayName("Test 1.3: Non-square matrices (2×3 × 3×2)")
+    @DisplayName("Test 1.3: Non-square matrices (2x3 x 3x2)")
     void testNonSquare2x3_3x2() {
         double[][] A = {
             {1, 2, 3},
@@ -89,12 +73,12 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "2×3 × 3×2 multiplication incorrect");
+        assertMatrixEquals(expected, result, "2x3 x 3x2 multiplication incorrect");
     }
 
     @Test
     @Order(4)
-    @DisplayName("Test 1.4: Non-square matrices (3×2 × 2×4)")
+    @DisplayName("Test 1.4: Non-square matrices (3x2 x 2x4)")
     void testNonSquare3x2_2x4() {
         double[][] A = {
             {1, 2},
@@ -110,12 +94,12 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "3×2 × 2×4 multiplication incorrect");
+        assertMatrixEquals(expected, result, "3x2 x 2x4 multiplication incorrect");
     }
 
     @Test
     @Order(5)
-    @DisplayName("Test 1.5: Row vector × Column vector (1×4 × 4×1)")
+    @DisplayName("Test 1.5: Row vector x Column vector (1x4 x 4x1)")
     void testRowVectorTimesColumnVector() {
         double[][] A = {
             {1, 2, 3, 4}
@@ -131,12 +115,12 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "Row × Column vector multiplication incorrect");
+        assertMatrixEquals(expected, result, "Row x Column vector multiplication incorrect");
     }
 
     @Test
     @Order(6)
-    @DisplayName("Test 1.6: Column vector × Row vector (3×1 × 1×3)")
+    @DisplayName("Test 1.6: Column vector x Row vector (3x1 x 1x3)")
     void testColumnVectorTimesRowVector() {
         double[][] A = {
             {2},
@@ -151,7 +135,7 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "Column × Row vector multiplication incorrect");
+        assertMatrixEquals(expected, result, "Column x Row vector multiplication incorrect");
     }
 
     // Category 2: Special Matrices
@@ -175,7 +159,7 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(identity, A);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "Identity × A should equal A");
+        assertMatrixEquals(expected, result, "Identity x A should equal A");
     }
 
     @Test
@@ -195,12 +179,12 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(zero, A);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "Zero × A should equal Zero");
+        assertMatrixEquals(expected, result, "Zero x A should equal Zero");
     }
 
     @Test
     @Order(12)
-    @DisplayName("Test 2.3: Single element matrix (1×1)")
+    @DisplayName("Test 2.3: Single element matrix (1x1)")
     void testSingleElement() {
         double[][] A = {{5}};
         double[][] B = {{3}};
@@ -209,7 +193,7 @@ public class MatrixMultiplicationTest {
         double[][] result = MatrixMult.multiply(A, B);
 
         assertNotNull(result, "Result should not be null");
-        assertMatrixEquals(expected, result, "1×1 multiplication incorrect");
+        assertMatrixEquals(expected, result, "1x1 multiplication incorrect");
     }
 
     // Category 3: Numerical Edge Cases
@@ -329,7 +313,10 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(null, B);
 
-        assertNull(result, "Result should be null when first matrix is null");
+        assertNull(result, "multiply(null, B) should return null, but got a non-null result."
+                + "\n  First matrix:  null"
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -343,7 +330,10 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, null);
 
-        assertNull(result, "Result should be null when second matrix is null");
+        assertNull(result, "multiply(A, null) should return null, but got a non-null result."
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: null"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -352,7 +342,9 @@ public class MatrixMultiplicationTest {
     void testBothMatricesNull() {
         double[][] result = MatrixMult.multiply(null, null);
 
-        assertNull(result, "Result should be null when both matrices are null");
+        assertNull(result, "multiply(null, null) should return null, but got a non-null result."
+                + "\n  Both matrices are null."
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -367,7 +359,10 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when first matrix is empty");
+        assertNull(result, "multiply(emptyMatrix, B) should return null, but got a non-null result."
+                + "\n  First matrix:  {} (empty, 0 rows)"
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -382,7 +377,10 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when second matrix is empty");
+        assertNull(result, "multiply(A, emptyMatrix) should return null, but got a non-null result."
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: {} (empty, 0 rows)"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -400,7 +398,10 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when first matrix has null row");
+        assertNull(result, "multiply(A, B) should return null when first matrix has a null row."
+                + "\n  First matrix:  {{1,2}, null}  (row 1 is null)"
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -418,7 +419,10 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when second matrix has null row");
+        assertNull(result, "multiply(A, B) should return null when second matrix has a null row."
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: {{1,2}, null}  (row 1 is null)"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -433,12 +437,15 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when first matrix has empty row");
+        assertNull(result, "multiply(A, B) should return null when first matrix has an empty row."
+                + "\n  First matrix:  {{1,2}, {}}  (row 1 has 0 columns, row 0 has 2 columns)"
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
     @Order(38)
-    @DisplayName("Test 4.9: Incompatible dimensions (2×3 × 2×2)")
+    @DisplayName("Test 4.9: Incompatible dimensions (2x3 x 2x2)")
     void testIncompatibleDimensions() {
         double[][] A = {
             {1, 2, 3},
@@ -451,7 +458,11 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when dimensions are incompatible");
+        assertNull(result, "multiply(A, B) should return null when dimensions are incompatible."
+                + "\n  First matrix:  2x3 (2 rows, 3 columns)"
+                + "\n  Second matrix: 2x2 (2 rows, 2 columns)"
+                + "\n  Required: A.columns (3) must equal B.rows (2), but 3 != 2"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -470,7 +481,11 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when first matrix is irregular");
+        assertNull(result, "multiply(A, B) should return null when first matrix has irregular row lengths."
+                + "\n  First matrix rows: row0 has 3 cols, row1 has 2 cols (irregular!)"
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -488,14 +503,18 @@ public class MatrixMultiplicationTest {
 
         double[][] result = MatrixMult.multiply(A, B);
 
-        assertNull(result, "Result should be null when second matrix is irregular");
+        assertNull(result, "multiply(A, B) should return null when second matrix has irregular row lengths."
+                + "\n  Second matrix rows: row0 has 3 cols, row1 has 2 cols (irregular!)"
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     // Category 5: Matrix Dimensions Variety
 
     @Test
     @Order(50)
-    @DisplayName("Test 5.1: Square matrix 5×5")
+    @DisplayName("Test 5.1: Square matrix 5x5")
     void testSquare5x5() {
         double[][] A = createMatrix(5, 5, 2.0);
         double[][] B = createMatrix(5, 5, 3.0);
@@ -510,7 +529,7 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(51)
-    @DisplayName("Test 5.2: Tall matrix (10×3 × 3×5)")
+    @DisplayName("Test 5.2: Tall matrix (10x3 x 3x5)")
     void testTallMatrix() {
         double[][] A = createMatrix(10, 3, 1.0);
         double[][] B = createMatrix(3, 5, 1.0);
@@ -524,7 +543,7 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(52)
-    @DisplayName("Test 5.3: Wide matrix (3×10 × 10×5)")
+    @DisplayName("Test 5.3: Wide matrix (3x10 x 10x5)")
     void testWideMatrix() {
         double[][] A = createMatrix(3, 10, 1.0);
         double[][] B = createMatrix(10, 5, 1.0);
@@ -538,7 +557,7 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(53)
-    @DisplayName("Test 5.4: Extreme aspect ratio (1×100 × 100×1)")
+    @DisplayName("Test 5.4: Extreme aspect ratio (1x100 x 100x1)")
     void testExtremeAspectRatio() {
         double[][] A = createMatrix(1, 100, 2.0);
         double[][] B = createMatrix(100, 1, 3.0);
@@ -555,10 +574,10 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(60)
-    @DisplayName("Test 6.1: Medium matrix 100×100")
+    @DisplayName("Test 6.1: Medium matrix 100x100")
     @Timeout(30)
     void testMediumMatrix100x100() {
-        System.out.println("\n=== Testing 100×100 matrices ===");
+        System.out.println("\n=== Testing 100x100 matrices ===");
         double[][] A = createRandomMatrix(100, 100);
         double[][] B = createRandomMatrix(100, 100);
 
@@ -573,10 +592,10 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(61)
-    @DisplayName("Test 6.2: Medium matrix 500×500")
+    @DisplayName("Test 6.2: Medium matrix 500x500")
     @Timeout(120)
     void testLargeMatrix500x500() {
-        System.out.println("\n=== Testing 500×500 matrices ===");
+        System.out.println("\n=== Testing 500x500 matrices ===");
         double[][] A = createRandomMatrix(500, 500);
         double[][] B = createRandomMatrix(500, 500);
 
@@ -589,10 +608,10 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(62)
-    @DisplayName("Test 6.3: Large matrix 1000×1000")
+    @DisplayName("Test 6.3: Large matrix 1000x1000")
     @Timeout(600)
     void testExtremeMatrix5000x5000() {
-        System.out.println("\n=== Testing 1000×1000 matrices ===");
+        System.out.println("\n=== Testing 1000x1000 matrices ===");
         double[][] A = createRandomMatrix(1000, 1000);
         double[][] B = createRandomMatrix(1000, 1000);
 
@@ -605,11 +624,11 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(63)
-    @DisplayName("Test 6.4: Very Large matrix 10000×10000 ")
+    @DisplayName("Test 6.4: Very Large matrix 10000x10000 ")
     @Timeout(1200)
     @Disabled("Takes long time")
     void testMaximumMatrix10000x10000() {
-        System.out.println("\n=== Testing 10000×10000 matrices ===");
+        System.out.println("\n=== Testing 10000x10000 matrices ===");
         double[][] A = createRandomMatrix(10000, 10000);
         double[][] B = createRandomMatrix(10000, 10000);
 
@@ -622,11 +641,11 @@ public class MatrixMultiplicationTest {
 
     @Test
     @Order(64)
-    @DisplayName("Test 6.5: Large non-square (2000×500 × 500×3000)")
+    @DisplayName("Test 6.5: Large non-square (2000x500 x 500x3000)")
     @Timeout(1200)
     @Disabled("Takes long time")
     void testLargeNonSquare() {
-        System.out.println("\n=== Testing 2000×500 × 500×3000 matrices ===");
+        System.out.println("\n=== Testing 2000x500 x 500x3000 matrices ===");
         double[][] A = createRandomMatrix(2000, 500);
         double[][] B = createRandomMatrix(500, 3000);
 
@@ -681,17 +700,32 @@ public class MatrixMultiplicationTest {
  
      //Compares two matrices with tolerance for floating point errors
     private void assertMatrixEquals(double[][] expected, double[][] actual, String message) {
-        assertNotNull(actual, message + ": Result is null");
-        assertEquals(expected.length, actual.length, message + ": Row count mismatch");
-        
+        assertNotNull(actual, message + "\n  Result matrix is null, but expected a non-null matrix of size "
+                + expected.length + "x" + expected[0].length);
+        assertEquals(expected.length, actual.length,
+                message + "\n  Row count mismatch: expected " + expected.length
+                        + " rows, but got " + actual.length + " rows."
+                        + "\n  Expected dimensions: " + expected.length + "x" + expected[0].length
+                        + "\n  Actual dimensions:   " + actual.length + "x" + (actual.length > 0 && actual[0] != null ? actual[0].length : "?"));
+
         for (int i = 0; i < expected.length; i++) {
-            assertNotNull(actual[i], message + ": Row " + i + " is null");
-            assertEquals(expected[i].length, actual[i].length, 
-                        message + ": Column count mismatch at row " + i);
-            
+            assertNotNull(actual[i], message + "\n  Row " + i + " is null in the result matrix."
+                    + "\n  Expected row " + i + ": " + Arrays.toString(expected[i]));
+            assertEquals(expected[i].length, actual[i].length,
+                    message + "\n  Column count mismatch at row " + i + ":"
+                            + "\n    Expected " + expected[i].length + " columns, got " + actual[i].length
+                            + "\n    Expected row: " + Arrays.toString(expected[i])
+                            + "\n    Actual row:   " + Arrays.toString(actual[i]));
+
             for (int j = 0; j < expected[i].length; j++) {
                 assertEquals(expected[i][j], actual[i][j], DELTA,
-                           message + ": Element [" + i + "][" + j + "] mismatch");
+                        message + "\n  Element mismatch at [" + i + "][" + j + "]:"
+                                + "\n    Expected value: " + expected[i][j]
+                                + "\n    Actual value:   " + actual[i][j]
+                                + "\n    Difference:     " + Math.abs(expected[i][j] - actual[i][j])
+                                + "\n    Tolerance:      " + DELTA
+                                + "\n    Expected row " + i + ": " + Arrays.toString(expected[i])
+                                + "\n    Actual row " + i + ":   " + Arrays.toString(actual[i]));
             }
         }
     }

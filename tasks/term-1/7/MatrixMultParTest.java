@@ -2,6 +2,8 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.jupiter.api.*;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -421,7 +423,10 @@ public class MatrixMultParTest {
 
         double[][] result = MatrixMultPar.multiplyParallel(null, B, 2);
 
-        assertNull(result, "Result should be null when first matrix is null");
+        assertNull(result, "multiplyParallel(null, B, 2) should return null, but got a non-null result."
+                + "\n  First matrix:  null"
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -435,7 +440,10 @@ public class MatrixMultParTest {
 
         double[][] result = MatrixMultPar.multiplyParallel(A, null, 2);
 
-        assertNull(result, "Result should be null when second matrix is null");
+        assertNull(result, "multiplyParallel(A, null, 2) should return null, but got a non-null result."
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: null"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -444,7 +452,9 @@ public class MatrixMultParTest {
     void testBothMatricesNull() {
         double[][] result = MatrixMultPar.multiplyParallel(null, null, 2);
 
-        assertNull(result, "Result should be null when both matrices are null");
+        assertNull(result, "multiplyParallel(null, null, 2) should return null, but got a non-null result."
+                + "\n  Both matrices are null."
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -459,7 +469,10 @@ public class MatrixMultParTest {
 
         double[][] result = MatrixMultPar.multiplyParallel(A, B, 2);
 
-        assertNull(result, "Result should be null when first matrix is empty");
+        assertNull(result, "multiplyParallel(emptyMatrix, B, 2) should return null, but got a non-null result."
+                + "\n  First matrix:  {} (empty, 0 rows)"
+                + "\n  Second matrix: " + Arrays.deepToString(B)
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -474,7 +487,10 @@ public class MatrixMultParTest {
 
         double[][] result = MatrixMultPar.multiplyParallel(A, B, 2);
 
-        assertNull(result, "Result should be null when second matrix is empty");
+        assertNull(result, "multiplyParallel(A, emptyMatrix, 2) should return null, but got a non-null result."
+                + "\n  First matrix:  " + Arrays.deepToString(A)
+                + "\n  Second matrix: {} (empty, 0 rows)"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     @Test
@@ -492,7 +508,11 @@ public class MatrixMultParTest {
 
         double[][] result = MatrixMultPar.multiplyParallel(A, B, 2);
 
-        assertNull(result, "Result should be null when dimensions are incompatible");
+        assertNull(result, "multiplyParallel(A, B, 2) should return null when dimensions are incompatible."
+                + "\n  First matrix:  2x3 (2 rows, 3 columns)"
+                + "\n  Second matrix: 2x2 (2 rows, 2 columns)"
+                + "\n  Required: A.columns (3) must equal B.rows (2), but 3 != 2"
+                + "\n  Actual result: " + Arrays.deepToString(result));
     }
 
     // Category 6: Consistency Tests (Parallel vs Single)
@@ -718,17 +738,32 @@ public class MatrixMultParTest {
     }
 
     private void assertMatrixEquals(double[][] expected, double[][] actual, String message) {
-        assertNotNull(actual, message + ": Result is null");
-        assertEquals(expected.length, actual.length, message + ": Row count mismatch");
+        assertNotNull(actual, message + "\n  Result matrix is null, but expected a non-null matrix of size "
+                + expected.length + "x" + expected[0].length);
+        assertEquals(expected.length, actual.length,
+                message + "\n  Row count mismatch: expected " + expected.length
+                        + " rows, but got " + actual.length + " rows."
+                        + "\n  Expected dimensions: " + expected.length + "x" + expected[0].length
+                        + "\n  Actual dimensions:   " + actual.length + "x" + (actual.length > 0 && actual[0] != null ? actual[0].length : "?"));
 
         for (int i = 0; i < expected.length; i++) {
-            assertNotNull(actual[i], message + ": Row " + i + " is null");
+            assertNotNull(actual[i], message + "\n  Row " + i + " is null in the result matrix."
+                    + "\n  Expected row " + i + ": " + Arrays.toString(expected[i]));
             assertEquals(expected[i].length, actual[i].length,
-                    message + ": Column count mismatch at row " + i);
+                    message + "\n  Column count mismatch at row " + i + ":"
+                            + "\n    Expected " + expected[i].length + " columns, got " + actual[i].length
+                            + "\n    Expected row: " + Arrays.toString(expected[i])
+                            + "\n    Actual row:   " + Arrays.toString(actual[i]));
 
             for (int j = 0; j < expected[i].length; j++) {
                 assertEquals(expected[i][j], actual[i][j], DELTA,
-                        message + ": Element [" + i + "][" + j + "] mismatch");
+                        message + "\n  Element mismatch at [" + i + "][" + j + "]:"
+                                + "\n    Expected value: " + expected[i][j]
+                                + "\n    Actual value:   " + actual[i][j]
+                                + "\n    Difference:     " + Math.abs(expected[i][j] - actual[i][j])
+                                + "\n    Tolerance:      " + DELTA
+                                + "\n    Expected row " + i + ": " + Arrays.toString(expected[i])
+                                + "\n    Actual row " + i + ":   " + Arrays.toString(actual[i]));
             }
         }
     }

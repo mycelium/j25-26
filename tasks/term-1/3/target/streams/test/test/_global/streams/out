@@ -1,0 +1,53 @@
+[0m[[0m[0mdebug[0m] [0m[0mjavaOptions: Vector(-Xmx2G)[0m
+[0m[[0m[0mdebug[0m] [0m[0mForking tests - parallelism = false[0m
+[0m[[0m[0mdebug[0m] [0m[0mCreate a single-thread test executor[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunner for org.scalatest.tools.Framework produced 1 initial tasks for 1 tests.[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Running TaskDef(funsets.FunSetsTest, sbt.ForkMain$SubclassFingerscan@62043840, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mFunSetsTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.1: singletonSet contains its element (40 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.2: singletonSet does not contain other elements (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.3: singletonSet with zero (5 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 1.4: singletonSet with negative (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.1: union contains elements of both sets (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.2: union does not contain elements not in either set (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.3: union of same sets (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 2.4: union of multiple sets (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.1: intersect of disjoint sets is empty (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.2: intersect of overlapping sets (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.3: intersect with itself (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 3.4: intersect of identical singletons (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.1: diff removes elements in second set (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.2: diff of disjoint sets (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.3: diff with itself is empty (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 4.4: diff with empty set (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 5.1: filter with always true predicate (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 5.2: filter with always false predicate (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 5.3: filter even numbers (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 5.4: filter positive numbers (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 6.1: forall on singleton - true case (5 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 6.2: forall on singleton - false case (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 6.3: forall on set with all even numbers (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 6.4: forall fails when one element doesn't match (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 6.5: forall with positive predicate (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 7.1: exists on singleton - true case (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 7.2: exists on singleton - false case (5 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 7.3: exists finds even in mixed set (1 millisecond)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 7.4: exists returns false when no match (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 7.5: exists with negative predicate (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 8.1: map doubles elements (4 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 8.2: map squares elements (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 8.3: map with identity (2 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 8.4: map negates elements (3 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 8.5: map with constant function (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 9.1: contains basic test (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 9.2: contains returns false for missing element (0 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 10.1: toString of singleton (9 milliseconds)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test 10.2: toString of multiple elements (0 milliseconds)[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Produced 0 nested tasks and 39 events.[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 1 second, 439 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 39[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 39, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	funsets.FunSetsTest[0m

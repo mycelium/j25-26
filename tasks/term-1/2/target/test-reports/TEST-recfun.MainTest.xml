@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuite hostname="DESKTOP-NIIMMUB" name="recfun.MainTest" tests="44" errors="0" failures="0" skipped="0" time="0.151" timestamp="2026-03-05T10:41:27">
+          <properties>
+      <property name="java.specification.version" value="21"/><property name="sun.cpu.isalist" value="amd64"/><property name="sun.jnu.encoding" value="Cp1252"/><property name="sun.arch.data.model" value="64"/><property name="java.vendor.url" value="https://www.microsoft.com"/><property name="sun.boot.library.path" value="C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin"/><property name="sun.java.command" value="xsbt.boot.Boot test"/><property name="jdk.debug" value="release"/><property name="java.specification.vendor" value="Oracle Corporation"/><property name="java.version.date" value="2026-01-20"/><property name="java.home" value="C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot"/><property name="file.separator" value="\"/><property name="java.vm.compressedOopsMode" value="32-bit"/><property name="line.separator" value="
+"/><property name="java.vm.specification.vendor" value="Oracle Corporation"/><property name="java.specification.name" value="Java Platform API Specification"/><property name="user.script" value=""/><property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/><property name="java.runtime.version" value="21.0.10+7-LTS"/><property name="user.name" value="pc"/><property name="log4j.ignoreTCL" value="true"/><property name="file.encoding" value="UTF-8"/><property name="jnidispatch.path" value="C:\Users\pc\AppData\Local\Temp\jna-3571\jna410353597003671600.dll"/><property name="java.vendor.version" value="Microsoft-13106404"/><property name="jna.loaded" value="true"/><property name="java.io.tmpdir" value="C:\Users\pc\AppData\Local\Temp\"/><property name="java.version" value="21.0.10"/><property name="java.vm.specification.name" value="Java Virtual Machine Specification"/><property name="sun.os.patch.level" value=""/><property name="native.encoding" value="Cp1252"/><property name="java.library.path" value="C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin;C:\Program Files (x86)\sbt\bin;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\sbt\bin;C:\Users\pc\AppData\Local\Programs\Python\Launcher\;C:\Users\pc\AppData\Local\Microsoft\WindowsApps;C:\Users\pc\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\pc\AppData\Local\Programs\Windsurf\bin;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin;."/><property name="stderr.encoding" value="cp437"/><property name="java.vendor" value="Microsoft"/><property name="scala.ext.dirs" value="C:\Users\pc\.sbt\1.0\java9-rt-ext-microsoft_21_0_10"/><property name="sun.io.unicode.encoding" value="UnicodeLittle"/><property name="java.class.path" value="C:\Program Files (x86)\sbt\\bin\sbt-launch.jar"/><property name="java.vm.vendor" value="Microsoft"/><property name="user.variant" value=""/><property name="jline.shutdownhook" value="false"/><property name="user.timezone" value="Europe/Moscow"/><property name="java.vm.specification.version" value="21"/><property name="os.name" value="Windows 11"/><property name="sun.java.launcher" value="SUN_STANDARD"/><property name="user.country" value="FR"/><property name="sun.cpu.endian" value="little"/><property name="user.home" value="C:\Users\pc"/><property name="user.language" value="fr"/><property name="sbt.ipcsocket.tmpdir" value="C:\Users\pc\AppData\Local\Temp\.sbtef3313e4\ipcsocket"/><property name="swoval.tmpdir" value="C:\Users\pc\AppData\Local\Temp\.sbtef3313e4\swoval"/><property name="jline.esc.timeout" value="0"/><property name="stdout.encoding" value="cp437"/><property name="path.separator" value=";"/><property name="os.version" value="10.0"/><property name="jna.nosys" value="true"/><property name="java.runtime.name" value="OpenJDK Runtime Environment"/><property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/><property name="java.vendor.url.bug" value="https://github.com/microsoft/openjdk/issues"/><property name="user.dir" value="C:\Users\pc\Documents\Uni\JAVA\j25-26-30102_Abbad-Mohamed\j25-26-30102_Abbad-Mohamed\tasks\term-1\2"/><property name="os.arch" value="amd64"/><property name="java.vm.info" value="mixed mode, sharing"/><property name="java.vm.version" value="21.0.10+7-LTS"/><property name="java.class.version" value="65.0"/>
+    </properties>
+          <testcase classname="recfun.MainTest" name="Test 1.1: pascal - top of triangle (0,0)" time="0.041">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.2: pascal - left edge (0, r)" time="0.003">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.3: pascal - right edge (r, r)" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.4: pascal - middle elements" time="0.005">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.5: pascal - row 5" time="0.003">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.6: pascal - negative column" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.7: pascal - negative row" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.8: pascal - column greater than row" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 1.9: pascal - large values" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.1: balance - empty string" time="0.003">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.2: balance - no parentheses" time="0.004">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.3: balance - simple balanced ()" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.4: balance - nested balanced (())" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.5: balance - multiple balanced ()()" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.6: balance - complex balanced expression" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.7: balance - balanced with text" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.8: balance - unbalanced :-)" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.9: balance - unbalanced ())(" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.10: balance - unbalanced open" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.11: balance - unbalanced close" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.12: balance - wrong order )(" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.13: balance - unbalanced more opens" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.14: balance - unbalanced more closes" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 2.15: balance - deeply nested" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.1: countChange - zero money" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.2: countChange - empty coins" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.3: countChange - negative money" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.4: countChange - simple case 4 with coins 1,2" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.5: countChange - 5 with coins 2,3" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.6: countChange - 10 with coins 1,5,10" time="0.002">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.7: countChange - 1 with coin 1" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.8: countChange - impossible (no valid coins)" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.9: countChange - single coin exact" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.10: countChange - 6 with coins 1,2,3" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 3.11: countChange - larger amount" time="0.002">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.1: nQueens - size 0 returns None" time="0.0">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.2: nQueens - size negative returns None" time="0.001">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.3: nQueens - size 1 has solution" time="0.009">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.4: nQueens - size 2 has no solution" time="0.002">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.5: nQueens - size 3 has no solution" time="0.004">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.6: nQueens - size 4 has solution" time="0.003">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.7: nQueens - size 5 has solution" time="0.026">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.8: nQueens - size 6 has solution" time="0.006">
+                      
+                    </testcase><testcase classname="recfun.MainTest" name="Test 4.9: nQueens - size 8 has solution" time="0.028">
+                      
+                    </testcase>
+          <system-out><![CDATA[]]></system-out>
+          <system-err><![CDATA[]]></system-err>
+        </testsuite>
