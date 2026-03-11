@@ -19,6 +19,11 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
+    implementation("org.datavec:datavec-api:1.0.0-M2.1")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
 
 testing {
@@ -34,11 +39,15 @@ testing {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
+}
+
+dependencies {
+    implementation("ch.qos.logback:logback-classic:1.4.14")
 }
