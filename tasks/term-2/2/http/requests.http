@@ -1,0 +1,11 @@
+### Тест GET запроса (как в браузере)
+GET http://localhost:8081/hello
+
+### Тест POST запроса с передачей Body
+POST http://localhost:8081/data
+Content-Type: text/plain
+
+Привет, сервер! Это тестовое тело запроса.
+
+### Тест DELETE запроса
+DELETE http://localhost:8081/delete
