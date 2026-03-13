@@ -1,7 +1,7 @@
 # Lab 3: Load Testing Report
 
 ## 1. How to configure and launch
-1. Открыть проект (у меня в IntelliJ IDEA 2025.2.1, gson 2.10.1, java version "24.0.2" 2025-07-15)
+1. Открыть проект (у меня в IntelliJ IDEA 2025.2.1, gson 2.10.1, java version "24.0.2" 2025-07-15), gson: File -> Project Structure -> Modules -> Dependencies,  "+" -> JARs or directories... выбрать скачанный gson-2.10.1.jar
 2. Настроить нужный режим в `TestServer.java` (выставить флаги `USE_VIRTUAL_THREADS` и `USE_GSON` в `true`/`false`).
 3. Запустить `TestServer.java` для старта сервера.
 4. Выбрать целевой маршрут (`/req1` или `/req2`) в переменной `TARGET_PATH` в файле `LoadTester.java`.
