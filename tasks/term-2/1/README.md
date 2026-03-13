@@ -1,1 +1,0 @@
-вывод: {"name":"Sergey","age":23,"subjects":["Java","Math","Algorithms"]}
