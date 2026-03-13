@@ -16,27 +16,27 @@ public class HttpServer {
     private final int port;
     private final ExecutorService executor;
 
-    // Хранилище маршрутов: Path -> (Method -> Handler)
+  
     private final Map<String, Map<String, RequestHandler>> routes = new HashMap<>();
 
-    // Настройка хоста, порта, количества потоков и типа (Virtual или Classic)
+
     public HttpServer(String host, int port, int threads, boolean isVirtual) {
         this.host = host;
         this.port = port;
         if (isVirtual) {
-            // Требует Java 21+
+      
             this.executor = Executors.newVirtualThreadPerTaskExecutor();
         } else {
             this.executor = Executors.newFixedThreadPool(threads);
         }
     }
 
-    // Добавление слушателя на конкретный путь и метод
+
     public void addHandler(String method, String path, RequestHandler handler) {
         routes.computeIfAbsent(path, k -> new HashMap<>()).put(method.toUpperCase(), handler);
     }
 
-    // Запуск сервера с использованием ServerSocketChannel (java.nio)
+    
     public void start() {
         try (ServerSocketChannel serverChannel = ServerSocketChannel.open()) {
             serverChannel.bind(new InetSocketAddress(host, port));
@@ -101,7 +101,7 @@ public class HttpServer {
         }
 
         String body = "";
-        Map<String, String> formData = new HashMap<>(); // Хранилище для multipart
+        Map<String, String> formData = new HashMap<>(); 
 
         if (headers.containsKey("content-length")) {
             int bodyStartIndex = rawRequest.indexOf("\r\n\r\n") + 4;
@@ -109,25 +109,25 @@ public class HttpServer {
                 body = rawRequest.substring(bodyStartIndex);
             }
 
-            // --- БОНУС: Парсинг multipart/form-data ---
+    
             String contentType = headers.get("content-type");
             if (contentType != null && contentType.contains("multipart/form-data")) {
                 try {
-                    // Достаем boundary (границу)
+                  
                     String boundary = "--" + contentType.split("boundary=")[1];
                     String[] parts = body.split(boundary);
 
                     for (String part : parts) {
-                        // Пропускаем пустые куски и хвост
+                 
                         if (part.isEmpty() || part.equals("--\r\n") || part.equals("--")) continue;
 
                         int headerEnd = part.indexOf("\r\n\r\n");
                         if (headerEnd != -1) {
                             String partHeaders = part.substring(0, headerEnd);
-                            // Извлекаем значение, убирая лишние переносы строк
+                         
                             String partBody = part.substring(headerEnd + 4).trim();
 
-                            // Ищем name="имя_поля"
+                       
                             int nameIndex = partHeaders.indexOf("name=\"");
                             if (nameIndex != -1) {
                                 int nameEnd = partHeaders.indexOf("\"", nameIndex + 6);

@@ -7,7 +7,7 @@ public class HttpRequest {
     private final String path;
     private final Map<String, String> headers;
     private final String body;
-    private final Map<String, String> formData; // <-- НОВОЕ ПОЛЕ
+    private final Map<String, String> formData; 
 
     public HttpRequest(String method, String path, Map<String, String> headers, String body, Map<String, String> formData) {
         this.method = method;

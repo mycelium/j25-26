@@ -7,9 +7,19 @@
       <sourceFolder url="file://$MODULE_DIR$/tasks/term-1/4" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tasks/term-2/1" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tasks/term-2/2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tasks/term-2/3" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="scala-sdk-3.3.7" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tasks/term-2/3/lib/gson-2.10.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

@@ -1,4 +1,4 @@
-Bonus: multipart form data ! порт 8081
+выполнен Bonus: multipart form data ! порт 8081
 
 curl -i -X GET http://localhost:8081/hello
 HTTP/1.1 200 OK
