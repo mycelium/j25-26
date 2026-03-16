@@ -51,58 +51,102 @@ public class Json {
      * Сериализатор: Java Object -> JSON String
      */
     private static class Serializer {
+
         public static String serialize(Object obj) {
+            // Создаем Set, который сравнивает объекты по строгим ссылкам в памяти (==), а не по equals()
+            Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+            return serializeInternal(obj, visited);
+        }
+
+        private static String serializeInternal(Object obj, Set<Object> visited) {
             if (obj == null) return "null";
+
+            // 1. ОГРАНИЧЕНИЕ: Проверка на циклические зависимости
+            if (visited.contains(obj)) {
+                return "\"__CIRCULAR_REFERENCE__\""; // Заменяем цикл безопасной строкой
+            }
 
             Class<?> clazz = obj.getClass();
 
+            // 2. ОГРАНИЧЕНИЕ: Непредставимые типы
+            if (isNonRepresentable(clazz)) {
+                return "null";
+            }
+            if (obj instanceof Float && (((Float) obj).isNaN() || ((Float) obj).isInfinite())) {
+                return "null"; // JSON не поддерживает NaN и Infinity
+            }
+            if (obj instanceof Double && (((Double) obj).isNaN() || ((Double) obj).isInfinite())) {
+                return "null";
+            }
+
+            // Базовые типы не могут образовать цикл, обрабатываем их сразу
             if (clazz == String.class || clazz == Character.class) {
                 return "\"" + escapeString(obj.toString()) + "\"";
             }
             if (Number.class.isAssignableFrom(clazz) || clazz == Boolean.class || clazz.isPrimitive()) {
                 return obj.toString();
             }
+
+            // Добавляем сложный объект в "посещенные", прежде чем нырять в него
+            visited.add(obj);
+            
+            String result;
             if (clazz.isArray()) {
-                return serializeArray(obj);
-            }
-            if (Collection.class.isAssignableFrom(clazz)) {
-                return serializeCollection((Collection<?>) obj);
-            }
-            if (Map.class.isAssignableFrom(clazz)) {
-                return serializeMap((Map<?, ?>) obj);
+                result = serializeArray(obj, visited);
+            } else if (Collection.class.isAssignableFrom(clazz)) {
+                result = serializeCollection((Collection<?>) obj, visited);
+            } else if (Map.class.isAssignableFrom(clazz)) {
+                result = serializeMap((Map<?, ?>) obj, visited);
+            } else {
+                result = serializeObject(obj, visited);
             }
 
-            return serializeObject(obj);
+            // Убираем объект из "посещенных" при выходе из рекурсии (чтобы один и тот же объект 
+            // мог безопасно лежать в разных элементах одного массива)
+            visited.remove(obj);
+
+            return result;
         }
 
-        private static String serializeArray(Object array) {
+        // Вспомогательный метод для фильтрации системных/непредставимых типов
+        private static boolean isNonRepresentable(Class<?> clazz) {
+            return Thread.class.isAssignableFrom(clazz) ||
+                   java.io.InputStream.class.isAssignableFrom(clazz) ||
+                   java.io.OutputStream.class.isAssignableFrom(clazz) ||
+                   java.io.File.class.isAssignableFrom(clazz) ||
+                   Class.class.isAssignableFrom(clazz);
+        }
+
+        // --- Дальше идут обновленные методы коллекций, куда мы пробрасываем visited ---
+
+        private static String serializeArray(Object array, Set<Object> visited) {
             int length = Array.getLength(array);
             StringJoiner joiner = new StringJoiner(",", "[", "]");
             for (int i = 0; i < length; i++) {
-                joiner.add(serialize(Array.get(array, i)));
+                joiner.add(serializeInternal(Array.get(array, i), visited));
             }
             return joiner.toString();
         }
 
-        private static String serializeCollection(Collection<?> collection) {
+        private static String serializeCollection(Collection<?> collection, Set<Object> visited) {
             StringJoiner joiner = new StringJoiner(",", "[", "]");
             for (Object item : collection) {
-                joiner.add(serialize(item));
+                joiner.add(serializeInternal(item, visited));
             }
             return joiner.toString();
         }
 
-        private static String serializeMap(Map<?, ?> map) {
+        private static String serializeMap(Map<?, ?> map, Set<Object> visited) {
             StringJoiner joiner = new StringJoiner(",", "{", "}");
             for (Map.Entry<?, ?> entry : map.entrySet()) {
                 String key = "\"" + escapeString(String.valueOf(entry.getKey())) + "\"";
-                String value = serialize(entry.getValue());
+                String value = serializeInternal(entry.getValue(), visited);
                 joiner.add(key + ":" + value);
             }
             return joiner.toString();
         }
 
-        private static String serializeObject(Object obj) {
+        private static String serializeObject(Object obj, Set<Object> visited) {
             StringJoiner joiner = new StringJoiner(",", "{", "}");
             Class<?> clazz = obj.getClass();
             Field[] fields = clazz.getDeclaredFields();
@@ -115,7 +159,7 @@ public class Json {
                 try {
                     Object value = field.get(obj);
                     String key = "\"" + escapeString(field.getName()) + "\"";
-                    joiner.add(key + ":" + serialize(value));
+                    joiner.add(key + ":" + serializeInternal(value, visited));
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException("Cannot access field: " + field.getName(), e);
                 }
