@@ -20,7 +20,7 @@ public class Main {
         System.out.println("Null:   " + Json.toJson(null));
 
         System.out.println("\n--- Phase 2: Full Round-Trip (Map) ---");
-        String jsonInput = "{\"name\":\"Alice\",\"age\":30,\"isStudent\":true}";
+        String jsonInput = "{\"name\":\"Ivan\",\"age\":30,\"isStudent\":true}";
         System.out.println("Original JSON:  " + jsonInput);
 
         // String -> Map
@@ -33,7 +33,7 @@ public class Main {
 
         System.out.println("\n--- Phase 3: Reflection Mapping ---");
         // String -> Custom Class
-        String personJson = "{\"name\":\"Bob\",\"age\":25,\"isStudent\":false}";
+        String personJson = "{\"name\":\"Anna\",\"age\":25,\"isStudent\":false}";
         Person p = Json.parse(personJson, Person.class);
         System.out.println("Parsed into Reflection Mapping: " + p);
 
