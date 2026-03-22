@@ -1,0 +1,1 @@
+package ru.spbstu.hsai.java.l1105;
