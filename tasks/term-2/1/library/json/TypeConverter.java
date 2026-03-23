@@ -1,6 +1,5 @@
-package json.internal;
+package json;
 
-import json.JsonConfig;
 import json.exceptions.JsonMappingException;
 
 import java.lang.reflect.Array;
@@ -27,7 +26,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public final class TypeConverter {
+final class TypeConverter {
     private final JsonConfig config;
 
     public TypeConverter(JsonConfig config) {
@@ -154,7 +153,7 @@ public final class TypeConverter {
 
     private Object convertToArray(Object value, Type componentType) {
         List<?> sourceValues = asList(value, componentType);
-        Class<?> componentClass = resolveRawClass(componentType);
+        Class<?> componentClass = resolveArrayComponentClass(componentType);
         Object array = Array.newInstance(componentClass, sourceValues.size());
         for (int i = 0; i < sourceValues.size(); i++) {
             Object convertedItem = convertInternal(sourceValues.get(i), componentType);
@@ -391,6 +390,13 @@ public final class TypeConverter {
             return bounds.length == 0 ? Object.class : resolveRawClass(bounds[0]);
         }
         return Object.class;
+    }
+
+    private Class<?> resolveArrayComponentClass(Type componentType) {
+        if (componentType instanceof Class<?> componentClass) {
+            return componentClass;
+        }
+        return resolveRawClass(componentType);
     }
 
     private Class<?> wrapPrimitive(Class<?> targetClass) {

@@ -1,4 +1,4 @@
-package json.internal;
+package json;
 
 import json.exceptions.JsonParseException;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class JsonParser {
+final class JsonParser {
     private final String source;
     private int index;
 

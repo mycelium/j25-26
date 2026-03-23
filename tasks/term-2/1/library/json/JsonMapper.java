@@ -1,9 +1,6 @@
 package json;
 
 import json.exceptions.JsonMappingException;
-import json.internal.JsonParser;
-import json.internal.JsonWriter;
-import json.internal.TypeConverter;
 
 import java.util.Map;
 import java.util.Objects;

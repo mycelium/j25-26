@@ -1,6 +1,5 @@
-package json.internal;
+package json;
 
-import json.JsonConfig;
 import json.exceptions.JsonMappingException;
 
 import java.lang.reflect.Array;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class JsonWriter {
+final class JsonWriter {
     private final JsonConfig config;
     private final IdentityHashMap<Object, Boolean> activeReferences = new IdentityHashMap<>();
 
@@ -79,7 +78,7 @@ public final class JsonWriter {
                 if (!first) {
                     builder.append(',');
                 }
-                writeString(String.valueOf(entry.getKey()), builder);
+                writeMapKey(entry.getKey(), builder);
                 builder.append(':');
                 writeValue(entry.getValue(), builder);
                 first = false;
@@ -204,6 +203,27 @@ public final class JsonWriter {
             }
         }
         builder.append('"');
+    }
+
+    private void writeMapKey(Object key, StringBuilder builder) {
+        if (key == null) {
+            throw new JsonMappingException("JSON object key cannot be null");
+        }
+
+        if (key instanceof String stringKey) {
+            writeString(stringKey, builder);
+            return;
+        }
+        if (key instanceof Character characterKey) {
+            writeString(String.valueOf(characterKey), builder);
+            return;
+        }
+        if (key instanceof Number || key instanceof Boolean || key instanceof Enum<?>) {
+            writeString(String.valueOf(key), builder);
+            return;
+        }
+
+        throw new JsonMappingException("Unsupported map key type for JSON object: " + key.getClass().getName());
     }
 
     private void appendUnicodeEscape(char ch, StringBuilder builder) {

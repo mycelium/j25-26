@@ -1,4 +1,4 @@
-package json.internal;
+package json;
 
 import json.exceptions.JsonMappingException;
 

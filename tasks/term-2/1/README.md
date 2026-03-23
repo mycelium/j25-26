@@ -2,6 +2,31 @@
 
 Custom JSON parser/serializer in Java without external JSON libraries.
 
+## Project structure
+
+```text
+1/
++-- Main.java
++-- README.md
+`-- library/
+    `-- json/
+        +-- Json.java
+        +-- JsonConfig.java
+        +-- JsonMapper.java
+        +-- JsonParser.java
+        +-- JsonWriter.java
+        +-- ReflectionUtils.java
+        +-- TypeConverter.java
+        `-- exceptions/
+            +-- JsonException.java
+            +-- JsonParseException.java
+            `-- JsonMappingException.java
+```
+
+`Json`, `JsonMapper` and `JsonConfig` form the public API. The helper classes
+inside package `json` are package-private implementation details and are not
+intended for direct use from outside the library.
+
 ## Features
 
 - Parse JSON string into generic Java structure (`Object`)
@@ -11,12 +36,12 @@ Custom JSON parser/serializer in Java without external JSON libraries.
 
 Supported:
 
-- Primitive types and wrappers
+- Primitive fields and boxing types
 - `String`, `Character`, `Boolean`
 - `null`
-- Arrays
+- Primitive arrays and object arrays
 - Collections
-- Maps
+- Maps with JSON-compatible keys
 - Nested POJO objects
 - Enums
 
@@ -24,6 +49,7 @@ Supported:
 
 - Cyclic object references are not supported when cycle detection is enabled
 - `NaN` and `Infinity` cannot be serialized to JSON
+- Unsupported `Map` key types are rejected during serialization
 - For object mapping, target classes should have an accessible no-arg constructor
 
 ## Public API
