@@ -3,12 +3,43 @@
  */
 package org.example;
 
+import java.util.Queue;
+
+import org.example.internal.CSVPointReader;
+import org.example.internal.Point;
+import org.example.internal.PointVisualizer;
+import org.example.internal.PointWithDistance;
+import org.example.internal.Space;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        Space space = new Space();
+        new CSVPointReader()
+            .readPointsFromCSV("../testPoints.txt")
+            .forEach(
+                p -> space.addPoint(p)
+            );
+
+        Point testPoint = new Point(1, 1);
+        String predictedClass = space.classify(testPoint);
+
+        System.out.printf("Класс - %s\n", predictedClass);
+
+        PointVisualizer visualizer = new PointVisualizer(space.getPoints());
+        visualizer.setPrediction(testPoint, predictedClass);
+        visualizer.savePlotToFile("../knn_result.png");
+        
+        Queue<PointWithDistance> neighbors = space.findKNearestPoints(testPoint);
+        System.out.println("Ближайшие соседи:");
+        for (PointWithDistance pwd : neighbors) {
+            Point p = pwd.point();
+            System.out.printf("  (%.2f, %.2f) -> %s (расстояние: %.2f)%n", 
+                p.getX(), p.getY(), p.getLabel(), pwd.distance());
+        }
     }
 }
