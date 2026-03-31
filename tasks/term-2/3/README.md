@@ -89,5 +89,5 @@ JMeter и HTTP сервер запускались на одной машине.
 | Запрос | Virtual + own parser | Virtual + GSON | Classic + own parser | Classic + GSON |
 |---|---|---|---|---|
 | Request-1, среднее время (мс) | 85 | 132 | 56 | 73 |
-| Request-2, среднее время (мс) | 0 | 0 | 31 | 42 |
+| Request-2, среднее время (мс) | 2 | 3 | 31 | 42 |
 
