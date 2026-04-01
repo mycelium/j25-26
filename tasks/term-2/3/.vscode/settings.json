@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": ["src", "."],
+    "java.project.outputPath": "out",
+    "java.project.referencedLibraries": [
+        "libs/**/*.jar",
+        "**/lib/**/*.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
