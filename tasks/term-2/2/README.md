@@ -62,7 +62,10 @@ curl -X POST http://localhost:8080/
 ## Настройка многопоточности
 
 Server server = new Server("localhost", 8080, 10, true);
+
 // параметры: host, port, размер пула (для классических), isVirtual
+
 isVirtual = true  // виртуальные потоки (Java 21+)
+
 isVirtual = false // классический фиксированный пул с размером nThreads
 
