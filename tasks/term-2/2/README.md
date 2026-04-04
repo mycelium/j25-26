@@ -3,9 +3,11 @@
 Откройте командную строку и перейдите в корень пакетов — папку, внутри которой лежит папка httpserver.
 
 ## Компиляция
+
 javac httpserver/*.java
 
 ## Запуск
+
 java httpserver.Main
 
 Поддерживает методы GET, POST, PUT, PATCH, DELETE, доступ к заголовкам и телу, а также бонусную обработку multipart/form-data.
@@ -65,7 +67,7 @@ Server server = new Server("localhost", 8080, 10, true);
 
 // параметры: host, port, размер пула (для классических), isVirtual
 
-isVirtual = true  // виртуальные потоки (Java 21+)
+- isVirtual = true  // виртуальные потоки (Java 21+)
 
-isVirtual = false // классический фиксированный пул с размером nThreads
+- isVirtual = false // классический фиксированный пул с размером nThreads
 
