@@ -1,3 +1,4 @@
+package parser;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -78,9 +79,62 @@ public class JSON {
 		return serialize(obj).toString();
 	}
 
-	public static <T> T parse(String json, Class<T> с) { // json в объект
-		Map<String, Object> map = parseToMap(json);
-		return mapToObject(map, с);
+	public static <T> T parse(String json, Class<T> clazz) { // json в объект
+		Object parsed = new Parser(json).parse();
+	    
+	    //если запрашивают Map или Object, возвращаем как есть
+	    if (clazz == Map.class || clazz == Object.class) {
+	        return (T) parsed;
+	    }
+	    
+	    //если распарсили Map и нужен объект
+	    if (parsed instanceof Map) {
+	        return mapToObject((Map<String, Object>) parsed, clazz);
+	    }
+	    
+	    //если распарсили List и нужен массив
+	    if (parsed instanceof List && clazz.isArray()) {
+	        List<?> list = (List<?>) parsed;
+	        Class<?> componentType = clazz.getComponentType();
+	        Object array = Array.newInstance(componentType, list.size());
+	        for (int i = 0; i < list.size(); i++) {
+	            Object elem = list.get(i);
+				//если элемент - Map, а компонент не Map и не Object, преобразуем в объект нужного класса
+	            if (elem instanceof Map && !Map.class.isAssignableFrom(componentType) && componentType != Object.class) {
+	                elem = mapToObject((Map<String, Object>) elem, componentType);
+	            }
+				//если элемент - List, а компонент - массив, рекурсивно преобразуем
+	            if (componentType.isPrimitive()) {
+	                if (componentType == int.class) {
+	                    Array.setInt(array, i, ((Number) elem).intValue());
+	                } else if (componentType == long.class) {
+	                    Array.setLong(array, i, ((Number) elem).longValue());
+	                } else if (componentType == double.class) {
+	                    Array.setDouble(array, i, ((Number) elem).doubleValue());
+	                } else if (componentType == float.class) {
+	                    Array.setFloat(array, i, ((Number) elem).floatValue());
+	                } else if (componentType == boolean.class) {
+	                    Array.setBoolean(array, i, (Boolean) elem);
+	                } else if (componentType == byte.class) {
+	                    Array.setByte(array, i, ((Number) elem).byteValue());
+	                } else if (componentType == char.class) {
+	                    Array.setChar(array, i, (Character) elem);
+	                } else if (componentType == short.class) {
+	                    Array.setShort(array, i, ((Number) elem).shortValue());
+	                }
+	            } else {
+	                Array.set(array, i, elem);
+	            }
+	        }
+	        return (T) array;
+	    }
+	    
+	    //если распарсили List и нужен List
+	    if (parsed instanceof List && List.class.isAssignableFrom(clazz)) {
+	        return (T) parsed;
+	    }
+	    
+	    throw new RuntimeException("Cannot parse JSON to " + clazz.getName());
 	}
 
 	public static Map<String, Object> parseToMap(String json) { // json в map
@@ -313,9 +367,40 @@ public class JSON {
 				}
 				//массивы
 				else if (fieldType.isArray()) {
-					field.set(obj, value); 
+					// value должен быть List (из парсера)
+				    if (value instanceof List) {
+				        List<?> list = (List<?>) value;
+				        Class<?> componentType = fieldType.getComponentType();
+				        Object array = Array.newInstance(componentType, list.size());
+				        for (int i = 0; i < list.size(); i++) {
+				            Object elem = list.get(i);
+				            //преобразование примитивных типов (например, Integer -> int)
+				            if (componentType.isPrimitive()) {
+				                if (componentType == int.class) {
+				                    Array.setInt(array, i, ((Number) elem).intValue());
+				                } else if (componentType == long.class) {
+				                    Array.setLong(array, i, ((Number) elem).longValue());
+				                } else if (componentType == double.class) {
+				                    Array.setDouble(array, i, ((Number) elem).doubleValue());
+				                } else if (componentType == float.class) {
+				                    Array.setFloat(array, i, ((Number) elem).floatValue());
+				                } else if (componentType == boolean.class) {
+				                    Array.setBoolean(array, i, (Boolean) elem);
+				                } else if (componentType == byte.class) {
+				                    Array.setByte(array, i, ((Number) elem).byteValue());
+				                } else if (componentType == char.class) {
+				                    Array.setChar(array, i, (Character) elem);
+				                } else if (componentType == short.class) {
+				                    Array.setShort(array, i, ((Number) elem).shortValue());
+				                } 
+							} else {
+				                Array.set(array, i, elem);
+				            }
+						}
+				        field.set(obj, array);
 				} else {
 					field.set(obj, value);
+					}
 				}
 			}
 			return obj;
