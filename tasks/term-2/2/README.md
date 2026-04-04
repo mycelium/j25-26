@@ -27,7 +27,7 @@ curl -X POST http://localhost:8080/register \
   -F "login=ivan123" \
   -F "password=qwerty"
   
-Ожидаемый ответ: User registered: Ivan (или аналогичный текст из вашего обработчика)
+Ожидаемый ответ: User registered: Ivan
 
 3. PUT /update
 
