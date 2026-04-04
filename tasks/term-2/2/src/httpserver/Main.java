@@ -1,4 +1,5 @@
-import java.io.FileOutputStream;
+package httpserver;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,15 +8,14 @@ import java.util.Map;
 
 public class Main {
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Server server = new Server("localhost", 8080, 10, true); // последний параметр включает Executor на основе
-																	// newVirtualThreadPerTaskExecutor()
-// обработчики
+		Server server = new Server("localhost", 8080, 10, true);
+
+		// GET /
 		server.addHandler(Server.Method.GET, "/", (req, resp) -> resp.setBody("Hello from HTTP server!"));
 
+		// POST /register (принимает multipart/form-data)
 		server.addHandler(Server.Method.POST, "/register", (req, resp) -> {
-			//формат строки application/x-www-form-urlencoded
-			String body = new String(req.getBody(), java.nio.charset.StandardCharsets.UTF_8);
-			Map<String, String> params = parseUrlEncoded(body);
+			Map<String, String> params = req.getFormData();
 			String name = params.get("name");
 			String login = params.get("login");
 			String password = params.get("password");
@@ -29,25 +29,19 @@ public class Main {
 			resp.setBody("User registered: " + name);
 		});
 
+		// PUT /update
 		server.addHandler(Server.Method.PUT, "/update", (req, resp) -> resp.setBody("Updated"));
+
+		// PATCH /patch
 		server.addHandler(Server.Method.PATCH, "/patch", (req, resp) -> resp.setBody("Patched"));
+
+		// DELETE /delete
 		server.addHandler(Server.Method.DELETE, "/delete", (req, resp) -> resp.setBody("Deleted"));
 
 		server.start();
 		System.out.println("Server started at http://localhost:8080");
 		System.out.println("Press Enter to stop");
-		System.in.read();  // блокирует выполнение, пока не нажат Enter
+		System.in.read();
 		server.stop();
-	}
-
-	private static Map<String, String> parseUrlEncoded(String data) {
-		Map<String, String> map = new java.util.HashMap<>();
-		for (String pair : data.split("&")) {
-			int eq = pair.indexOf('=');
-			if (eq > 0) {
-				map.put(pair.substring(0, eq), pair.substring(eq + 1));
-			}
-		}
-		return map;
 	}
 }
