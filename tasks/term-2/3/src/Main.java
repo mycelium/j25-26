@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,41 +8,55 @@ import java.util.Map;
 
 public class Main {
 
-    // Флаг выбора парсера: true = собственная библиотека, false = Gson
-    private static final boolean USE_OWN_PARSER = false;   // измените на false для теста с Gson
+    // флаги переопределяются через аргументы командной строки
+    private static boolean USE_VIRTUAL = true;
+    private static boolean USE_OWN_PARSER = true;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        // Сервер: host, port, размер пула (не используется при virtual=true), флаг virtual
-        Server server = new Server("localhost", 8080, 10, true);  // true – виртуальные потоки, false – классические
+        // разбор аргументов: первый - virtual/classic, второй - own/gson
+        if (args.length >= 1) {
+            USE_VIRTUAL = args[0].equalsIgnoreCase("virtual");
+        }
+        if (args.length >= 2) {
+            USE_OWN_PARSER = args[1].equalsIgnoreCase("own");
+        }
 
-        // Обработчик POST /store (I/O нагрузка)
-//        server.addHandler(Server.Method.POST, "/store", (req, resp) -> {
-          server.addHandler(Server.Method.POST, "/compute", (req, resp) -> {
+        System.out.println("Threads: " + (USE_VIRTUAL ? "Virtual" : "Classic"));
+        System.out.println("Parser:  " + (USE_OWN_PARSER ? "Own" : "Gson"));
+        System.out.println("");
+
+        Server server = new Server("localhost", 8080, 10, USE_VIRTUAL);
+
+        // эндпоинт 1 (I/O нагрузка) – POST /store
+        server.addHandler(Server.Method.POST, "/store", (req, resp) -> {
             try {
-                String json = new String(req.getBody(), java.nio.charset.StandardCharsets.UTF_8);
+                byte[] bodyBytes = req.getBody();
+                if (bodyBytes == null || bodyBytes.length == 0) {
+                    resp.setStatus(400);
+                    resp.setBody("{\"error\":\"Missing body\"}");
+                    resp.setHeader("Content-Type", "application/json");
+                    return;
+                }
+                String json = new String(bodyBytes, java.nio.charset.StandardCharsets.UTF_8);
+
                 int id;
                 String data;
-
                 if (USE_OWN_PARSER) {
-                    // Собственный парсер
                     Map<String, Object> map = JSON.parseToMap(json);
                     id = ((Number) map.get("id")).intValue();
                     data = (String) map.get("data");
                 } else {
-                    // Gson
                     com.google.gson.Gson gson = new com.google.gson.Gson();
                     StoreRequest reqData = gson.fromJson(json, StoreRequest.class);
                     id = reqData.id;
                     data = reqData.data;
                 }
 
-                // Имитация работы с хранилищем: запись в файл и чтение
+                // запись и чтение файла (мое)
                 Files.writeString(Path.of("data.txt"), id + ":" + data + "\n",
                         StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 List<String> lines = Files.readAllLines(Path.of("data.txt"));
-                // lines не используется, просто имитация чтения
 
-                // Формируем ответ
                 String responseJson;
                 if (USE_OWN_PARSER) {
                     responseJson = JSON.toJson(Map.of("status", "ok", "id", id));
@@ -52,29 +67,44 @@ public class Main {
                 resp.setBody(responseJson);
                 resp.setHeader("Content-Type", "application/json");
             } catch (Exception e) {
+                e.printStackTrace();
                 resp.setStatus(500);
-                resp.setBody("Error: " + e.getMessage());
+                resp.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+                resp.setHeader("Content-Type", "application/json");
             }
         });
 
-        // Обработчик GET /compute (CPU нагрузка)
-        server.addHandler(Server.Method.GET, "/compute", (req, resp) -> {
+        // эндпоинт 2 (CPU нагрузка) – POST /compute
+        server.addHandler(Server.Method.POST, "/compute", (req, resp) -> {
             try {
-                String json = new String(req.getBody(), java.nio.charset.StandardCharsets.UTF_8);
-                int n;
+                byte[] bodyBytes = req.getBody();
+                if (bodyBytes == null || bodyBytes.length == 0) {
+                    resp.setStatus(400);
+                    resp.setBody("{\"error\":\"Missing body\"}");
+                    resp.setHeader("Content-Type", "application/json");
+                    return;
+                }
+                String json = new String(bodyBytes, java.nio.charset.StandardCharsets.UTF_8);
 
+                int n;
                 if (USE_OWN_PARSER) {
                     Map<String, Object> map = JSON.parseToMap(json);
-                    n = ((Number) map.get("value")).intValue();
+                    Object val = map.get("value");
+                    if (val == null) {
+                        resp.setStatus(400);
+                        resp.setBody("{\"error\":\"Missing 'value' field\"}");
+                        resp.setHeader("Content-Type", "application/json");
+                        return;
+                    }
+                    n = ((Number) val).intValue();
                 } else {
                     com.google.gson.Gson gson = new com.google.gson.Gson();
                     ComputeRequest reqData = gson.fromJson(json, ComputeRequest.class);
                     n = reqData.value;
                 }
 
-                // CPU-нагрузка: вычисление факториала (итеративно, чтобы избежать переполнения стека)
+                // CPU-нагрузка вычисление факториала (итеративно)
                 long result = factorial(n);
-
                 String responseJson;
                 if (USE_OWN_PARSER) {
                     responseJson = JSON.toJson(Map.of("result", result));
@@ -85,8 +115,10 @@ public class Main {
                 resp.setBody(responseJson);
                 resp.setHeader("Content-Type", "application/json");
             } catch (Exception e) {
+                e.printStackTrace();
                 resp.setStatus(500);
-                resp.setBody("Error: " + e.getMessage());
+                resp.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+                resp.setHeader("Content-Type", "application/json");
             }
         });
 
@@ -97,22 +129,13 @@ public class Main {
         server.stop();
     }
 
-    // Итеративный факториал для стабильности
     private static long factorial(int n) {
         long result = 1;
-        for (int i = 2; i <= n; i++) {
-            result *= i;
-        }
+        for (int i = 2; i <= n; i++) result *= i;
         return result;
     }
 
-    // Вспомогательные классы для Gson
-    static class StoreRequest {
-        int id;
-        String data;
-    }
-
-    static class ComputeRequest {
-        int value;
-    }
+    // вспомогательные классы для Gson
+    static class StoreRequest { int id; String data; }
+    static class ComputeRequest { int value; }
 }
