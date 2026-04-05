@@ -15,24 +15,47 @@ public class LoadTest {
     private static final int PORT = 8080;
     private static final int THREADS = 50;
     private static final int REQUESTS = 1000;
-    private static final int WARMUP = 100;   // количество запросов, не учитываемых в статистике
-    private static final String ENDPOINT = "/store";   // или "/compute"
-    private static final String JSON_BODY = "{\"id\":123,\"data\":\"some data for load testing\"}";
-    // для /compute: "{\"value\":1000}"
+    private static final int WARMUP = 100;
+
+    private static String endpoint;
+    private static String jsonBody;
 
     public static void main(String[] args) throws InterruptedException {
+        // проверка аргументов
+        if (args.length == 0) {
+            System.err.println("Usage: java LoadTest <mode>");
+            System.err.println("  mode: compute or store");
+            System.exit(1);
+        }
+
+        String mode = args[0].toLowerCase();
+        switch (mode) {
+            case "compute":
+                endpoint = "/compute";
+                jsonBody = "{\"value\":1000}";
+                break;
+            case "store":
+                endpoint = "/store";
+                jsonBody = "{\"id\":123,\"data\":\"some data for load testing\"}";
+                break;
+            default:
+                System.err.println("Unknown mode: " + args[0]);
+                System.err.println("Valid modes: compute, store");
+                System.exit(1);
+        }
+
+        System.out.println("Running load test for endpoint: " + endpoint);
+
         ExecutorService executor = Executors.newFixedThreadPool(THREADS);
         List<Long> times = Collections.synchronizedList(new ArrayList<>());
 
-        // Прогрев (warm-up)
         System.out.println("Warm-up...");
         for (int i = 0; i < WARMUP; i++) {
-            executor.submit(() -> sendRequest(ENDPOINT, JSON_BODY));
+            executor.submit(() -> sendRequest());
         }
         executor.shutdown();
         executor.awaitTermination(30, TimeUnit.SECONDS);
 
-        // Основной тест
         executor = Executors.newFixedThreadPool(THREADS);
         System.out.println("Starting main test...");
         long startOverall = System.nanoTime();
@@ -40,7 +63,7 @@ public class LoadTest {
         for (int i = 0; i < REQUESTS; i++) {
             executor.submit(() -> {
                 long start = System.nanoTime();
-                sendRequest(ENDPOINT, JSON_BODY);
+                sendRequest();
                 long end = System.nanoTime();
                 times.add(TimeUnit.NANOSECONDS.toMillis(end - start));
             });
@@ -50,7 +73,6 @@ public class LoadTest {
         executor.awaitTermination(1, TimeUnit.MINUTES);
         long endOverall = System.nanoTime();
 
-        // Статистика
         double avg = times.stream().mapToLong(Long::longValue).average().orElse(0);
         long min = times.stream().mapToLong(Long::longValue).min().orElse(0);
         long max = times.stream().mapToLong(Long::longValue).max().orElse(0);
@@ -65,34 +87,31 @@ public class LoadTest {
         System.out.println("Throughput (req/sec): " + (REQUESTS * 1000.0 / totalTime));
     }
 
-    private static void sendRequest(String endpoint, String jsonBody) {
+    private static void sendRequest() {
         HttpURLConnection conn = null;
         try {
             URL url = new URL("http://" + HOST + ":" + PORT + endpoint);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod(endpoint.equals("/store") ? "POST" : "GET");
+            conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
 
+            byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
             try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
+                os.write(input);
             }
 
             int responseCode = conn.getResponseCode();
             if (responseCode != 200) {
                 System.err.println("Unexpected response: " + responseCode);
             }
-            // читаем ответ, чтобы освободить соединение
-            conn.getInputStream().readAllBytes();
+            conn.getInputStream().readAllBytes(); // освобождаем соединение
         } catch (Exception e) {
             System.err.println("Request failed: " + e.getMessage());
         } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
+            if (conn != null) conn.disconnect();
         }
     }
 }
