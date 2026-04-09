@@ -13,6 +13,12 @@ cd http
 ```powershell
 .\gradlew.bat run
 ```
+### OR build JAR
+```powershell
+.\gradlew.bat clean jar
+java -jar build\libs\http-1.0-SNAPSHOT.jar
+```
+
 
 Expected output:
 ```

@@ -1,4 +1,4 @@
-package org.example.http;
+package http;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

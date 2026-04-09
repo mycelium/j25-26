@@ -1,4 +1,4 @@
-package org.example.http;
+package http;
 
 public enum HttpMethod {
     GET,
