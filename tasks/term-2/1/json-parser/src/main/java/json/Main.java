@@ -1,7 +1,7 @@
-package org.example;
+package json;
 
-import org.example.json.Json;
-import org.example.json.JsonConfig;
+import json.Json;
+import json.JsonConfig;
 
 import java.util.Map;
 

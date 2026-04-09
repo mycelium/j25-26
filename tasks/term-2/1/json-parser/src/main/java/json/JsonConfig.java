@@ -1,4 +1,4 @@
-package org.example.json;
+package json;
 
 public class JsonConfig {
 

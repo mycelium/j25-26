@@ -1,4 +1,4 @@
-package org.example.json;
+package json;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;

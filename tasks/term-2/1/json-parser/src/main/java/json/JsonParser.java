@@ -1,4 +1,4 @@
-package org.example.json;
+package json;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
