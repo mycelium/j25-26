@@ -24,16 +24,18 @@ public class HttpRequestParser {
             readBuf.clear();
             int n = channel.read(readBuf);
             if (n == -1) break;
+            if (n == 0) continue;
             readBuf.flip();
-
             byte[] chunk = new byte[readBuf.remaining()];
             readBuf.get(chunk);
             accumulated = concat(accumulated, chunk);
-
             headerEndIndex = indexOf(accumulated, HEADER_TERMINATOR);
         }
 
         if (headerEndIndex < 0) {
+            if (accumulated.length == 0) {
+                throw new EmptyRequestException();
+            }
             throw new IOException("Malformed HTTP request: header terminator not found");
         }
 

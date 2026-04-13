@@ -14,6 +14,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class HttpServer {
 
     private static final Logger LOGGER = Logger.getLogger(HttpServer.class.getName());
@@ -127,6 +128,8 @@ public class HttpServer {
             }
 
             HttpResponseWriter.write(channel, response);
+
+        } catch (EmptyRequestException e) {
 
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Error processing client request", e);
