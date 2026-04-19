@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - JDK 21+
-- Gradle 8+ (or use `gradle wrapper` to generate `./gradlew`)
+- Gradle 8+ (or use `./gradlew`)
 
 ### Build
 
