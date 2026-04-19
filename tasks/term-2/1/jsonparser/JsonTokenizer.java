@@ -1,153 +1,109 @@
 package jsonparser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class JsonTokenizer {
-    private final String input;
-    private int position = 0;
-    
-    public JsonTokenizer(String input) {
-        this.input = input.trim();
+    private final String src;
+    private int pos;
+
+    private TokenType type;
+    private String value;
+
+    JsonTokenizer(String src) {
+        this.src = src;
+        this.pos = 0;
+        advance();
     }
-    
-    public List<JsonToken> tokenize() {
-        List<JsonToken> tokens = new ArrayList<>();
-        while (position < input.length()) {
-            char current = input.charAt(position);
-            
-            if (Character.isWhitespace(current)) {
-                position++;
-                continue;
-            }
-            
-            switch (current) {
-                case '{':
-                    tokens.add(new JsonToken(JsonToken.Type.LEFT_BRACE, "{"));
-                    position++;
-                    break;
-                case '}':
-                    tokens.add(new JsonToken(JsonToken.Type.RIGHT_BRACE, "}"));
-                    position++;
-                    break;
-                case '[':
-                    tokens.add(new JsonToken(JsonToken.Type.LEFT_BRACKET, "["));
-                    position++;
-                    break;
-                case ']':
-                    tokens.add(new JsonToken(JsonToken.Type.RIGHT_BRACKET, "]"));
-                    position++;
-                    break;
-                case ':':
-                    tokens.add(new JsonToken(JsonToken.Type.COLON, ":"));
-                    position++;
-                    break;
-                case ',':
-                    tokens.add(new JsonToken(JsonToken.Type.COMMA, ","));
-                    position++;
-                    break;
-                case '"':
-                    tokens.add(new JsonToken(JsonToken.Type.STRING, parseString()));
-                    break;
-                case 't':
-                case 'f':
-                    tokens.add(new JsonToken(JsonToken.Type.BOOLEAN, parseBoolean()));
-                    break;
-                case 'n':
-                    tokens.add(new JsonToken(JsonToken.Type.NULL, parseNull()));
-                    break;
-                default:
-                    if (current == '-' || Character.isDigit(current)) {
-                        tokens.add(new JsonToken(JsonToken.Type.NUMBER, parseNumber()));
-                    } else {
-                        throw new JsonException("Unexpected character: " + current + " at position " + position);
-                    }
-                    break;
+
+    TokenType type() { return type; }
+    String value() { return value; }
+
+    void advance() {
+        while (pos < src.length() && Character.isWhitespace(src.charAt(pos))) pos++;
+
+        if (pos >= src.length()) {
+            type = TokenType.EOF;
+            value = null;
+            return;
+        }
+
+        char c = src.charAt(pos);
+        switch (c) {
+            case '{' -> { pos++; type = TokenType.BEGIN_OBJECT; value = "{"; }
+            case '}' -> { pos++; type = TokenType.END_OBJECT;   value = "}"; }
+            case '[' -> { pos++; type = TokenType.BEGIN_ARRAY;  value = "["; }
+            case ']' -> { pos++; type = TokenType.END_ARRAY;    value = "]"; }
+            case ',' -> { pos++; type = TokenType.COMMA;        value = ","; }
+            case ':' -> { pos++; type = TokenType.COLON;        value = ":"; }
+            case '"' -> readString();
+            case 't' -> readKeyword("true",  TokenType.BOOLEAN);
+            case 'f' -> readKeyword("false", TokenType.BOOLEAN);
+            case 'n' -> readKeyword("null",  TokenType.NULL);
+            default  -> {
+                if (c == '-' || Character.isDigit(c)) readNumber();
+                else throw new JsonException("Unexpected character '" + c + "' at position " + pos);
             }
         }
-        return tokens;
     }
-    
-    private String parseString() {
-        position++;
+
+    private void readString() {
+        pos++; // skip opening "
         StringBuilder sb = new StringBuilder();
-        
-        while (position < input.length()) {
-            char c = input.charAt(position);
+        while (pos < src.length()) {
+            char c = src.charAt(pos++);
             if (c == '"') {
-                position++;
-                return sb.toString();
+                type = TokenType.STRING;
+                value = sb.toString();
+                return;
             }
             if (c == '\\') {
-                position++;
-                if (position < input.length()) {
-                    char next = input.charAt(position);
-                    switch (next) {
-                        case '"': sb.append('"'); break;
-                        case '\\': sb.append('\\'); break;
-                        case '/': sb.append('/'); break;
-                        case 'b': sb.append('\b'); break;
-                        case 'f': sb.append('\f'); break;
-                        case 'n': sb.append('\n'); break;
-                        case 'r': sb.append('\r'); break;
-                        case 't': sb.append('\t'); break;
-                        default: sb.append(next);
+                if (pos >= src.length()) throw new JsonException("Unexpected end in string escape");
+                char esc = src.charAt(pos++);
+                switch (esc) {
+                    case '"'  -> sb.append('"');
+                    case '\\' -> sb.append('\\');
+                    case '/'  -> sb.append('/');
+                    case 'b'  -> sb.append('\b');
+                    case 'f'  -> sb.append('\f');
+                    case 'n'  -> sb.append('\n');
+                    case 'r'  -> sb.append('\r');
+                    case 't'  -> sb.append('\t');
+                    case 'u'  -> {
+                        if (pos + 4 > src.length()) throw new JsonException("Invalid unicode escape");
+                        sb.append((char) Integer.parseInt(src.substring(pos, pos + 4), 16));
+                        pos += 4;
                     }
+                    default -> throw new JsonException("Invalid escape character: \\" + esc);
                 }
             } else {
                 sb.append(c);
             }
-            position++;
         }
-        throw new JsonException("Unterminated string");
+        throw new JsonException("Unterminated string literal");
     }
-    
-    private String parseNumber() {
-        int start = position;
-        if (input.charAt(position) == '-') {
-            position++;
+
+    private void readNumber() {
+        int start = pos;
+        if (src.charAt(pos) == '-') pos++;
+        while (pos < src.length() && Character.isDigit(src.charAt(pos))) pos++;
+        if (pos < src.length() && src.charAt(pos) == '.') {
+            pos++;
+            while (pos < src.length() && Character.isDigit(src.charAt(pos))) pos++;
         }
-        
-        while (position < input.length() && Character.isDigit(input.charAt(position))) {
-            position++;
+        if (pos < src.length() && (src.charAt(pos) == 'e' || src.charAt(pos) == 'E')) {
+            pos++;
+            if (pos < src.length() && (src.charAt(pos) == '+' || src.charAt(pos) == '-')) pos++;
+            while (pos < src.length() && Character.isDigit(src.charAt(pos))) pos++;
         }
-        
-        if (position < input.length() && input.charAt(position) == '.') {
-            position++;
-            while (position < input.length() && Character.isDigit(input.charAt(position))) {
-                position++;
-            }
-        }
-        
-        if (position < input.length() && (input.charAt(position) == 'e' || input.charAt(position) == 'E')) {
-            position++;
-            if (position < input.length() && (input.charAt(position) == '+' || input.charAt(position) == '-')) {
-                position++;
-            }
-            while (position < input.length() && Character.isDigit(input.charAt(position))) {
-                position++;
-            }
-        }
-        
-        return input.substring(start, position);
+        type  = TokenType.NUMBER;
+        value = src.substring(start, pos);
     }
-    
-    private String parseBoolean() {
-        if (input.startsWith("true", position)) {
-            position += 4;
-            return "true";
-        } else if (input.startsWith("false", position)) {
-            position += 5;
-            return "false";
+
+    private void readKeyword(String keyword, TokenType t) {
+        if (src.startsWith(keyword, pos)) {
+            pos += keyword.length();
+            type  = t;
+            value = keyword;
+        } else {
+            throw new JsonException("Unexpected token at position " + pos);
         }
-        throw new JsonException("Invalid boolean at position " + position);
-    }
-    
-    private String parseNull() {
-        if (input.startsWith("null", position)) {
-            position += 4;
-            return "null";
-        }
-        throw new JsonException("Invalid null at position " + position);
     }
 }

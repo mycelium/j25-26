@@ -1,128 +1,64 @@
 package jsonparser;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * Main JSON parser library class
+ * Public API for the JSON parser library.
+ *
+ * <pre>
+ *   // Parse JSON to a generic Java object
+ *   Object obj = Json.parse("[1, 2, 3]");
+ *
+ *   // Parse JSON object to Map<String, Object>
+ *   Map<String, Object> map = Json.parseToMap("{\"key\": 42}");
+ *
+ *   // Parse JSON to a specific class (requires no-arg constructor)
+ *   MyClass obj = Json.parse(json, MyClass.class);
+ *
+ *   // Convert any Java object to a JSON string
+ *   String json = Json.stringify(obj);
+ * </pre>
  */
 public class Json {
-    
-    /**
-     * Parse JSON string to Java Object (Map or List structure)
-     */
-    public static Object parse(String json) throws JsonException{
-        if (json == null || json.trim().isEmpty()) {
-            throw new JsonException("Empty JSON string");
-        }
-        
-        JsonTokenizer tokenizer = new JsonTokenizer(json);
-        List<JsonToken> tokens = tokenizer.tokenize();
-        
-        JsonParser parser = new JsonParser(tokens);
+    private static final JsonGenerator GENERATOR = new JsonGenerator();
 
-        return parser.parse();
+    private Json() {}
+
+    /** Parses a JSON string into a Java object:
+     *  objects → {@code Map<String,Object>}, arrays → {@code List<Object>},
+     *  strings → {@code String}, numbers → {@code Integer}/{@code Long}/{@code Double},
+     *  booleans → {@code Boolean}, null → {@code null}.
+     */
+    public static Object parse(String json) {
+        return new JsonParser(json).parse();
     }
-    
-    /**
-     * Parse JSON string to Map<String, Object>
+
+    /** Parses a JSON object string into {@code Map<String, Object>}.
+     *  Throws {@link JsonException} if the root value is not a JSON object.
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> parseToMap(String json) {
         Object result = parse(json);
-        if (result instanceof Map) {
-            return (Map<String, Object>) result;
-        }
-        throw new JsonException("JSON is not an object");
+        if (!(result instanceof Map))
+            throw new JsonException("Expected JSON object at root, got: " +
+                    (result == null ? "null" : result.getClass().getSimpleName()));
+        return (Map<String, Object>) result;
     }
-    
-    /**
-     * Parse JSON string to specified class
+
+    /** Parses a JSON string and maps it to an instance of {@code clazz}.
+     *  The class must have a no-arg constructor (can be private).
+     *  Fields are matched by name; missing fields are left at their default values.
      */
-    public static <T> T parseToObject(String json, Class<T> targetClass) throws JsonException {
-        Map<String, Object> map = parseToMap(json);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.toObject(map, targetClass);
+    public static <T> T parse(String json, Class<T> clazz) {
+        return new ObjectMapper().convert(parse(json), clazz);
     }
-    
-    /**
-     * Convert Java object to JSON string
+
+    /** Converts any Java object to a JSON string.
+     *  Supports primitives, boxed types, {@code String}, arrays, {@link java.util.Collection},
+     *  {@link java.util.Map}, and arbitrary objects (fields serialized via reflection).
+     *  {@code null} values are written as JSON {@code null}.
      */
     public static String stringify(Object obj) {
-        JsonGenerator generator = new JsonGenerator();
-        return generator.generate(obj);
-    }
-    
-    /**
-     * Convert Map to Java object
-     */
-    public static <T> T fromMap(Map<String, Object> map, Class<T> targetClass) {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.toObject(map, targetClass);
-    }
-    
-    /**
-     * Pretty print JSON with indentation
-     */
-    public static String prettyPrint(String json) {
-        Object parsed = parse(json);
-        return prettyPrintObject(parsed, 0);
-    }
-    
-    private static String prettyPrintObject(Object obj, int indent) {
-        if (obj == null) return "null";
-        
-        if (obj instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> map = (Map<String, Object>) obj;
-            return prettyPrintMap(map, indent);
-        } else if (obj instanceof List) {
-            @SuppressWarnings("unchecked")
-            List<Object> list = (List<Object>) obj;
-            return prettyPrintList(list, indent);
-        } else if (obj instanceof String) {
-            return "\"" + obj + "\"";
-        } else {
-            return String.valueOf(obj);
-        }
-    }
-    
-    private static String prettyPrintMap(Map<String, Object> map, int indent) {
-        if (map.isEmpty()) return "{}";
-        
-        String indentStr = getIndent(indent);
-        String childIndent = getIndent(indent + 2);
-        
-        StringBuilder sb = new StringBuilder("{\n");
-        boolean first = true;
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (!first) sb.append(",\n");
-            sb.append(childIndent).append("\"").append(entry.getKey()).append("\": ");
-            sb.append(prettyPrintObject(entry.getValue(), indent + 2));
-            first = false;
-        }
-        sb.append("\n").append(indentStr).append("}");
-        return sb.toString();
-    }
-    
-    private static String prettyPrintList(List<Object> list, int indent) {
-        if (list.isEmpty()) return "[]";
-        
-        String indentStr = getIndent(indent);
-        String childIndent = getIndent(indent + 2);
-        
-        StringBuilder sb = new StringBuilder("[\n");
-        boolean first = true;
-        for (Object item : list) {
-            if (!first) sb.append(",\n");
-            sb.append(childIndent).append(prettyPrintObject(item, indent + 2));
-            first = false;
-        }
-        sb.append("\n").append(indentStr).append("]");
-        return sb.toString();
-    }
-    
-    private static String getIndent(int spaces) {
-        return " ".repeat(spaces);
+        return GENERATOR.generate(obj);
     }
 }
