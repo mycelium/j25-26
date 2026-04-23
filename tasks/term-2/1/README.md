@@ -1,13 +1,3 @@
-Рекомендуется Java 21+ и javac 21+
-
-Компиляция из папки `src/main/java`:
-
-```bash
-javac lab1\json\*.java lab1\*.java
-```
-
-Запуск из папки src/main/java:
-
-```bash
-java lab1.Main
-```
+Рекомендуется Java 24+ и javac 24+
+работа выполнялась в Idea 2026.1
+Компиляция и запуск: пометить папку 1 как sourced root , перейти в main и запустить.
