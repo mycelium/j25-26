@@ -36,3 +36,16 @@ Content-Length: 15
 
 Route not found
 
+curl -i -X PUT http://localhost:8081/update -d "New full object data"                                                                           
+HTTP/1.1 200 OK                                                                                                                                                                     
+Content-Type: text/plain; charset=utf-8                                                                                                                                             
+Content-Length: 50
+
+Item completely updated with: New full object data
+
+curl -i -X PATCH http://localhost:8081/patch -d "Updated single field"
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Content-Length: 49
+
+Item partially patched with: Updated single field
