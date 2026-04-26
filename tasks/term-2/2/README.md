@@ -9,7 +9,7 @@ HTTP/1.1 server implementation using ServerSocketChannel (Java NIO) without exte
 - Request body access
 - Configurable thread pool
 - Virtual threads support (Java 21+)
-- Bonus: multipart/form-data parsing
+- multipart/form-data parsing
 
 ## Build and Run
 
