@@ -46,7 +46,6 @@ public class LineReader {
         }
     }
 
-    // NEW: read exactly 'length' bytes (using queue first, then channel)
     public byte[] readRawBytes(int length) throws IOException {
         byte[] result = new byte[length];
         int offset = 0;

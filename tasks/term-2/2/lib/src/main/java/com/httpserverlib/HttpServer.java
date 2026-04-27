@@ -144,7 +144,7 @@ public class HttpServer {
                         System.out.println("No request, closing");
                         break;
                     }
-                    System.out.println("Got request: " + request.getMethod() + " " + request.getPath());
+                    System.out.println("Got request: " + request.method() + " " + request.path());
                     HttpResponse response = router.handle(request);
                     System.out.println("Response status: " + response.getStatus());
                     ResponseWriter.write(channel, response);

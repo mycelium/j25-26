@@ -17,10 +17,10 @@ public class Router {
     }
 
     public HttpResponse handle(HttpRequest request) {
-        RouteKey key = new RouteKey(request.getMethod(), normalizePath(request.getPath()));
+        RouteKey key = new RouteKey(request.method(), normalizePath(request.path()));
         HttpHandler handler = routes.get(key);
         if (handler == null) {
-            boolean pathExists = routes.keySet().stream().anyMatch(k -> k.path().equals(normalizePath(request.getPath())));
+            boolean pathExists = routes.keySet().stream().anyMatch(k -> k.path().equals(normalizePath(request.path())));
             if (pathExists) return new HttpResponse().status(HttpStatus.METHOD_NOT_ALLOWED);
             return new HttpResponse().status(HttpStatus.NOT_FOUND);
         }

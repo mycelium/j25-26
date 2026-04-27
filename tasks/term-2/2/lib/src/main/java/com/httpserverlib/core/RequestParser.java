@@ -43,7 +43,6 @@ public class RequestParser {
             }
         }
 
-        // Handle Expect: 100-continue
         String expect = headers.get("Expect");
         if ("100-continue".equalsIgnoreCase(expect)) {
             ByteBuffer continueResponse = ByteBuffer.wrap(

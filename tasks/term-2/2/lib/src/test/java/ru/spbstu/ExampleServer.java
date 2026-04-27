@@ -57,7 +57,7 @@ public class ExampleServer {
         // ------------------------------------------------------------
         server.post("/upload", req -> {
             StringBuilder sb = new StringBuilder();
-            for (Part part : req.getMultipartParts()) {
+            for (Part part : req.multipartParts()) {
                 sb.append("Part: ").append(part.name());
                 if (part.isFile()) {
                     sb.append(" (file: ").append(part.filename())
@@ -120,7 +120,7 @@ public class ExampleServer {
         // ------------------------------------------------------------
         server.get("/headers", req -> {
             StringBuilder sb = new StringBuilder("Headers received:\n");
-            for (var entry : req.getHeaders().entrySet()) {
+            for (var entry : req.headers().entrySet()) {
                 sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             }
             return HttpResponse.ok(sb.toString());
