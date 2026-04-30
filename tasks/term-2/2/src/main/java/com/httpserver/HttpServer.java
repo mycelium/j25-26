@@ -1,24 +1,43 @@
 package com.httpserver;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.nio.channels.Channels;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.BiFunction;
 
 public class HttpServer {
+    private final String host;
     private final int port;
     private final int threadCount;
+    private final boolean isVirtual;
     private final Map<String, Map<String, BiFunction<HttpRequest, HttpResponse, HttpResponse>>> routes;
-    private ServerSocket serverSocket;
+    private ServerSocketChannel serverChannel;
     private ExecutorService executor;
     private volatile boolean running;
 
-    public HttpServer(int port, int threadCount) {
+    public HttpServer(String host, int port, int threadCount, boolean isVirtual) {
+        this.host = host;
         this.port = port;
         this.threadCount = threadCount;
+        this.isVirtual = isVirtual;
         this.routes = new HashMap<>();
         this.running = false;
+    }
+
+    public HttpServer(ServerConfig config) {
+        this(config.getHost(), config.getPort(), config.getThreadCount(), config.isUseVirtualThreads());
     }
 
     public HttpServer get(String path, BiFunction<HttpRequest, HttpResponse, HttpResponse> handler) {
@@ -48,51 +67,63 @@ public class HttpServer {
 
     public void start() {
         try {
-            serverSocket = new ServerSocket(port);
-            executor = Executors.newFixedThreadPool(threadCount);
-            running = true;
+            serverChannel = ServerSocketChannel.open();
+            serverChannel.bind(new InetSocketAddress(host, port));
 
-            System.out.println("Server started on port " + port);
+            executor = isVirtual
+                    ? Executors.newVirtualThreadPerTaskExecutor()
+                    : Executors.newFixedThreadPool(threadCount);
+
+            running = true;
+            System.out.println("Server started on " + host + ":" + port
+                    + " (virtual=" + isVirtual + ", threads=" + threadCount + ")");
 
             while (running) {
-                Socket client = serverSocket.accept();
-                executor.execute(() -> handleClient(client));
+                try {
+                    SocketChannel client = serverChannel.accept();
+                    executor.execute(() -> handleClient(client));
+                } catch (ClosedChannelException e) {
+                    if (running) throw e;
+                    break;
+                }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new HttpServerException("Failed to start server", e);
         }
     }
 
-    private void handleClient(Socket client) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-             PrintWriter writer = new PrintWriter(client.getOutputStream())) {
+    private void handleClient(SocketChannel client) {
+        try (SocketChannel ch = client;
+             InputStream in = Channels.newInputStream(ch);
+             OutputStream out = Channels.newOutputStream(ch)) {
 
-            String line = reader.readLine();
-            if (line == null) return;
+            String requestLine = readLine(in);
+            if (requestLine == null || requestLine.isEmpty()) return;
 
-            String[] parts = line.split(" ");
+            String[] parts = requestLine.split(" ");
+            if (parts.length < 3) return;
             String method = parts[0];
             String path = parts[1];
 
-            System.out.println(method + " " + path);
-
-            Map<String, String> headers = new HashMap<>();
-            while ((line = reader.readLine()) != null && !line.isEmpty()) {
-                String[] header = line.split(": ", 2);
-                if (header.length == 2) {
-                    headers.put(header[0], header[1]);
+            Map<String, String> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+            String headerLine;
+            while ((headerLine = readLine(in)) != null && !headerLine.isEmpty()) {
+                int colon = headerLine.indexOf(':');
+                if (colon > 0) {
+                    String name = headerLine.substring(0, colon).trim();
+                    String value = headerLine.substring(colon + 1).trim();
+                    headers.put(name, value);
                 }
             }
 
-            StringBuilder body = new StringBuilder();
-            if (headers.containsKey("Content-Length")) {
-                int len = Integer.parseInt(headers.get("Content-Length"));
-                char[] buffer = new char[len];
-                reader.read(buffer, 0, len);
-                body.append(buffer);
+            byte[] body = new byte[0];
+            String cl = headers.get("Content-Length");
+            if (cl != null) {
+                int len = Integer.parseInt(cl.trim());
+                if (len > 0) body = in.readNBytes(len);
             }
 
-            HttpRequest request = new HttpRequest(method, path, headers, body.toString());
+            HttpRequest request = new HttpRequest(method, path, headers, body);
             HttpResponse response = new HttpResponse();
 
             Map<String, BiFunction<HttpRequest, HttpResponse, HttpResponse>> methodRoutes = routes.get(method);
@@ -102,21 +133,35 @@ public class HttpServer {
                 response.status(404, "Not Found").body("404 - Not Found");
             }
 
-            writer.print(response.toString());
-            writer.flush();
-
-        } catch (Exception e) {
+            out.write(response.toBytes());
+            out.flush();
+        } catch (IOException e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String readLine(InputStream in) throws IOException {
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        int prev = -1, cur;
+        while ((cur = in.read()) != -1) {
+            if (prev == '\r' && cur == '\n') {
+                byte[] data = buf.toByteArray();
+                return new String(data, 0, data.length - 1, StandardCharsets.ISO_8859_1);
+            }
+            buf.write(cur);
+            prev = cur;
+        }
+        if (buf.size() == 0) return null;
+        return buf.toString(StandardCharsets.ISO_8859_1);
     }
 
     public void stop() {
         running = false;
         try {
-            serverSocket.close();
-            executor.shutdown();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (serverChannel != null) serverChannel.close();
+        } catch (IOException ignored) {
         }
+        if (executor != null) executor.shutdown();
     }
 }

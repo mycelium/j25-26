@@ -38,6 +38,12 @@ curl -X PUT -d "new value" http://localhost:8081/data/123
 ```
 Ответ: `Updated: new value`
 
+#### PATCH запрос
+```bash
+curl -X PATCH -d "patch data" http://localhost:8081/data/123
+```
+Ответ: `Patched: patch dat`
+
 #### DELETE запрос
 ```bash
 curl -X DELETE http://localhost:8081/data/123
@@ -50,7 +56,7 @@ curl http://localhost:8081/data
 ```
 Ответ: `All data`
 
-#### С заголовками:
+#### Просмотр заголовков ответа:
 ```bash
 curl -i http://localhost:8081/hello
 ```
@@ -79,4 +85,3 @@ curl http://localhost:8081/unknown
 3. Парсится HTTP запрос: метод, путь, заголовки, тело
 4. По методу и пути находится соответствующий обработчик
 5. Обработчик возвращает ответ, который отправляется клиенту
-
