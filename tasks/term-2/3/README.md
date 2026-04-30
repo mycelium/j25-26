@@ -12,7 +12,7 @@ cd tasks\term-2\3
 javac -d out -cp "lib/*" src/main/java/com/loadtest/*.java
 ```
 
-3. Запустить **все 8 экспериментов** (Windows; на Unix разделитель classpath `:` вместо `;`):
+3. Запустить (Windows; на Unix разделитель classpath `:` вместо `;`):
 ```bash
 java -cp "lib/*;out" com.loadtest.RunTests
 ```
@@ -21,8 +21,6 @@ java -cp "lib/*;out" com.loadtest.RunTests
 ---
 
 ## 2. Описание эксперимента
-
-Сервер обслуживает два endpoint'а:
 
 - **POST `/file`** (Request-1) — парсит JSON, пишет поле `data` в файл `./storage/<uuid>.txt`, читает его обратно, возвращает JSON-ответ. **I/O-bound**.
 - **POST `/compute`** (Request-2) — парсит JSON, считает count / sum / mean массива `numbers`, возвращает JSON. **CPU-bound**, без I/O.
