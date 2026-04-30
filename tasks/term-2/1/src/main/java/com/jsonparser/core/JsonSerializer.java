@@ -9,9 +9,7 @@ import java.util.*;
  */
 public class JsonSerializer {
 
-    /**
-     * Java объект в JSON строку
-     */
+    // Java объект в JSON строку
     public String serialize(Object obj) {
         if (obj == null) {
             return "null";
@@ -22,9 +20,7 @@ public class JsonSerializer {
         return sb.toString();
     }
 
-    /**
-     * Сериализация значения в зависимости от его типа
-     */
+    // Сериализация значения в зависимости от его типа
     private void serializeValue(Object obj, StringBuilder sb) {
         if (obj == null) {
             sb.append("null");
@@ -33,9 +29,10 @@ public class JsonSerializer {
 
         Class<?> clazz = obj.getClass();
 
-        // Примитивы и строки
         if (obj instanceof String) {
             sb.append('"').append(escapeJson((String) obj)).append('"');
+        } else if (obj instanceof Character) {
+            sb.append('"').append(escapeJson(obj.toString())).append('"');
         } else if (obj instanceof Number) {
             sb.append(obj);
         } else if (obj instanceof Boolean) {
@@ -47,14 +44,11 @@ public class JsonSerializer {
         } else if (obj instanceof Map) {
             serializeMap((Map<?, ?>) obj, sb);
         } else {
-            // Обычный Java объект
             serializeObject(obj, sb);
         }
     }
 
-    /**
-     * Сериализация массива
-     */
+    // Сериализация массива
     private void serializeArray(Object array, StringBuilder sb) {
         int length = Array.getLength(array);
         sb.append("[");
@@ -69,9 +63,7 @@ public class JsonSerializer {
         sb.append("]");
     }
 
-    /**
-     * Сериализация коллекции
-     */
+    // Сериализация коллекции
     private void serializeCollection(Collection<?> collection, StringBuilder sb) {
         sb.append("[");
         int i = 0;
@@ -85,9 +77,7 @@ public class JsonSerializer {
         sb.append("]");
     }
 
-    /**
-     * Сериализация Map
-     */
+    // Сериализация Map
     private void serializeMap(Map<?, ?> map, StringBuilder sb) {
         sb.append("{");
         int i = 0;
@@ -107,15 +97,17 @@ public class JsonSerializer {
         sb.append("}");
     }
 
-    /**
-     * Сериализация произвольного Java объекта
-     */
+    // Сериализация произвольного Java объекта
     private void serializeObject(Object obj, StringBuilder sb) {
         Field[] fields = obj.getClass().getDeclaredFields();
         sb.append("{");
 
         boolean first = true;
         for (Field field : fields) {
+            if (Modifier.isStatic(field.getModifiers()) || field.isSynthetic()) {
+                continue;
+            }
+
             field.setAccessible(true);
             try {
                 Object value = field.get(obj);
@@ -124,7 +116,7 @@ public class JsonSerializer {
                     sb.append(",");
                 }
 
-                sb.append('"').append(field.getName()).append('"');
+                sb.append('"').append(escapeJson(field.getName())).append('"');
                 sb.append(":");
                 serializeValue(value, sb);
 
@@ -137,9 +129,7 @@ public class JsonSerializer {
         sb.append("}");
     }
 
-    /**
-     * Экранирование спецсимволов в JSON строке
-     */
+    // Экранирование спецсимволов в JSON строке
     private String escapeJson(String str) {
         StringBuilder sb = new StringBuilder();
         for (char c : str.toCharArray()) {

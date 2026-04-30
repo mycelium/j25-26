@@ -18,10 +18,8 @@ public class JsonTokenizer {
         this.tokens = new ArrayList<>();
     }
 
-    /**
-     * Токенизация JSON строки
-     * объекты, массивы, строки, числа, boolean, null
-     */
+    // Токенизация JSON строки
+    // объекты, массивы, строки, числа, boolean, null
     public List<JsonToken> tokenize() {
         tokens.clear();
         position = 0;
@@ -78,9 +76,7 @@ public class JsonTokenizer {
         return tokens;
     }
 
-    /**
-     * Парсинг строкового значения JSON
-     */
+    // Парсинг строкового значения JSON
     private void parseString() {
         position++; // Пропускаем открывающую кавычку
         StringBuilder sb = new StringBuilder();
@@ -118,9 +114,7 @@ public class JsonTokenizer {
         throw new JsonParseException("Незакрытая строка");
     }
 
-    /**
-     * Парсинг числового значения JSON
-     */
+    // Парсинг числового значения JSON
     private void parseNumber() {
         int start = position;
 
@@ -157,9 +151,7 @@ public class JsonTokenizer {
         tokens.add(new JsonToken(JsonToken.TokenType.NUMBER, numberStr));
     }
 
-    /**
-     * Парсинг ключевых слов: true, false, null
-     */
+    // Парсинг ключевых слов: true, false, null
     private void parseKeyword() {
         int start = position;
 

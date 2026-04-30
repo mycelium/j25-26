@@ -4,6 +4,7 @@
 
 Библиотека для парсинга JSON в Java:
 
+- JSON → Java Object (автоопределение типа)
 - JSON → Map<String, Object>
 - JSON → Java объект (указанного класса)
 - Java объект → JSON строка
@@ -19,7 +20,7 @@ cd tasks\term-2\1
 
 ### 2. Скомпилируйте
 ```bash
-javac -d out src/main/java/com/jsonparser/*.java src/main/java/com/jsonparser/core/*.java src/main/java/com/jsonparser/model/*.java src/main/java/com/jsonparser/exception/*.java
+javac -d out src/main/java/com/jsonparser/*.java src/main/java/com/jsonparser/core/*.java src/main/java/com/jsonparser/exception/*.java
 ```
 
 ### 3. Запустите
