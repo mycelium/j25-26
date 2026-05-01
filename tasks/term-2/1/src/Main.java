@@ -1,94 +1,25 @@
-import tokenizer.*;
+import tokenizer.Json;
 
-public static void main(String[] args) {
+import java.util.List;
 
-    String[] tests = {
-            "{}",
-
-            "{\"a\":1}",
-
-            "{ \"a\" : 1 }",
-
-            """
+public class Main {
+    public static void main(String[] args) {
+        String json = """
             {
-              "name": "Ivan",
-              "age": 20
+              "name":"Ivan",
+              "age":20,
+              "skills":["java","go"]
             }
-            """,
+            """;
 
-            """
-            {
-              "active": true,
-              "deleted": false,
-              "history": null
-            }
-            """,
+        User user = Json.parse(json, User.class);
+        System.out.println(user.name + " " + user.age + " " + user.skills);
+        System.out.println(Json.stringify(user));
+    }
 
-            """
-            [1,2,3]
-            """,
-
-            """
-            [1, "text", true, false, null]
-            """,
-
-            """
-            {
-              "skills": ["java", "go", "react"]
-            }
-            """,
-
-            """
-            {
-              "user": {
-                "name": "Ivan",
-                "age": 20.2
-              }
-            }
-            """,
-
-            """
-            {
-              "text": "hello\\nworld"
-            }
-            """
-    };
-
-    for (String json : tests) {
-        System.out.println("====== NEW TEST ======");
-
-        Tokenizer tokenizer = new Tokenizer(json);
-        Tokenizer tokenizerMap = new Tokenizer(json);
-
-        System.out.println(json);
-        System.out.println(tokenizer.getJSON());
-
-//        Token token;
-//        do {
-//            token = tokenizer.nextToken();
-//            System.out.println(token.getType() + " : " + token.getValue());
-//        } while (token.getType() != TokenType.EOF);
-
-        try {
-            Object result = tokenizer.parseJSON();
-
-            System.out.println("PARSED:");
-            System.out.println(result);
-            System.out.println(tokenizerMap.parseJSONToMap());
-
-            System.out.println("TYPE:");
-            System.out.println(result.getClass().getName());
-
-            User user = JsonMapper.fromMap(map, User.class);
-
-
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
-
-        System.out.println();
-
-
+    public static class User {
+        public String name;
+        public int age;
+        public List<String> skills;
     }
 }
-
