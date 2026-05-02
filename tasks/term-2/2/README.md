@@ -1,3 +1,10 @@
+# HTTP Server Library
+# Go to project folder
+
+Windows (cmd):
+
+```bash
+cd ./tasks/term-2/1
 ## Compilation
 
 ```bash
