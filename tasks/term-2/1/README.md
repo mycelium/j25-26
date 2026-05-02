@@ -9,13 +9,13 @@
 2. Скомпилируйте библиотеку и демонстрационный класс с помощью javac:
 
     Для Windows (cmd):
-```
-javac jsonengine\*.java Main.java
-```
+    ```
+    javac jsonengine\*.java Main.java
+    ```
     Для Linux / macOS / PowerShell:
-```
-javac jsonengine/*.java Main.java
-```
+    ```
+    javac jsonengine/*.java Main.java
+    ```
 
 3. Запуск
     ```
