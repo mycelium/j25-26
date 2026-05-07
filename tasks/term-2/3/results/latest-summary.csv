@@ -1,0 +1,9 @@
+endpoint,variant,server_threads,client_threads,warmup_requests,requests_per_repeat,repeats,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,total_errors
+Request-1,Virtual + own parser,12,64,500,5000,3,117.425,13.218,116.599,136.726,143.264,539.583,0
+Request-1,Virtual + GSON,12,64,500,5000,3,106.951,5.269,106.899,128.719,137.859,594.747,0
+Request-1,Classic + own parser,12,64,500,5000,3,98.935,5.988,99.316,116.495,121.580,641.666,0
+Request-1,Classic + GSON,12,64,500,5000,3,94.491,6.169,94.845,110.829,114.649,671.912,0
+Request-2,Virtual + own parser,12,64,500,5000,3,18.571,3.078,18.157,27.209,32.375,3419.359,0
+Request-2,Virtual + GSON,12,64,500,5000,3,16.735,3.339,16.293,24.413,29.075,3788.789,0
+Request-2,Classic + own parser,12,64,500,5000,3,16.215,4.212,15.943,21.885,28.066,3906.769,0
+Request-2,Classic + GSON,12,64,500,5000,3,16.832,4.516,16.528,22.714,27.162,3765.936,0
