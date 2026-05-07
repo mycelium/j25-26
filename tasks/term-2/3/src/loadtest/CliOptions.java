@@ -42,6 +42,11 @@ final class CliOptions {
         return value == null ? defaultValue : Integer.parseInt(value);
     }
 
+    long getLong(String key, long defaultValue) {
+        String value = values.get(key);
+        return value == null ? defaultValue : Long.parseLong(value);
+    }
+
     boolean getBoolean(String key, boolean defaultValue) {
         String value = values.get(key);
         return value == null ? defaultValue : Boolean.parseBoolean(value);

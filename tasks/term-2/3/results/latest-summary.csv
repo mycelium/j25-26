@@ -1,9 +1,9 @@
-endpoint,variant,server_threads,client_threads,warmup_requests,requests_per_repeat,repeats,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,total_errors
-Request-1,Virtual + own parser,12,64,500,5000,3,117.425,13.218,116.599,136.726,143.264,539.583,0
-Request-1,Virtual + GSON,12,64,500,5000,3,106.951,5.269,106.899,128.719,137.859,594.747,0
-Request-1,Classic + own parser,12,64,500,5000,3,98.935,5.988,99.316,116.495,121.580,641.666,0
-Request-1,Classic + GSON,12,64,500,5000,3,94.491,6.169,94.845,110.829,114.649,671.912,0
-Request-2,Virtual + own parser,12,64,500,5000,3,18.571,3.078,18.157,27.209,32.375,3419.359,0
-Request-2,Virtual + GSON,12,64,500,5000,3,16.735,3.339,16.293,24.413,29.075,3788.789,0
-Request-2,Classic + own parser,12,64,500,5000,3,16.215,4.212,15.943,21.885,28.066,3906.769,0
-Request-2,Classic + GSON,12,64,500,5000,3,16.832,4.516,16.528,22.714,27.162,3765.936,0
+endpoint,variant,server_threads,client_threads,preheat_requests,warmup_requests,requests_per_repeat,repeats,variant_order_seed,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,total_errors
+Request-1,Virtual + own parser,12,64,500,500,5000,3,20260507,100.379,6.904,100.382,119.448,124.873,632.170,0
+Request-1,Virtual + GSON,12,64,500,500,5000,3,20260507,100.461,9.079,100.537,118.736,125.333,631.164,0
+Request-1,Classic + own parser,12,64,500,500,5000,3,20260507,99.866,6.871,100.112,117.755,123.507,636.116,0
+Request-1,Classic + GSON,12,64,500,500,5000,3,20260507,101.831,7.169,102.015,120.989,127.154,623.772,0
+Request-2,Virtual + own parser,12,64,500,500,5000,3,20260507,16.066,3.398,15.742,22.467,27.481,3941.584,0
+Request-2,Virtual + GSON,12,64,500,500,5000,3,20260507,17.115,4.306,16.780,23.770,28.982,3702.703,0
+Request-2,Classic + own parser,12,64,500,500,5000,3,20260507,16.320,4.235,15.974,22.118,30.187,3885.081,0
+Request-2,Classic + GSON,12,64,500,500,5000,3,20260507,16.539,4.117,16.210,22.365,25.491,3832.374,0

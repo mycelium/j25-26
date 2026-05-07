@@ -44,6 +44,7 @@ public final class LoadTestClient {
     static ClientRunResult run(String host, int port, BenchmarkEndpoint endpoint, int requestCount, int threadCount)
             throws InterruptedException {
         URI uri = URI.create("http://" + host + ":" + port + endpoint.path());
+        HttpRequest[] requests = createRequests(uri, requestCount);
         long[] latencies = new long[requestCount];
         AtomicInteger nextRequest = new AtomicInteger();
         AtomicInteger errors = new AtomicInteger();
@@ -58,7 +59,7 @@ public final class LoadTestClient {
                 while ((index = nextRequest.getAndIncrement()) < requestCount) {
                     long requestStarted = System.nanoTime();
                     try {
-                        send(client, uri, JsonPayloads.createRequestBody(index));
+                        send(client, requests[index]);
                         latencies[index] = System.nanoTime() - requestStarted;
                     } catch (Exception exception) {
                         latencies[index] = System.nanoTime() - requestStarted;
@@ -78,6 +79,14 @@ public final class LoadTestClient {
         return new ClientRunResult(requestCount, errors.get(), elapsed, latencies, firstError.get());
     }
 
+    private static HttpRequest[] createRequests(URI uri, int requestCount) {
+        HttpRequest[] requests = new HttpRequest[requestCount];
+        for (int i = 0; i < requestCount; i++) {
+            requests[i] = newRequest(uri, JsonPayloads.createRequestBody(i));
+        }
+        return requests;
+    }
+
     private static HttpClient newClient() {
         return HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
@@ -85,12 +94,15 @@ public final class LoadTestClient {
                 .build();
     }
 
-    private static void send(HttpClient client, URI uri, String body) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder(uri)
+    private static HttpRequest newRequest(URI uri, String body) {
+        return HttpRequest.newBuilder(uri)
                 .timeout(Duration.ofSeconds(60))
                 .header("Content-Type", BenchmarkDefaults.CONTENT_TYPE)
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
+    }
+
+    private static void send(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200 || !response.body().trim().startsWith("{")) {
             throw new IOException("Unexpected response: status=" + response.statusCode() + ", body=" + response.body());

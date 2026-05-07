@@ -23,15 +23,17 @@ final class BenchmarkResultsWriter {
 
     private static String detailedCsv(BenchmarkRunConfig config, List<RunMetric> metrics) {
         StringBuilder csv = new StringBuilder();
-        csv.append("variant,endpoint,repeat,server_threads,client_threads,warmup_requests,requests,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,errors\n");
+        csv.append("variant,endpoint,repeat,server_threads,client_threads,preheat_requests,warmup_requests,requests,variant_order_seed,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,errors\n");
         for (RunMetric metric : metrics) {
             csv.append(escape(metric.variant().displayName())).append(',')
                     .append(escape(metric.endpoint().displayName())).append(',')
                     .append(metric.repeat()).append(',')
                     .append(config.serverThreads()).append(',')
                     .append(config.clientThreads()).append(',')
+                    .append(config.preheatRequests()).append(',')
                     .append(config.warmupRequests()).append(',')
                     .append(metric.requests()).append(',')
+                    .append(config.variantOrderSeed()).append(',')
                     .append(format(metric.avgMillis())).append(',')
                     .append(format(metric.minMillis())).append(',')
                     .append(format(metric.p50Millis())).append(',')
@@ -45,15 +47,17 @@ final class BenchmarkResultsWriter {
 
     private static String summaryCsv(BenchmarkRunConfig config, List<RunMetric> metrics) {
         StringBuilder csv = new StringBuilder();
-        csv.append("endpoint,variant,server_threads,client_threads,warmup_requests,requests_per_repeat,repeats,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,total_errors\n");
+        csv.append("endpoint,variant,server_threads,client_threads,preheat_requests,warmup_requests,requests_per_repeat,repeats,variant_order_seed,avg_ms,min_ms,p50_ms,p95_ms,p99_ms,throughput_rps,total_errors\n");
         for (SummaryMetric summary : summarize(metrics)) {
             csv.append(escape(summary.endpoint().displayName())).append(',')
                     .append(escape(summary.variant().displayName())).append(',')
                     .append(config.serverThreads()).append(',')
                     .append(config.clientThreads()).append(',')
+                    .append(config.preheatRequests()).append(',')
                     .append(config.warmupRequests()).append(',')
                     .append(config.requests()).append(',')
                     .append(config.repeats()).append(',')
+                    .append(config.variantOrderSeed()).append(',')
                     .append(format(summary.avgMillis())).append(',')
                     .append(format(summary.minMillis())).append(',')
                     .append(format(summary.p50Millis())).append(',')
