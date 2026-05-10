@@ -1,72 +1,109 @@
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class ToJsonParser {
+class ToJsonParser {
 
-    private ToJsonParser(){};
+    private static final ConcurrentHashMap<Class<?>, List<Field>> fieldsCache = new ConcurrentHashMap<>();
 
-    public static String parseToJson(Object obj) {
+    private static List<Field> cachedFields(Class<?> cls) {
+        return fieldsCache.computeIfAbsent(cls, c -> {
+            List<Field> result = new ArrayList<>();
+            for (Class<?> cur = c; cur != null && cur != Object.class; cur = cur.getSuperclass()) {
+                for (Field fld : cur.getDeclaredFields()) {
+                    int md = fld.getModifiers();
+                    if (Modifier.isStatic(md) || Modifier.isTransient(md)) continue;
+                    fld.setAccessible(true);
+                    result.add(fld);
+                }
+            }
+            return Collections.unmodifiableList(result);
+        });
+    }
+
+    private ToJsonParser() {}
+
+    static String parseToJson(Object obj) {
+        return parseToJson(obj, JsonConfig.defaultConfig());
+    }
+
+    static String parseToJson(Object obj, JsonConfig config) {
         try {
-            if      (obj == null)                                     return "null";
-            else if (obj instanceof Number || obj instanceof Boolean) return obj.toString();
-            else if (obj instanceof Character ch)                     return escapeString(ch.toString());
-            else if (obj instanceof Collection cl)
-                return "[" + cl.stream()
-                                 .map(ToJsonParser::parseToJson)
-                                 .reduce((str1, str2) -> str1 + ", " + str2)
-                                 .orElse("") + "]";
-            else if (obj.getClass().isArray()){
-                int len = Array.getLength(obj);
-                StringBuilder sb = new StringBuilder("[");
-                for (int i = 0; i < len; i++) {
-                    if (i > 0) sb.append(", ");
-                    sb.append(parseToJson(Array.get(obj, i)));
-                }
-                return sb.append("]").toString();
-            }
-            else if (obj instanceof String str) return escapeString(str);
-            else if (obj instanceof Map mp) {
-                Set<Map.Entry> entries = mp.entrySet();
-                StringBuilder sb = new StringBuilder("{");
-                for (var entr : entries) {
-                    if (!(entr.getKey() instanceof String))
-                        throw new RuntimeException("Unsupported key type for Json " + entr.getKey().getClass());
-                    sb.append(parseToJson(entr.getKey()));
-                    sb.append(" : ");
-                    sb.append(parseToJson(entr.getValue()));
-                    sb.append(", ");
-                }
-                if (sb.length() > 1) sb.delete(sb.length() - 2, sb.length());
-                sb.append('}');
-                return sb.toString();
-            } else {
-                StringBuilder sb = new StringBuilder("{");
-                for (Class<?> cls = obj.getClass(); cls != null && cls != Object.class; cls = cls.getSuperclass()) {
-                    Field[] flds = cls.getDeclaredFields();
-                    for (var fld : flds) {
-                        int md = fld.getModifiers();
-                        if (Modifier.isStatic(md) || Modifier.isTransient(md)) continue;
-                        fld.setAccessible(true);
-                        sb.append('"').append(fld.getName()).append('"');
-                        sb.append(" : ");
-                        sb.append(parseToJson(fld.get(obj)));
-                        sb.append(", ");
-                    }
-                }
-                if (sb.length() > 1) sb.delete(sb.length() - 2, sb.length());
-                sb.append('}');
-                return sb.toString();
-            }
-        } catch (Exception e){
+            return doSerialize(obj, config);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static String escapeString(String str) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static String doSerialize(Object obj, JsonConfig config) throws Exception {
+        if (obj == null)                                     return "null";
+        if (obj instanceof Number || obj instanceof Boolean) return obj.toString();
+        if (obj instanceof Character ch)                     return escapeString(ch.toString());
+        if (obj instanceof String str)                       return escapeString(str);
+
+        if (obj instanceof Collection cl) {
+            return "[" + cl.stream()
+                            .map(el -> {
+                                try { return doSerialize(el, config); }
+                                catch (Exception e) { throw new RuntimeException(e); }
+                            })
+                            .reduce((a, b) -> a + ", " + b)
+                            .orElse("") + "]";
+        }
+
+        if (obj.getClass().isArray()) {
+            int len = Array.getLength(obj);
+            StringBuilder sb = new StringBuilder("[");
+            for (int i = 0; i < len; i++) {
+                if (i > 0) sb.append(", ");
+                sb.append(doSerialize(Array.get(obj, i), config));
+            }
+            return sb.append("]").toString();
+        }
+
+        if (obj instanceof Map mp) {
+            Set<Map.Entry> entries = mp.entrySet();
+            StringBuilder sb = new StringBuilder("{");
+            boolean first = true;
+            for (var entr : entries) {
+                if (!(entr.getKey() instanceof String))
+                    throw new RuntimeException("Unsupported key type for Json " + entr.getKey().getClass());
+                Object val = entr.getValue();
+                if (val == null && !config.serializeNulls) continue;
+                if (!first) sb.append(", ");
+                sb.append(escapeString((String) entr.getKey()));
+                sb.append(" : ");
+                sb.append(doSerialize(val, config));
+                first = false;
+            }
+            sb.append('}');
+            return sb.toString();
+        }
+
+        StringBuilder sb = new StringBuilder("{");
+        boolean first = true;
+        for (Field fld : cachedFields(obj.getClass())) {
+            Object val = fld.get(obj);
+            if (val == null && !config.serializeNulls) continue;
+            if (!first) sb.append(", ");
+            sb.append('"').append(fld.getName()).append('"');
+            sb.append(" : ");
+            sb.append(doSerialize(val, config));
+            first = false;
+        }
+        sb.append('}');
+        return sb.toString();
+    }
+
+    static String escapeString(String str) {
         StringBuilder sb = new StringBuilder("\"");
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);

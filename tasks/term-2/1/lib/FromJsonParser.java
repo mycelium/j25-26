@@ -1,59 +1,82 @@
 import java.util.*;
 
-public class FromJsonParser {
+class FromJsonParser {
 
-    private FromJsonParser(){};
+    private FromJsonParser() {}
 
-    private static class JParserJunior{
-        String jsonText;
-        int    pos;
+    static Object parseToObject(String text, JsonConfig config) {
+        JParserJunior jp  = new JParserJunior(text, config);
+        Object        res = jp.parseObject();
 
-        JParserJunior(String aJsonText) { jsonText = aJsonText; }
+        jp.skipWhiteSpace();
+        if (jp.pos < jp.jsonText.length())
+            throw new RuntimeException("Unexpected content after JSON at position " + jp.pos);
+        return res;
+    }
+
+    static Map<String, Object> parseToMap(String text, JsonConfig config) {
+        JParserJunior       jp  = new JParserJunior(text, config);
+        Map<String, Object> res = jp.parseMap();
+
+        jp.skipWhiteSpace();
+        if (jp.pos < jp.jsonText.length())
+            throw new RuntimeException("Unexpected content after JSON at position " + jp.pos);
+        return res;
+    }
+
+    private static class JParserJunior {
+        String     jsonText;
+        int        pos;
+        JsonConfig config;
+
+        JParserJunior(String aJsonText, JsonConfig aConfig) {
+            jsonText = aJsonText;
+            config   = aConfig;
+        }
 
         private char next() {
             if (pos >= jsonText.length()) throw new RuntimeException("Parser reached outside of text length");
             return jsonText.charAt(pos++);
         }
 
-        private char get(){
+        private char get() {
             if (pos >= jsonText.length()) throw new RuntimeException("Parser reached outside of text length");
             return jsonText.charAt(pos);
         }
 
-        Object parseObject(){
+        Object parseObject() {
             skipWhiteSpace();
-            return switch (get()){
-                case '{'                                               -> parseMap();
-                case '['                                               -> parseList();
-                case '"'                                               -> parseString();
-                case char c when Character.isDigit(c) || c == '-'     -> parseNumber();
-                case 't', 'f'                                          -> parseBoolean();
-                case 'n'                                               -> parseNull();
-                default -> throw new RuntimeException("Unexpected character: " + get());
-            };
+            char c = get();
+            if (c == '{')                              return parseMap();
+            if (c == '[')                              return parseList();
+            if (c == '"')                              return parseString();
+            if (Character.isDigit(c) || c == '-')     return parseNumber();
+            if (c == 't' || c == 'f')                  return parseBoolean();
+            if (c == 'n')                              return parseNull();
+            throw new RuntimeException("Unexpected character: " + c + " at position " + pos);
         }
 
-        private boolean parseBoolean(){
+        private boolean parseBoolean() {
             StringBuilder sb = new StringBuilder();
-            while (pos < jsonText.length() && Character.isAlphabetic(get())){ sb.append(next()); }
+            while (pos < jsonText.length() && Character.isAlphabetic(get())) { sb.append(next()); }
             String res = sb.toString();
             if (!(res.equals("true") || res.equals("false")))
                 throw new RuntimeException("Invalid value " + res);
             return res.equals("true");
         }
 
-        private Object parseNull(){
+        private Object parseNull() {
             StringBuilder sb = new StringBuilder();
-            while (pos < jsonText.length() && Character.isAlphabetic(get())){ sb.append(next()); }
+            while (pos < jsonText.length() && Character.isAlphabetic(get())) { sb.append(next()); }
             String res = sb.toString();
             if (!res.equals("null")) throw new RuntimeException("Invalid value " + res);
             return null;
         }
 
-        String parseString(){
+        String parseString() {
             next();
             StringBuilder sb = new StringBuilder();
-            while(true){
+            while (true) {
                 char ch = next();
                 if (ch == '"') break;
                 if (ch == '\\') {
@@ -74,7 +97,7 @@ public class FromJsonParser {
                             sb.append((char) Integer.parseInt(hex, 16));
                             pos += 4;
                         }
-                        default   -> throw new RuntimeException("Invalid escape: \\" + escaped);
+                        default -> throw new RuntimeException("Invalid escape: \\" + escaped);
                     }
                 } else {
                     sb.append(ch);
@@ -83,12 +106,9 @@ public class FromJsonParser {
             return sb.toString();
         }
 
-        private Number parseNumber(){
+        private Number parseNumber() {
             StringBuilder sb = new StringBuilder();
-            if (pos < jsonText.length() && get() == '-') {
-                sb.append('-');
-                next();
-            }
+            if (pos < jsonText.length() && get() == '-') { sb.append('-'); next(); }
             while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
 
             if (pos < jsonText.length() && get() == '.') {
@@ -96,23 +116,20 @@ public class FromJsonParser {
                 while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
                 return parseFloating(sb);
             }
-
             if (pos < jsonText.length() && (get() == 'e' || get() == 'E')) {
-                sb.append(next());
-                if (pos < jsonText.length() && (get() == '+' || get() == '-')) sb.append(next());
-                while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
                 return parseFloating(sb);
             }
 
             try { return Integer.parseInt(sb.toString());
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 try { return Long.parseLong(sb.toString());
-            } catch (NumberFormatException e2) {
-                throw new RuntimeException("Invalid number: " + sb);
-            }}
+                } catch (NumberFormatException e2) {
+                    throw new RuntimeException("Invalid number: " + sb);
+                }
+            }
         }
 
-        private double parseFloating(StringBuilder sb){
+        private double parseFloating(StringBuilder sb) {
             if (pos < jsonText.length() && (get() == 'e' || get() == 'E')) {
                 sb.append(next());
                 if (pos < jsonText.length() && (get() == '+' || get() == '-')) sb.append(next());
@@ -121,13 +138,13 @@ public class FromJsonParser {
             return Double.parseDouble(sb.toString());
         }
 
-        List<Object> parseList(){
+        List<Object> parseList() {
             next();
             skipWhiteSpace();
             List<Object> res = new ArrayList<>();
             if (get() == ']') { next(); return res; }
 
-            while (true){
+            while (true) {
                 skipWhiteSpace();
                 res.add(parseObject());
                 skipWhiteSpace();
@@ -138,22 +155,25 @@ public class FromJsonParser {
             return res;
         }
 
-        private void skipWhiteSpace(){
+        void skipWhiteSpace() {
             while (pos < jsonText.length() && Character.isWhitespace(get())) pos++;
         }
 
-        Map<String, Object> parseMap(){
+        Map<String, Object> parseMap() {
             next();
             skipWhiteSpace();
             Map<String, Object> res = new HashMap<>();
             if (get() == '}') { next(); return res; }
 
-            while(true) {
+            while (true) {
                 skipWhiteSpace();
                 String key = parseString();
                 skipWhiteSpace();
-                if      (next() != ':')        throw new RuntimeException(": expected at position " + pos);
-                else if (res.containsKey(key)) throw new RuntimeException("Key " + key + " is present twice.");
+                if (next() != ':') throw new RuntimeException(": expected at position " + pos);
+
+                if (res.containsKey(key))
+                    if (config.failOnDuplicateKeys)
+                        throw new RuntimeException("Key " + key + " is present twice.");
 
                 res.put(key, parseObject());
 
@@ -164,29 +184,5 @@ public class FromJsonParser {
             }
             return res;
         }
-    }
-
-    public static Object parseToObject(String text){
-        JParserJunior jp  = new JParserJunior(text);
-        Object        res = jp.parseObject();
-
-        jp.skipWhiteSpace();
-        if (jp.pos < jp.jsonText.length())
-            throw new RuntimeException("Unexpected content after JSON at position " + jp.pos);
-        return res;
-    }
-
-    public static Map<String, Object> parseToMap(String text){
-        JParserJunior       jp  = new JParserJunior(text);
-        Map<String, Object> res = jp.parseMap();
-
-        jp.skipWhiteSpace();
-        if (jp.pos < jp.jsonText.length())
-            throw new RuntimeException("Unexpected content after JSON at position " + jp.pos);
-        return res;
-    }
-
-    public static <T> T parseToClass(String text, Class<T> cls){
-        return JsonCast.convert(parseToObject(text), cls);
     }
 }
