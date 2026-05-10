@@ -1,15 +1,11 @@
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
 public class ToJsonParser {
-
-    public static void main(String[] args){
-        Object obj = new int[]{1,5,68};
-        System.out.println(parseToJson(obj));
-    }
 
     private ToJsonParser(){};
 
@@ -17,6 +13,7 @@ public class ToJsonParser {
         try {
             if      (obj == null)                                     return "null";
             else if (obj instanceof Number || obj instanceof Boolean) return obj.toString();
+            else if (obj instanceof Character ch)                     return escapeString(ch.toString());
             else if (obj instanceof Collection cl)
                 return "[" + cl.stream()
                                  .map(ToJsonParser::parseToJson)
@@ -31,7 +28,7 @@ public class ToJsonParser {
                 }
                 return sb.append("]").toString();
             }
-            else if (obj instanceof String str) return '\"' + str + '\"';
+            else if (obj instanceof String str) return escapeString(str);
             else if (obj instanceof Map mp) {
                 Set<Map.Entry> entries = mp.entrySet();
                 StringBuilder sb = new StringBuilder("{");
@@ -51,8 +48,10 @@ public class ToJsonParser {
                 for (Class<?> cls = obj.getClass(); cls != null && cls != Object.class; cls = cls.getSuperclass()) {
                     Field[] flds = cls.getDeclaredFields();
                     for (var fld : flds) {
+                        int md = fld.getModifiers();
+                        if (Modifier.isStatic(md) || Modifier.isTransient(md)) continue;
                         fld.setAccessible(true);
-                        sb.append("4\"" + fld.getName() + "\"");
+                        sb.append('"').append(fld.getName()).append('"');
                         sb.append(" : ");
                         sb.append(parseToJson(fld.get(obj)));
                         sb.append(", ");
@@ -66,5 +65,26 @@ public class ToJsonParser {
             throw new RuntimeException(e);
         }
     }
-}
 
+    private static String escapeString(String str) {
+        StringBuilder sb = new StringBuilder("\"");
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            switch (c) {
+                case '"'  -> sb.append("\\\"");
+                case '\\' -> sb.append("\\\\");
+                case '\n' -> sb.append("\\n");
+                case '\r' -> sb.append("\\r");
+                case '\t' -> sb.append("\\t");
+                case '\b' -> sb.append("\\b");
+                case '\f' -> sb.append("\\f");
+                default   -> {
+                    if (c < 0x20) sb.append(String.format("\\u%04x", (int) c));
+                    else          sb.append(c);
+                }
+            }
+        }
+        sb.append('"');
+        return sb.toString();
+    }
+}

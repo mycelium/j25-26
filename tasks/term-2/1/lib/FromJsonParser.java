@@ -1,9 +1,8 @@
-import java.math.BigDecimal;
 import java.util.*;
 
 public class FromJsonParser {
 
-    private void fromJsonParser(){};
+    private FromJsonParser(){};
 
     private static class JParserJunior{
         String jsonText;
@@ -11,12 +10,12 @@ public class FromJsonParser {
 
         JParserJunior(String aJsonText) { jsonText = aJsonText; }
 
-        private Character next() {
+        private char next() {
             if (pos >= jsonText.length()) throw new RuntimeException("Parser reached outside of text length");
             return jsonText.charAt(pos++);
         }
 
-        private Character get(){
+        private char get(){
             if (pos >= jsonText.length()) throw new RuntimeException("Parser reached outside of text length");
             return jsonText.charAt(pos);
         }
@@ -27,10 +26,10 @@ public class FromJsonParser {
                 case '{'                                               -> parseMap();
                 case '['                                               -> parseList();
                 case '"'                                               -> parseString();
-                case Character c when Character.isDigit(c) || c == '-' -> parseNumber();
+                case char c when Character.isDigit(c) || c == '-'     -> parseNumber();
                 case 't', 'f'                                          -> parseBoolean();
                 case 'n'                                               -> parseNull();
-                default -> null;
+                default -> throw new RuntimeException("Unexpected character: " + get());
             };
         }
 
@@ -55,10 +54,10 @@ public class FromJsonParser {
             next();
             StringBuilder sb = new StringBuilder();
             while(true){
-                Character ch = next();
+                char ch = next();
                 if (ch == '"') break;
                 if (ch == '\\') {
-                    Character escaped = next();
+                    char escaped = next();
                     switch (escaped) {
                         case '"'  -> sb.append('"');
                         case '\\' -> sb.append('\\');
@@ -68,6 +67,13 @@ public class FromJsonParser {
                         case 'n'  -> sb.append('\n');
                         case 'r'  -> sb.append('\r');
                         case 't'  -> sb.append('\t');
+                        case 'u'  -> {
+                            if (pos + 4 > jsonText.length())
+                                throw new RuntimeException("Invalid \\uXXXX escape at position " + pos);
+                            String hex = jsonText.substring(pos, pos + 4);
+                            sb.append((char) Integer.parseInt(hex, 16));
+                            pos += 4;
+                        }
                         default   -> throw new RuntimeException("Invalid escape: \\" + escaped);
                     }
                 } else {
@@ -77,41 +83,49 @@ public class FromJsonParser {
             return sb.toString();
         }
 
-        private Object parseNumber(){
+        private Number parseNumber(){
             StringBuilder sb = new StringBuilder();
             if (pos < jsonText.length() && get() == '-') {
                 sb.append('-');
                 next();
             }
-            while (pos < jsonText.length() && Character.isDigit(get()))  sb.append(next());
-            if    (pos < jsonText.length() && get() == '.')              return parseDouble(sb);
-            try { return Integer.valueOf(sb.toString());
-            } catch (NumberFormatException e){
-                try { return Short.valueOf(sb.toString());
-            } catch (NumberFormatException e2){
-                try { return Integer.valueOf(sb.toString());
-            } catch (NumberFormatException e3) {
-                try { return Long.valueOf(sb.toString());
-            } catch (NumberFormatException e4) {
-                    return new BigDecimal(sb.toString());
-            }}}}}
+            while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
 
-        Object parseDouble(StringBuilder sb){
-            next();
-            sb.append('.');
-            while (pos < jsonText.length() && Character.isDigit(get())){ sb.append(next()); }
-            try {
-                return Float.valueOf(sb.toString());
-            } catch (NumberFormatException e){
-                return Double.valueOf(sb.toString());
+            if (pos < jsonText.length() && get() == '.') {
+                sb.append(next());
+                while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
+                return parseFloating(sb);
             }
+
+            if (pos < jsonText.length() && (get() == 'e' || get() == 'E')) {
+                sb.append(next());
+                if (pos < jsonText.length() && (get() == '+' || get() == '-')) sb.append(next());
+                while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
+                return parseFloating(sb);
+            }
+
+            try { return Integer.parseInt(sb.toString());
+            } catch (NumberFormatException e){
+                try { return Long.parseLong(sb.toString());
+            } catch (NumberFormatException e2) {
+                throw new RuntimeException("Invalid number: " + sb);
+            }}
+        }
+
+        private double parseFloating(StringBuilder sb){
+            if (pos < jsonText.length() && (get() == 'e' || get() == 'E')) {
+                sb.append(next());
+                if (pos < jsonText.length() && (get() == '+' || get() == '-')) sb.append(next());
+                while (pos < jsonText.length() && Character.isDigit(get())) sb.append(next());
+            }
+            return Double.parseDouble(sb.toString());
         }
 
         List<Object> parseList(){
             next();
             skipWhiteSpace();
             List<Object> res = new ArrayList<>();
-            if (get() == ']') return res;
+            if (get() == ']') { next(); return res; }
 
             while (true){
                 skipWhiteSpace();
@@ -132,7 +146,7 @@ public class FromJsonParser {
             next();
             skipWhiteSpace();
             Map<String, Object> res = new HashMap<>();
-            if (get() == '}') return res;
+            if (get() == '}') { next(); return res; }
 
             while(true) {
                 skipWhiteSpace();
@@ -171,7 +185,6 @@ public class FromJsonParser {
             throw new RuntimeException("Unexpected content after JSON at position " + jp.pos);
         return res;
     }
-
 
     public static <T> T parseToClass(String text, Class<T> cls){
         return JsonCast.convert(parseToObject(text), cls);
