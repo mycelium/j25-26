@@ -9,11 +9,9 @@ public class Main {
         String jsonArrayStr = "[1, 2.5, \"Hello World\", null]";
 
         try {
-            // Parse to Map
             Map<String, Object> map = FromJsonParser.parseToMap(jsonMapStr);
             System.out.println("   JSON String -> Map: " + map);
 
-            // Parse to List
             List<Object> list = (List<Object>) FromJsonParser.parseToObject(jsonArrayStr);
             System.out.println("   JSON String -> List: " + list);
         } catch (Exception e) {
