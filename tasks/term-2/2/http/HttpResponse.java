@@ -24,17 +24,17 @@ public class HttpResponse {
     }
 
     public String getStatusText(int statusCode) {
-        switch (statusCode) {
-            case 200: return "OK";
-            case 201: return "Created";
-            case 400: return "Bad Request";
-            case 403: return "Forbidden";
-            case 404: return "Not Found";
-            case 418: return "I'm a teapot";
-            case 500: return "Internal Server Error";
-            case 501: return "Not Implemented";
-            default: return "Unknown Status";
-        }
+        return switch (statusCode) {
+            case 200 -> "OK";
+            case 201 -> "Created";
+            case 400 -> "Bad Request";
+            case 403 -> "Forbidden";
+            case 404 -> "Not Found";
+            case 418 -> "I'm a teapot";
+            case 500 -> "Internal Server Error";
+            case 501 -> "Not Implemented";
+            default -> "Unknown Status";
+        };
     }
 
     public HttpResponse setBody(String body) {

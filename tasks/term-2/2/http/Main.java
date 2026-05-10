@@ -12,7 +12,7 @@ public class Main {
     private static final String HOST = "localhost";
     private static final int PORT = 8082; 
     private static final int THREAD_POOL_SIZE = 4;
-    private static final boolean IS_VIRTUAL = true;
+    private static final boolean IS_VIRTUAL = true; // true для виртуальных потоков, false для фиксированного пула
     
     public static void main(String[] args) throws Exception {
         HttpServer server = new HttpServer(HOST, PORT, IS_VIRTUAL, THREAD_POOL_SIZE);

@@ -121,19 +121,19 @@ public class HttpServer {
             }
         }
 
-        String body = request.substring(headerEnd + 4);
-        int bodyBytes = body.getBytes(StandardCharsets.UTF_8).length;
+        var bodyBuilder = new StringBuilder(request.substring(headerEnd + 4));
+        var bodyBytes = bodyBuilder.toString().getBytes(StandardCharsets.UTF_8).length;
         while (bodyBytes < contentLength) {
             int read = client.read(buffer);
             if (read <= 0) break;
             buffer.flip();
-            String chunk = StandardCharsets.UTF_8.decode(buffer).toString();
-            body += chunk;
-            bodyBytes = body.getBytes(StandardCharsets.UTF_8).length;
+            var chunk = StandardCharsets.UTF_8.decode(buffer).toString();
+            bodyBuilder.append(chunk);
+            bodyBytes += chunk.getBytes(StandardCharsets.UTF_8).length;
             buffer.clear();
         }
 
-        return headersPart + "\r\n\r\n" + body;
+        return headersPart + "\r\n\r\n" + bodyBuilder;
     }
 
     private HttpRequest parseRequest(String raw) {
@@ -153,10 +153,14 @@ public class HttpServer {
         String path = requestLine[1];
         String version = requestLine[2];
 
-        Map<String, String> headers = new HashMap<>();
+        var headers = new HashMap<String, String>();
         for (int i = 1; i < lines.length; i++) {
-            String[] header = lines[i].split(": ", 2);
-            headers.put(header[0].trim(), header[1].trim());
+            var header = lines[i].split(": ", 2);
+            var key = header[0].trim();
+            var value = header.length > 1 ? header[1].trim() : "";
+            if (!key.isEmpty()) {
+                headers.put(key, value);
+            }
         }
 
         String contentType = headers.getOrDefault("Content-Type", "");
@@ -168,15 +172,7 @@ public class HttpServer {
         return new HttpRequest(method, path, version, body, headers);
     }
 
-    private static class MultipartData {
-        public final Map<String, String> fields;
-        public final Map<String, byte[]> files;
-
-        public MultipartData(Map<String, String> fields, Map<String, byte[]> files) {
-            this.fields = fields;
-            this.files = files;
-        }
-    }
+    private static record MultipartData(Map<String, String> fields, Map<String, byte[]> files) {}
 
     public static MultipartData parseMultipartFormData(String contentType, String body) {
         Map<String, String> values = new LinkedHashMap<>();
@@ -245,19 +241,19 @@ public class HttpServer {
     }
 
     private void writeResponse(SocketChannel client, HttpResponse response) throws IOException {
-        StringBuilder rawResponse = new StringBuilder();
-        int statusCode = response.getStatusCode();
-        rawResponse.append("HTTP/1.1 ").append(statusCode).append(" ")
-                   .append(response.getStatusText(statusCode)).append("\r\n");
+        var statusCode = response.getStatusCode();
+        var rawResponse = new StringBuilder(
+            "HTTP/1.1 %d %s\r\n".formatted(statusCode, response.getStatusText(statusCode)));
 
-        response.getHeaders().put("Content-Length", String.valueOf(response.getBody().getBytes().length));           
+        response.setHeader("Content-Length", 
+            String.valueOf(response.getBody().getBytes(StandardCharsets.UTF_8).length));
 
-        for (Map.Entry<String, String> header : response.getHeaders().entrySet()) {
-            rawResponse.append(header.getKey()).append(": ").append(header.getValue()).append("\r\n");
+        for (var entry : response.getHeaders().entrySet()) {
+            rawResponse.append(entry.getKey()).append(": ").append(entry.getValue()).append("\r\n");
         }
 
         rawResponse.append("\r\n").append(response.getBody());
-        ByteBuffer buffer = ByteBuffer.wrap(rawResponse.toString().getBytes(StandardCharsets.UTF_8));
+        var buffer = ByteBuffer.wrap(rawResponse.toString().getBytes(StandardCharsets.UTF_8));
         while (buffer.hasRemaining()) {
             client.write(buffer);
         }
