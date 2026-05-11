@@ -3,30 +3,46 @@ package loadtest;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LoadTester {
     
-    private static final Stats statsReq1 = new Stats();
-    private static final Stats statsReq2 = new Stats();
+    private static Stats statsReq1 = new Stats();
+    private static Stats statsReq2 = new Stats();
     
     public static void main(String[] args) throws Exception {
+        
+        if (args.length >= 2) {
+            Config.USE_VIRTUAL_THREADS = Boolean.parseBoolean(args[0]);
+            Config.USE_GSON = Boolean.parseBoolean(args[1]);
+        }
         
         System.out.println("========================================");
         System.out.println("LOAD TESTING");
         System.out.println("========================================");
+        System.out.println("Virtual threads: " + Config.USE_VIRTUAL_THREADS);
+        System.out.println("JSON parser: " + (Config.USE_GSON ? "Gson" : "Own"));
+        System.out.println("Port: " + Config.PORT);
         System.out.println("Concurrent clients: " + Config.CONCURRENT_REQUESTS);
-        System.out.println("Requests per client: " + Config.REQUESTS_PER_CLIENT);
-        System.out.println("Total requests: " + (Config.CONCURRENT_REQUESTS * Config.REQUESTS_PER_CLIENT));
+        System.out.println("Warmup requests: " + Config.WARMUP_REQUESTS);
         System.out.println("========================================\n");
         
         if (!checkServer()) {
             System.err.println("ERROR: Server not responding on port " + Config.PORT);
-            System.err.println("Start TestServer.java first");
+            System.err.println("Start TestServer with: java TestServer <useVirtual> <useGson>");
             return;
         }
         
-        System.out.println("Server is alive. Starting test...\n");
+        System.out.println("Warmup phase...");
+        warmup();
+        System.out.println("Warmup complete.\n");
+        
+        statsReq1 = new Stats();
+        statsReq2 = new Stats();
+        
+        System.out.println("Starting main test...\n");
         
         ExecutorService executor = Executors.newFixedThreadPool(Config.CONCURRENT_REQUESTS);
         CountDownLatch latch = new CountDownLatch(Config.CONCURRENT_REQUESTS);
@@ -54,6 +70,15 @@ public class LoadTester {
         statsReq1.print("REQUEST 1 (I/O)");
         statsReq2.print("REQUEST 2 (CPU)");
         System.out.println("\nTotal test time: " + (globalEnd - globalStart) + " ms");
+    }
+    
+    private static void warmup() {
+        for (int i = 0; i < Config.WARMUP_REQUESTS; i++) {
+            try {
+                sendPost("/store", "{\"id\":\"warmup\",\"data\":\"warmup\"}");
+                sendPost("/calculate", "{\"n\":10}");
+            } catch (Exception e) {}
+        }
     }
     
     private static boolean checkServer() {

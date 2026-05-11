@@ -13,6 +13,11 @@ public class TestServer {
     
     public static void main(String[] args) throws Exception {
         
+        if (args.length >= 2) {
+            Config.USE_VIRTUAL_THREADS = Boolean.parseBoolean(args[0]);
+            Config.USE_GSON = Boolean.parseBoolean(args[1]);
+        }
+        
         System.out.println("========================================");
         System.out.println("STARTING LOAD TEST SERVER");
         System.out.println("========================================");
