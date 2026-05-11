@@ -1,59 +1,34 @@
-Лабораторная работа 1: Оптимизация умножения матриц
+# Load Testing Report
 
-Описание проекта:
-В работе реализован оптимизированный алгоритм умножения матриц с изменением порядка циклов для улучшения производительности. Проведено тестирование корректности работы алгоритма и измерение времени выполнения для матриц большой размерности.
+## How to configure and launch
 
-Оптимизация:
-Проблема обычного подхода
-В обычном алгоритме умножения матриц с порядком циклов i → j → k возникает проблема доступа к памяти и вычисление перемножения больших матриц становится медленным:
+Edit `src/loadtest/Config.java`:
+- `USE_VIRTUAL_THREADS`: true / false
+- `USE_GSON`: true / false
 
-// Обычный подход (медленный)
-for (int i = 0; i < rowsA; i++) {
-    for (int j = 0; j < colsB; j++) {
-        for (int k = 0; k < colsA; k++) {
-            result[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
-        }
-    }
-}
-
-
-При таком порядке при изменении индекса k происходит скачкообразный доступ к элементам secondMatrix[k][j], что приводит к частым промахам кэша процессора.
-
- Суть оптимизации:
-Применен оптимизированный порядок циклов i → k → j с кэшированием значений:
-
-// Оптимизированный подход (быстрый)
-for (int i = 0; i < rowsA; i++) {
-    for (int k = 0; k < colsA; k++) {
-        double temp = firstMatrix[i][k]; // Кэширование
-        for (int j = 0; j < colsB; j++) {
-            result[i][j] += temp * secondMatrix[k][j];
-        }
-    }
-}
-
-
-При этом методе будет последовательный доступ к элементам secondMatrix[k][j] в самом внутреннем цикле, кэширование значения firstMatrix[i][k]  для многократного использования, улучшенную локальность данных.
-
-Полученные результаты:
-
-Проверка корректности:
-Умножение работает корректно.
-
-Алгоритм корректно вычисляет:
-Элемент [0][0]: 1×7 + 2×9 + 3×11 = 58
-Элемент [0][1]: 1×8 + 2×10 + 3×12 = 64  
-Элемент [1][0]: 4×7 + 5×9 + 6×11 = 139
- Элемент [1][1]: 4×8 + 5×10 + 6×12 = 154
-
-Производительность:
-Время для матриц 1000x1000: 1523,33 мс
-Это демонстрирует высокую производительность для матриц большой размерности, учитывая что операция требует 2 миллиарда операций умножения-сложения.
-
-Выводы
-
-1. Алгоритм правильно выполняет умножение матриц, подтверждено тестами.
-2. Оптимизированная версия показывает высокую скорость работы для больших матриц.
-3.  Алгоритм эффективно работает с матрицами большой размерности.
-
-
+### Run server
+```bash
+cd src
+javac -cp "../lib/gson-2.10.1.jar" loadtest/TestServer.java httpserver/*.java jsonparser/*.java
+java -cp ".;../lib/gson-2.10.1.jar" loadtest.TestServer
+Run load test (another terminal)
+bash
+cd src
+javac -cp "../lib/gson-2.10.1.jar" loadtest/LoadTester.java
+java -cp ".;../lib/gson-2.10.1.jar" loadtest.LoadTester
+Experiment parameters
+Parameter	Value
+Concurrent clients	50
+Requests per client	20
+Total requests	1000
+Thread pool size	10
+Results
+Request	Virtual + own parser	Virtual + GSON	Classic + own parser	Classic + GSON
+Request-1 (I/O)	541.57 ms	541.57 ms	545.32 ms	592.45 ms
+Request-2 (CPU)	467.96 ms	467.96 ms	469.95 ms	394.53 ms
+Hardware
+Component	Specification
+CPU	Intel Core i7-12700H, 2.70 GHz
+RAM	16.0 GB
+OS	Windows 10 Pro
+Java	Java SE 21
