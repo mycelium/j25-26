@@ -1,11 +1,6 @@
 package myjson;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
     static class Profile {
@@ -26,12 +21,12 @@ public class Main {
     static class User {
         private String name;
         private int age;
-        private double balance;      
+        private double balance;
         private boolean active;
-        private Long id;           
+        private Long id;
         private List<String> tags;
-        private String[] roles;      
-        private Profile profile;   
+        private String[] roles;
+        private Profile profile;
 
         public User() {}
         public User(String name, int age, double balance, boolean active, Long id,
@@ -54,6 +49,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        var parser = JsonParser.class; 
+
         System.out.println("1. Примитивы и строки:");
         System.out.println("  int 42 -> " + JsonParser.toJson(42));
         System.out.println("  double 3.14 -> " + JsonParser.toJson(3.14));
@@ -62,51 +59,48 @@ public class Main {
         System.out.println("  null -> " + JsonParser.toJson(null));
         System.out.println();
 
-   
         System.out.println("2. Массивы:");
         int[] intArr = {10, 20, 30};
         String[] strArr = {"x", "y", "z"};
-        String intJson = JsonParser.toJson(intArr);
-        String strJson = JsonParser.toJson(strArr);
+        var intJson = JsonParser.toJson(intArr);
+        var strJson = JsonParser.toJson(strArr);
         System.out.println("  int[] -> " + intJson);
         System.out.println("  String[] -> " + strJson);
-        int[] parsedIntArr = JsonParser.parse(intJson, int[].class);
-        String[] parsedStrArr = JsonParser.parse(strJson, String[].class);
+        var parsedIntArr = JsonParser.parse(intJson, int[].class);
+        var parsedStrArr = JsonParser.parse(strJson, String[].class);
         System.out.println("  обратно int[] -> " + Arrays.toString(parsedIntArr));
         System.out.println("  обратно String[] -> " + Arrays.toString(parsedStrArr));
         System.out.println();
 
-  
         System.out.println("3. Коллекция:");
         List<String> list = Arrays.asList("apple", "banana", "cherry");
         Set<Double> set = new LinkedHashSet<>(Arrays.asList(1.1, 2.2, 3.3));
         System.out.println("  List -> " + JsonParser.toJson(list));
         System.out.println("  Set -> " + JsonParser.toJson(set));
-        List<String> parsedList = JsonParser.parse(JsonParser.toJson(list), List.class);
+        var parsedList = JsonParser.parse(JsonParser.toJson(list), List.class);
         System.out.println("  обратно List -> " + parsedList);
         System.out.println();
 
-       
         System.out.println("4. Map:");
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("title", "Test");
         map.put("count", 5);
         map.put("enabled", false);
         map.put("empty", null);
-        String mapJson = JsonParser.toJson(map);
+        var mapJson = JsonParser.toJson(map);
         System.out.println("  Map -> " + mapJson);
-        Map<String, Object> parsedMap = JsonParser.parseToMap(mapJson);
+        var parsedMap = JsonParser.parseToMap(mapJson);
         System.out.println("  обратно Map -> " + parsedMap);
         System.out.println();
 
         System.out.println("5. Сериализация и десериализация User:");
-        Profile profile = new Profile("alice@example.com", 42);
+        var profile = new Profile("alice@example.com", 42);
         String[] roles = {"admin", "user"};
-        User user = new User("Alice", 28, 1500.75, true, 100500L,
+        var user = new User("Alice", 28, 1500.75, true, 100500L,
                              Arrays.asList("java", "json"), roles, profile);
-        String userJson = JsonParser.toJson(user);
+        var userJson = JsonParser.toJson(user);
         System.out.println("  User JSON: " + userJson);
-        User parsedUser = JsonParser.parse(userJson, User.class);
+        var parsedUser = JsonParser.parse(userJson, User.class);
         System.out.println("  Parsed User: " + parsedUser);
         System.out.println();
 
@@ -115,21 +109,36 @@ public class Main {
             new User("Bob", 22, 0.0, false, null, List.of("beginner"), null, null),
             user
         };
-        String usersJson = JsonParser.toJson(users);
+        var usersJson = JsonParser.toJson(users);
         System.out.println("  User[] JSON: " + usersJson);
-        User[] parsedUsers = JsonParser.parse(usersJson, User[].class);
+        var parsedUsers = JsonParser.parse(usersJson, User[].class);
         System.out.println("  Parsed User[]: " + Arrays.toString(parsedUsers));
         System.out.println();
 
         System.out.println("7. Парсинг в Object:");
-        Object obj = JsonParser.parse(userJson);
+        var obj = JsonParser.parse(userJson);
         System.out.println("  Тип: " + obj.getClass().getSimpleName() + " -> " + obj);
         System.out.println();
 
-        System.out.println("8. Парсинг в Map:");
-        Map<String, Object> userAsMap = JsonParser.parseToMap(userJson);
+        System.out.println("8. Парсинг в Map (с pattern matching):");
+        var userAsMap = JsonParser.parseToMap(userJson);
         System.out.println("  Map: " + userAsMap);
         System.out.println();
 
+        System.out.println("9. Поддержка Unicode escape:");
+        var unicodeJson = "\"\\u041F\\u0440\\u0438\\u0432\\u0435\\u0442\"";
+        var unicodeString = JsonParser.parse(unicodeJson);
+        System.out.println("  JSON: " + unicodeJson + " -> " + unicodeString);
+        System.out.println();
+
+        System.out.println("10. Текстовый блок с JSON:");
+        var multilineJson = """
+                {
+                    "name": "TextBlock",
+                    "value": 123
+                }
+                """;
+        var parsedMapFromBlock = JsonParser.parseToMap(multilineJson);
+        System.out.println("  Парсинг текстового блока: " + parsedMapFromBlock);
     }
 }
