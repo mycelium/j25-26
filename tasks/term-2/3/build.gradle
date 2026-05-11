@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation name: 'gson-2.10.1'
+    implementation name: 'httpapp'
+    implementation name: 'jsonapp'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['.']
+            exclude '.gradle/**'
+            exclude 'build/**'
+            exclude 'libs/**'
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('runServer', JavaExec) {
+    group = 'application'
+    description = 'Run the HTTP server (ServerStart)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'ServerStart'
+}
+
+tasks.register('runClient', JavaExec) {
+    group = 'application'
+    description = 'Run the load test client (Main)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'Main'
+}

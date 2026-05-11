@@ -3,6 +3,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.nio.file.StandardOpenOption;
 
 import com.google.gson.Gson;
 import json.MyJsonLibrary;
@@ -18,6 +21,8 @@ public class ServerStart {
     private static final int THREAD_POOL_SIZE = 4;
     private static final Path FILE = Path.of("data.txt");
     private static final Gson gson = new Gson();
+    private static final List<String> LOG = new ArrayList<>();
+    private static final Object FILE_LOCK = new Object();
 
     public static void main(String[] args) throws Exception {
         System.out.println("isVirtual = " + IS_VIRTUAL);
@@ -29,16 +34,19 @@ public class ServerStart {
                 String body = req.getBody();
                 Map<String, Object> data = parse(body);
                 String json = toJson(data);
-                Files.writeString(FILE, json + "\n",
-                        StandardCharsets.UTF_8,
-                        Files.exists(FILE)
-                                ? java.nio.file.StandardOpenOption.APPEND
-                                : java.nio.file.StandardOpenOption.CREATE);
-                String content = Files.readString(FILE);
-                return new HttpResponse(200, "application/json", content);
+
+                synchronized (FILE_LOCK) {
+                    LOG.add(json);
+                    String content = String.join("\n", LOG);
+                    Files.writeString(FILE, content, StandardCharsets.UTF_8,
+                            StandardOpenOption.CREATE,
+                            StandardOpenOption.TRUNCATE_EXISTING);
+                    return new HttpResponse(200, "application/json", content);
+                }
             } catch (Exception e) {
+                e.printStackTrace();
                 return new HttpResponse(500, "application/json",
-                        "{\"error\":\"" + e.getMessage() + "\"}");
+                        "{\"error\":\"" + e.getMessage().replace("\"", "\\\"") + "\"}");
             }
         });
 

@@ -7,6 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 public class Main {
 
     private static final String HOST = "http://localhost:8082";
@@ -65,13 +68,26 @@ private static double testRoute(String route) throws Exception {
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         conn.setRequestProperty("Content-Type", "application/json");
+
+        byte[] bytes = json.getBytes(StandardCharsets.UTF_8); 
+        conn.setRequestProperty("Content-Length", String.valueOf(bytes.length)); 
+
         try (OutputStream os = conn.getOutputStream()) {
-            os.write(json.getBytes());
+            os.write(bytes);
+            os.flush();
         }
 
         try (var is = conn.getInputStream()) { 
-            while (is.read() != -1) {} 
+        while (is.read() != -1) {} 
+            conn.disconnect(); 
+        } catch (IOException e) {
+            var err = conn.getErrorStream();
+            if (err != null) {
+                String errorMsg = new String(err.readAllBytes(), StandardCharsets.UTF_8);
+                System.out.println("Server error: " + errorMsg);
+            }
+            throw e;
         }
-        conn.disconnect();
+        
     }
 }
