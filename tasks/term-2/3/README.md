@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Load Testing Report
 
 ## Results
@@ -20,4 +21,5 @@
 cd src
 javac -cp "gson-2.10.1.jar" loadtest/*.java httpserver/*.java jsonparser/*.java
 java -cp ".;gson-2.10.1.jar" loadtest.TestServer false false
-java -cp ".;gson-2.10.1.jar" loadtest.LoadTester false false
+java -c ".;gson-2.10.1.jar" loadtest.LoadTester false false
+
