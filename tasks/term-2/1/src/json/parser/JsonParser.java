@@ -20,39 +20,34 @@ public class JsonParser {
     private JsonNode parsePrimitive(){
         Token token = consume();
         String val = token.getValue();
-        switch (token.getType()) {
-            case STRING:
-                return new JsonPrimitive(val);
-            case NUMBER:
-                return new JsonPrimitive(Double.parseDouble(val));
-            case BOOLEAN:
-                return new JsonPrimitive(Boolean.parseBoolean(val));
-            case NULL:
-                return new JsonPrimitive(null);
+        return switch (token.getType()) {
+            case STRING -> new JsonPrimitive(val);
+            case NUMBER -> new JsonPrimitive(parseNumber(val));
+            case BOOLEAN -> new JsonPrimitive(Boolean.parseBoolean(val));
+            case NULL -> new JsonPrimitive(null);
+            default -> throw new RuntimeException("Unexpected token:" + token.getValue());
+        };
+    }
 
+    private Number parseNumber(String val) {
+        if (val.contains(".") || val.contains("e") || val.contains("E")) {
+            return Double.parseDouble(val);
         }
-
-        throw new RuntimeException("Unexpected character:" + token.getValue());
-
+        try {
+            return Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            return Long.parseLong(val);
+        }
     }
 
     private JsonNode parseValue() {
         Token current = peek();
-        switch (current.getType()) {
-            case STRING:
-
-            case NUMBER:
-            case BOOLEAN:
-            case NULL:
-                return parsePrimitive();
-
-            case LBRACE:
-                return parseObject();
-            case LBRACKET:
-                return parseArray();
-            default:
-                throw new RuntimeException("Unexpected token: " + current.getType());
-        }
+        return switch (current.getType()) {
+            case STRING, NUMBER, BOOLEAN, NULL -> parsePrimitive();
+            case LBRACE -> parseObject();
+            case LBRACKET -> parseArray();
+            default -> throw new RuntimeException("Unexpected token: " + current.getType());
+        };
     }
 
     private JsonObject parseObject() {
@@ -66,7 +61,7 @@ public class JsonParser {
         while(true){
             String key = expect(Token.Type.STRING).getValue();
             expect(Token.Type.COLON);
-            jsonObject.put(key,parseValue());
+            jsonObject.put(key, parseValue());
             if (peek().getType() == Token.Type.COMMA) {
                 consume();
             } else if (peek().getType() == Token.Type.RBRACE) {

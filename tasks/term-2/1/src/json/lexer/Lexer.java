@@ -40,66 +40,62 @@ public class Lexer {
             curr = consume();
 
             switch(curr){
-                case '{' :
-                    tokens.add(new Token(Token.Type.LBRACE,"{"));
-                    break;
-                case '}' :
-                    tokens.add(new Token(Token.Type.RBRACE,"}"));
-                    break;
-                case '[' :
-                    tokens.add(new Token(Token.Type.LBRACKET,"["));
-                    break;
-                case ']' :
-                    tokens.add(new Token(Token.Type.RBRACKET,"]"));
-                    break;
-                case ',' :
-                    tokens.add(new Token(Token.Type.COMMA,","));
-                    break;
-                case ':' :
-                    tokens.add(new Token(Token.Type.COLON,":"));
-                    break;
+                case '{' -> tokens.add(new Token(Token.Type.LBRACE,"{"));
+                case '}' -> tokens.add(new Token(Token.Type.RBRACE,"}"));
+                case '[' -> tokens.add(new Token(Token.Type.LBRACKET,"["));
+                case ']' -> tokens.add(new Token(Token.Type.RBRACKET,"]"));
+                case ',' -> tokens.add(new Token(Token.Type.COMMA,","));
+                case ':' -> tokens.add(new Token(Token.Type.COLON,":"));
 
-                case '"' :
+                case '"' -> {
                     StringBuilder sb = new StringBuilder();
                     while(peek() != '"' && peek() != '\0'){
-                        sb.append(peek());
-                        consume();
+                        if(peek() == '\\'){
+                            consume();
+                            char esc = consume();
+                            switch(esc){
+                                case '"' -> sb.append('"');
+                                case '\\' -> sb.append('\\');
+                                case '/' -> sb.append('/');
+                                case 'n' -> sb.append('\n');
+                                case 'r' -> sb.append('\r');
+                                case 't' -> sb.append('\t');
+                                case 'b' -> sb.append('\b');
+                                case 'f' -> sb.append('\f');
+                                default -> throw new RuntimeException("Unknown escape: \\" + esc);
+                            }
+                        } else {
+                            sb.append(consume());
+                        }
                     }
                     consume();
-                    String literal = sb.toString();
-                    tokens.add(new Token(Token.Type.STRING,literal));
-                    break;
-                case '-':
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                    tokens.add(new Token(Token.Type.STRING, sb.toString()));
+                }
 
+                case '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
                     StringBuilder sbn = new StringBuilder();
                     sbn.append(curr);
                     while(Character.isDigit(peek()) || peek() == '.' || peek() == 'e' || peek() == 'E' || peek() == '+' || peek() == '-'){
-                        sbn.append(peek());
-                        consume();
-
+                        sbn.append(consume());
                     }
-                    tokens.add(new Token(Token.Type.NUMBER,sbn.toString()));
-                    break;
+                    tokens.add(new Token(Token.Type.NUMBER, sbn.toString()));
+                }
 
-                case 't':
+                case 't' -> {
                     readLiteral("rue");
                     tokens.add(new Token(Token.Type.BOOLEAN, "true"));
-                    break;
-                case 'f':
+                }
+                case 'f' -> {
                     readLiteral("alse");
                     tokens.add(new Token(Token.Type.BOOLEAN, "false"));
-                    break;
-                case 'n':
+                }
+                case 'n' -> {
                     readLiteral("ull");
                     tokens.add(new Token(Token.Type.NULL, "null"));
-                    break;
+                }
 
-                default:
-                    throw new RuntimeException("Unexpected character:" + curr);
+                default -> throw new RuntimeException("Unexpected character:" + curr);
             }
-
         }
 
         tokens.add(new Token(Token.Type.EOF,""));

@@ -1,18 +1,32 @@
-## Описание классов
+## JSON Parser
 
-- **`Lexer.java`**: Сканирует исходную строку JSON и разбивает ее на последовательность токенов (например, `{`, `}`, `"key"`, `123`).
-- **`Token.java`**: Представляет один токен, определенный Лексером, и хранит его тип (например, `STRING`, `NUMBER`) и значение.
-- **`JsonParser.java`**: Читает поток токенов от Лексера и строит в памяти древовидную структуру объектов `JsonNode`.
-- **`JsonNode.java`**: Абстрактный базовый класс для всех узлов в JSON-дереве, позволяющий рассматривать `JsonObject`, `JsonArray` и `JsonPrimitive` как один базовый тип.
-- **`JsonObject.java`**: Представляет объект JSON (`{...}`), хранящий карту пар ключ-значение.
-- **`JsonArray.java`**: Представляет массив JSON (`[...]`), хранящий список элементов `JsonNode`.
-- **`JsonPrimitive.java`**: Представляет простое значение JSON, такое как строка, число, логическое значение или null.
-- **`JsonDeserializer.java`**: Преобразует дерево `JsonNode` в стандартные коллекции Java, такие как `Map<String, Object>` и `List<Object>`.
-- **`ReflectionDeserializer.java`**: Использует рефлексию Java для автоматического сопоставления дерева `JsonNode` с экземпляром пользовательского класса Java.
-- **`JsonSerializer.java`**: Преобразует объект Java (например, `Map`, `List` или пользовательский класс) обратно в отформатированную строку JSON.
-- **`Json.java`**: Основной публичный API для библиотеки, предоставляющий простые статические методы для парсинга и сериализации JSON.
+Библиотека для парсинга и сериализации JSON на Java.
 
-**Запустите Main класс:**
-   ```sh
-   java -cp bin Main
-   ```
+### Структура
+
+- `json.lexer` — разбивает строку на токены (`Lexer`, `Token`)
+- `json.parser` — строит дерево из токенов (`JsonParser`, `JsonNode`, `JsonObject`, `JsonArray`, `JsonPrimitive`)
+- `json.deserializer` — преобразует дерево в Map или в объект через рефлексию (`JsonDeserializer`, `ReflectionDeserializer`)
+- `json.serializer` — сериализует объекты Java обратно в JSON-строку (`JsonSerializer`)
+- `json.Json` — публичный API
+
+### API
+
+- `Json.parseToMap(String)` — парсинг в `Map<String, Object>`
+- `Json.parse(String, Class<T>)` — парсинг в объект класса `T`
+- `Json.toJson(Object)` — сериализация в строку
+
+### Возможности
+
+- Escape-последовательности: `\"`, `\\`, `\/`, `\n`, `\r`, `\t`, `\b`, `\f`
+- Числа: `int`, `long`, `double`
+- Массивы Java (`int[]`, `String[]`) и коллекции (`List<T>`)
+- Наследование полей (обход суперклассов)
+- Пропуск `static` и `transient` полей
+
+### Запуск
+
+```sh
+javac -d bin src/json/lexer/*.java src/json/parser/*.java src/json/deserializer/*.java src/json/serializer/*.java src/json/Json.java Main.java
+java -cp bin Main
+```

@@ -15,36 +15,35 @@ public class JsonDeserializer {
     public Object toObject(JsonNode node) {
         if (node == null) return null;
 
-        if (node instanceof JsonPrimitive) {
-            return ((JsonPrimitive) node).getValue();
+        if (node instanceof JsonPrimitive p) {
+            return p.getValue();
         }
 
-        if (node instanceof JsonArray) {
-            JsonArray jsonArray = (JsonArray) node;
+        if (node instanceof JsonArray arr) {
             List<Object> list = new ArrayList<>();
-            for (JsonNode element : jsonArray.getElements()) {
+            for (JsonNode element : arr.getElements()) {
                 list.add(toObject(element));
             }
             return list;
         }
 
-        if (node instanceof JsonObject) {
-            JsonObject jsonObject = (JsonObject) node;
+        if (node instanceof JsonObject obj) {
             Map<String, Object> map = new LinkedHashMap<>();
-            for (Map.Entry<String, JsonNode> entry : jsonObject.getFields().entrySet()) {
+            for (var entry : obj.getFields().entrySet()) {
                 map.put(entry.getKey(), toObject(entry.getValue()));
             }
             return map;
         }
 
-        throw new IllegalArgumentException("Unknown node type: " + node.getClass().getName());
+        throw new RuntimeException("Unknown node type: " + node.getClass().getName());
     }
 
+    @SuppressWarnings("unchecked")
     public Map<String, Object> toMap(JsonNode node) {
         Object res = toObject(node);
-        if (res instanceof Map) {
-            return (Map<String, Object>) res;
+        if (res instanceof Map<?,?> map) {
+            return (Map<String, Object>) map;
         }
-        throw new RuntimeException("Expected a JSON object but got something else: " + (res == null ? "null" : res.getClass().getSimpleName()));
+        throw new RuntimeException("Expected a JSON object but got: " + (res == null ? "null" : res.getClass().getSimpleName()));
     }
 }

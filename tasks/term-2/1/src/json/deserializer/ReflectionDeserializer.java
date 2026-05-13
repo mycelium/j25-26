@@ -1,60 +1,111 @@
 package json.deserializer;
 
+import json.parser.JsonArray;
 import json.parser.JsonNode;
 import json.parser.JsonPrimitive;
 import json.parser.JsonObject;
+
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReflectionDeserializer {
 
+    @SuppressWarnings("unchecked")
     public <T> T toClass(JsonNode node, Class<T> clazz) {
         if (node == null) return null;
-        try {
-            if (node instanceof JsonPrimitive) {
-                return (T) new JsonDeserializer().toObject(node);
-            }
 
-            if (node instanceof JsonObject) {
-                JsonObject jsonObject = (JsonObject) node;
+        if (node instanceof JsonPrimitive p) {
+            return (T) p.getValue();
+        }
 
+        if (node instanceof JsonObject jsonObject) {
+            try {
                 T instance = clazz.getDeclaredConstructor().newInstance();
 
-                for (Field field : clazz.getDeclaredFields()) {
+                List<Field> fields = collectFields(clazz);
+                for (Field field : fields) {
+                    if (Modifier.isStatic(field.getModifiers())) continue;
+                    if (Modifier.isTransient(field.getModifiers())) continue;
+
                     String fieldName = field.getName();
+                    if (!jsonObject.getFields().containsKey(fieldName)) continue;
 
-                    if (jsonObject.getFields().containsKey(fieldName)) {
-                        JsonNode valueNode = jsonObject.getFields().get(fieldName);
+                    JsonNode valueNode = jsonObject.getFields().get(fieldName);
+                    Object fieldValue = resolveFieldValue(valueNode, field);
 
-                        Object fieldValue = toClass(valueNode, field.getType());
-
-                        // Handle numeric type casting (e.g., from Double to int)
-                        if (fieldValue instanceof Double) {
-                            if (field.getType() == int.class || field.getType() == Integer.class) {
-                                fieldValue = ((Double) fieldValue).intValue();
-                            } else if (field.getType() == long.class || field.getType() == Long.class) {
-                                fieldValue = ((Double) fieldValue).longValue();
-                            } else if (field.getType() == float.class || field.getType() == Float.class) {
-                                fieldValue = ((Double) fieldValue).floatValue();
-                            } else if (field.getType() == double.class || field.getType() == Double.class) {
-                                fieldValue = ((Double) fieldValue).doubleValue();
-                            } else if (field.getType() == byte.class || field.getType() == Byte.class) {
-                                fieldValue = ((Double) fieldValue).byteValue();
-                            } else if (field.getType() == short.class || field.getType() == Short.class) {
-                                fieldValue = ((Double) fieldValue).shortValue();
-                            }
-                        }
-
-                        field.setAccessible(true);
-                        field.set(instance, fieldValue);
-                    }
+                    field.setAccessible(true);
+                    field.set(instance, fieldValue);
                 }
                 return instance;
+            } catch (Exception e) {
+                throw new RuntimeException("Error mapping JSON to class: " + clazz.getName(), e);
             }
-
-            throw new UnsupportedOperationException("Cannot deserialize node to " + clazz.getName());
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error mapping JSON to class: " + clazz.getName(), e);
         }
+
+        throw new RuntimeException("Cannot deserialize node to " + clazz.getName());
+    }
+
+    private Object resolveFieldValue(JsonNode valueNode, Field field) {
+        Class<?> fieldType = field.getType();
+
+        if (fieldType.isArray() && valueNode instanceof JsonArray arr) {
+            Class<?> componentType = fieldType.getComponentType();
+            List<JsonNode> elements = arr.getElements();
+            Object array = Array.newInstance(componentType, elements.size());
+            for (int i = 0; i < elements.size(); i++) {
+                Object elem = toClass(elements.get(i), componentType);
+                elem = convertNumber(elem, componentType);
+                Array.set(array, i, elem);
+            }
+            return array;
+        }
+
+        if (List.class.isAssignableFrom(fieldType) && valueNode instanceof JsonArray arr) {
+            Class<?> elementType = Object.class;
+            if (field.getGenericType() instanceof ParameterizedType pt) {
+                if (pt.getActualTypeArguments()[0] instanceof Class<?> c) {
+                    elementType = c;
+                }
+            }
+            List<Object> list = new ArrayList<>();
+            for (JsonNode elem : arr.getElements()) {
+                Object val = toClass(elem, elementType);
+                val = convertNumber(val, elementType);
+                list.add(val);
+            }
+            return list;
+        }
+
+        Object val = toClass(valueNode, fieldType);
+        return convertNumber(val, fieldType);
+    }
+
+    private Object convertNumber(Object value, Class<?> targetType) {
+        if (!(value instanceof Number num)) return value;
+
+        if (targetType == int.class || targetType == Integer.class) return num.intValue();
+        if (targetType == long.class || targetType == Long.class) return num.longValue();
+        if (targetType == float.class || targetType == Float.class) return num.floatValue();
+        if (targetType == double.class || targetType == Double.class) return num.doubleValue();
+        if (targetType == byte.class || targetType == Byte.class) return num.byteValue();
+        if (targetType == short.class || targetType == Short.class) return num.shortValue();
+
+        return value;
+    }
+
+    private List<Field> collectFields(Class<?> clazz) {
+        List<Field> result = new ArrayList<>();
+        Class<?> current = clazz;
+        while (current != null && current != Object.class) {
+            for (Field f : current.getDeclaredFields()) {
+                result.add(f);
+            }
+            current = current.getSuperclass();
+        }
+        return result;
     }
 }
