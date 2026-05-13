@@ -12,34 +12,42 @@ import java.util.concurrent.Future;
 
 public class LoadTest {
 
-    static final int WARMUP = 50;
-    static final int REQUESTS = 500;
-    static final int THREADS = 20;
-
     public static void main(String[] args) throws Exception {
+        int requests = 500;
+        int threads = 20;
+        int warmup = 50;
         String base = "http://localhost:8080";
+
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
+                case "--requests" -> requests = Integer.parseInt(args[++i]);
+                case "--threads" -> threads = Integer.parseInt(args[++i]);
+                case "--warmup" -> warmup = Integer.parseInt(args[++i]);
+                case "--host" -> base = args[++i];
+            }
+        }
 
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .build();
 
-        System.out.println("Warmup (" + WARMUP + " requests)...");
-        for (int i = 0; i < WARMUP; i++) {
+        System.out.println("Warmup (" + warmup + " requests)...");
+        for (int i = 0; i < warmup; i++) {
             sendPost(client, base + "/compute", "{\"n\":1000}");
         }
 
-        System.out.println("\n--- I/O-bound: POST /io (" + REQUESTS + " requests, " + THREADS + " threads) ---");
-        runTest(client, base + "/io", "{\"data\":\"load test payload\",\"id\":1}");
+        System.out.println("\n--- I/O-bound: POST /io (" + requests + " req, " + threads + " threads) ---");
+        runTest(client, base + "/io", "{\"data\":\"load test payload\",\"id\":1}", requests, threads);
 
-        System.out.println("\n--- CPU-bound: POST /compute (" + REQUESTS + " requests, " + THREADS + " threads) ---");
-        runTest(client, base + "/compute", "{\"n\":100000}");
+        System.out.println("\n--- CPU-bound: POST /compute (" + requests + " req, " + threads + " threads) ---");
+        runTest(client, base + "/compute", "{\"n\":100000}", requests, threads);
     }
 
-    static void runTest(HttpClient client, String url, String body) throws Exception {
-        ExecutorService pool = Executors.newFixedThreadPool(THREADS);
+    static void runTest(HttpClient client, String url, String body, int total, int threads) throws Exception {
+        ExecutorService pool = Executors.newFixedThreadPool(threads);
         List<Callable<Long>> tasks = new ArrayList<>();
 
-        for (int i = 0; i < REQUESTS; i++) {
+        for (int i = 0; i < total; i++) {
             tasks.add(() -> {
                 long start = System.nanoTime();
                 sendPost(client, url, body);
@@ -47,10 +55,12 @@ public class LoadTest {
             });
         }
 
+        long testStart = System.nanoTime();
         List<Future<Long>> results = pool.invokeAll(tasks);
+        long testTime = (System.nanoTime() - testStart) / 1_000_000;
         pool.shutdown();
 
-        long total = 0;
+        long sum = 0;
         long min = Long.MAX_VALUE;
         long max = 0;
         int errors = 0;
@@ -58,7 +68,7 @@ public class LoadTest {
         for (Future<Long> f : results) {
             try {
                 long ms = f.get();
-                total += ms;
+                sum += ms;
                 if (ms < min) min = ms;
                 if (ms > max) max = ms;
             } catch (Exception e) {
@@ -66,10 +76,12 @@ public class LoadTest {
             }
         }
 
-        int ok = REQUESTS - errors;
-        double avg = ok > 0 ? (double) total / ok : 0;
+        int ok = total - errors;
+        double avg = ok > 0 ? (double) sum / ok : 0;
+        double throughput = ok > 0 ? (double) ok / testTime * 1000 : 0;
         System.out.printf("Success: %d, Errors: %d%n", ok, errors);
         System.out.printf("Avg: %.2f ms, Min: %d ms, Max: %d ms%n", avg, min, max);
+        System.out.printf("Throughput: %.1f req/s%n", throughput);
     }
 
     static void sendPost(HttpClient client, String url, String body) throws Exception {

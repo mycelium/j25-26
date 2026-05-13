@@ -76,6 +76,19 @@ public class HttpServer {
         }
     }
 
+    public void get(String path, HttpHandler h) { addRoute(HttpMethod.GET, path, h); }
+    public void post(String path, HttpHandler h) { addRoute(HttpMethod.POST, path, h); }
+    public void put(String path, HttpHandler h) { addRoute(HttpMethod.PUT, path, h); }
+    public void patch(String path, HttpHandler h) { addRoute(HttpMethod.PATCH, path, h); }
+    public void delete(String path, HttpHandler h) { addRoute(HttpMethod.DELETE, path, h); }
+
+    private boolean pathExists(String path) {
+        for (String key : routes.keySet()) {
+            if (key.endsWith(" " + path)) return true;
+        }
+        return false;
+    }
+
     private void handleClient(SocketChannel client) {
         try (client) {
             HttpRequest request = RequestParser.parse(client);
@@ -87,6 +100,9 @@ public class HttpServer {
 
             if (handler != null) {
                 handler.handle(request, response);
+            } else if (pathExists(request.getPath())) {
+                response.setStatus(405);
+                response.setBody("Method Not Allowed");
             } else {
                 response.setStatus(404);
                 response.setBody("Not Found");
