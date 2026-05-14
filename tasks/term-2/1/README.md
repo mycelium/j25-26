@@ -1,4 +1,4 @@
-### Task 1/JSON parser
+# Task 1/JSON parser
 
 ## Сборка и запуск
 
