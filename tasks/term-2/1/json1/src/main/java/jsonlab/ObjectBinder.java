@@ -94,7 +94,7 @@ final class ObjectBinder {
     private static Collection<?> toCollection(Object src, Class<? extends Collection<?>> target, Type elem) {
         if (!(src instanceof Collection<?>)) {
             fail("Expected collection, got " + src.getClass());
-            return null; // unreachable, нужно для компилятора
+            return null;
         }
         Collection<?> c = (Collection<?>) src;
         Collection<Object> res;
