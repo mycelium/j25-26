@@ -1,55 +1,40 @@
 package http;
 
-import http.HttpServer;
-import http.HttpResponse;
-
 public class Main {
     public static void main(String[] args) {
-
         HttpServer server = new HttpServer("localhost", 8081, 10, true);
 
-        // 1. GET
+        // GET /hello
         server.addHandler("GET", "/hello", request -> {
-            return new HttpResponse(200, "OK", "Hello from GET!");
+            String name = request.getQueryParams().getOrDefault("name", "World");
+            return new HttpResponse(200, "OK", "Hello, " + name + "!");
         });
 
-        // 2. POST (Обычный текст)
+        // POST /data
         server.addHandler("POST", "/data", request -> {
             String body = request.getBody();
-            System.out.println("Received body: " + body);
             return new HttpResponse(201, "Created", "Data received: " + body);
         });
 
-        // 3. PUT (Полное обновление) - НОВЫЙ МЕТОД
-        server.addHandler("PUT", "/update", request -> {
-            String body = request.getBody();
-            System.out.println("PUT update payload: " + body);
-            return new HttpResponse(200, "OK", "Item completely updated with: " + body);
-        });
+        // PUT /update
+        server.addHandler("PUT", "/update", request ->
+            new HttpResponse(200, "OK", "Item completely updated with: " + request.getBody()));
 
-        // 4. PATCH (Частичное обновление) - НОВЫЙ МЕТОД
-        server.addHandler("PATCH", "/patch", request -> {
-            String body = request.getBody();
-            System.out.println("PATCH payload: " + body);
-            return new HttpResponse(200, "OK", "Item partially patched with: " + body);
-        });
+        // PATCH /patch
+        server.addHandler("PATCH", "/patch", request ->
+            new HttpResponse(200, "OK", "Item partially patched with: " + request.getBody()));
 
-        // 5. DELETE
-        server.addHandler("DELETE", "/delete", request -> {
-            return new HttpResponse(200, "OK", "Item deleted");
-        });
+        // DELETE /delete
+        server.addHandler("DELETE", "/delete", request ->
+            new HttpResponse(200, "OK", "Item deleted"));
 
-        // 6. БОНУС: POST Multipart
+        // POST /upload — multipart form data
         server.addHandler("POST", "/upload", request -> {
-            System.out.println("Parsed Form Data: " + request.getFormData());
-            String responseBody = "Received fields: ";
-            if (request.getFormData().containsKey("username")) {
-                responseBody += "Username = " + request.getFormData().get("username") + "; ";
-            }
-            if (request.getFormData().containsKey("document")) {
-                responseBody += "Document text = " + request.getFormData().get("document");
-            }
-            return new HttpResponse(200, "OK", responseBody);
+            var form = request.getFormData();
+            String response = "Received fields: ";
+            if (form.containsKey("username")) response += "Username = " + form.get("username") + "; ";
+            if (form.containsKey("document")) response += "Document text = " + form.get("document");
+            return new HttpResponse(200, "OK", response);
         });
 
         server.start();

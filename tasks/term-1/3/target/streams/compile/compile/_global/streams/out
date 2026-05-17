@@ -1,0 +1,2 @@
+[0m[[0m[33mwarn[0m] [0m[0m-optimise is deprecated: In 2.12, -optimise enables -opt:l:inline -opt-inline-from:**. Check -opt:help for using the Scala 2.12 optimizer.[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

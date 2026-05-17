@@ -6,7 +6,7 @@ scalacOptions ++= Seq(
   "-deprecation",
   "-unchecked",
   "-optimise",
-  "-Yinline-warnings"
+ // "-Yinline-warnings"
 )
 
 fork := true

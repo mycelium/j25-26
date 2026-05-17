@@ -3,97 +3,113 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+
 public class LoadTester {
 
-    private static final int THREAD_COUNT = 50;     
-    private static final int REQUESTS_PER_THREAD = 20; 
-
-    // здесь меняется  /req1 НА /req2 
-    private static final String TARGET_PATH = "/req2";
-    private static final int TARGET_PORT = 8082;
-
-    private static final String JSON_PAYLOAD = "{\"payload\":\"test_data_string\", \"limit\": 5000}";
-
     public static void main(String[] args) throws Exception {
-        System.out.println("Starting RAW SOCKET load test on port: " + TARGET_PORT + TARGET_PATH);
+        int threadCount        = args.length > 0 ? Integer.parseInt(args[0]) : 50;
+        int requestsPerThread  = args.length > 1 ? Integer.parseInt(args[1]) : 20;
+        String targetPath      = args.length > 2 ? args[2] : "/req2";
+        int targetPort         = args.length > 3 ? Integer.parseInt(args[3]) : 8082;
+        int warmupRequests     = args.length > 4 ? Integer.parseInt(args[4]) : 50;
 
-        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
-        List<Callable<Long>> tasks = new ArrayList<>();
-
-    
-        String rawHttpRequest = "POST " + TARGET_PATH + " HTTP/1.1\r\n" +
-                "Host: localhost:" + TARGET_PORT + "\r\n" +
-                "Content-Type: application/json\r\n" +
-                "Content-Length: " + JSON_PAYLOAD.getBytes(StandardCharsets.UTF_8).length + "\r\n" +
-                "Connection: close\r\n\r\n" +
-                JSON_PAYLOAD;
-
+        String jsonPayload = "{\"payload\":\"test_data_string\", \"limit\": 5000}";
+        String rawHttpRequest = buildRequest(targetPath, targetPort, jsonPayload);
         byte[] requestBytes = rawHttpRequest.getBytes(StandardCharsets.UTF_8);
 
-        for (int i = 0; i < THREAD_COUNT * REQUESTS_PER_THREAD; i++) {
+        System.out.printf("Config: threads=%d, requests/thread=%d, path=%s, port=%d%n",
+            threadCount, requestsPerThread, targetPath, targetPort);
+
+        // --- Warmup phase ---
+        System.out.printf("Warming up with %d requests...%n", warmupRequests);
+        runRequests(warmupRequests, 1, requestBytes, targetPort, true);
+        System.out.println("Warmup complete.");
+
+        // --- Measured phase ---
+        int totalRequests = threadCount * requestsPerThread;
+        System.out.printf("Starting measured test: %d total requests...%n", totalRequests);
+
+        long testStart = System.currentTimeMillis();
+        List<Long> latencies = runRequests(totalRequests, threadCount, requestBytes, targetPort, false);
+        long testEnd = System.currentTimeMillis();
+
+        long totalMs = testEnd - testStart;
+        printResults(latencies, totalMs);
+    }
+
+    private static List<Long> runRequests(int total, int threads, byte[] requestBytes,
+                                          int port, boolean silent) throws Exception {
+        ExecutorService executor = Executors.newFixedThreadPool(threads);
+        List<Callable<Long>> tasks = new ArrayList<>(total);
+
+        for (int i = 0; i < total; i++) {
             tasks.add(() -> {
                 long start = System.currentTimeMillis();
-                boolean isSuccess = false;
-
-                try (Socket socket = new Socket("localhost", TARGET_PORT);
+                try (Socket socket = new Socket("localhost", port);
                      OutputStream os = socket.getOutputStream();
                      InputStream is = socket.getInputStream()) {
-
-              
                     os.write(requestBytes);
                     os.flush();
-
-                
-                    byte[] responseBytes = is.readAllBytes();
-                    String response = new String(responseBytes, StandardCharsets.UTF_8);
-
-                
-                    if (response.startsWith("HTTP/1.1 200")) {
-                        isSuccess = true;
-                    } else {
-                        System.out.println("Error response:\n" + response);
+                    byte[] resp = is.readAllBytes();
+                    String response = new String(resp, StandardCharsets.UTF_8);
+                    if (!response.startsWith("HTTP/1.1 200")) {
+                        if (!silent) System.out.println("Non-200 response: " + response.split("\r\n")[0]);
+                        throw new RuntimeException("Non-200 response");
                     }
-                } catch (Exception e) {
-        
                 }
-
-                long end = System.currentTimeMillis();
-                if (!isSuccess) {
-                    throw new RuntimeException("Request failed"); 
-                }
-                return end - start;
+                return System.currentTimeMillis() - start;
             });
         }
 
-        long totalTestStart = System.currentTimeMillis();
-        List<Future<Long>> results = executor.invokeAll(tasks);
-        long totalTestEnd = System.currentTimeMillis();
+        List<Future<Long>> futures = executor.invokeAll(tasks);
         executor.shutdown();
 
-     
-        long totalDuration = 0;
-        int successfulRequests = 0;
-        for (Future<Long> res : results) {
-            try {
-                totalDuration += res.get(); 
-                successfulRequests++;
-            } catch (Exception e) {
-          
-            }
+        List<Long> latencies = new ArrayList<>();
+        for (Future<Long> f : futures) {
+            try { latencies.add(f.get()); } catch (Exception ignored) {}
+        }
+        return latencies;
+    }
+
+    private static void printResults(List<Long> latencies, long totalMs) {
+        if (latencies.isEmpty()) {
+            System.out.println("No successful requests.");
+            return;
         }
 
-        System.out.println("\n=== REAL TEST RESULTS ===");
-        System.out.println("Successful 200 OK requests: " + successfulRequests + " / " + tasks.size());
-        if (successfulRequests > 0) {
-            double avgTime = (double) totalDuration / successfulRequests;
-            System.out.printf("Average response time: %.2f ms\n", avgTime);
-        }
-        System.out.println("Total test time: " + (totalTestEnd - totalTestStart) + " ms");
+        Collections.sort(latencies);
+        long sum = latencies.stream().mapToLong(Long::longValue).sum();
+        double avg = (double) sum / latencies.size();
+        long p95 = latencies.get((int) Math.ceil(latencies.size() * 0.95) - 1);
+        long p99 = latencies.get((int) Math.ceil(latencies.size() * 0.99) - 1);
+        long min = latencies.get(0);
+        long max = latencies.get(latencies.size() - 1);
+        double throughput = latencies.size() / (totalMs / 1000.0);
+
+        System.out.println("\n=== RESULTS ===");
+        System.out.printf("Successful requests : %d%n", latencies.size());
+        System.out.printf("Total test time     : %d ms%n", totalMs);
+        System.out.printf("Throughput          : %.2f req/s%n", throughput);
+        System.out.printf("Avg latency         : %.2f ms%n", avg);
+        System.out.printf("Min latency         : %d ms%n", min);
+        System.out.printf("p95 latency         : %d ms%n", p95);
+        System.out.printf("p99 latency         : %d ms%n", p99);
+        System.out.printf("Max latency         : %d ms%n", max);
+    }
+
+    private static String buildRequest(String path, int port, String body) {
+        return "POST " + path + " HTTP/1.1\r\n" +
+               "Host: localhost:" + port + "\r\n" +
+               "Content-Type: application/json\r\n" +
+               "Content-Length: " + body.getBytes(StandardCharsets.UTF_8).length + "\r\n" +
+               "Connection: close\r\n\r\n" +
+               body;
     }
 }

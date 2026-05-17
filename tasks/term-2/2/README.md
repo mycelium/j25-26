@@ -1,5 +1,9 @@
 выполнен Bonus: multipart form data ! порт 8081
 
+
+
+
+
 curl -i -X GET http://localhost:8081/hello
 HTTP/1.1 200 OK
 Content-Type: text/plain; charset=utf-8
@@ -49,3 +53,6 @@ Content-Type: text/plain; charset=utf-8
 Content-Length: 49
 
 Item partially patched with: Updated single field
+
+
+if curl not working try curl.exe - curl.exe -i -X GET http://localhost:8081/hello
