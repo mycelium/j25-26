@@ -5,7 +5,12 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        HttpServer server = new HttpServer("localhost", 55555, 4, false);
+        HttpServer server = HttpServer.builder()
+                .host("localhost")
+                .port(55555)
+                .threads(4)
+                .virtual(false)
+                .build();
 
         server.on(HttpMethod.GET, "/hello", (req, res) -> {
             res.writeText("Hello, World!");
@@ -43,6 +48,16 @@ public class Main {
         server.on(HttpMethod.POST, "/form", (req, res) -> {
             String name = req.formFields().getOrDefault("name", "unknown");
             res.writeText("Hello, " + name);
+        });
+
+        server.on(HttpMethod.POST, "/upload", (req, res) -> {
+            MultipartPart file = req.parts().get("file");
+            if (file == null) {
+                res.status(400).writeText("File field is missing");
+                return;
+            }
+
+            res.writeText("Uploaded: " + file.filename() + ", size=" + file.body().length);
         });
 
         server.start();

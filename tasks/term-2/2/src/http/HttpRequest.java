@@ -2,6 +2,7 @@ package http;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class HttpRequest {
@@ -12,6 +13,7 @@ public final class HttpRequest {
     private final Map<String, String> headers;
     private final Map<String, String> queryParams;
     private final Map<String, String> formFields;
+    private final Map<String, MultipartPart> parts;
     private final byte[] body;
 
     public HttpRequest(HttpMethod method,
@@ -20,13 +22,15 @@ public final class HttpRequest {
                        Map<String, String> headers,
                        Map<String, String> queryParams,
                        Map<String, String> formFields,
+                       Map<String, MultipartPart> parts,
                        byte[] body) {
         this.method = method;
         this.path = path;
         this.version = version;
-        this.headers = Collections.unmodifiableMap(headers);
-        this.queryParams = Collections.unmodifiableMap(queryParams);
-        this.formFields = Collections.unmodifiableMap(formFields);
+        this.headers = Collections.unmodifiableMap(new LinkedHashMap<>(headers));
+        this.queryParams = Collections.unmodifiableMap(new LinkedHashMap<>(queryParams));
+        this.formFields = Collections.unmodifiableMap(new LinkedHashMap<>(formFields));
+        this.parts = Collections.unmodifiableMap(new LinkedHashMap<>(parts));
         this.body = body == null ? new byte[0] : body.clone();
     }
 
@@ -52,6 +56,10 @@ public final class HttpRequest {
 
     public Map<String, String> formFields() {
         return formFields;
+    }
+
+    public Map<String, MultipartPart> parts() {
+        return parts;
     }
 
     public byte[] body() {

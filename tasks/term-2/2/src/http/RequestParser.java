@@ -2,29 +2,34 @@ package http;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 final class RequestParser {
 
-    private static final int CR = '\r';
-    private static final int LF = '\n';
+    private static final int BUFFER_SIZE = 8192;
+    private static final byte[] HEADER_END = {'\r', '\n', '\r', '\n'};
+    private static final byte[] CRLF = {'\r', '\n'};
 
     private RequestParser() {
     }
 
-    static HttpRequest parse(InputStream in) throws IOException {
-        String startLine = readLine(in);
-        if (startLine == null || startLine.isEmpty()) {
+    static HttpRequest parse(SocketChannel channel) throws IOException {
+        RawRequest rawRequest = readRawRequest(channel);
+        String head = new String(rawRequest.head(), StandardCharsets.ISO_8859_1);
+        String[] lines = head.split("\r\n");
+        if (lines.length == 0 || lines[0].isEmpty()) {
             throw new IOException("Empty request line");
         }
 
-        String[] tokens = startLine.split(" ");
+        String[] tokens = lines[0].split(" ");
         if (tokens.length < 3) {
-            throw new IOException("Malformed start line: " + startLine);
+            throw new IOException("Malformed start line: " + lines[0]);
         }
 
         HttpMethod method;
@@ -33,9 +38,9 @@ final class RequestParser {
         } catch (IllegalArgumentException exception) {
             throw new IOException("Unsupported HTTP method: " + tokens[0], exception);
         }
+
         String target = tokens[1];
         String version = tokens[2];
-
         String path;
         String rawQuery;
         int qPos = target.indexOf('?');
@@ -47,77 +52,111 @@ final class RequestParser {
             rawQuery = target.substring(qPos + 1);
         }
 
-        Map<String, String> headers = readHeaders(in);
+        Map<String, String> headers = readHeaders(lines);
+        int contentLength = contentLength(headers);
+        byte[] body = readBody(channel, rawRequest.bodyPrefix(), contentLength);
+        Map<String, MultipartPart> parts = parseMultipart(headers, body);
 
-        int contentLength = 0;
-        String cl = headers.get("content-length");
-        if (cl != null) {
-            try {
-                contentLength = Integer.parseInt(cl.trim());
-            } catch (NumberFormatException nfe) {
-                contentLength = 0;
-            }
-        }
-
-        byte[] body = readBody(in, contentLength);
-
-        Map<String, String> queryParams = parseQuery(rawQuery);
-        Map<String, String> formFields = parseMultipart(headers, body);
-
-        return new HttpRequest(method, path, version, headers, queryParams, formFields, body);
+        return new HttpRequest(
+                method,
+                path,
+                version,
+                headers,
+                parseQuery(rawQuery),
+                textFields(parts),
+                parts,
+                body
+        );
     }
 
-    private static String readLine(InputStream in) throws IOException {
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        int prev = -1;
-        int b;
-        while ((b = in.read()) != -1) {
-            if (prev == CR && b == LF) {
-                byte[] data = buf.toByteArray();
-                return new String(data, 0, data.length - 1, StandardCharsets.ISO_8859_1);
+    private static RawRequest readRawRequest(SocketChannel channel) throws IOException {
+        ByteArrayOutputStream data = new ByteArrayOutputStream();
+        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+        int headerEnd = -1;
+
+        while (headerEnd < 0) {
+            buffer.clear();
+            int read = channel.read(buffer);
+            if (read < 0) {
+                throw new IOException("Unexpected end of stream while reading headers");
             }
-            buf.write(b);
-            prev = b;
+            if (read == 0) {
+                continue;
+            }
+
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                data.write(buffer.get());
+            }
+            headerEnd = indexOf(data.toByteArray(), HEADER_END, 0);
         }
-        if (buf.size() == 0) {
-            return null;
-        }
-        return buf.toString(StandardCharsets.ISO_8859_1);
+
+        byte[] all = data.toByteArray();
+        int bodyStart = headerEnd + HEADER_END.length;
+        return new RawRequest(
+                Arrays.copyOfRange(all, 0, headerEnd),
+                Arrays.copyOfRange(all, bodyStart, all.length)
+        );
     }
 
-    private static Map<String, String> readHeaders(InputStream in) throws IOException {
-        Map<String, String> map = new HashMap<>();
-        String line;
-        while ((line = readLine(in)) != null && !line.isEmpty()) {
-            int colon = line.indexOf(':');
+    private static Map<String, String> readHeaders(String[] lines) {
+        Map<String, String> map = new LinkedHashMap<>();
+        for (int i = 1; i < lines.length; i++) {
+            int colon = lines[i].indexOf(':');
             if (colon <= 0) {
                 continue;
             }
-            String name = line.substring(0, colon).trim().toLowerCase();
-            String value = line.substring(colon + 1).trim();
+            String name = lines[i].substring(0, colon).trim().toLowerCase();
+            String value = lines[i].substring(colon + 1).trim();
             map.put(name, value);
         }
         return map;
     }
 
-    private static byte[] readBody(InputStream in, int length) throws IOException {
+    private static int contentLength(Map<String, String> headers) {
+        String value = headers.get("content-length");
+        if (value == null) {
+            return 0;
+        }
+        try {
+            return Math.max(0, Integer.parseInt(value.trim()));
+        } catch (NumberFormatException exception) {
+            return 0;
+        }
+    }
+
+    private static byte[] readBody(SocketChannel channel, byte[] prefix, int length) throws IOException {
         if (length <= 0) {
             return new byte[0];
         }
-        byte[] data = new byte[length];
-        int total = 0;
-        while (total < length) {
-            int n = in.read(data, total, length - total);
-            if (n < 0) {
+
+        ByteArrayOutputStream body = new ByteArrayOutputStream(length);
+        body.write(prefix, 0, Math.min(prefix.length, length));
+        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+
+        while (body.size() < length) {
+            buffer.clear();
+            int read = channel.read(buffer);
+            if (read < 0) {
                 throw new IOException("Unexpected end of stream while reading body");
             }
-            total += n;
+            if (read == 0) {
+                continue;
+            }
+
+            buffer.flip();
+            int needed = length - body.size();
+            int count = Math.min(buffer.remaining(), needed);
+            byte[] chunk = new byte[count];
+            buffer.get(chunk);
+            body.write(chunk);
         }
-        return data;
+
+        return body.toByteArray();
     }
 
     private static Map<String, String> parseQuery(String raw) throws IOException {
-        Map<String, String> result = new HashMap<>();
+        Map<String, String> result = new LinkedHashMap<>();
         if (raw == null || raw.isEmpty()) {
             return result;
         }
@@ -143,77 +182,147 @@ final class RequestParser {
         }
     }
 
-    private static Map<String, String> parseMultipart(Map<String, String> headers, byte[] body) {
-        Map<String, String> fields = new HashMap<>();
+    private static Map<String, MultipartPart> parseMultipart(Map<String, String> headers, byte[] body) {
+        Map<String, MultipartPart> parts = new LinkedHashMap<>();
         String contentType = headers.get("content-type");
         if (contentType == null || !contentType.startsWith("multipart/form-data")) {
-            return fields;
+            return parts;
         }
 
-        String boundary = null;
-        for (String chunk : contentType.split(";")) {
-            String t = chunk.trim();
-            if (t.startsWith("boundary=")) {
-                boundary = t.substring("boundary=".length());
-                if (boundary.startsWith("\"") && boundary.endsWith("\"") && boundary.length() >= 2) {
-                    boundary = boundary.substring(1, boundary.length() - 1);
-                }
+        String boundary = boundaryOf(contentType);
+        if (boundary == null || boundary.isEmpty()) {
+            return parts;
+        }
+
+        byte[] delimiter = ("--" + boundary).getBytes(StandardCharsets.ISO_8859_1);
+        int current = indexOf(body, delimiter, 0);
+        while (current >= 0) {
+            int partStart = current + delimiter.length;
+            if (startsWith(body, partStart, "--".getBytes(StandardCharsets.ISO_8859_1))) {
                 break;
             }
+            if (startsWith(body, partStart, CRLF)) {
+                partStart += CRLF.length;
+            }
+
+            int next = indexOf(body, delimiter, partStart);
+            if (next < 0) {
+                break;
+            }
+
+            int partEnd = next;
+            if (partEnd >= 2 && body[partEnd - 2] == '\r' && body[partEnd - 1] == '\n') {
+                partEnd -= 2;
+            }
+
+            addPart(parts, body, partStart, partEnd);
+            current = next;
         }
-        if (boundary == null) {
-            return fields;
+        return parts;
+    }
+
+    private static String boundaryOf(String contentType) {
+        for (String chunk : contentType.split(";")) {
+            String token = chunk.trim();
+            if (token.startsWith("boundary=")) {
+                String boundary = token.substring("boundary=".length());
+                if (boundary.startsWith("\"") && boundary.endsWith("\"") && boundary.length() >= 2) {
+                    return boundary.substring(1, boundary.length() - 1);
+                }
+                return boundary;
+            }
+        }
+        return null;
+    }
+
+    private static void addPart(Map<String, MultipartPart> parts, byte[] body, int start, int end) {
+        int separator = indexOf(body, HEADER_END, start);
+        if (separator < 0 || separator >= end) {
+            return;
         }
 
-        String text = new String(body, StandardCharsets.ISO_8859_1);
-        String delimiter = "--" + boundary;
-        String[] segments = text.split(java.util.regex.Pattern.quote(delimiter));
+        String rawHeaders = new String(body, start, separator - start, StandardCharsets.ISO_8859_1);
+        Map<String, String> headers = readPartHeaders(rawHeaders);
+        String disposition = headers.get("content-disposition");
+        String name = dispositionValue(disposition, "name");
+        if (name == null) {
+            return;
+        }
 
-        for (String segment : segments) {
-            String s = segment;
-            if (s.isEmpty() || s.equals("--") || s.equals("--\r\n")) {
+        String filename = dispositionValue(disposition, "filename");
+        String contentType = headers.get("content-type");
+        byte[] content = Arrays.copyOfRange(body, separator + HEADER_END.length, end);
+        parts.put(name, new MultipartPart(name, filename, contentType, headers, content));
+    }
+
+    private static Map<String, String> readPartHeaders(String rawHeaders) {
+        Map<String, String> headers = new LinkedHashMap<>();
+        for (String line : rawHeaders.split("\r\n")) {
+            int colon = line.indexOf(':');
+            if (colon <= 0) {
                 continue;
             }
-            if (s.startsWith("\r\n")) {
-                s = s.substring(2);
-            }
+            headers.put(line.substring(0, colon).trim().toLowerCase(), line.substring(colon + 1).trim());
+        }
+        return headers;
+    }
 
-            int sep = s.indexOf("\r\n\r\n");
-            if (sep < 0) {
-                continue;
-            }
+    private static String dispositionValue(String disposition, String key) {
+        if (disposition == null) {
+            return null;
+        }
+        String prefix = key + "=\"";
+        int start = disposition.indexOf(prefix);
+        if (start < 0) {
+            return null;
+        }
+        start += prefix.length();
+        int end = disposition.indexOf('"', start);
+        if (end < 0) {
+            return null;
+        }
+        return disposition.substring(start, end);
+    }
 
-            String head = s.substring(0, sep);
-            String content = s.substring(sep + 4);
-            if (content.endsWith("\r\n")) {
-                content = content.substring(0, content.length() - 2);
-            }
-
-            String fieldName = extractFieldName(head);
-            if (fieldName != null) {
-                fields.put(fieldName, content);
+    private static Map<String, String> textFields(Map<String, MultipartPart> parts) {
+        Map<String, String> fields = new LinkedHashMap<>();
+        for (Map.Entry<String, MultipartPart> entry : parts.entrySet()) {
+            MultipartPart part = entry.getValue();
+            if (part.filename() == null) {
+                fields.put(entry.getKey(), part.bodyAsString());
             }
         }
         return fields;
     }
 
-    private static String extractFieldName(String headerBlock) {
-        for (String line : headerBlock.split("\r\n")) {
-            String lower = line.toLowerCase();
-            if (!lower.startsWith("content-disposition:")) {
-                continue;
+    private static int indexOf(byte[] data, byte[] pattern, int start) {
+        for (int i = Math.max(0, start); i <= data.length - pattern.length; i++) {
+            boolean found = true;
+            for (int j = 0; j < pattern.length; j++) {
+                if (data[i + j] != pattern[j]) {
+                    found = false;
+                    break;
+                }
             }
-            int idx = line.indexOf("name=\"");
-            if (idx < 0) {
-                return null;
+            if (found) {
+                return i;
             }
-            int start = idx + 6;
-            int end = line.indexOf('"', start);
-            if (end < 0) {
-                return null;
-            }
-            return line.substring(start, end);
         }
-        return null;
+        return -1;
+    }
+
+    private static boolean startsWith(byte[] data, int start, byte[] pattern) {
+        if (start < 0 || start + pattern.length > data.length) {
+            return false;
+        }
+        for (int i = 0; i < pattern.length; i++) {
+            if (data[start + i] != pattern[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private record RawRequest(byte[] head, byte[] bodyPrefix) {
     }
 }

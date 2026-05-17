@@ -1,7 +1,8 @@
 package http;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -10,14 +11,9 @@ final class ResponseWriter {
     private ResponseWriter() {
     }
 
-    static void write(OutputStream out, HttpResponse response) throws IOException {
+    static void write(SocketChannel channel, HttpResponse response) throws IOException {
         byte[] body = response.body();
-
-        if (body.length > 0) {
-            response.headers().putIfAbsent("Content-Length", String.valueOf(body.length));
-        } else {
-            response.headers().putIfAbsent("Content-Length", "0");
-        }
+        response.mutableHeaders().putIfAbsent("Content-Length", String.valueOf(body.length));
 
         StringBuilder head = new StringBuilder();
         head.append("HTTP/1.1 ")
@@ -31,11 +27,16 @@ final class ResponseWriter {
         }
         head.append("\r\n");
 
-        out.write(head.toString().getBytes(StandardCharsets.UTF_8));
+        writeFully(channel, ByteBuffer.wrap(head.toString().getBytes(StandardCharsets.UTF_8)));
         if (body.length > 0) {
-            out.write(body);
+            writeFully(channel, ByteBuffer.wrap(body));
         }
-        out.flush();
+    }
+
+    private static void writeFully(SocketChannel channel, ByteBuffer buffer) throws IOException {
+        while (buffer.hasRemaining()) {
+            channel.write(buffer);
+        }
     }
 
     private static String reasonOf(int code) {

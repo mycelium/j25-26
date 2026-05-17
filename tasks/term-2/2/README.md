@@ -3,6 +3,16 @@
 Сервер построен на `ServerSocketChannel`, принимает обработчики для конкретной пары
 `HTTP-метод + путь` и передает пользователю объекты `HttpRequest` и `HttpResponse`.
 
+## Архитектура
+
+- `HttpServer` — хранит маршруты, запускает accept-loop и передает соединения в `ExecutorService`.
+- `RequestParser` — внутренний класс для разбора стартовой строки, headers, query parameters, body и multipart parts через `SocketChannel`.
+- `ResponseWriter` — внутренний класс для формирования HTTP-ответа, status line, headers и body через `SocketChannel`.
+- `HttpRequest` — immutable объект запроса.
+- `HttpResponse` — mutable/fluent объект ответа, который изменяется обработчиком.
+- `MultipartPart` — объект одной части `multipart/form-data`, включая `name`, `filename`, `contentType`, headers и body.
+- `RouteHandler` — функциональный интерфейс пользовательского обработчика.
+
 ## Компиляция и запуск
 
 1. Компиляция файлов библиотеки `.java` в `.class`
@@ -82,6 +92,10 @@ curl.exe http://localhost:55555/headers -H "X-Demo: yes"
 curl.exe -X POST http://localhost:55555/form -F "name=Aleksei"
 ```
 
+```bash
+curl.exe -X POST http://localhost:55555/upload -F "file=@test.txt"
+```
+
 ## Публичный API
 
 ### `HttpServer`
@@ -90,6 +104,17 @@ curl.exe -X POST http://localhost:55555/form -F "name=Aleksei"
 
 ```java
 HttpServer server = new HttpServer("localhost", 55555, 4, false);
+```
+
+Также доступен builder API:
+
+```java
+HttpServer server = HttpServer.builder()
+    .host("localhost")
+    .port(55555)
+    .threads(4)
+    .virtual(false)
+    .build();
 ```
 
 Параметры конструктора:
@@ -147,6 +172,7 @@ void handle(HttpRequest request, HttpResponse response) throws Exception;
 - `headers()` - заголовки в виде `Map<String, String>`.
 - `query()` - query-параметры из URL.
 - `formFields()` - текстовые поля из `multipart/form-data`.
+- `parts()` - все части `multipart/form-data`, включая файловые части.
 - `body()` - тело запроса в байтах.
 - `bodyAsString()` - тело запроса как UTF-8 строка.
 
@@ -158,7 +184,7 @@ void handle(HttpRequest request, HttpResponse response) throws Exception;
 
 - `status(int code)` - задает HTTP-статус.
 - `header(String name, String value)` - добавляет заголовок.
-- `headers()` - возвращает изменяемую карту заголовков ответа.
+- `headers()` - возвращает read-only карту заголовков ответа.
 - `writeBytes(byte[] data)` - записывает тело ответа в байтах.
 - `writeText(String text)` - записывает UTF-8 текст и автоматически ставит
   `Content-Type: text/plain; charset=utf-8`, если он еще не задан.
@@ -206,10 +232,11 @@ Hello, World!
 
 ## Multipart form data
 
-Поддержка `multipart/form-data` реализована для текстовых полей формы.
+Поддержка `multipart/form-data` реализована для текстовых полей формы и файловых частей.
 Сервер берет `boundary` из заголовка `Content-Type`, разбивает тело запроса на
 части и складывает поля с `Content-Disposition: form-data; name="..."` в
-`request.formFields()`.
+`request.formFields()`. Все части формы также доступны через `request.parts()`;
+для файлов там сохраняются `filename`, `content-type`, headers и body в байтах.
 
 Пример:
 
@@ -217,10 +244,22 @@ Hello, World!
 curl.exe -X POST http://localhost:55555/form -F "name=Aleksei"
 ```
 
+```bash
+curl.exe -X POST http://localhost:55555/upload -F "file=@test.txt"
+```
+
 В обработчике:
 
 ```java
 String name = request.formFields().getOrDefault("name", "unknown");
+```
+
+Пример доступа к файлу:
+
+```java
+MultipartPart file = request.parts().get("file");
+String filename = file.filename();
+byte[] bytes = file.body();
 ```
 
 ## Многопоточность
@@ -245,4 +284,3 @@ new HttpServer("localhost", 55555, 4, true);
 В этом режиме используется виртуальный поток на каждую задачу, а параметр
 `threads` остается частью общей конфигурации конструктора, но не ограничивает
 количество виртуальных потоков.
-

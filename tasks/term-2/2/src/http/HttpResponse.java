@@ -1,6 +1,7 @@
 package http;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public final class HttpResponse {
     }
 
     public Map<String, String> headers() {
-        return headers;
+        return Collections.unmodifiableMap(headers);
     }
 
     public HttpResponse header(String name, String value) {
@@ -43,5 +44,9 @@ public final class HttpResponse {
             headers.put("Content-Type", "text/plain; charset=utf-8");
         }
         return this;
+    }
+
+    Map<String, String> mutableHeaders() {
+        return headers;
     }
 }
