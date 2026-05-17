@@ -19,9 +19,9 @@ import java.util.Queue;
 import java.util.Set;
 
 public final class Json {
-    private final NamingPolicy fieldNaming;
+    private final FieldNamePolicy fieldNaming;
     private final boolean writeNulls;
-    private final Map<Class<?>, JsonAdapter<?>> converters;
+    private final Map<Class<?>, JsonConverter<?>> converters;
 
     private Json(Builder builder) {
         this.fieldNaming = builder.fieldNaming;
@@ -50,7 +50,7 @@ public final class Json {
         return convert(parse(json), type);
     }
 
-    public <T> T fromJson(String json, TypeToken<T> token) {
+    public <T> T fromJson(String json, JsonType<T> token) {
         @SuppressWarnings("unchecked")
         T result = (T) convert(parse(json), token.getType());
         return result;
@@ -69,9 +69,13 @@ public final class Json {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Object convert(Object value, Type targetType) {
         if (targetType instanceof Class<?> type) {
-            JsonAdapter<?> adapter = converters.get(type);
+            if (type == void.class || type == Void.class) {
+                throw new JsonException("Void type is not supported");
+            }
+
+            JsonConverter<?> adapter = converters.get(type);
             if (adapter != null) {
-                return ((JsonAdapter) adapter).decode(value);
+                return ((JsonConverter) adapter).decode(value);
             }
 
             if (value == null) {
@@ -173,7 +177,7 @@ public final class Json {
 
         Map<Object, Object> result = createMap(mapType);
         for (Map.Entry<?, ?> entry : map.entrySet()) {
-            Object key = convert(entry.getKey(), keyType);
+            Object key = convertMapKey(entry.getKey(), keyType);
             Object mappedValue = convert(entry.getValue(), valueType);
             result.put(key, mappedValue);
         }
@@ -233,6 +237,42 @@ public final class Json {
         throw typeError(value, type);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private Object convertMapKey(Object value, Type keyType) {
+        if (!(value instanceof String text)) {
+            return convert(value, keyType);
+        }
+        if (!(keyType instanceof Class<?> type)) {
+            return convert(value, keyType);
+        }
+
+        if (type == Object.class || type == String.class) {
+            return text;
+        }
+        if (type == char.class || type == Character.class) {
+            if (text.length() != 1) {
+                throw new JsonException("Cannot convert map key to char: " + text);
+            }
+            return text.charAt(0);
+        }
+        if (type == byte.class || type == Byte.class) {
+            return Byte.parseByte(text);
+        }
+        if (type == short.class || type == Short.class) {
+            return Short.parseShort(text);
+        }
+        if (type == int.class || type == Integer.class) {
+            return Integer.parseInt(text);
+        }
+        if (type == long.class || type == Long.class) {
+            return Long.parseLong(text);
+        }
+        if (type.isEnum()) {
+            return Enum.valueOf((Class<Enum>) type.asSubclass(Enum.class), text);
+        }
+        return convert(value, keyType);
+    }
+
     private String requireString(Object value, Class<?> targetType) {
         if (value instanceof String text) {
             return text;
@@ -247,7 +287,25 @@ public final class Json {
         if (type == char.class) {
             return '\0';
         }
-        return 0;
+        if (type == byte.class) {
+            return (byte) 0;
+        }
+        if (type == short.class) {
+            return (short) 0;
+        }
+        if (type == int.class) {
+            return 0;
+        }
+        if (type == long.class) {
+            return 0L;
+        }
+        if (type == float.class) {
+            return 0.0f;
+        }
+        if (type == double.class) {
+            return 0.0d;
+        }
+        throw new JsonException("Unsupported primitive type: " + type);
     }
 
     private Class<?> rawClass(Type type) {
@@ -310,14 +368,14 @@ public final class Json {
     }
 
     public static final class Builder {
-        private NamingPolicy fieldNaming = NamingPolicy.KEEP_ORIGINAL;
+        private FieldNamePolicy fieldNaming = FieldNamePolicy.KEEP_ORIGINAL;
         private boolean writeNulls = true;
-        private final Map<Class<?>, JsonAdapter<?>> converters = new LinkedHashMap<>();
+        private final Map<Class<?>, JsonConverter<?>> converters = new LinkedHashMap<>();
 
         private Builder() {
         }
 
-        public Builder fieldNames(NamingPolicy fieldNaming) {
+        public Builder fieldNames(FieldNamePolicy fieldNaming) {
             if (fieldNaming == null) {
                 throw new JsonException("Field naming mode must not be null");
             }
@@ -330,7 +388,7 @@ public final class Json {
             return this;
         }
 
-        public <T> Builder registerConverter(Class<T> type, JsonAdapter<T> converter) {
+        public <T> Builder registerConverter(Class<T> type, JsonConverter<T> converter) {
             if (type == null || converter == null) {
                 throw new JsonException("Converter type and implementation must not be null");
             }

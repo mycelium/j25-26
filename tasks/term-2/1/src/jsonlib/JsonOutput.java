@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 final class JsonOutput {
-    private final NamingPolicy fieldNaming;
+    private final FieldNamePolicy fieldNaming;
     private final boolean writeNulls;
-    private final Map<Class<?>, JsonAdapter<?>> converters;
+    private final Map<Class<?>, JsonConverter<?>> converters;
 
-    JsonOutput(NamingPolicy fieldNaming, boolean writeNulls, Map<Class<?>, JsonAdapter<?>> converters) {
+    JsonOutput(FieldNamePolicy fieldNaming, boolean writeNulls, Map<Class<?>, JsonConverter<?>> converters) {
         this.fieldNaming = fieldNaming;
         this.writeNulls = writeNulls;
         this.converters = converters;
@@ -34,7 +34,7 @@ final class JsonOutput {
             return;
         }
 
-        JsonAdapter<Object> adapter = (JsonAdapter<Object>) converters.get(value.getClass());
+        JsonConverter<Object> adapter = (JsonConverter<Object>) converters.get(value.getClass());
         if (adapter != null) {
             appendValue(adapter.encode(value), builder, visiting);
             return;
