@@ -27,7 +27,7 @@
 
     Пример для Windows (cmd):
     ```
-    javac jsonlib\*.java Main.java
+    javac jsonparser\*.java Main.java
     ```
 3. Запустите программу:
     ```
