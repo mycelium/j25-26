@@ -21,7 +21,7 @@ public class Json {
     @SuppressWarnings("unchecked")
     public static Map<String, Object> fromJsonAsMap(String json) {
         Object parsed = new JsonStringParser(json).parse();
-        if (parsed instanceof Map map) { 
+        if (parsed instanceof Map<?,?> map) { 
             return (Map<String, Object>) map;
         }
         throw new JsonException("Root element is not a JSON object");

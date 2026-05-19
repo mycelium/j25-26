@@ -46,7 +46,7 @@ public final class ObjectMapper {
         try {
         	var constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            var instance = clazz.getDeclaredConstructor().newInstance();
+            var instance = constructor.newInstance();
             for (var entry : map.entrySet()) {
                 try {
                     var field = clazz.getDeclaredField(entry.getKey());

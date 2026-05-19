@@ -21,17 +21,14 @@ public class JsonStringParser {
         }
         
         char current = peek();
-        switch (current) {
-            case '{': return parseObject();
-            case '[': return parseArray();
-            case '"': return parseString();
-            case 't':
-            case 'f': return parseBoolean();
-            case 'n': 
-                consume("null"); 
-                return null;
-            default: return parseNumber();
-        }
+        return switch (peek()) {
+        case '{' -> parseObject();
+        case '[' -> parseArray();
+        case '"' -> parseString();
+        case 't', 'f' -> parseBoolean();
+        case 'n' -> { consume("null"); yield null; }
+        default -> parseNumber();
+    };
     }
 
     private Map<String, Object> parseObject() {
