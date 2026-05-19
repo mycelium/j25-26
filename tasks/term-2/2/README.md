@@ -1,6 +1,6 @@
-Компиляция и запуск сервера:
+Компиляция и запуск сервера (из корня - lab2_http):
 
-javac *.java
+javac core/http/*.java Main.java
 
 java Main
 
