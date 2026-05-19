@@ -1,8 +1,8 @@
+package core.http;
+
 import java.io.*;
 import java.util.*;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Collections;
 
 public class HttpReq {
     private final String method;
@@ -94,7 +94,4 @@ public class HttpReq {
 
         return MultipartParser.parse(body, boundary);
     }
-    
-    
-    
 }

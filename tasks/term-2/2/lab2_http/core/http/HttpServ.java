@@ -1,3 +1,5 @@
+package core.http;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.channels.*;
@@ -27,7 +29,7 @@ public class HttpServ {
     }
 
     public void addListener(String method, String path, HttpHandler handler) {
-        routes.computeIfAbsent(path, k -> new HashMap<>())
+        routes.computeIfAbsent(path, _ -> new HashMap<>())
               .put(method.toUpperCase(), handler);
     }
 
@@ -47,9 +49,24 @@ public class HttpServ {
     }
 
     public void stop() throws IOException {
-        executor.shutdown();
-        if (serverChannel != null && serverChannel.isOpen()) {
-            serverChannel.close();
+        try {
+            if (serverChannel != null && serverChannel.isOpen()) {
+                serverChannel.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Error closing server channel: " + e.getMessage());
+        }
+
+        if (executor != null) {
+            executor.shutdown(); 
+            try {
+                if (!executor.awaitTermination(2, TimeUnit.SECONDS)) {
+                    executor.shutdownNow(); 
+                }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
         System.out.println("Server stopped");
     }
@@ -72,11 +89,11 @@ public class HttpServ {
                 } catch (Exception e) {
                     System.err.println("Handler error: " + e.getMessage());
                     response = new HttpRes();
-                    response.setStatus(500, "Internal Server Error");
+                    response.setStatus(500); 
                     response.setBody("500 Internal Server Error: " + e.getMessage());
                 }
             } else {
-                response.setStatus(404, "Not Found");
+                response.setStatus(404); 
                 response.setBody("404 Page Not Found");
             }
 

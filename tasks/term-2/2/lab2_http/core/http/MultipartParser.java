@@ -1,3 +1,5 @@
+package core.http;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;

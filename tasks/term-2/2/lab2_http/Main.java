@@ -1,4 +1,7 @@
+import core.http.HttpServ;
+import core.http.MultipartPart;
 import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         HttpServ server = new HttpServ("localhost", 8080, 10, false);
@@ -12,7 +15,7 @@ public class Main {
         // POST
         server.addListener("POST", "/data", (req, res) -> {
             System.out.println("[POST] Body: " + req.getBody());
-            res.setStatus(201, "Created");
+            res.setStatus(201); 
             res.setBody("Data received successfully");
         });
 
@@ -30,18 +33,18 @@ public class Main {
 
         // DELETE
         server.addListener("DELETE", "/remove", (req, res) -> {
-            res.setStatus(204, "No Content");
+            res.setStatus(204); 
             System.out.println("[DELETE] Resource deleted");
         });
 
-        // Headers как Map
+        // Headers
         server.addListener("GET", "/info", (req, res) -> {
             String userAgent = req.getHeaders().getOrDefault("User-Agent", "Unknown");
             res.addHeader("X-Custom-Header", "JavaServer-v1");
             res.setBody("Your Browser: " + userAgent);
         });
 
-        // многопоточность
+        // Многопоточность
         server.addListener("GET", "/long", (req, res) -> {
             try {
                 String threadName = Thread.currentThread().getName();
@@ -53,12 +56,12 @@ public class Main {
             }
         });
         
-     // Multipart form data
+        // Multipart form data
         server.addListener("POST", "/upload", (req, res) -> {
             List<MultipartPart> parts = req.getParts();
 
             if (parts.isEmpty()) {
-                res.setStatus(400, "Bad Request");
+                res.setStatus(400);
                 res.setBody("No multipart data found");
                 return;
             }
@@ -66,14 +69,12 @@ public class Main {
             StringBuilder result = new StringBuilder();
             for (MultipartPart part : parts) {
                 if (part.getFilename() != null) {
-                    // файл
                     result.append("File: ")
                           .append(part.getFilename())
                           .append(", size: ")
                           .append(part.getBytes().length)
                           .append(" bytes\n");
                 } else {
-                    // текстовое поле
                     result.append("Field: ")
                           .append(part.getName())
                           .append(" = ")
@@ -82,7 +83,7 @@ public class Main {
                 }
             }
 
-            res.setStatus(200, "OK");
+            res.setStatus(200);
             res.setBody(result.toString());
         });
 
