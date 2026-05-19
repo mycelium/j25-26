@@ -15,5 +15,5 @@ java {
     }
 }
 application {
-    mainClass.set('app.Main')
+    mainClass = 'httpserver.Main'
 }
