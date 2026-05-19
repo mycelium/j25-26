@@ -4,7 +4,7 @@
 
 ### Перейти в папку с проектом
 ```bash
-path/to/folder/tasks/term-2/1/json1
+cd path/to/folder/tasks/term-2/1/json1
 
 ```
 ### Сборка
