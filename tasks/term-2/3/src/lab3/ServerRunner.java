@@ -25,11 +25,10 @@ public class ServerRunner {
         HttpServ server = new HttpServ("localhost", 8080, 100, isVirtual);
         final boolean finalUseOwnParser = useOwnParser;
 
-        // Эндпоинт /calculate (CPU-bound)
         server.addListener("POST", "/calculate", (req, res) -> {
             try {
                 String body = req.getBody();
-                
+
                 if (body == null || body.trim().isEmpty()) {
                     res.setStatus(400);
                     res.setBody("{\"error\": \"Empty\"}");
@@ -38,7 +37,9 @@ public class ServerRunner {
 
                 Map<String, Object> data;
                 try {
-                    data = finalUseOwnParser ? (Map<String, Object>) Json.fromJson(body) : gson.fromJson(body, Map.class);
+                    data = finalUseOwnParser
+                            ? (Map<String, Object>) Json.fromJson(body)
+                            : gson.fromJson(body, Map.class);
                 } catch (Exception e) {
                     res.setStatus(400);
                     res.setBody("{\"error\": \"Parse Error\"}");
@@ -47,7 +48,7 @@ public class ServerRunner {
 
                 double sum = 0;
                 for (Object val : data.values()) {
-                    if (val instanceof Number) sum += ((Number) val).doubleValue();
+                    if (val instanceof Number n) sum += n.doubleValue();
                 }
 
                 Map<String, Object> result = new LinkedHashMap<>();
@@ -55,26 +56,61 @@ public class ServerRunner {
                 result.put("fields", data.size());
 
                 String response = finalUseOwnParser ? Json.toJson(result) : gson.toJson(result);
-                
+
                 res.setStatus(200);
                 res.addHeader("Content-Type", "application/json");
                 res.setBody(response);
+
             } catch (Exception e) {
                 res.setStatus(500);
                 res.setBody("{\"error\": \"Internal Error\"}");
             }
         });
-        
-        // Эндпоинт /store (I/O-bound)
+
         server.addListener("POST", "/store", (req, res) -> {
             String body = req.getBody();
-            
+
+            if (body == null || body.trim().isEmpty()) {
+                res.setStatus(400);
+                res.setBody("{\"error\": \"Empty\"}");
+                return;
+            }
+
+            Map<String, Object> data;
+            try {
+                data = finalUseOwnParser
+                        ? (Map<String, Object>) Json.fromJson(body)
+                        : gson.fromJson(body, Map.class);
+            } catch (Exception e) {
+                res.setStatus(400);
+                res.setBody("{\"error\": \"Parse Error\"}");
+                return;
+            }
+
+            String toWrite = finalUseOwnParser ? Json.toJson(data) : gson.toJson(data);
+
+            String lastLine;
             try {
                 Files.createDirectories(Paths.get("data"));
-                // Используем PrintWriter для стабильной записи каждой строки
                 synchronized (FILE_LOCK) {
-                    try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(STORAGE_FILE, true)))) {
-                        out.println(body);
+                    try (var out = new PrintWriter(
+                            new BufferedWriter(new FileWriter(STORAGE_FILE, true)))) {
+                        out.println(toWrite);
+                    }
+
+                    try (var raf = new RandomAccessFile(STORAGE_FILE, "r")) {
+                        long length = raf.length();
+                        if (length == 0) {
+                            lastLine = "{}";
+                        } else {
+                            long pos = length - 2;
+                            while (pos > 0) {
+                                raf.seek(pos);
+                                if (raf.read() == '\n') break;
+                                pos--;
+                            }
+                            lastLine = raf.readLine();
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -85,7 +121,7 @@ public class ServerRunner {
 
             res.setStatus(200);
             res.addHeader("Content-Type", "application/json");
-            res.setBody("{\"status\": \"ok\"}");
+            res.setBody(lastLine);
         });
 
         server.start();
