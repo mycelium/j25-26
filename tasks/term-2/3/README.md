@@ -16,12 +16,15 @@ javac -d bin -cp "lib/*" src/lab3/ServerRunner.java
 
 | Конфигурация | Команда запуска |
 |---|---|
-| **Classic + GSON** | `java -cp "bin:lib/*" lab3.ServerRunner` |
-| **Classic + Own Parser** | `java -cp "bin:lib/*" lab3.ServerRunner --own-parser` |
-| **Virtual + GSON** | `java -cp "bin:lib/*" lab3.ServerRunner --virtual` |
-| **Virtual + Own Parser** | `java -cp "bin:lib/*" lab3.ServerRunner --virtual --own-parser` |
+| **Classic + GSON** | `java -cp "bin;lib/*" lab3.ServerRunner` |
+| **Classic + Own Parser** | `java -cp "bin;lib/*" lab3.ServerRunner --own-parser` |
+| **Virtual + GSON** | `java -cp "bin;lib/*" lab3.ServerRunner --virtual` |
+| **Virtual + Own Parser** | `java -cp "bin;lib/*" lab3.ServerRunner --virtual --own-parser` |
 
 *Сервер будет запущен на `http://localhost:8080`.*
+
+*Команды в таблице предназначены для Windows (Git Bash). Для Linux или macOS, разделитель в кавычках необходимо изменить с точки с запятой на двоеточие: `"bin:lib/*"`.*
+
 
 ### Запуск JMeter
 1. Открыть `C:\JMeter\bin\jmeter.bat`.
