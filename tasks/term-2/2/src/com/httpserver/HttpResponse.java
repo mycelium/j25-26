@@ -1,66 +1,95 @@
 package com.httpserver;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class HttpResponse {
-    public int statusCode;
-    public String statusMessage;
-    public final Map<String, String> headers = new HashMap<>();
-    public byte[] body;
-    
-    public HttpResponse(int statusCode, String statusMessage) {
-        this(statusCode, statusMessage, new byte[0]);
-    }
-    
-    public HttpResponse(int statusCode, String statusMessage, byte[] body) {
-        this.statusCode = statusCode;
+public final class HttpResponse {
+
+    private final int statusCode;
+    private final String statusMessage;
+    private final Map<String, String> headers;
+    private final byte[] body;
+
+    private HttpResponse(int statusCode, String statusMessage,
+                         Map<String, String> headers, byte[] body) {
+        this.statusCode    = statusCode;
         this.statusMessage = statusMessage;
-        this.body = body;
+        this.headers       = Collections.unmodifiableMap(new LinkedHashMap<>(headers));
+        this.body          = body == null ? new byte[0] : body.clone();
+    }
+
+    // -------------------------------------------------------------------------
+    // Factory methods
+    // -------------------------------------------------------------------------
+
+    public static HttpResponse ok(String body) {
+        return text(200, "OK", body);
+    }
+
+    public static HttpResponse ok(byte[] body, String contentType) {
+        return bytes(200, "OK", body, contentType);
+    }
+
+    public static HttpResponse created(String body) {
+        return text(201, "Created", body);
+    }
+
+    public static HttpResponse badRequest(String body) {
+        return text(400, "Bad Request", body);
+    }
+
+    public static HttpResponse notFound(String body) {
+        return text(404, "Not Found", body);
+    }
+
+    public static HttpResponse methodNotAllowed(String allowedMethods) {
+        Map<String, String> headers = new LinkedHashMap<>();
+        headers.put("Allow", allowedMethods);
+        byte[] bytes = "Method Not Allowed".getBytes(StandardCharsets.UTF_8);
         headers.put("Content-Type", "text/plain; charset=utf-8");
+        headers.put("Content-Length", String.valueOf(bytes.length));
+        return new HttpResponse(405, "Method Not Allowed", headers, bytes);
     }
-    
-    public HttpResponse withHeader(String name, String value) {
-        headers.put(name, value);
-        return this;
+
+    public static HttpResponse internalServerError(String body) {
+        return text(500, "Internal Server Error", body);
     }
-    
-    public HttpResponse withJson() {
-        headers.put("Content-Type", "application/json");
-        return this;
+
+    // -------------------------------------------------------------------------
+    // Helpers internes
+    // -------------------------------------------------------------------------
+
+    private static HttpResponse text(int code, String message, String body) {
+        byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+        Map<String, String> headers = new LinkedHashMap<>();
+        headers.put("Content-Type", "text/plain; charset=utf-8");
+        headers.put("Content-Length", String.valueOf(bytes.length));
+        return new HttpResponse(code, message, headers, bytes);
     }
-    
+
+    private static HttpResponse bytes(int code, String message, byte[] body, String contentType) {
+        Map<String, String> headers = new LinkedHashMap<>();
+        headers.put("Content-Type", contentType);
+        headers.put("Content-Length", String.valueOf(body.length));
+        return new HttpResponse(code, message, headers, body);
+    }
+
+    // -------------------------------------------------------------------------
+    // Sérialisation
+    // -------------------------------------------------------------------------
+
     public byte[] toBytes() {
         StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 ").append(statusCode).append(" ").append(statusMessage).append("\r\n");
-        headers.put("Content-Length", String.valueOf(body.length));
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\r\n");
-        }
+        sb.append("HTTP/1.1 ").append(statusCode).append(' ').append(statusMessage).append("\r\n");
+        headers.forEach((k, v) -> sb.append(k).append(": ").append(v).append("\r\n"));
         sb.append("\r\n");
-        
-        byte[] headerBytes = sb.toString().getBytes();
-        byte[] result = Arrays.copyOf(headerBytes, headerBytes.length + body.length);
-        System.arraycopy(body, 0, result, headerBytes.length, body.length);
+
+        byte[] head = sb.toString().getBytes(StandardCharsets.US_ASCII);
+        byte[] result = new byte[head.length + body.length];
+        System.arraycopy(head, 0, result, 0, head.length);
+        System.arraycopy(body, 0, result, head.length, body.length);
         return result;
     }
-    
-    public static HttpResponse ok(String body) {
-        return new HttpResponse(200, "OK", body.getBytes());
-    }
-    
-    public static HttpResponse ok(byte[] body) {
-        return new HttpResponse(200, "OK", body);
-    }
-    
-    public static HttpResponse notFound(String message) {
-        return new HttpResponse(404, "Not Found", message.getBytes());
-    }
-    
-    public static HttpResponse badRequest(String message) {
-        return new HttpResponse(400, "Bad Request", message.getBytes());
-    }
-    
-    public static HttpResponse internalError(String message) {
-        return new HttpResponse(500, "Internal Server Error", message.getBytes());
-    }
+
+    public int getStatusCode() { return statusCode; }
 }
