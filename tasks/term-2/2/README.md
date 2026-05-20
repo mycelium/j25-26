@@ -9,4 +9,4 @@
 ## Запуск тестов
 Проект использует Gradle.
 
-`gradle test`
+`.\gradlew test`
