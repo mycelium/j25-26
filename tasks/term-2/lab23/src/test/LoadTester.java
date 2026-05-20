@@ -15,7 +15,7 @@ public class LoadTester {
     public static void main(String[] args) throws Exception {
         
 
-        String testJson = "{\"name\":\"Lena\",\"age\":25,\"city\":\"SPb\",\"scores\":[1,2,3]}";
+        String testJson = "{\"name\":\"Aleximiy\",\"age\":20,\"city\":\"Saint-Petersburg\",\"scores\":[4,5,6]}";
 
         runConfiguration("Virtual + own", true, false, testJson);
         runConfiguration("Virtual + GSON",     true, true,  testJson);
