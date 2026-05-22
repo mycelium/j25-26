@@ -14,7 +14,7 @@ public class ServerForTest {
             if (arg.equals("--gson"))   useGson = true;
         }
 
-        // Делаем финальные копии для использования в лямбдах
+
         final boolean virtualFlag = useVirtual;
         final boolean gsonFlag = useGson;
 
@@ -23,7 +23,7 @@ public class ServerForTest {
 
         SimpleHttpServer server = new SimpleHttpServer("localhost", 8080, 10, virtualFlag);
 
-        // === Request‑1: работа с файлом (store) ===
+
         server.route("POST", "/store", (req, res) -> {
             try {
                 String body = req.getBodyAsString();
@@ -53,7 +53,7 @@ public class ServerForTest {
             }
         });
 
-        // === Request‑2: вычисления и память (compute) ===
+
         server.route("POST", "/compute", (req, res) -> {
             try {
                 String body = req.getBodyAsString();
