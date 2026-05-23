@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-
-    // Тестовые классы
     static class Address {
         private String city;
         private String street;
@@ -33,6 +31,7 @@ public class Main {
         private List<String> tags;
         private Address address;
         private Object dynamicData; 
+        
         public User() {}
 
         public User(String name, int age, boolean active, Double salary, String[] roles, List<String> tags, Address address) {
@@ -48,20 +47,20 @@ public class Main {
         @Override
         public String toString() {
             return "User{" +
-                    "name='" + name + '\'' +
-                    ", age=" + age +
-                    ", active=" + active +
-                    ", salary=" + salary +
-                    ", roles=" + Arrays.toString(roles) +
-                    ", tags=" + tags +
-                    ", address=" + address +
-                    ", dynamicData=" + dynamicData +
+                     "name='" + name + '\'' +
+                     ", age=" + age +
+                     ", active=" + active +
+                     ", salary=" + salary +
+                     ", roles=" + Arrays.toString(roles) +
+                     ", tags=" + tags +
+                     ", address=" + address +
+                     ", dynamicData=" + dynamicData +
                     '}';
         }
     }
 
     public static void main(String[] args) {
-        System.out.println("=== 1. Сериализация сложного объекта ===");
+        System.out.println("1. Serialization of complex object");
         Address addr = new Address("St. Petersburg", "Nevsky Prospect");
         User user = new User("Olya", 25, true, 1500.50, 
                              new String[]{"admin", "user"}, 
@@ -71,25 +70,26 @@ public class Main {
         String json = Json.toJson(user);
         System.out.println(json);
       
-        System.out.println("\n=== 2. Парсинг в Map ===");
+        System.out.println("\n2. Parsing to Map");
         Map<String, Object> map = Json.parseToMap(json);
         System.out.println("Name from Map: " + map.get("name"));
         System.out.println("Address Map: " + map.get("address"));
 
-        System.out.println("\n=== 3. Десериализация в объект (Round-trip) ===");
+        System.out.println("\n3. Deserialization to object");
         User restoredUser = Json.fromJson(json, User.class);
         System.out.println(restoredUser);
         
-        
         System.out.println("Age match: " + (user.age == restoredUser.age));
-        System.out.println("City match: " + restoredUser.address.city.equals("St. Petersburg"));
+        if (restoredUser.address != null) {
+            System.out.println("City match: " + restoredUser.address.city.equals("St. Petersburg"));
+        }
 
-        System.out.println("\n=== 4. Обработка null и специальных типов ===");
+        System.out.println("\n4. Handling nulls and special types");
         User userWithNulls = new User("Anna", 30, false, null, null, null, null);
         String jsonNulls = Json.toJson(userWithNulls);
         System.out.println(jsonNulls);
         
-        System.out.println("\n=== 5. Циклические зависимости (защита) ===");
+        System.out.println("\n5. Cyclic dependencies (protection)");
         class Node {
             String val;
             Node next;
@@ -100,7 +100,6 @@ public class Main {
         n1.next = n2;
         n2.next = n1; 
         
-       
         String cyclicJson = Json.toJson(n1);
         System.out.println("Cyclic JSON: " + cyclicJson);
     }
