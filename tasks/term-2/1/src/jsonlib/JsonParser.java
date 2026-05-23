@@ -1,16 +1,11 @@
 package jsonlib;
 
-
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 class JsonParser {
-
     private final String json;
     private int pos;
 
@@ -44,21 +39,20 @@ class JsonParser {
 
     private Object parseValue() {
         char c = currentChar();
-        switch (c) {
-            case '{': return parseObject();
-            case '[': return parseArray();
-            case '"': return parseString();
-            case 't': 
-            case 'f': return parseBoolean();
-            case 'n': return parseNull();
-            default:  return parseNumber();
-        }
+        return switch (c) {
+            case '{' -> parseObject();
+            case '[' -> parseArray();
+            case '"' -> parseString();
+            case 't', 'f' -> parseBoolean();
+            case 'n' -> parseNull();
+            default -> parseNumber();
+        };
     }
 
     private Map<String, Object> parseObject() {
         pos++; // skip '{'
         Map<String, Object> map = new LinkedHashMap<>();
-        
+
         if (currentChar() == '}') {
             pos++;
             return map;
@@ -69,14 +63,14 @@ class JsonParser {
             if (json.charAt(pos) != '"') {
                 throw new RuntimeException("Expected string key at pos " + pos);
             }
-            String key = parseString(); // parseString сам двигает pos
-            
+            String key = parseString();
+
             skipWhitespace();
             if (json.charAt(pos) != ':') {
                 throw new RuntimeException("Expected ':' at pos " + pos);
             }
-            pos++; // skip ':'
-
+            pos++; 
+            
             Object value = parseValue();
             map.put(key, value);
 
@@ -122,35 +116,39 @@ class JsonParser {
     private String parseString() {
         pos++; 
         StringBuilder sb = new StringBuilder();
-        
+
         while (pos < json.length()) {
             char c = json.charAt(pos);
             if (c == '"') {
                 pos++;
                 return sb.toString();
             }
-            
+
             if (c == '\\') {
                 pos++;
                 if (pos >= json.length()) throw new RuntimeException("Unterminated string");
                 char escape = json.charAt(pos);
+                
                 switch (escape) {
-                    case '"': sb.append('"'); break;
-                    case '\\': sb.append('\\'); break;
-                    case '/': sb.append('/'); break;
-                    case 'b': sb.append('\b'); break;
-                    case 'f': sb.append('\f'); break;
-                    case 'n': sb.append('\n'); break;
-                    case 'r': sb.append('\r'); break;
-                    case 't': sb.append('\t'); break;
-                    case 'u': 
-                        
+                    case '"' -> sb.append('"');
+                    case '\\' -> sb.append('\\');
+                    case '/' -> sb.append('/');
+                    case 'b' -> sb.append('\b');
+                    case 'f' -> sb.append('\f');
+                    case 'n' -> sb.append('\n');
+                    case 'r' -> sb.append('\r');
+                    case 't' -> sb.append('\t');
+                    case 'u' -> {
                         if (pos + 4 >= json.length()) throw new RuntimeException("Invalid unicode escape");
                         String hex = json.substring(pos + 1, pos + 5);
-                        sb.append((char) Integer.parseInt(hex, 16));
+                        try {
+                            sb.append((char) Integer.parseInt(hex, 16));
+                        } catch (NumberFormatException e) {
+                            throw new RuntimeException("Invalid unicode escape sequence: \\u" + hex);
+                        }
                         pos += 4;
-                        break;
-                    default: throw new RuntimeException("Invalid escape character: " + escape);
+                    }
+                    default -> throw new RuntimeException("Invalid escape character: \\" + escape);
                 }
             } else {
                 sb.append(c);
@@ -162,7 +160,6 @@ class JsonParser {
 
     private Number parseNumber() {
         int start = pos;
-        // Читаем все символы, относящиеся к числу
         while (pos < json.length()) {
             char c = json.charAt(pos);
             if (Character.isDigit(c) || c == '-' || c == '.' || c == 'e' || c == 'E' || c == '+') {
@@ -171,16 +168,13 @@ class JsonParser {
                 break;
             }
         }
-        
+
         String numStr = json.substring(start, pos);
         try {
-           
             if (numStr.contains(".") || numStr.contains("e") || numStr.contains("E")) {
                 return Double.parseDouble(numStr);
             } else {
-                
                 long l = Long.parseLong(numStr);
-                
                 if (l >= Integer.MIN_VALUE && l <= Integer.MAX_VALUE) {
                     return (int) l;
                 }
