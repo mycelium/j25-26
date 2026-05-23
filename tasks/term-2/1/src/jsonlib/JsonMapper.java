@@ -1,13 +1,9 @@
 package jsonlib;
 
-
-
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
-
 
 class JsonMapper {
 
@@ -17,7 +13,6 @@ class JsonMapper {
             return null;
         }
 
-       
         if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz) || clazz == Boolean.class || clazz == Character.class) {
             return convertPrimitive(data, clazz);
         }
@@ -26,7 +21,6 @@ class JsonMapper {
             return (T) data.toString();
         }
 
-        
         if (clazz.isArray()) {
             if (!(data instanceof List)) {
                 throw new IllegalArgumentException("Expected a JSON array for array type " + clazz.getName());
@@ -34,7 +28,6 @@ class JsonMapper {
             return convertArray((List<?>) data, clazz.getComponentType());
         }
 
-        
         if (Collection.class.isAssignableFrom(clazz)) {
             if (!(data instanceof List)) {
                 throw new IllegalArgumentException("Expected a JSON array for Collection type " + clazz.getName());
@@ -54,13 +47,11 @@ class JsonMapper {
             }
             List<?> sourceList = (List<?>) data;
             for (Object item : sourceList) {
-                
                 collection.add(item); 
             }
             return (T) collection;
         }
 
-        // 4. Maps
         if (Map.class.isAssignableFrom(clazz)) {
             if (!(data instanceof Map)) {
                 throw new IllegalArgumentException("Expected a JSON object for Map type");
@@ -68,7 +59,6 @@ class JsonMapper {
             return (T) new LinkedHashMap<>((Map<?, ?>) data);
         }
 
-        
         if (data instanceof Map) {
             return convertToPojo((Map<String, Object>) data, clazz);
         }
