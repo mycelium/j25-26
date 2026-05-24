@@ -1,7 +1,7 @@
 # Lab 3: Load Testing Report
 
 ## 1. How to configure and launch
-1. **Открытие проекта**: моя среда разработки — IntelliJ IDEA 2025.2.1, Java 24.0.2.
+1. **Открытие проекта**: моя среда разработки — IntelliJ IDEA 2025.2.1, JDK 25.
 2. **Настройка папок**:
     * Кликните правой кнопкой мыши по папке `1` (затем по `2` и `3`)  внутри `term-2` -> `Mark Directory as` -> `Sources Root`.
    

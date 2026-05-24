@@ -13,31 +13,49 @@ import java.util.concurrent.Future;
 
 public class StressClient {
 
-    private static final int CONCURRENCY_LEVEL = 50;
-    private static final int BATCH_SIZE = 20;
-    private static final String ENDPOINT = "/api/v1/math-task";
-    private static final int NODE_PORT = 8083;
-    private static final String PAYLOAD = "{\"identifier\":\"test_val_999\", \"cycles\": 4000}";
-
     public static void main(String[] args) throws Exception {
-        ExecutorService workers = Executors.newFixedThreadPool(CONCURRENCY_LEVEL);
-        List<Callable<Long>> jobs = new ArrayList<>();
+        String host = args.length > 0 ? args[0] : "127.0.0.1";
+        int port = args.length > 1 ? Integer.parseInt(args[1]) : 8083;
+        String endpoint = args.length > 2 ? args[2] : "/api/v1/math-task";
+        int concurrency = args.length > 3 ? Integer.parseInt(args[3]) : 50;
+        int batchSize = args.length > 4 ? Integer.parseInt(args[4]) : 20;
+        int warmupRuns = args.length > 5 ? Integer.parseInt(args[5]) : 50;
+        String payload = "{\"identifier\":\"test_val_999\", \"cycles\": 4000}";
 
-        String httpFrame = "POST " + ENDPOINT + " HTTP/1.1\r\n" +
-                "Host: 127.0.0.1:" + NODE_PORT + "\r\n" +
+        System.out.println("Config: Host=" + host + ", Port=" + port + ", Endpoint=" + endpoint + 
+                           ", Concurrency=" + concurrency + ", Batch=" + batchSize + ", Warmup=" + warmupRuns);
+
+        String httpFrame = "POST " + endpoint + " HTTP/1.1\r\n" +
+                "Host: " + host + ":" + port + "\r\n" +
                 "Content-Type: application/json\r\n" +
-                "Content-Length: " + PAYLOAD.getBytes(StandardCharsets.UTF_8).length + "\r\n" +
+                "Content-Length: " + payload.getBytes(StandardCharsets.UTF_8).length + "\r\n" +
                 "Connection: close\r\n\r\n" +
-                PAYLOAD;
+                payload;
 
         byte[] rawFrame = httpFrame.getBytes(StandardCharsets.UTF_8);
 
-        for (int count = 0; count < CONCURRENCY_LEVEL * BATCH_SIZE; count++) {
+        // Warmup phase
+        System.out.println("Starting warmup phase...");
+        for (int i = 0; i < warmupRuns; i++) {
+            try (Socket conn = new Socket(host, port);
+                 OutputStream out = conn.getOutputStream();
+                 InputStream in = conn.getInputStream()) {
+                out.write(rawFrame);
+                out.flush();
+                in.readAllBytes();
+            } catch (Exception ignored) {}
+        }
+        System.out.println("Warmup finished. Starting load test...");
+
+        ExecutorService workers = Executors.newFixedThreadPool(concurrency);
+        List<Callable<Long>> jobs = new ArrayList<>();
+
+        for (int count = 0; count < concurrency * batchSize; count++) {
             jobs.add(() -> {
                 long t0 = System.currentTimeMillis();
                 boolean passed = false;
 
-                try (Socket conn = new Socket("127.0.0.1", NODE_PORT);
+                try (Socket conn = new Socket(host, port);
                      OutputStream out = conn.getOutputStream();
                      InputStream in = conn.getInputStream()) {
 

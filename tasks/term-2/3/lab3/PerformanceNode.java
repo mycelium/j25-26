@@ -9,25 +9,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class PerformanceNode {
 
-    private static final boolean ENABLE_VIRTUAL = true;
-    private static final boolean ENABLE_GSON = false;
-
     private static final Gson gsonClient = new Gson();
     private static final Json nativeJson = new Json();
-    private static final Path STORAGE_PATH = Path.of("io_storage.dat");
 
     public static void main(String[] args) {
-        WebEngine node = new WebEngine("127.0.0.1", 8083, 250, ENABLE_VIRTUAL);
+        boolean enableVirtual = args.length > 0 ? Boolean.parseBoolean(args[0]) : true;
+        boolean enableGson = args.length > 1 ? Boolean.parseBoolean(args[1]) : false;
+        
+        System.out.println("Starting PerformanceNode with VirtualThreads: " + enableVirtual + ", GSON: " + enableGson);
+
+        WebEngine node = new WebEngine("127.0.0.1", 8083, 250, enableVirtual);
 
         node.registerRoute("POST", "/api/v1/disk-task", req -> {
             try {
                 String payloadStr = req.getTextBody();
                 Map<?, ?> parsedContent;
 
-                if (ENABLE_GSON) {
+                if (enableGson) {
                     parsedContent = gsonClient.fromJson(payloadStr, Map.class);
                 } else {
                     parsedContent = nativeJson.parseToMap(payloadStr);
@@ -36,10 +38,10 @@ public class PerformanceNode {
                 String extractedValue = String.valueOf(parsedContent.get("identifier"));
                 String diskData;
 
-                synchronized (PerformanceNode.class) {
-                    Files.writeString(STORAGE_PATH, extractedValue);
-                    diskData = Files.readString(STORAGE_PATH);
-                }
+                Path tempPath = Path.of("io_storage_" + UUID.randomUUID() + ".dat");
+                Files.writeString(tempPath, extractedValue);
+                diskData = Files.readString(tempPath);
+                Files.deleteIfExists(tempPath);
 
                 return new ServerResponse(200, "OK", "{\"status\":\"ok\", \"retrieved\":\"" + diskData + "\"}");
             } catch (Exception ex) {
@@ -52,7 +54,7 @@ public class PerformanceNode {
                 String payloadStr = req.getTextBody();
                 Map<?, ?> parsedContent;
 
-                if (ENABLE_GSON) {
+                if (enableGson) {
                     parsedContent = gsonClient.fromJson(payloadStr, Map.class);
                 } else {
                     parsedContent = nativeJson.parseToMap(payloadStr);
@@ -69,13 +71,13 @@ public class PerformanceNode {
                 outputMap.put("operation", "success");
                 outputMap.put("result", accumulation);
 
-                String finalJson = ENABLE_GSON ? gsonClient.toJson(outputMap) : nativeJson.toJson(outputMap);
+                String finalJson = enableGson ? gsonClient.toJson(outputMap) : nativeJson.toJson(outputMap);
                 return new ServerResponse(200, "OK", finalJson);
             } catch (Exception ex) {
                 return new ServerResponse(500, "Error", "{\"error\":\"calc_failure\"}");
             }
         });
 
-        node.launch();
+        node.start();
     }
 }
