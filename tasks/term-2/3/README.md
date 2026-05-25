@@ -11,7 +11,7 @@
 
 1. Перейти в папку с проектом
 ```bash
-cd path/to/folder/tasks/term-2/3/lab3
+cd path/to/folder/tasks/term-2/3/l3
 ```
 
 2. Собрать проект:
