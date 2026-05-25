@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+dependencies {
+    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'org.xerial:sqlite-jdbc:3.47.1.0'
+}
+application {
+    mainClass.set('lab3.Main')
+}
+tasks.register('runLoadTest', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set('lab3.LoadTester')
+    if (project.hasProperty('args')) {
+        args project.property('args').split(' ')
+    }
+}
