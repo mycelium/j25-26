@@ -46,7 +46,7 @@ public class ConnectionHandler implements Runnable {
                 response.setBody("Path or Method not found: " + request.getMethod() + " " + request.getPath());
             }
 
-            // Отправляем ответ
+            // Корректная отправка всего ответа
             byte[] responseBytes = response.toBytes();
             ByteBuffer buffer = ByteBuffer.wrap(responseBytes);
             
@@ -57,7 +57,6 @@ public class ConnectionHandler implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // Обязательно закрываем соединение
             try {
                 channel.close();
             } catch (Exception ignored) {}
