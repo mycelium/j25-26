@@ -34,20 +34,19 @@ public class HttpResponse {
         headers.put("Content-Length", String.valueOf(this.body.length));
     }
 
-    // Преобразование ответа в байты для отправки
     public byte[] toBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String statusLine = "HTTP/1.1 " + statusCode + " " + statusMessage + "\r\n";
-        
+
         try {
             baos.write(statusLine.getBytes(StandardCharsets.UTF_8));
-            
-            // Default headers if not set
+
             if (!headers.containsKey("Connection")) {
                 headers.put("Connection", "close");
             }
+
             if (!headers.containsKey("Content-Length") && body != null) {
-                 headers.put("Content-Length", String.valueOf(body.length));
+                headers.put("Content-Length", String.valueOf(body.length));
             }
 
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -55,15 +54,15 @@ public class HttpResponse {
                 baos.write(headerLine.getBytes(StandardCharsets.UTF_8));
             }
 
-            baos.write("\r\n".getBytes(StandardCharsets.UTF_8)); // End of headers
-            
+            baos.write("\r\n".getBytes(StandardCharsets.UTF_8));
+
             if (body != null) {
                 baos.write(body);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error building response", e);
         }
-        
+
         return baos.toByteArray();
     }
 }

@@ -1,5 +1,6 @@
 package org.example.http;
 
+import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Map;
 
@@ -24,11 +25,10 @@ public class ConnectionHandler implements Runnable {
             }
 
             HttpResponse response = new HttpResponse();
-            
-            // Routing logic
+
             Map<HttpMethod, HttpHandler> methodHandlers = routes.get(request.getPath());
             HttpHandler handler = null;
-            
+
             if (methodHandlers != null) {
                 handler = methodHandlers.get(request.getMethod());
             }
@@ -38,7 +38,7 @@ public class ConnectionHandler implements Runnable {
                     handler.handle(request, response);
                 } catch (Exception e) {
                     response.setStatus(500, "Internal Server Error");
-                    response.setBody("Error processing request: " + e.getMessage());
+                    response.setBody("Error: " + e.getMessage());
                     e.printStackTrace();
                 }
             } else {
@@ -46,11 +46,18 @@ public class ConnectionHandler implements Runnable {
                 response.setBody("Path or Method not found: " + request.getMethod() + " " + request.getPath());
             }
 
-            channel.write(java.nio.ByteBuffer.wrap(response.toBytes()));
+            // Отправляем ответ
+            byte[] responseBytes = response.toBytes();
+            ByteBuffer buffer = ByteBuffer.wrap(responseBytes);
+            
+            while (buffer.hasRemaining()) {
+                channel.write(buffer);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            // Обязательно закрываем соединение
             try {
                 channel.close();
             } catch (Exception ignored) {}

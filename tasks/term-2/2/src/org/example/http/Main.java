@@ -1,19 +1,14 @@
 package org.example.http;
 
-import java.nio.charset.StandardCharsets;
-
 public class Main {
     public static void main(String[] args) {
-        
-        HttpServer server = new HttpServer("localhost", 8084, 10, false);
+        HttpServer server = new HttpServer("localhost", 8082, 10, false);
 
-        
         server.addRoute("/hello", HttpMethod.GET, (req, res) -> {
             res.setStatus(200, "OK");
             res.setBody("Hello, World!");
         });
 
-        
         server.addRoute("/echo", HttpMethod.POST, (req, res) -> {
             String body = req.getBodyAsString();
             res.setHeader("Content-Type", "text/plain");
@@ -21,15 +16,13 @@ public class Main {
             res.setBody("Received: " + body);
         });
 
-       
         server.addRoute("/api/status", HttpMethod.GET, (req, res) -> {
-            res.setJsonBody("{\"status\":\"running\", \"uptime\":\"100%\"}");
+            res.setJsonBody("{\"status\": \"running\", \"uptime\": \"100%\"}");
         });
-        
-        
+
         server.addRoute("/update", HttpMethod.PUT, (req, res) -> {
-             res.setStatus(200, "OK");
-             res.setBody("Resource updated");
+            res.setStatus(200, "OK");
+            res.setBody("Resource updated");
         });
 
         try {

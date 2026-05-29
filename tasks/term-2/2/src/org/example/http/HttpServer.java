@@ -10,26 +10,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class HttpServer {
-
     private final String host;
     private final int port;
     private final int threadPoolSize;
     private final boolean isVirtual;
-    
-    // Routes: Path -> (Method -> Handler)
     private final Map<String, Map<HttpMethod, HttpHandler>> routes = new HashMap<>();
-    
+
     private ExecutorService executorService;
     private ServerSocketChannel serverChannel;
     private volatile boolean isRunning = false;
 
-    /**
-     * Конструктор сервера
-     * @param host Хост (например, "localhost")
-     * @param port Порт
-     * @param threadPoolSize Размер пула потоков
-     * @param isVirtual Если true, использует Virtual Threads (Java 21+), иначе фиксированный пул
-     */
     public HttpServer(String host, int port, int threadPoolSize, boolean isVirtual) {
         this.host = host;
         this.port = port;
@@ -37,24 +27,19 @@ public class HttpServer {
         this.isVirtual = isVirtual;
     }
 
-    
-    
     public void addRoute(String path, HttpMethod method, HttpHandler handler) {
         routes.computeIfAbsent(path, k -> new HashMap<>()).put(method, handler);
     }
 
-    
     public void start() throws IOException {
         if (isRunning) return;
-        
-        
+
         if (isVirtual) {
             try {
-                
                 executorService = Executors.newVirtualThreadPerTaskExecutor();
                 System.out.println("Started with Virtual Threads");
             } catch (NoSuchMethodError e) {
-                System.err.println("Virtual threads not supported on this JVM. Falling back to platform threads.");
+                System.err.println("Virtual threads not supported. Using fixed pool.");
                 executorService = Executors.newFixedThreadPool(threadPoolSize);
             }
         } else {
@@ -64,9 +49,8 @@ public class HttpServer {
 
         serverChannel = ServerSocketChannel.open();
         serverChannel.bind(new InetSocketAddress(host, port));
-        
-        serverChannel.configureBlocking(true); 
-        
+        serverChannel.configureBlocking(true);
+
         isRunning = true;
         System.out.println("Server listening on " + host + ":" + port);
 
@@ -74,7 +58,6 @@ public class HttpServer {
             try {
                 SocketChannel clientChannel = serverChannel.accept();
                 if (clientChannel != null) {
-                    
                     executorService.submit(new ConnectionHandler(clientChannel, routes));
                 }
             } catch (IOException e) {
@@ -83,7 +66,6 @@ public class HttpServer {
         }
     }
 
-    
     public void stop() {
         isRunning = false;
         try {
