@@ -84,8 +84,8 @@ public class Main {
 
         server.start();
         System.out.println("Server started on http://localhost:8080");
-        System.out.println("Press Enter to stop...");
-        System.in.read();
-        server.stop();
+        while (true) {
+            Thread.sleep(10000);
+        }
     }
 }
