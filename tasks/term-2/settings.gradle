@@ -1,0 +1,10 @@
+rootProject.name = 'term-2'
+
+include ':jsonlib'
+project(':jsonlib').projectDir = file('1')
+
+include ':httpserver'
+project(':httpserver').projectDir = file('2')
+
+include ':loadtest'
+project(':loadtest').projectDir = file('3')
