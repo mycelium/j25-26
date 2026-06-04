@@ -88,7 +88,8 @@ public class HttpServer {
 
             ByteBuffer buf = ByteBuffer.wrap(resp.toBytes());
             while (buf.hasRemaining()) client.write(buf);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try { client.close(); } catch (IOException ignored) {}
         }
