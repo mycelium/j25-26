@@ -39,19 +39,17 @@ public class Main {
             resp.setBody("Hello, " + name + "!");
         });
 
-        // POST /request1 — парсим, сохраняем в БД, читаем и возвращаем
+        // POST /request1
         server.addRoute("/request1", "POST", (req, resp) -> {
-            String body = req.getBodyAsString();
-
-            // ВСЕГДА вызываем парсер (чтобы измерить его производительность)
-            Object obj = parser.parse(body, Object.class);
-
-            // Для Jackson/Gson — сериализуем обратно, для own — берём исходную строку
-            String jsonToStore = parserName.equals("own") ? body : parser.toJson(obj);
+            Object obj = parser.parse(req.getBodyAsString(), Object.class);
+            String json = parser.toJson(obj);
 
             Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
-            PreparedStatement ps = c.prepareStatement("INSERT INTO records (data) VALUES (?)");
-            ps.setString(1, jsonToStore);
+
+            PreparedStatement ps = c.prepareStatement(
+                    "INSERT INTO records (data) VALUES (?)"
+            );
+            ps.setString(1, json);
             ps.executeUpdate();
             ps.close();
 
@@ -62,7 +60,9 @@ public class Main {
             rs.close();
             st.close();
 
-            PreparedStatement ps2 = c.prepareStatement("SELECT data FROM records WHERE id = ?");
+            PreparedStatement ps2 = c.prepareStatement(
+                    "SELECT data FROM records WHERE id = ?"
+            );
             ps2.setInt(1, id);
             ResultSet rs2 = ps2.executeQuery();
             rs2.next();
@@ -74,11 +74,10 @@ public class Main {
             resp.setBody(result);
         });
 
-        // POST /request2 — парсим, возвращаем результат
+        // POST /request2
         server.addRoute("/request2", "POST", (req, resp) -> {
-            String body = req.getBodyAsString();
-            Object obj = parser.parse(body, Object.class);
-            String result = parserName.equals("own") ? body : parser.toJson(obj);
+            Object obj = parser.parse(req.getBodyAsString(), Object.class);
+            String result = parser.toJson(obj);
             resp.setBody(result);
         });
 
